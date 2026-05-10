@@ -1,8 +1,6 @@
 {
   "name": "cymor-ytdlp-api",
   "version": "1.0.0",
-  "description": "Cymor yt-dlp Backend",
-
   "main": "server.js",
 
   "scripts": {
