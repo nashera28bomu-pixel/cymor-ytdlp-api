@@ -1,60 +1,40 @@
 const express = require("express");
 const cors = require("cors");
-
-const { exec } =
-require("child_process");
+const { exec } = require("child_process");
 
 const app = express();
 
 app.use(cors());
 
-app.use(express.json({
-    limit: "10mb"
-}));
+app.use(express.json());
 
-const PORT =
-process.env.PORT || 3000;
-
-/* HOME */
+const PORT = process.env.PORT || 3000;
 
 app.get("/", (req, res) => {
 
     res.json({
-
-        status:
-        "Cymor yt-dlp API Online",
-
-        owner:
-        "Legendary Smiley Cymor"
+        status: "Cymor yt-dlp API Online"
     });
 });
-
-/* DOWNLOAD */
 
 app.post("/download", async (req, res) => {
 
     try {
 
-        const {
-            url
-        } = req.body;
+        const { url } = req.body;
 
         if (!url) {
 
             return res.status(400).json({
-
-                error:
-                "Missing URL"
+                error: "Missing URL"
             });
         }
 
-        const cmd =
-
-        `yt-dlp -f "best" --get-url "${url}"`;
+        const command =
+        `python3 -m yt_dlp -f best --get-url "${url}"`;
 
         exec(
-
-            cmd,
+            command,
 
             {
                 timeout: 120000
@@ -64,14 +44,12 @@ app.post("/download", async (req, res) => {
 
                 if (error) {
 
-                    console.log(error);
+                    console.log(stderr);
 
                     return res.status(500).json({
 
-                        success: false,
-
                         error:
-                        "Failed to fetch video"
+                        "yt-dlp failed"
                     });
                 }
 
@@ -82,10 +60,8 @@ app.post("/download", async (req, res) => {
 
                     return res.status(500).json({
 
-                        success: false,
-
                         error:
-                        "No downloadable media found"
+                        "No media found"
                     });
                 }
 
@@ -104,20 +80,15 @@ app.post("/download", async (req, res) => {
 
         return res.status(500).json({
 
-            success: false,
-
             error:
             "Server error"
         });
     }
 });
 
-/* START */
-
 app.listen(PORT, () => {
 
     console.log(
-
-        `Cymor yt-dlp API running on ${PORT}`
+        `Server running on ${PORT}`
     );
 });
