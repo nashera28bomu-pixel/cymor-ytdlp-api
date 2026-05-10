@@ -5,90 +5,69 @@ const { exec } = require("child_process");
 const app = express();
 
 app.use(cors());
-
 app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
 app.get("/", (req, res) => {
-
     res.json({
         status: "Cymor yt-dlp API Online"
     });
 });
 
 app.post("/download", async (req, res) => {
-
     try {
-
         const { url } = req.body;
 
         if (!url) {
-
             return res.status(400).json({
                 error: "Missing URL"
             });
         }
 
-        const command =
-        `python3 -m yt_dlp -f best --get-url "${url}"`;
+        // Updated command to use 'python' instead of 'python3' 
+        // to match the Nixpacks environment settings.
+        const command = `python -m yt_dlp -f best --get-url "${url}"`;
 
         exec(
             command,
-
             {
-                timeout: 120000
+                timeout: 120000 // 2 minutes
             },
-
             (error, stdout, stderr) => {
-
                 if (error) {
-
-                    console.log(stderr);
+                    console.error("Exec Error:", error);
+                    console.error("Stderr:", stderr);
 
                     return res.status(500).json({
-
-                        error:
-                        "yt-dlp failed"
+                        error: "yt-dlp failed",
+                        details: stderr
                     });
                 }
 
-                const videoUrl =
-                stdout.trim();
+                const videoUrl = stdout.trim();
 
                 if (!videoUrl) {
-
                     return res.status(500).json({
-
-                        error:
-                        "No media found"
+                        error: "No media found"
                     });
                 }
 
                 return res.json({
-
                     success: true,
-
                     url: videoUrl
                 });
             }
         );
 
     } catch (err) {
-
-        console.log(err);
-
+        console.error("Catch Error:", err);
         return res.status(500).json({
-
-            error:
-            "Server error"
+            error: "Server error"
         });
     }
 });
 
 app.listen(PORT, () => {
-
-    console.log(
-        `Server running on ${PORT}`
-    );
+    console.log(`Server running on port ${PORT}`);
 });
