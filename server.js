@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { exec } = require("child_process");
+const { execFile } = require("child_process");
 
 const app = express();
 
@@ -25,12 +25,16 @@ app.post("/download", async (req, res) => {
             });
         }
 
-        // Updated command to use 'python' instead of 'python3' 
-        // to match the Nixpacks environment settings.
-        const command = `python -m yt_dlp -f best --get-url "${url}"`;
+        /**
+         * Using execFile for better security and reliability.
+         * Argument 1: The command (python3)
+         * Argument 2: Array of arguments passed to the command
+         */
+        const args = ["-m", "yt_dlp", "-f", "best", "--get-url", url];
 
-        exec(
-            command,
+        execFile(
+            "python3",
+            args,
             {
                 timeout: 120000 // 2 minutes
             },
