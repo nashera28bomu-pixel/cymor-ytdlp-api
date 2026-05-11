@@ -11,23 +11,29 @@ app.use(helmet());
 app.use(compression());
 app.use(express.json());
 
-const PORT = process.env.PORT || 8080;
+/**
+ * 🔥 CRITICAL: Railway requires dynamic port
+ */
+const PORT = process.env.PORT;
 
 /**
- * 🔥 HEALTH CHECK (Railway required)
+ * 🔥 HEALTH CHECK (must be FAST or Railway kills container)
  */
 app.get("/", (req, res) => {
-  res.json({
-    status: "Cymor Downloader API Online 🚀",
-    time: new Date().toISOString()
-  });
+  res.status(200).send("OK");
 });
 
 /**
- * 📊 GET VIDEO INFO (platform detection happens here)
- * Useful for frontend preview
+ * 🔥 TEST ROUTE
  */
-app.get("/info", async (req, res) => {
+app.get("/ping", (req, res) => {
+  res.json({ status: "alive" });
+});
+
+/**
+ * 📊 VIDEO INFO (safe, no heavy processing on main thread)
+ */
+app.get("/info", (req, res) => {
   const url = req.query.url;
 
   if (!url) {
@@ -53,17 +59,15 @@ app.get("/info", async (req, res) => {
   ytdlp.on("close", () => {
     try {
       const json = JSON.parse(output);
+
       res.json({
         title: json.title,
         duration: json.duration,
         thumbnail: json.thumbnail,
-        platform: json.extractor,
-        formats: json.formats?.length || 0
+        platform: json.extractor
       });
     } catch (err) {
-      res.status(500).json({
-        error: "Failed to parse video info"
-      });
+      res.status(500).json({ error: "Failed to parse info" });
     }
   });
 });
@@ -80,7 +84,7 @@ app.get("/download/mp4", (req, res) => {
 
   const ytdlp = spawn("yt-dlp", [
     "-f",
-    "bv*+ba/best", // best video + audio
+    "bv*+ba/best",
     "--merge-output-format",
     "mp4",
     "-o",
@@ -89,10 +93,7 @@ app.get("/download/mp4", (req, res) => {
   ]);
 
   res.setHeader("Content-Type", "video/mp4");
-  res.setHeader(
-    "Content-Disposition",
-    'attachment; filename="cymor_video.mp4"'
-  );
+  res.setHeader("Content-Disposition", 'attachment; filename="video.mp4"');
 
   ytdlp.stdout.pipe(res);
 
@@ -103,7 +104,7 @@ app.get("/download/mp4", (req, res) => {
   ytdlp.on("error", (err) => {
     console.error(err);
     if (!res.headersSent) {
-      res.status(500).json({ error: "Download failed" });
+      res.status(500).end("Download failed");
     }
   });
 });
@@ -132,10 +133,7 @@ app.get("/download/mp3", (req, res) => {
   ]);
 
   res.setHeader("Content-Type", "audio/mpeg");
-  res.setHeader(
-    "Content-Disposition",
-    'attachment; filename="cymor_audio.mp3"'
-  );
+  res.setHeader("Content-Disposition", 'attachment; filename="audio.mp3"');
 
   ytdlp.stdout.pipe(res);
 
@@ -146,14 +144,48 @@ app.get("/download/mp3", (req, res) => {
   ytdlp.on("error", (err) => {
     console.error(err);
     if (!res.headersSent) {
-      res.status(500).json({ error: "Audio download failed" });
+      res.status(500).end("Audio download failed");
     }
   });
 });
 
 /**
- * 🔥 RAILWAY BINDING (VERY IMPORTANT)
+ * 🎯 SIMPLE UNIVERSAL DOWNLOAD (optional fallback)
+ */
+app.get("/download", (req, res) => {
+  const url = req.query.url;
+
+  if (!url) {
+    return res.status(400).json({ error: "Missing URL" });
+  }
+
+  const ytdlp = spawn("yt-dlp", [
+    "-f",
+    "best",
+    "-o",
+    "-",
+    url
+  ]);
+
+  res.setHeader("Content-Type", "application/octet-stream");
+
+  ytdlp.stdout.pipe(res);
+
+  ytdlp.stderr.on("data", (data) => {
+    console.error("yt-dlp:", data.toString());
+  });
+
+  ytdlp.on("error", (err) => {
+    console.error(err);
+    if (!res.headersSent) {
+      res.status(500).end("Download failed");
+    }
+  });
+});
+
+/**
+ * 🔥 RAILWAY BINDING (CRITICAL FIX)
  */
 app.listen(PORT, "0.0.0.0", () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log("🚀 Server running on port", PORT);
 });
