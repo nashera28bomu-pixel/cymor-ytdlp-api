@@ -1,77 +1,88 @@
 const express = require("express");
 const cors = require("cors");
-const { execFile } = require("child_process");
+const { spawn } = require("child_process");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-const PORT = process.env.PORT || 3000;
+// Railway assigns PORT dynamically
+const PORT = process.env.PORT || 8080;
 
+/**
+ * Health check (Railway needs this)
+ */
 app.get("/", (req, res) => {
-    res.json({
-        status: "Cymor yt-dlp API Online"
+  res.json({
+    status: "Cymor YT-DLP API is running 🚀",
+    time: new Date().toISOString()
+  });
+});
+
+/**
+ * 🔽 VIDEO DOWNLOAD STREAM ENDPOINT
+ * Example:
+ * /download?url=https://youtube.com/watch?v=xxxx
+ */
+app.get("/download", (req, res) => {
+  const url = req.query.url;
+
+  if (!url) {
+    return res.status(400).json({
+      error: "Missing URL parameter"
     });
-});
+  }
 
-app.post("/download", async (req, res) => {
-    try {
-        const { url } = req.body;
+  try {
+    // Spawn yt-dlp directly (BEST for Railway)
+    const ytdlp = spawn("yt-dlp", [
+      "-f",
+      "best",
+      "-o",
+      "-", // output to stdout (stream)
+      url
+    ]);
 
-        if (!url) {
-            return res.status(400).json({
-                error: "Missing URL"
-            });
-        }
+    // Set headers BEFORE streaming
+    res.setHeader("Content-Type", "video/mp4");
+    res.setHeader(
+      "Content-Disposition",
+      'attachment; filename="cymor_video.mp4"'
+    );
 
-        /**
-         * Using execFile for better security and reliability.
-         * Argument 1: The command (python3)
-         * Argument 2: Array of arguments passed to the command
-         */
-        const args = ["-m", "yt_dlp", "-f", "best", "--get-url", url];
+    // Pipe video stream directly to response
+    ytdlp.stdout.pipe(res);
 
-        execFile(
-            "python3",
-            args,
-            {
-                timeout: 120000 // 2 minutes
-            },
-            (error, stdout, stderr) => {
-                if (error) {
-                    console.error("Exec Error:", error);
-                    console.error("Stderr:", stderr);
+    // Handle errors
+    ytdlp.stderr.on("data", (data) => {
+      console.error("yt-dlp error:", data.toString());
+    });
 
-                    return res.status(500).json({
-                        error: "yt-dlp failed",
-                        details: stderr
-                    });
-                }
-
-                const videoUrl = stdout.trim();
-
-                if (!videoUrl) {
-                    return res.status(500).json({
-                        error: "No media found"
-                    });
-                }
-
-                return res.json({
-                    success: true,
-                    url: videoUrl
-                });
-            }
-        );
-
-    } catch (err) {
-        console.error("Catch Error:", err);
-        return res.status(500).json({
-            error: "Server error"
+    ytdlp.on("error", (err) => {
+      console.error("Spawn error:", err);
+      if (!res.headersSent) {
+        res.status(500).json({
+          error: "Failed to start yt-dlp process"
         });
-    }
+      }
+    });
+
+    ytdlp.on("close", (code) => {
+      console.log(`yt-dlp exited with code ${code}`);
+    });
+
+  } catch (err) {
+    console.error("Server error:", err);
+    return res.status(500).json({
+      error: "Internal server error"
+    });
+  }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+/**
+ * 🔥 IMPORTANT: Railway requires 0.0.0.0 binding
+ */
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });
