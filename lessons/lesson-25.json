@@ -1,0 +1,62 @@
+{
+  "id": 25,
+  "module": "Mini Projects",
+  "meta": {
+    "next_lesson": 26,
+    "prev_lesson": 24,
+    "xp_reward": 50,
+    "difficulty": "beginner",
+    "module_index": 6
+  },
+
+  "title": "Lesson 25: Mini Project — Build Your First Multi-Page Website",
+
+  "content": {
+    "explanation": "<h3>🚀 You Are Now Building Real Websites</h3><p>Up to this point, you have learned how individual HTML pieces work.</p><p>Now it is time to combine everything into a real project.</p><hr><h3>🌐 What You Will Build</h3><ul><li>A homepage (index.html)</li><li>An about page (about.html)</li><li>A contact section (contact.html structure)</li><li>Navigation links between pages</li><li>Images and structured content</li></ul><hr><h3>⚡ Developer Goal</h3><p>👉 Build a complete website like a real developer would on GitHub</p>"
+  },
+
+  "syntax_breakdown": {
+    "content": "<h3>🧪 Project Structure Example</h3><pre><code>index.html\nabout.html\ncontact.html\nimages/\n  profile.jpg</code></pre><hr><h3>🔗 Navigation Example</h3><pre><code>&lt;a href=\"index.html\"&gt;Home&lt;/a&gt;\n&lt;a href=\"about.html\"&gt;About&lt;/a&gt;\n&lt;a href=\"contact.html\"&gt;Contact&lt;/a&gt;</code></pre><hr><h3>🧠 Key Idea</h3><p>👉 Websites are just connected HTML pages working together</p>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!-- Cymor Code Learner 🚀 FINAL MINI PROJECT -->\n<h1>My First Website</h1>\n<p>Welcome to my personal project site.</p>",
+
+    "mini_challenge": {
+      "instruction": "🎯 FINAL PROJECT MISSION:\n\nBuild a full homepage that includes:\n\n1. A main heading (h1)\n2. A short introduction paragraph\n3. A navigation menu with 3 links:\n   - Home (index.html)\n   - About (about.html)\n   - Contact (contact.html)\n4. Add one image using an <img> tag\n5. Add a second paragraph describing your website\n\n🔥 Combine everything you have learned so far",
+
+      "hint": "👉 Structure example:\n<h1>My Website</h1>\n<a href=\"about.html\">About</a>\n<img src=\"image.jpg\" alt=\"My site image\">\n<p>Description here</p>",
+
+      "validation_keyword": "<img"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "What is the main goal of this mini project?",
+    "options": [
+      "To memorize HTML tags",
+      "To build a complete multi-page website using everything learned so far",
+      "To learn advanced JavaScript frameworks"
+    ],
+    "correct_index": 1,
+    "points": 50,
+    "explanation_feedback": "Correct 🎉 This project combines all your HTML skills into a real website structure similar to what developers build and deploy."
+  },
+
+  "summary": {
+    "takeaways": [
+      "Real websites combine multiple HTML pages",
+      "Navigation links connect pages together",
+      "Images and text create complete user experiences",
+      "Project thinking is more important than memorizing tags",
+      "This is your first real developer-style website"
+    ],
+
+    "cheat_sheet": {
+      "website_structure": "Multiple HTML files connected via links",
+      "navigation": "<a href='page.html'>Link</a>",
+      "image_usage": "<img src='file.jpg' alt='description'>",
+      "rule": "Think in pages, not just tags"
+    }
+  }
+}
