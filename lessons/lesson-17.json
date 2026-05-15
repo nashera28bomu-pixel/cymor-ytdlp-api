@@ -1,0 +1,62 @@
+{
+  "id": 17,
+  "module": "Interactive HTML",
+  "meta": {
+    "next_lesson": 18,
+    "prev_lesson": 16,
+    "xp_reward": 25,
+    "difficulty": "beginner",
+    "module_index": 4
+  },
+
+  "title": "Lesson 17: Input Types (Text, Password, Email, Checkboxes)",
+
+  "content": {
+    "explanation": "<h3>🧾 Understanding Input Types</h3><p>In the previous lesson, you learned how forms collect data. Now we go deeper into how users actually enter different kinds of data.</p><p>HTML provides multiple <strong>input types</strong> depending on what kind of information you want to collect.</p><hr><h3>🌐 Why Input Types Matter</h3><p>Different data needs different controls:</p><ul><li>Names → text input</li><li>Emails → email input</li><li>Passwords → hidden input</li><li>Choices → checkboxes or radio buttons</li></ul>"
+  },
+
+  "syntax_breakdown": {
+    "content": "<h3>🧪 Common Input Types</h3><pre><code>&lt;input type=\"text\" placeholder=\"Enter name\"&gt;\n&lt;input type=\"email\" placeholder=\"Enter email\"&gt;\n&lt;input type=\"password\" placeholder=\"Enter password\"&gt;\n&lt;input type=\"checkbox\"&gt; Remember me</code></pre><hr><h3>📌 What Each Does</h3><ul><li><strong>text</strong> → normal typing</li><li><strong>email</strong> → validates email format</li><li><strong>password</strong> → hides characters</li><li><strong>checkbox</strong> → yes/no option</li></ul><hr><h3>🧠 Key Rule</h3><p>👉 Always choose the correct input type for the data you want to collect</p>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!-- Cymor Code Learner 🚀 Input Types -->\n<h1>Login System</h1>\n<p>Enter your details below:</p>\n\n<form>\n</form>",
+
+    "mini_challenge": {
+      "instruction": "🎯 Mission: Build a login form\n\nInside the <form> tag, add:\n\n1. Text input for username\n2. Password input for password\n3. Email input\n4. A checkbox saying 'Remember me'\n5. A submit button\n\n🔥 This is how real login pages start",
+
+      "hint": "👉 Example:\n<input type=\"text\" placeholder=\"Username\">\n<input type=\"password\" placeholder=\"Password\">\n\nMake sure all inputs are inside the form",
+
+      "validation_keyword": "password"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "Which input type is used to hide characters when typing sensitive information?",
+    "options": [
+      "text",
+      "hidden",
+      "password"
+    ],
+    "correct_index": 2,
+    "points": 25,
+    "explanation_feedback": "Correct 🎉 The password input type hides characters to protect sensitive user data like login passwords."
+  },
+
+  "summary": {
+    "takeaways": [
+      "Different input types are used for different kinds of data",
+      "text is for normal typing",
+      "email validates email format automatically",
+      "password hides user input",
+      "checkbox is used for yes/no choices"
+    ],
+
+    "cheat_sheet": {
+      "text_input": "<input type='text'>",
+      "email_input": "<input type='email'>",
+      "password_input": "<input type='password'>",
+      "checkbox": "<input type='checkbox'>"
+    }
+  }
+}
