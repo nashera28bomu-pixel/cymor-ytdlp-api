@@ -2,635 +2,146 @@
 <html lang="en">
 
 <head>
-
-    <!-- =========================================
-       BASIC META
-    ========================================== -->
-
     <meta charset="UTF-8" />
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0" />
-
-    <meta
-        name="description"
-        content="Cymor Code Learner - Learn coding from zero to real deployment with interactive lessons, quizzes, live coding, XP progression and projects." />
-
-    <meta
-        name="keywords"
-        content="HTML course, coding lessons, learn programming, web development, Cymor Code Learner" />
-
-    <meta
-        name="author"
-        content="Cymor Tech Services" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Cymor Code Learner - Learn coding from zero to real deployment." />
     <title>Cymor Code Learner 🚀</title>
 
-    <!-- =========================================
-       GOOGLE FONTS
-    ========================================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com">
-
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
-
-    <!-- =========================================
-       MAIN CSS
-    ========================================== -->
-
-    <link
-        rel="stylesheet"
-        href="styles.css" />
-
+    <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
 
-    <!-- =========================================
-       BACKGROUND EFFECTS
-    ========================================== -->
-
     <div class="bg-blur blur-1"></div>
     <div class="bg-blur blur-2"></div>
 
-    <!-- =========================================
-       NAVBAR
-    ========================================== -->
-
     <header class="navbar">
-
-        <div class="logo">
-
-            <span class="logo-icon">🚀</span>
-
-            <div>
-                <h2>Cymor Code Learner</h2>
-                <p>Learn • Build • Deploy</p>
+        <div class="container nav-content">
+            <div class="logo">
+                <span class="logo-icon">🚀</span>
+                <div>
+                    <h2 style="font-size: 1.2rem;">Cymor Code Learner</h2>
+                    <p style="font-size: 0.7rem; color: var(--accent);">Learn • Build • Deploy</p>
+                </div>
             </div>
 
+            <nav class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#modules">Lessons</a>
+            </nav>
+
+            <div class="nav-buttons">
+                <button id="loginBtn" class="secondary-btn login-btn">Login</button>
+            </div>
         </div>
-
-        <nav class="nav-links">
-
-            <a href="#features">
-                Features
-            </a>
-
-            <a href="#journey">
-                Journey
-            </a>
-
-            <a href="#modules">
-                Lessons
-            </a>
-
-            <a href="#community">
-                Community
-            </a>
-
-        </nav>
-
-        <div class="nav-buttons">
-
-            <button
-                id="loginBtn"
-                class="nav-btn secondary-btn">
-
-                Login
-
-            </button>
-
-            <button
-                id="startBtn"
-                class="nav-btn primary-btn">
-
-                Start Learning
-
-            </button>
-
-        </div>
-
     </header>
 
-    <!-- =========================================
-       HERO SECTION
-    ========================================== -->
-
     <section class="hero">
+        <div class="container hero-container">
+            
+            <div class="hero-content">
+                <div class="hero-badge">🔥 Beginner Friendly Coding Platform</div>
+                <h1>Learn Coding From <span>Zero</span> To Real Websites</h1>
+                <p class="hero-text">
+                    Master HTML step-by-step with interactive lessons, quizzes, live coding, and real-world deployment training.
+                </p>
 
-        <div class="hero-left">
-
-            <div class="hero-badge">
-                🔥 Beginner Friendly Coding Platform
-            </div>
-
-            <h1>
-                Learn Coding From
-                <span>Zero</span>
-                To Real Websites
-            </h1>
-
-            <p class="hero-text">
-
-                Master HTML step-by-step with interactive lessons,
-                quizzes, live coding challenges, XP rewards,
-                GitHub workflow, and deployment training.
-
-            </p>
-
-            <div class="hero-buttons">
-
-                <button
-                    id="heroStartBtn"
-                    class="primary-btn big-btn">
-
-                    🚀 Start Learning Free
-
-                </button>
-
-                <button
-                    id="previewBtn"
-                    class="secondary-btn big-btn">
-
-                    📚 Preview Lessons
-
-                </button>
-
-            </div>
-
-            <div class="hero-stats">
-
-                <div class="stat-card">
-
-                    <h2>30</h2>
-                    <p>Detailed Lessons</p>
-
+                <div class="hero-buttons">
+                    <button id="startLearningBtn" class="primary-btn big-btn">🚀 Start Learning Free</button>
                 </div>
 
-                <div class="stat-card">
-
-                    <h2>100%</h2>
-                    <p>Beginner Friendly</p>
-
+                <div class="hero-stats">
+                    <div class="stat-card"><h2>30</h2><p>Lessons</p></div>
+                    <div class="stat-card"><h2>100%</h2><p>Free</p></div>
+                    <div class="stat-card"><h2>∞</h2><p>Practice</p></div>
                 </div>
-
-                <div class="stat-card">
-
-                    <h2>∞</h2>
-                    <p>Practice Challenges</p>
-
-                </div>
-
             </div>
 
-        </div>
-
-        <div class="hero-right">
-
-            <div class="code-window">
-
-                <div class="window-top">
-
-                    <div class="window-dots">
-
-                        <span></span>
-                        <span></span>
-                        <span></span>
-
+            <div class="hero-visual">
+                <div class="code-window">
+                    <div class="window-top">
+                        <div class="window-dots"><span></span><span></span><span></span></div>
+                        <p>index.html</p>
                     </div>
-
-                    <p>index.html</p>
-
-                </div>
-
-                <pre><code>&lt;!DOCTYPE html&gt;
-
+                    <pre><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
-
 &lt;head&gt;
-   &lt;title&gt;
-      My First Website
-   &lt;/title&gt;
+  &lt;title&gt;My Site&lt;/title&gt;
 &lt;/head&gt;
-
 &lt;body&gt;
-
-   &lt;h1&gt;
-      Hello World 🚀
-   &lt;/h1&gt;
-
-   &lt;p&gt;
-      Built with Cymor
-   &lt;/p&gt;
-
+  &lt;h1&gt;Hello World 🚀&lt;/h1&gt;
+  &lt;p&gt;Built with Cymor&lt;/p&gt;
 &lt;/body&gt;
-
-&lt;/html&gt;
-</code></pre>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- =========================================
-       FEATURES SECTION
-    ========================================== -->
-
-    <section
-        id="features"
-        class="features-section">
-
-        <div class="section-title">
-
-            <p>WHY CYMOR?</p>
-
-            <h2>
-                Built For Future Developers
-            </h2>
-
-        </div>
-
-        <div class="features-grid">
-
-            <div class="feature-card">
-
-                <div class="feature-icon">
-                    💻
+&lt;/html&gt;</code></pre>
                 </div>
-
-                <h3>
-                    Live Code Editor
-                </h3>
-
-                <p>
-                    Write and run HTML code instantly
-                    inside the browser.
-                </p>
-
             </div>
 
-            <div class="feature-card">
+        </div>
+    </section>
 
-                <div class="feature-icon">
-                    🧠
+    <section id="features" class="section">
+        <div class="container">
+            <div class="section-title">
+                <p class="small-label">WHY CYMOR CODE LEARNER?</p>
+                <h2>Built For Future Developers</h2>
+            </div>
+
+            <div class="features-grid">
+                <div class="card feature-card">
+                    <div class="feature-icon">💻</div>
+                    <h3>Live Editor</h3>
+                    <p>Write and run HTML code instantly in your browser.</p>
                 </div>
-
-                <h3>
-                    Smart Quizzes
-                </h3>
-
-                <p>
-                    Test your knowledge after every lesson
-                    and gain XP.
-                </p>
-
-            </div>
-
-            <div class="feature-card">
-
-                <div class="feature-icon">
-                    📈
+                <div class="card feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Smart Quizzes</h3>
+                    <p>Test your knowledge and earn XP after every module.</p>
                 </div>
-
-                <h3>
-                    Progress Tracking
-                </h3>
-
-                <p>
-                    Save lessons, track streaks,
-                    and level up.
-                </p>
-
-            </div>
-
-            <div class="feature-card">
-
-                <div class="feature-icon">
-                    🌍
+                <div class="card feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3>Real Deployment</h3>
+                    <p>Learn to push your code to GitHub and Vercel.</p>
                 </div>
-
-                <h3>
-                    Real Deployment
-                </h3>
-
-                <p>
-                    Learn GitHub, Netlify,
-                    and Vercel deployment.
-                </p>
-
             </div>
-
         </div>
-
     </section>
 
-    <!-- =========================================
-       LEARNING JOURNEY
-    ========================================== -->
+    <section id="modules" class="section">
+        <div class="container">
+            <div class="section-title">
+                <p class="small-label">COURSE PATH</p>
+                <h2>Structured Learning</h2>
+            </div>
 
-    <section
-        id="journey"
-        class="journey-section">
-
-        <div class="section-title">
-
-            <p>YOUR JOURNEY</p>
-
-            <h2>
-                From Beginner To Developer
-            </h2>
-
+            <div class="modules-grid">
+                <div class="module-card card">
+                    <h3>🧱 Foundations</h3>
+                    <p>HTML Basics (Lessons 1-5)</p>
+                </div>
+                <div class="module-card card">
+                    <h3>📝 Content</h3>
+                    <p>Text & Media (Lessons 6-15)</p>
+                </div>
+                <div class="module-card card">
+                    <h3>🚀 Deployment</h3>
+                    <p>Vercel/Netlify & Github (Lessons 29-30)</p>
+                </div>
+            </div>
         </div>
-
-        <div class="journey-grid">
-
-            <div class="journey-card">
-
-                <span>01</span>
-
-                <h3>
-                    Learn HTML
-                </h3>
-
-                <p>
-                    Understand structure,
-                    headings, links,
-                    forms, media and more.
-                </p>
-
-            </div>
-
-            <div class="journey-card">
-
-                <span>02</span>
-
-                <h3>
-                    Build Projects
-                </h3>
-
-                <p>
-                    Create real pages
-                    with interactive coding
-                    challenges.
-                </p>
-
-            </div>
-
-            <div class="journey-card">
-
-                <span>03</span>
-
-                <h3>
-                    Learn CSS Basics
-                </h3>
-
-                <p>
-                    Add layouts,
-                    colors, spacing
-                    and responsive design.
-                </p>
-
-            </div>
-
-            <div class="journey-card">
-
-                <span>04</span>
-
-                <h3>
-                    Deploy Online
-                </h3>
-
-                <p>
-                    Push projects to GitHub
-                    and deploy them live.
-                </p>
-
-            </div>
-
-        </div>
-
     </section>
-
-    <!-- =========================================
-       MODULES SECTION
-    ========================================== -->
-
-    <section
-        id="modules"
-        class="modules-section">
-
-        <div class="section-title">
-
-            <p>COURSE MODULES</p>
-
-            <h2>
-                Structured Learning Path
-            </h2>
-
-        </div>
-
-        <div class="modules-grid">
-
-            <div class="module-card">
-
-                <h3>
-                    🧱 Module 1
-                </h3>
-
-                <p>
-                    HTML Foundations
-                </p>
-
-                <span>
-                    Lessons 1 - 5
-                </span>
-
-            </div>
-
-            <div class="module-card">
-
-                <h3>
-                    📝 Module 2
-                </h3>
-
-                <p>
-                    Text & Content
-                </p>
-
-                <span>
-                    Lessons 6 - 10
-                </span>
-
-            </div>
-
-            <div class="module-card">
-
-                <h3>
-                    🔗 Module 3
-                </h3>
-
-                <p>
-                    Links & Media
-                </p>
-
-                <span>
-                    Lessons 11 - 15
-                </span>
-
-            </div>
-
-            <div class="module-card">
-
-                <h3>
-                    📦 Module 4
-                </h3>
-
-                <p>
-                    Layout & Tables
-                </p>
-
-                <span>
-                    Lessons 16 - 20
-                </span>
-
-            </div>
-
-            <div class="module-card">
-
-                <h3>
-                    🎨 Module 5
-                </h3>
-
-                <p>
-                    CSS Introduction
-                </p>
-
-                <span>
-                    Lessons 21 - 28
-                </span>
-
-            </div>
-
-            <div class="module-card">
-
-                <h3>
-                    🚀 Module 6
-                </h3>
-
-                <p>
-                    GitHub & Deployment
-                </p>
-
-                <span>
-                    Lessons 29 - 30
-                </span>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- =========================================
-       COMMUNITY SECTION
-    ========================================== -->
-
-    <section
-        id="community"
-        class="community-section">
-
-        <div class="community-card">
-
-            <h2>
-                Join The Cymor Developer Movement 🚀
-            </h2>
-
-            <p>
-
-                Learn coding step-by-step,
-                build projects,
-                gain XP,
-                and become a real developer.
-
-            </p>
-
-            <button
-                class="primary-btn big-btn">
-
-                🔥 Begin Your Journey
-
-            </button>
-
-        </div>
-
-    </section>
-
-    <!-- =========================================
-       FOOTER
-    ========================================== -->
 
     <footer class="footer">
-
-        <div class="footer-left">
-
-            <h2>
-                Cymor Code Learner
-            </h2>
-
-            <p>
-                Learn • Build • Deploy
-            </p>
-
+        <div class="container">
+            <p>&copy; 2026 Cymor Tech Services. Powered by Cymor.</p>
         </div>
-
-        <div class="footer-right">
-
-            <a href="#">
-                Terms
-            </a>
-
-            <a href="#">
-                Privacy
-            </a>
-
-            <a href="#">
-                Support
-            </a>
-
-        </div>
-
     </footer>
 
-    <!-- =========================================
-       FIREBASE CONFIG
-    ========================================== -->
-
-    <script
-        type="module"
-        src="./firebase/firebase-config.js">
-    </script>
-
-    <!-- =========================================
-       MAIN APP JS
-    ========================================== -->
-
-    <script
-        type="module"
-        src="app.js">
-    </script>
+    <script type="module" src="./firebase/firebase-config.js"></script>
+    <script type="module" src="app.js"></script>
 
 </body>
-
-  </html>
+</html>
