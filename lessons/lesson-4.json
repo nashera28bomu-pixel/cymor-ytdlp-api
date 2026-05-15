@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "next_lesson": 5,
+    "prev_lesson": 3,
+    "xp_reward": 10,
+    "difficulty": "beginner",
+    "module_index": 1
+  },
+  "id": 4,
+  "module": "Introduction",
+  "title": "Lesson 4: HTML Structure",
+
+  "content": {
+    "explanation": "<h3>🏗️ The Real Structure of Every Website</h3><p>Every website is built inside a strict structure that tells the browser how to read your page.</p><p>Without this structure, browsers may still try to guess your content — but the result can break on different devices or behave unpredictably.</p><hr><h3>🧠 Think of it like a Human Body</h3><ul><li>🧬 <strong>&lt;html&gt;</strong> = the full body</li><li>🧠 <strong>&lt;head&gt;</strong> = the brain (settings, hidden info)</li><li>👀 <strong>&lt;body&gt;</strong> = everything visible (what users see)</li></ul>",
+
+    "syntax_breakdown": "<h3>🧪 The Standard HTML Blueprint</h3><p>Every professional webpage follows this exact structure:</p><pre><code>&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n  &lt;head&gt;\n    &lt;title&gt;My Website&lt;/title&gt;\n  &lt;/head&gt;\n\n  &lt;body&gt;\n    &lt;h1&gt;Hello World&lt;/h1&gt;\n  &lt;/body&gt;\n&lt;/html&gt;</code></pre><hr><h3>🎯 Key Idea</h3><p>Everything visible MUST go inside the <strong>&lt;body&gt;</strong> tag.</p>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!DOCTYPE html>\n<html>\n<head>\n    <title>My First Valid Site</title>\n</head>\n<body>\n    <h1>Structural Blueprint Active</h1>\n    <p>Everything inside this body block renders directly onto the screen.</p>\n</body>\n</html>",
+
+    "mini_challenge": {
+      "instruction": "🎯 Mission: Modify your webpage structure\n\n1. Add a new <h2> tag inside the <body>\n2. The text must be: Valid Architecture Layer\n3. Place it BELOW the paragraph\n\n👉 Then run your code and see how structure affects layout",
+
+      "hint": "👉 Insert this BEFORE </body>:\n<h2>Valid Architecture Layer</h2>\n\nMake sure it is inside the body section.",
+
+      "validation_keyword": "Valid Architecture Layer"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "Where does all visible content (text, images, buttons) go in an HTML page?",
+    "options": [
+      "Inside the <head> tag",
+      "Inside the <body> tag",
+      "Inside the <!DOCTYPE html> declaration"
+    ],
+    "correct_index": 1,
+    "points": 10,
+    "explanation_feedback": "Correct 🎉 The <body> tag contains everything users see on the webpage, while <head> stores hidden settings and metadata."
+  },
+
+  "summary": {
+    "takeaways": [
+      "Every HTML page must follow a proper structure",
+      "<html> wraps the entire document",
+      "<head> contains hidden settings",
+      "<body> contains visible content users see"
+    ],
+
+    "cheat_sheet": {
+      "doctype": "Tells browser to use modern HTML standards",
+      "html": "Root container of the entire webpage",
+      "head": "Stores metadata and page settings",
+      "body": "Contains visible webpage content"
+    }
+  }
+}
