@@ -1,0 +1,62 @@
+{
+  "id": 29,
+  "module": "Deployment & Real World Workflow",
+  "meta": {
+    "next_lesson": 30,
+    "prev_lesson": 28,
+    "xp_reward": 80,
+    "difficulty": "beginner",
+    "module_index": 8
+  },
+
+  "title": "Lesson 29: Introduction to GitHub (Saving Your Code Like a Developer)",
+
+  "content": {
+    "explanation": "<h3>🌐 Welcome to Real Development Workflow</h3><p>Until now, you have been writing code inside a browser-based editor.</p><p>Real developers do something different — they store and manage code using <strong>GitHub</strong>.</p><hr><h3>📦 What is GitHub?</h3><p>GitHub is a platform where developers:</p><ul><li>Save code safely</li><li>Track changes</li><li>Work on projects together</li><li>Deploy websites</li></ul><hr><h3>⚡ Why It Matters</h3><p>👉 Every professional website project lives on GitHub before deployment.</p>"
+  },
+
+  "syntax_breakdown": {
+    "content": "<h3>🧪 Basic GitHub Workflow</h3><pre><code>1. Create a repository (project)\n2. Upload your HTML files\n3. Commit changes (save versions)\n4. Push updates to GitHub</code></pre><hr><h3>📌 Key Terms</h3><ul><li><strong>Repo</strong> = project folder on GitHub</li><li><strong>Commit</strong> = saved version of code</li><li><strong>Push</strong> = upload code online</li></ul><hr><h3>🧠 Key Idea</h3><p>👉 GitHub = Google Drive for developers (but smarter)</p>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!-- Cymor Code Learner 🚀 GitHub Intro -->\n<h1>My Developer Journey</h1>\n<p>I am learning how to store and manage code like a professional developer.</p>",
+
+    "mini_challenge": {
+      "instruction": "🎯 Mission: Prepare your project for GitHub\n\n1. Add a heading called 'My First Repository'\n2. Add a paragraph explaining what your project is\n3. Add a list of files you would upload:\n   - index.html\n   - about.html\n   - images folder\n\n🔥 Think like you're preparing a real GitHub project",
+
+      "hint": "👉 Use:\n<ul>\n  <li>index.html</li>\n</ul>",
+
+      "validation_keyword": "repository"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "What is GitHub mainly used for?",
+    "options": [
+      "Designing websites visually",
+      "Storing and managing code projects",
+      "Writing CSS styles automatically"
+    ],
+    "correct_index": 1,
+    "points": 80,
+    "explanation_feedback": "Correct 🎉 GitHub is used to store, manage, and collaborate on code projects."
+  },
+
+  "summary": {
+    "takeaways": [
+      "GitHub stores code projects online",
+      "Developers use it to track changes",
+      "Repositories contain full project files",
+      "Commits save versions of code",
+      "GitHub is essential for real-world development"
+    ],
+
+    "cheat_sheet": {
+      "repo": "Project folder on GitHub",
+      "commit": "Saved version of code",
+      "push": "Upload code to GitHub",
+      "rule": "Every serious project uses GitHub"
+    }
+  }
+}
