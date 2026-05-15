@@ -1,650 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <!-- =========================================
-       META
-    ========================================== -->
-
     <meta charset="UTF-8" />
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0" />
-
-    <meta
-        name="description"
-        content="Cymor Code Learner Dashboard" />
-
-    <title>Cymor Dashboard 🚀</title>
-
-    <!-- =========================================
-       GOOGLE FONT
-    ========================================== -->
-
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com">
-
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
-
-    <!-- =========================================
-       MAIN CSS
-    ========================================== -->
-
-    <link
-        rel="stylesheet"
-        href="styles.css" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cymor Code Learner Dashboard 🚀</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body class="dashboard-page">
-
-    <!-- =========================================
-       BACKGROUND EFFECTS
-    ========================================== -->
-
     <div class="bg-blur blur-1"></div>
     <div class="bg-blur blur-2"></div>
 
-    <!-- =========================================
-       SIDEBAR
-    ========================================== -->
-
     <aside class="dashboard-sidebar">
-
-        <!-- LOGO -->
-
         <div class="sidebar-logo">
-
-            <h2>
-                🚀 Cymor Code Learner
-            </h2>
-
-            <p>
-                Developer Dashboard
-            </p>
-
+            <h2>🚀 Cymor Code Learner</h2>
+            <p>Developer Panel</p>
         </div>
-
-        <!-- USER PROFILE -->
 
         <div class="sidebar-user">
-
             <div class="user-avatar">
-
-                <img
-                    id="userPhoto"
-                    src="https://i.imgur.com/HeIi0wU.png"
-                    alt="User Avatar" />
-
+                <img id="userPhoto" src="https://i.imgur.com/HeIi0wU.png" alt="Avatar" />
             </div>
-
-            <h3 id="userName">
-                Developer
-            </h3>
-
-            <p id="userEmail">
-                developer@email.com
-            </p>
-
+            <h3 id="userName">Developer</h3>
+            <p id="userEmail">developer@email.com</p>
         </div>
 
-        <!-- SIDEBAR NAV -->
-
         <nav class="sidebar-nav">
-
-            <button class="sidebar-link active-link">
-
-                📊 Dashboard
-
-            </button>
-
-            <button
-                id="continueLearningBtn"
-                class="sidebar-link">
-
-                📚 Continue Learning
-
-            </button>
-
-            <button
-                id="viewLessonsBtn"
-                class="sidebar-link">
-
-                🧠 All Lessons
-
-            </button>
-
-            <button
-                id="viewQuizzesBtn"
-                class="sidebar-link">
-
-                📝 Quizzes
-
-            </button>
-
-            <button
-                id="logoutBtn"
-                class="sidebar-link logout-link">
-
-                🚪 Logout
-
-            </button>
-
+            <a href="dashboard.html" class="sidebar-link active-link">📊 Dashboard</a>
+            <button id="continueLearningBtn" class="sidebar-link">📚 Continue Learning</button>
+            <a href="lessons.html" class="sidebar-link">🧠 All Lessons</a>
+            <button id="logoutBtn" class="sidebar-link logout-link">🚪 Logout</button>
         </nav>
-
     </aside>
 
-    <!-- =========================================
-       MAIN DASHBOARD
-    ========================================== -->
-
     <main class="dashboard-main">
-
-        <!-- =========================================
-           TOP HEADER
-        ========================================== -->
-
         <header class="dashboard-header">
-
-            <div>
-
-                <h1>
-                    Welcome Back,
-                    <span id="welcomeName">
-                        Developer
-                    </span>
-                    🚀
-                </h1>
-
-                <p>
-                    Continue your coding journey today.
-                </p>
-
+            <div class="welcome-text">
+                <h1>Welcome Back, <span id="welcomeName" class="gradient-text">Developer</span> 🚀</h1>
+                <p>Ready to write some clean code today?</p>
             </div>
-
-            <button
-                id="resumeBtn"
-                class="primary-btn big-btn">
-
-                ▶ Resume Learning
-
-            </button>
-
+            <button id="resumeBtn" class="primary-btn big-btn">▶ Resume Lesson</button>
         </header>
 
-        <!-- =========================================
-           STATS GRID
-        ========================================== -->
-
         <section class="stats-grid">
-
-            <!-- XP -->
-
-            <div class="stat-box">
-
-                <div class="stat-icon">
-                    ⚡
-                </div>
-
-                <div>
-
-                    <h2 id="xpValue">
-                        0
-                    </h2>
-
-                    <p>
-                        Total XP
-                    </p>
-
-                </div>
-
+            <div class="stat-box card">
+                <div class="stat-icon">⚡</div>
+                <div><h2 id="xpValue">0</h2><p>Total XP</p></div>
             </div>
-
-            <!-- LEVEL -->
-
-            <div class="stat-box">
-
-                <div class="stat-icon">
-                    🏆
-                </div>
-
-                <div>
-
-                    <h2 id="levelValue">
-                        1
-                    </h2>
-
-                    <p>
-                        Developer Level
-                    </p>
-
-                </div>
-
+            <div class="stat-box card">
+                <div class="stat-icon">🏆</div>
+                <div><h2 id="levelValue">1</h2><p>Level</p></div>
             </div>
-
-            <!-- COMPLETED -->
-
-            <div class="stat-box">
-
-                <div class="stat-icon">
-                    ✅
-                </div>
-
-                <div>
-
-                    <h2 id="completedLessons">
-                        0
-                    </h2>
-
-                    <p>
-                        Lessons Completed
-                    </p>
-
-                </div>
-
+            <div class="stat-box card">
+                <div class="stat-icon">✅</div>
+                <div><h2 id="completedLessons">0</h2><p>Completed</p></div>
             </div>
-
-            <!-- STREAK -->
-
-            <div class="stat-box">
-
-                <div class="stat-icon">
-                    🔥
-                </div>
-
-                <div>
-
-                    <h2 id="streakValue">
-                        0
-                    </h2>
-
-                    <p>
-                        Day Streak
-                    </p>
-
-                </div>
-
+            <div class="stat-box card">
+                <div class="stat-icon">🔥</div>
+                <div><h2 id="streakValue">0</h2><p>Streak</p></div>
             </div>
-
         </section>
 
-        <!-- =========================================
-           PROGRESS OVERVIEW
-        ========================================== -->
-
-        <section class="dashboard-card">
-
-            <div class="card-header">
-
-                <h2>
-                    📈 Course Progress
-                </h2>
-
-                <span id="progressPercent">
-                    0%
-                </span>
-
-            </div>
-
-            <div class="progress-bar large-progress">
-
-                <div
-                    id="dashboardProgressFill"
-                    class="progress-fill">
+        <div class="dashboard-content-split">
+            <section class="dashboard-card progress-card card">
+                <div class="card-header">
+                    <h2>📈 Overall Progress</h2>
+                    <span id="progressPercent">0%</span>
                 </div>
-
-            </div>
-
-            <p class="progress-text">
-
-                Complete lessons and quizzes
-                to level up your skills.
-
-            </p>
-
-        </section>
-
-        <!-- =========================================
-           CONTINUE LEARNING
-        ========================================== -->
-
-        <section class="dashboard-card">
-
-            <div class="card-header">
-
-                <h2>
-                    🚀 Continue Learning
-                </h2>
-
-            </div>
-
-            <div class="continue-card">
-
-                <div>
-
-                    <p class="small-label">
-                        CURRENT LESSON
-                    </p>
-
-                    <h3 id="currentLessonTitle">
-                        Lesson 1: What is HTML?
-                    </h3>
-
-                    <p id="currentLessonDesc">
-
-                        Continue your coding journey.
-
-                    </p>
-
+                <div class="progress-bar-container">
+                    <div id="dashboardProgressFill" class="progress-fill" style="width: 0%;"></div>
                 </div>
+            </section>
 
-                <button
-                    id="continueBtn"
-                    class="primary-btn">
+            <section class="dashboard-card continue-card card">
+                <div class="card-header"><h2>🚀 Current Task</h2></div>
+                <div class="task-flex">
+                    <div>
+                        <h3 id="currentLessonTitle">Lesson 1: Intro to HTML</h3>
+                        <p>Structure your first webpage.</p>
+                    </div>
+                    <button id="continueBtn" class="primary-btn">Continue ➡</button>
+                </div>
+            </section>
+        </div>
 
-                    Continue ➡
-
-                </button>
-
-            </div>
-
-        </section>
-
-        <!-- =========================================
-           MODULES GRID
-        ========================================== -->
-
-        <section class="dashboard-card">
-
-            <div class="card-header">
-
-                <h2>
-                    📚 Course Modules
-                </h2>
-
-            </div>
-
+        <section class="dashboard-card card">
+            <div class="card-header"><h2>📚 Course Modules</h2></div>
             <div class="modules-dashboard-grid">
-
-                <!-- MODULE 1 -->
-
-                <div class="module-progress-card">
-
-                    <div class="module-top">
-
-                        <h3>
-                            🧱 HTML Foundations
-                        </h3>
-
-                        <span>
-                            1 - 5
-                        </span>
-
-                    </div>
-
-                    <div class="mini-progress">
-
-                        <div class="mini-fill fill-20"></div>
-
-                    </div>
-
-                    <p>
-                        Learn HTML basics
-                    </p>
-
+                <div class="module-item">
+                    <span>🧱 HTML Foundations</span>
+                    <div class="mini-bar"><div class="mini-fill" style="width: 20%"></div></div>
                 </div>
-
-                <!-- MODULE 2 -->
-
-                <div class="module-progress-card">
-
-                    <div class="module-top">
-
-                        <h3>
-                            📝 Text & Content
-                        </h3>
-
-                        <span>
-                            6 - 10
-                        </span>
-
-                    </div>
-
-                    <div class="mini-progress">
-
-                        <div class="mini-fill fill-0"></div>
-
-                    </div>
-
-                    <p>
-                        Text formatting & structure
-                    </p>
-
+                <div class="module-item">
+                    <span>📝 Text Content</span>
+                    <div class="mini-bar"><div class="mini-fill" style="width: 0%"></div></div>
                 </div>
-
-                <!-- MODULE 3 -->
-
-                <div class="module-progress-card">
-
-                    <div class="module-top">
-
-                        <h3>
-                            🔗 Links & Media
-                        </h3>
-
-                        <span>
-                            11 - 15
-                        </span>
-
-                    </div>
-
-                    <div class="mini-progress">
-
-                        <div class="mini-fill fill-0"></div>
-
-                    </div>
-
-                    <p>
-                        Images, links & media
-                    </p>
-
+                <div class="module-item">
+                    <span>🚀 Deployment</span>
+                    <div class="mini-bar"><div class="mini-fill" style="width: 0%"></div></div>
                 </div>
-
-                <!-- MODULE 4 -->
-
-                <div class="module-progress-card">
-
-                    <div class="module-top">
-
-                        <h3>
-                            📦 Layout & Tables
-                        </h3>
-
-                        <span>
-                            16 - 20
-                        </span>
-
-                    </div>
-
-                    <div class="mini-progress">
-
-                        <div class="mini-fill fill-0"></div>
-
-                    </div>
-
-                    <p>
-                        Forms, tables & layouts
-                    </p>
-
-                </div>
-
-                <!-- MODULE 5 -->
-
-                <div class="module-progress-card">
-
-                    <div class="module-top">
-
-                        <h3>
-                            🎨 CSS Basics
-                        </h3>
-
-                        <span>
-                            21 - 28
-                        </span>
-
-                    </div>
-
-                    <div class="mini-progress">
-
-                        <div class="mini-fill fill-0"></div>
-
-                    </div>
-
-                    <p>
-                        Styling & responsiveness
-                    </p>
-
-                </div>
-
-                <!-- MODULE 6 -->
-
-                <div class="module-progress-card">
-
-                    <div class="module-top">
-
-                        <h3>
-                            🚀 Deployment
-                        </h3>
-
-                        <span>
-                            29 - 30
-                        </span>
-
-                    </div>
-
-                    <div class="mini-progress">
-
-                        <div class="mini-fill fill-0"></div>
-
-                    </div>
-
-                    <p>
-                        GitHub & Netlify
-                    </p>
-
-                </div>
-
             </div>
-
         </section>
-
-        <!-- =========================================
-           ACHIEVEMENTS
-        ========================================== -->
-
-        <section class="dashboard-card">
-
-            <div class="card-header">
-
-                <h2>
-                    🏅 Achievements
-                </h2>
-
-            </div>
-
-            <div class="achievements-grid">
-
-                <div class="achievement-card unlocked">
-
-                    <div class="achievement-icon">
-                        🚀
-                    </div>
-
-                    <h3>
-                        First Lesson
-                    </h3>
-
-                    <p>
-                        Completed your first lesson
-                    </p>
-
-                </div>
-
-                <div class="achievement-card locked">
-
-                    <div class="achievement-icon">
-                        🔥
-                    </div>
-
-                    <h3>
-                        7 Day Streak
-                    </h3>
-
-                    <p>
-                        Learn for 7 days straight
-                    </p>
-
-                </div>
-
-                <div class="achievement-card locked">
-
-                    <div class="achievement-icon">
-                        🏆
-                    </div>
-
-                    <h3>
-                        HTML Master
-                    </h3>
-
-                    <p>
-                        Finish all HTML lessons
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
     </main>
 
-    <!-- =========================================
-       FIREBASE
-    ========================================== -->
-
-    <script
-        type="module"
-        src="./Firebase/firebase-config.js">
+    <script type="module" src="./firebase/firebase-config.js"></script>
+    <script type="module" src="app.js"></script>
+    
+    <script>
+        // Ensure buttons redirect to the lesson page
+        const redirectLearning = () => { window.location.href = 'lesson.html'; };
+        
+        document.getElementById('continueLearningBtn')?.addEventListener('click', redirectLearning);
+        document.getElementById('resumeBtn')?.addEventListener('click', redirectLearning);
+        document.getElementById('continueBtn')?.addEventListener('click', redirectLearning);
     </script>
-
-    <!-- =========================================
-       PROGRESS TRACKER
-    ========================================== -->
-
-    <script
-        type="module"
-        src="./components/progress-tracker.js">
-    </script>
-
-    <!-- =========================================
-       MAIN APP
-    ========================================== -->
-
-    <script
-        type="module"
-        src="app.js">
-    </script>
-
 </body>
-
 </html>
