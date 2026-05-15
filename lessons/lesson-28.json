@@ -1,0 +1,62 @@
+{
+  "id": 28,
+  "module": "Styling Basics",
+  "meta": {
+    "next_lesson": 29,
+    "prev_lesson": 27,
+    "xp_reward": 60,
+    "difficulty": "beginner",
+    "module_index": 7
+  },
+
+  "title": "Lesson 28: Layout Basics (Divs & Page Structure)",
+
+  "content": {
+    "explanation": "<h3>🧱 Building Page Layouts</h3><p>Now that your website can look good, you need to learn how to organize content properly on the page.</p><p>This is called <strong>layout design</strong>.</p><hr><h3>🌐 Why Layout Matters</h3><ul><li>Keeps content structured</li><li>Makes websites easier to read</li><li>Helps design real app interfaces</li></ul><hr><h3>📦 Meet the <div> Element</h3><p>The <strong>div</strong> tag is used as a container to group elements together.</p>"
+  },
+
+  "syntax_breakdown": {
+    "content": "<h3>🧪 Basic Layout Example</h3><pre><code>&lt;style&gt;\n  .box {\n    background-color: lightblue;\n    padding: 20px;\n    margin: 10px;\n  }\n&lt;/style&gt;\n\n&lt;div class=\"box\"&gt;\n  &lt;h1&gt;Welcome&lt;/h1&gt;\n  &lt;p&gt;This is inside a container&lt;/p&gt;\n&lt;/div&gt;</code></pre><hr><h3>📌 Key Idea</h3><ul><li><strong>div</strong> = container box</li><li><strong>class</strong> = reusable style name</li></ul><hr><h3>🧠 Important Rule</h3><p>👉 Layout = grouping elements using containers</p>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!-- Cymor Code Learner 🚀 Layout Basics -->\n<h1>My Layout Page</h1>\n<p>Learning how to structure web pages properly.</p>",
+
+    "mini_challenge": {
+      "instruction": "🎯 Mission: Create a layout box\n\n1. Add a <style> block\n2. Create a .box class with background color and padding\n3. Wrap your content inside a <div class='box'>\n\n🔥 Build your first layout container",
+
+      "hint": "👉 Example:\n<div class='box'>\n  <h1>Title</h1>\n</div>",
+
+      "validation_keyword": "div"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "What is the main purpose of a <div> in HTML?",
+    "options": [
+      "To display images",
+      "To create containers for grouping content",
+      "To create links between pages"
+    ],
+    "correct_index": 1,
+    "points": 60,
+    "explanation_feedback": "Correct 🎉 A div is a container used to group and organize elements for layout design."
+  },
+
+  "summary": {
+    "takeaways": [
+      "Layout organizes content on a webpage",
+      "div is a container element",
+      "CSS classes allow reusable styling",
+      "Grouping elements improves structure",
+      "Layouts are essential for real UI design"
+    ],
+
+    "cheat_sheet": {
+      "div": "Container for grouping elements",
+      "class": "Reusable CSS selector",
+      "layout": "Structure of page elements",
+      "rule": "Group before styling"
+    }
+  }
+}
