@@ -1,0 +1,58 @@
+{
+  "id": 11,
+  "module": "Core HTML Elements",
+  "meta": {
+    "next_lesson": 12,
+    "prev_lesson": 10,
+    "xp_reward": 15,
+    "difficulty": "beginner",
+    "module_index": 3
+  },
+
+  "title": "Lesson 11: Links and Navigation (The <a> Tag)",
+
+  "content": {
+    "explanation": "<h3>🌐 Connecting the Web Together</h3><p>Up to now, you’ve been building standalone pages. But the real power of the internet comes from <strong>connections between pages</strong>.</p><p>This is done using the <strong>&lt;a&gt; (anchor) tag</strong>, which creates clickable links.</p><hr><h3>🔗 What is a Link?</h3><p>A link allows users to jump from one page to another — either:</p><ul><li>📄 Another page on your website</li><li>🌍 A different website (like Google)</li><li>📍 A section inside the same page</li></ul><p>This is what makes the web a “web” — everything is connected.</p>",
+
+    "syntax_breakdown": "<h3>🧪 Anchor Tag Structure</h3><p>The basic link format is:</p><pre><code>&lt;a href=\"URL\"&gt;Click Text&lt;/a&gt;</code></pre><hr><h3>📌 Example</h3><pre><code>&lt;a href=\"https://example.com\"&gt;Visit Example Website&lt;/a&gt;</code></pre><p>The <strong>href</strong> attribute tells the browser where to go.</p><hr><h3>🧠 Key Idea</h3><p>👉 Without <strong>href</strong>, the link does nothing<br>👉 The text inside the tag is what users click</p>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!-- Cymor Code Learner 🚀 Navigation Practice -->\n<h1>My Learning Hub</h1>\n<p>Welcome to my first interactive web page.</p>",
+
+    "mini_challenge": {
+      "instruction": "🎯 Mission: Create your first link\n\n1. Add a new <p> below the existing paragraph\n2. Inside it, create an <a> tag\n3. Link text must be: Visit Cymor Tech Services\n4. Use this URL: https://cymortech.com\n\n👉 Then run your code and click the link",
+
+      "hint": "👉 Example format:\n<a href=\"https://cymortech.com\">Visit Cymor Tech Services</a>\n\nMake sure href is written correctly and tag is closed properly.",
+
+      "validation_keyword": "Cymor Tech Services"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "What is the purpose of the <a> tag in HTML?",
+    "options": [
+      "To add images to a webpage",
+      "To create clickable links between pages or websites",
+      "To format text as bold or italic"
+    ],
+    "correct_index": 1,
+    "points": 15,
+    "explanation_feedback": "Correct 🎉 The <a> tag (anchor tag) is used to create links that connect pages across the web."
+  },
+
+  "summary": {
+    "takeaways": [
+      "The <a> tag is used to create hyperlinks",
+      "href defines the destination of the link",
+      "Links can connect pages, websites, or sections",
+      "The internet is built on interconnected links"
+    ],
+
+    "cheat_sheet": {
+      "a_tag": "Creates a clickable hyperlink",
+      "href": "Defines where the link goes",
+      "link_text": "Visible clickable content inside the tag"
+    }
+  }
+}
