@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- =========================================
+       META
+    ========================================== -->
+
+    <meta charset="UTF-8" />
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0" />
+
+    <meta
+        name="description"
+        content="Interactive quiz system for Cymor Code Learner." />
+
+    <title>Cymor Quiz 🚀</title>
+
+    <!-- =========================================
+       GOOGLE FONT
+    ========================================== -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- =========================================
+       MAIN CSS
+    ========================================== -->
+
+    <link
+        rel="stylesheet"
+        href="styles.css" />
+
+</head>
+
+<body class="quiz-page">
+
+    <!-- =========================================
+       BACKGROUND EFFECTS
+    ========================================== -->
+
+    <div class="bg-blur blur-1"></div>
+    <div class="bg-blur blur-2"></div>
+
+    <!-- =========================================
+       TOP NAVBAR
+    ========================================== -->
+
+    <header class="quiz-navbar">
+
+        <div class="quiz-logo">
+
+            <h2>
+                🚀 Cymor Code Learner
+            </h2>
+
+            <p>
+                Interactive Quiz System
+            </p>
+
+        </div>
+
+        <div class="quiz-user-area">
+
+            <div class="xp-box">
+
+                <span>
+                    ⚡ XP
+                </span>
+
+                <h3 id="userXP">
+                    0
+                </h3>
+
+            </div>
+
+            <button
+                id="dashboardBtn"
+                class="secondary-btn">
+
+                Dashboard
+
+            </button>
+
+        </div>
+
+    </header>
+
+    <!-- =========================================
+       QUIZ WRAPPER
+    ========================================== -->
+
+    <main class="quiz-wrapper">
+
+        <!-- =========================================
+           QUIZ HEADER
+        ========================================== -->
+
+        <section class="quiz-header-card">
+
+            <div class="quiz-header-left">
+
+                <p class="quiz-label">
+                    LESSON QUIZ
+                </p>
+
+                <h1 id="quizLessonTitle">
+                    Loading Quiz...
+                </h1>
+
+                <p id="quizDescription">
+
+                    Test your understanding
+                    and earn XP rewards.
+
+                </p>
+
+            </div>
+
+            <div class="quiz-progress-area">
+
+                <div class="quiz-progress-circle">
+
+                    <span id="questionCounter">
+                        1 / 1
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- =========================================
+           MAIN QUIZ CARD
+        ========================================== -->
+
+        <section class="quiz-card">
+
+            <!-- QUESTION -->
+
+            <div class="question-area">
+
+                <h2 id="quizQuestion">
+
+                    Loading Question...
+
+                </h2>
+
+            </div>
+
+            <!-- OPTIONS -->
+
+            <div
+                id="quizOptions"
+                class="options-grid">
+
+                <!-- Dynamic Options -->
+
+            </div>
+
+            <!-- FEEDBACK -->
+
+            <div
+                id="feedbackBox"
+                class="feedback-box hidden">
+
+                <!-- Dynamic feedback -->
+
+            </div>
+
+            <!-- ACTION BUTTONS -->
+
+            <div class="quiz-actions">
+
+                <button
+                    id="submitAnswerBtn"
+                    class="primary-btn big-btn">
+
+                    ✅ Submit Answer
+
+                </button>
+
+                <button
+                    id="nextQuestionBtn"
+                    class="secondary-btn big-btn hidden">
+
+                    Next ➡
+
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- =========================================
+           QUIZ SIDEBAR INFO
+        ========================================== -->
+
+        <section class="quiz-info-grid">
+
+            <!-- XP CARD -->
+
+            <div class="info-card">
+
+                <div class="info-icon">
+                    ⚡
+                </div>
+
+                <h3>
+                    XP Reward
+                </h3>
+
+                <p id="xpReward">
+                    +10 XP
+                </p>
+
+            </div>
+
+            <!-- ACCURACY CARD -->
+
+            <div class="info-card">
+
+                <div class="info-icon">
+                    🎯
+                </div>
+
+                <h3>
+                    Accuracy
+                </h3>
+
+                <p id="accuracyText">
+                    0%
+                </p>
+
+            </div>
+
+            <!-- STREAK CARD -->
+
+            <div class="info-card">
+
+                <div class="info-icon">
+                    🔥
+                </div>
+
+                <h3>
+                    Learning Streak
+                </h3>
+
+                <p id="streakText">
+                    0 Days
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- =========================================
+           QUIZ TIPS
+        ========================================== -->
+
+        <section class="tips-section">
+
+            <div class="tips-card">
+
+                <h2>
+                    🧠 Quiz Tips
+                </h2>
+
+                <ul>
+
+                    <li>
+                        Read the question carefully
+                    </li>
+
+                    <li>
+                        Eliminate obviously wrong answers
+                    </li>
+
+                    <li>
+                        Think about the lesson examples
+                    </li>
+
+                    <li>
+                        Learning matters more than speed
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- =========================================
+       QUIZ RESULT MODAL
+    ========================================== -->
+
+    <div
+        id="resultModal"
+        class="modal hidden">
+
+        <div class="modal-content large-modal">
+
+            <div class="result-icon">
+                🏆
+            </div>
+
+            <h2>
+                Quiz Completed!
+            </h2>
+
+            <p id="finalScoreText">
+
+                You scored 100%
+
+            </p>
+
+            <div class="result-stats">
+
+                <div class="result-stat-card">
+
+                    <h3 id="earnedXP">
+                        +10
+                    </h3>
+
+                    <p>
+                        XP Earned
+                    </p>
+
+                </div>
+
+                <div class="result-stat-card">
+
+                    <h3 id="correctAnswers">
+                        1/1
+                    </h3>
+
+                    <p>
+                        Correct Answers
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="result-actions">
+
+                <button
+                    id="retryQuizBtn"
+                    class="secondary-btn big-btn">
+
+                    🔄 Retry Quiz
+
+                </button>
+
+                <button
+                    id="nextLessonBtn"
+                    class="primary-btn big-btn">
+
+                    🚀 Continue Learning
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- =========================================
+       FIREBASE
+    ========================================== -->
+
+    <script
+        type="module"
+        src="./Firebase/firebase-config.js">
+    </script>
+
+    <!-- =========================================
+       QUIZ ENGINE
+    ========================================== -->
+
+    <script
+        type="module"
+        src="./components/quiz-engine.js">
+    </script>
+
+    <!-- =========================================
+       PROGRESS TRACKER
+    ========================================== -->
+
+    <script
+        type="module"
+        src="./components/progress-tracker.js">
+    </script>
+
+    <!-- =========================================
+       MAIN APP
+    ========================================== -->
+
+    <script
+        type="module"
+        src="app.js">
+    </script>
+
+</body>
+
+</html>
