@@ -1,5 +1,5 @@
 /* =========================================
-   CYMOR CODE LEARNER - FULL SYSTEM STYLE
+   CYMOR CODE - 10/10 SAAS RESPONSIVE SYSTEM
 ========================================= */
 
 * {
@@ -9,25 +9,38 @@
 }
 
 :root {
+
+    /* Core Theme */
     --bg-primary: #050816;
     --bg-secondary: #0f172a;
-    --bg-card: rgba(15, 23, 42, 0.8);
+
+    /* Glass UI */
+    --panel: rgba(255, 255, 255, 0.04);
+    --panel-strong: rgba(255, 255, 255, 0.06);
+
+    /* Text */
     --text-primary: #ffffff;
     --text-secondary: #cbd5e1;
     --text-muted: #94a3b8;
+
+    /* Accent */
     --accent: #00f5ff;
     --accent-2: #8b5cf6;
     --accent-3: #22c55e;
+
+    /* System */
     --danger: #ef4444;
     --warning: #f59e0b;
     --border: rgba(255, 255, 255, 0.1);
-    --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+    /* UI */
     --radius: 18px;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 body {
     font-family: "Poppins", sans-serif;
-    background: radial-gradient(circle at top right, #111827, #050816);
+    background: radial-gradient(circle at top right, #111827, var(--bg-primary));
     color: var(--text-primary);
     min-height: 100vh;
     overflow-x: hidden;
@@ -35,7 +48,7 @@ body {
 }
 
 /* =========================================
-   UTILITIES & CONTAINERS
+   GLOBAL UTILITIES
 ========================================= */
 
 .container {
@@ -55,7 +68,7 @@ h1, h2, h3, p, span {
 }
 
 /* =========================================
-   BUTTONS
+   BUTTON SYSTEM (SAAS LEVEL)
 ========================================= */
 
 .primary-btn, .secondary-btn {
@@ -65,8 +78,8 @@ h1, h2, h3, p, span {
     padding: 14px 28px;
     border-radius: 14px;
     font-weight: 600;
-    transition: 0.3s;
     cursor: pointer;
+    transition: 0.25s ease;
     text-decoration: none;
     min-height: 48px;
     border: none;
@@ -74,19 +87,28 @@ h1, h2, h3, p, span {
 
 .primary-btn {
     background: linear-gradient(135deg, var(--accent), var(--accent-2));
-    color: white;
+    color: #000;
+}
+
+/* smooth hover (your upgrade) */
+.primary-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 245, 255, 0.25);
 }
 
 .secondary-btn {
-    background: rgba(255, 255, 255, 0.05);
-    color: white;
+    background: var(--panel);
+    color: var(--text-primary);
     border: 1px solid var(--border);
 }
 
-.big-btn { padding: 18px 36px; font-size: 1.1rem; }
+.big-btn {
+    padding: 18px 36px;
+    font-size: 1.1rem;
+}
 
 /* =========================================
-   NAVBAR & HERO (LANDING PAGE)
+   NAVBAR
 ========================================= */
 
 .navbar {
@@ -99,7 +121,13 @@ h1, h2, h3, p, span {
     border-bottom: 1px solid var(--border);
 }
 
-.hero { padding: clamp(40px, 10vh, 80px) 0; }
+/* =========================================
+   HERO SECTION
+========================================= */
+
+.hero {
+    padding: clamp(40px, 10vh, 80px) 0;
+}
 
 .hero-container {
     display: flex;
@@ -111,9 +139,22 @@ h1, h2, h3, p, span {
 
 .hero h1 {
     font-size: clamp(2.2rem, 8vw, 4rem);
-    margin-bottom: 20px;
     font-weight: 800;
+    line-height: 1.2;
 }
+
+/* desktop split */
+@media (min-width: 1024px) {
+    .hero-container {
+        flex-direction: row;
+        text-align: left;
+        justify-content: space-between;
+    }
+}
+
+/* =========================================
+   CODE WINDOW
+========================================= */
 
 .code-window {
     background: #020617;
@@ -123,142 +164,167 @@ h1, h2, h3, p, span {
     max-width: 550px;
     overflow: hidden;
     box-shadow: var(--shadow);
-    text-align: left;
 }
 
 /* =========================================
-   DASHBOARD ARCHITECTURE
+   DASHBOARD SYSTEM (SAAS UI CORE)
 ========================================= */
 
 .dashboard-page {
     display: flex;
-    background: var(--bg-primary);
-    min-height: 100vh;
+    background: radial-gradient(circle at top, #0b1224, var(--bg-primary));
 }
 
+/* SIDEBAR (YOUR UPGRADE INCLUDED) */
 .dashboard-sidebar {
-    width: 280px;
+    width: 260px;
     height: 100vh;
     position: fixed;
     left: 0;
     top: 0;
-    background: rgba(15, 23, 42, 0.95);
+    padding: 22px;
+    background: rgba(10, 14, 30, 0.85);
+    backdrop-filter: blur(18px);
     border-right: 1px solid var(--border);
-    padding: 30px 20px;
-    z-index: 100;
     display: flex;
     flex-direction: column;
+    gap: 18px;
 }
 
-.dashboard-main {
-    flex: 1;
-    margin-left: 280px; /* Pushes content away from fixed sidebar */
-    padding: 40px;
-    width: calc(100% - 280px);
-}
-
-/* Dashboard Component Styles */
-.card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    padding: 25px;
+/* USER CARD */
+.sidebar-user {
+    background: var(--panel);
+    padding: 14px;
     border-radius: var(--radius);
-    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
+/* avatar fix */
+.user-avatar img {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--accent);
+}
+
+/* NAV */
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar-link {
+    padding: 12px 14px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text-muted);
+    transition: 0.25s ease;
+    border: 1px solid transparent;
+}
+
+.sidebar-link:hover {
+    background: var(--panel);
+    border-color: var(--border);
+    color: var(--text-primary);
+}
+
+.active-link {
+    background: rgba(0, 245, 255, 0.08);
+    border: 1px solid rgba(0, 245, 255, 0.25);
+    color: var(--accent);
+}
+
+/* MAIN AREA (YOUR FIX INCLUDED) */
+.dashboard-main {
+    margin-left: 260px;
+    padding: 40px;
+    width: calc(100% - 260px);
+}
+
+/* HEADER */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+/* CARDS (YOUR UPGRADE INCLUDED) */
+.card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 30px;
+    backdrop-filter: blur(20px);
+    transition: 0.25s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    background: var(--panel-strong);
+}
+
+/* GRIDS */
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    margin-bottom: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 18px;
+    margin-bottom: 25px;
 }
 
 .dashboard-content-split {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-bottom: 30px;
-}
-
-.sidebar-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 30px;
-}
-
-.sidebar-link {
-    background: transparent;
-    border: none;
-    color: var(--text-secondary);
-    padding: 12px 15px;
-    text-align: left;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: 0.3s;
-    font-size: 1rem;
-    text-decoration: none;
-}
-
-.sidebar-link:hover, .active-link {
-    background: rgba(0, 245, 255, 0.1);
-    color: var(--accent);
+    gap: 18px;
 }
 
 /* =========================================
-   RESPONSIVE LOGIC
+   RESPONSIVE DESIGN (CLEAN FIX)
 ========================================= */
 
-/* Desktop view adaptations */
-@media (min-width: 1024px) {
-    .hero-container {
-        flex-direction: row;
-        text-align: left;
-        justify-content: space-between;
-    }
-}
-
-/* Tablet view adaptations */
 @media (max-width: 1024px) {
+
     .dashboard-sidebar {
         width: 80px;
-        padding: 20px 10px;
+        padding: 15px;
     }
-    /* Hide text labels for a slim icon sidebar */
-    .dashboard-sidebar h2, 
-    .sidebar-user p, 
-    .sidebar-user h3, 
-    .sidebar-link span,
-    .sidebar-logo p {
-        display: none;
-    }
+
     .dashboard-main {
         margin-left: 80px;
         width: calc(100% - 80px);
     }
+
+    .sidebar-logo p,
+    .sidebar-user h3,
+    .sidebar-user p {
+        display: none;
+    }
 }
 
-/* Phone view adaptations */
 @media (max-width: 768px) {
-    /* Hero/Landing Page */
-    .hero h1 { font-size: 2.2rem; }
-    .hero-buttons .primary-btn, 
-    .hero-buttons .secondary-btn { width: 100%; }
 
-    /* Dashboard Mobile stacking */
-    .dashboard-page { flex-direction: column; }
-    .dashboard-sidebar { 
-        position: relative; 
-        width: 100%; 
-        height: auto; 
-        border-right: none;
-        border-bottom: 1px solid var(--border);
+    .dashboard-page {
+        flex-direction: column;
     }
-    .dashboard-main { 
-        margin-left: 0; 
-        width: 100%; 
-        padding: 20px; 
+
+    .dashboard-sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
     }
-    .dashboard-content-split { grid-template-columns: 1fr; }
-    .stats-grid { grid-template-columns: 1fr 1fr; }
+
+    .dashboard-main {
+        margin-left: 0;
+        width: 100%;
+        padding: 20px;
+    }
+
+    .dashboard-content-split {
+        grid-template-columns: 1fr;
+    }
 }
