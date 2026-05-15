@@ -1,0 +1,61 @@
+{
+  "id": 21,
+  "module": "Multi-Page Websites",
+  "meta": {
+    "next_lesson": 22,
+    "prev_lesson": 20,
+    "xp_reward": 30,
+    "difficulty": "beginner",
+    "module_index": 5
+  },
+
+  "title": "Lesson 21: Links & Multi-Page Navigation (Building Real Websites)",
+
+  "content": {
+    "explanation": "<h3>🌐 Websites are Made of Pages</h3><p>Until now, you have been building single pages.</p><p>But real websites are made of <strong>multiple pages connected together</strong>.</p><hr><h3>🔗 What are Links?</h3><p>Links allow users to move from one page to another using the <strong>&lt;a&gt;</strong> tag.</p><p>This is how navigation between pages works in real websites like portfolios, blogs, and apps.</p><hr><h3>⚡ Real Example</h3><ul><li>Home → index.html</li><li>About → about.html</li><li>Contact → contact.html</li></ul><p>Links connect everything together.</p>"
+  },
+
+  "syntax_breakdown": {
+    "content": "<h3>🧪 Basic Link Structure</h3><pre><code>&lt;a href=\"about.html\"&gt;Go to About Page&lt;/a&gt;</code></pre><hr><h3>📌 How it works</h3><ul><li><strong>&lt;a&gt;</strong> = anchor tag (creates link)</li><li><strong>href</strong> = destination page</li></ul><hr><h3>🧠 Key Rule</h3><p>👉 Links are the backbone of multi-page websites</p><p>👉 Without links, every page is isolated</p>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!-- Cymor Code Learner 🚀 Multi-Page Navigation -->\n<h1>My Personal Website</h1>\n<p>Welcome to my homepage.</p>",
+
+    "mini_challenge": {
+      "instruction": "🎯 Mission: Build navigation links\n\n1. Add 3 links below the paragraph:\n   - Home (index.html)\n   - About (about.html)\n   - Contact (contact.html)\n\n2. Use <a> tags with href attributes\n\n🔥 This simulates a real multi-page website",
+
+      "hint": "👉 Example:\n<a href=\"about.html\">About</a>\n\nEach link must point to a different file",
+
+      "validation_keyword": "contact.html"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "What is the main purpose of the <a> tag in HTML?",
+    "options": [
+      "To style text",
+      "To create links between pages",
+      "To add images"
+    ],
+    "correct_index": 1,
+    "points": 30,
+    "explanation_feedback": "Correct 🎉 The <a> tag is used to create hyperlinks that connect different pages or sections of a website."
+  },
+
+  "summary": {
+    "takeaways": [
+      "Real websites are made of multiple connected pages",
+      "The <a> tag creates links between pages",
+      "href defines where the link goes",
+      "Without links, websites are isolated pages",
+      "Navigation is essential for user experience"
+    ],
+
+    "cheat_sheet": {
+      "a_tag": "<a href='page.html'>Link Text</a>",
+      "href": "Destination page or URL",
+      "navigation": "System of moving between pages"
+    }
+  }
+}
