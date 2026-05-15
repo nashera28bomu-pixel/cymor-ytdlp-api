@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "next_lesson": 7,
+    "prev_lesson": 5,
+    "xp_reward": 10,
+    "difficulty": "beginner",
+    "module_index": 2
+  },
+  "id": 6,
+  "module": "Text & Content",
+  "title": "Lesson 6: Headings (h1–h6)",
+
+  "content": {
+    "explanation": "<h3>📌 What are Headings?</h3><p>Headings are used to organize content on a webpage.</p><p>They help structure your page so both humans and machines can understand it easily.</p><hr><h3>🧠 Simple Idea</h3><p>Think of a webpage like a book:</p><ul><li>📕 <strong>h1</strong> = Book Title</li><li>📄 <strong>h2</strong> = Chapter Title</li><li>📝 <strong>h3</strong> = Section inside a chapter</li></ul><p>Everything becomes smaller and more specific as you go down.</p>",
+
+    "syntax_breakdown": "<h3>📊 Heading Levels Explained</h3><p>HTML gives you 6 heading levels:</p><pre><code>&lt;h1&gt;Main Title&lt;/h1&gt;\n&lt;h2&gt;Section Title&lt;/h2&gt;\n&lt;h3&gt;Subsection Title&lt;/h3&gt;\n&lt;h4&gt;Smaller section&lt;/h4&gt;\n&lt;h5&gt;Even smaller&lt;/h5&gt;\n&lt;h6&gt;Smallest heading&lt;/h6&gt;</code></pre><hr><h3>⚠️ Important Rule</h3><p>Don’t skip levels randomly.</p><p>Example: h1 → h3 → h6 ❌ (bad structure)</p><p>Instead go step-by-step: h1 → h2 → h3 ✔</p>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Syllabus Hierarchy</title>\n</head>\n<body>\n    <h1>Cymor Tech Services</h1>\n    <!-- Add headings below -->\n\n</body>\n</html>",
+
+    "mini_challenge": {
+      "instruction": "🎯 Mission: Build a clean heading structure\n\n1. Add an <h2> below the main title\n   Text: Core Products\n\n2. Add an <h3> below that\n   Text: Cymor Code Learner\n\n👉 Run your code and observe how structure changes visually",
+
+      "hint": "👉 Example order:\n<h1>Main Title</h1>\n<h2>Section</h2>\n<h3>Sub-section</h3>\n\nKeep everything inside <body>.",
+
+      "validation_keyword": "<h3>Cymor Code Learner</h3>"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "What is the correct purpose of HTML headings?",
+    "options": [
+      "To make text look big or small visually",
+      "To define structure and meaning of content",
+      "To add colors and design to text"
+    ],
+    "correct_index": 1,
+    "points": 10,
+    "explanation_feedback": "Correct 🎉 Headings are used for structure and meaning, not just appearance. CSS is used for styling, not HTML."
+  },
+
+  "summary": {
+    "takeaways": [
+      "Headings organize content into clear sections",
+      "h1 is the most important, h6 is the least important",
+      "Headings create structure for users and search engines",
+      "Do not skip heading levels randomly"
+    ],
+
+    "cheat_sheet": {
+      "h1": "Main title of the page",
+      "h2": "Section heading",
+      "h3": "Sub-section heading",
+      "rule": "Always go in order (h1 → h2 → h3...)"
+    }
+  }
+}
