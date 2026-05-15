@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- =========================================
+       META
+    ========================================== -->
+
+    <meta charset="UTF-8" />
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0" />
+
+    <meta
+        name="description"
+        content="Interactive lesson page for Cymor Code Learner." />
+
+    <title>Cymor Code Lesson 🚀</title>
+
+    <!-- =========================================
+       GOOGLE FONT
+    <!-- ========================================= -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- =========================================
+       MAIN CSS
+    ========================================== -->
+
+    <link
+        rel="stylesheet"
+        href="styles.css" />
+
+</head>
+
+<body class="lesson-page">
+
+    <!-- =========================================
+       SIDEBAR
+    ========================================== -->
+
+    <aside class="lesson-sidebar">
+
+        <div class="sidebar-top">
+
+            <h2>
+                🚀 Cymor Code Learner
+            </h2>
+
+            <p>
+                HTML Beginner Track
+            </p>
+
+        </div>
+
+        <div class="progress-box">
+
+            <h3>
+                📈 Your Progress
+            </h3>
+
+            <div class="progress-bar">
+
+                <div
+                    id="progressFill"
+                    class="progress-fill">
+                </div>
+
+            </div>
+
+            <p id="progressText">
+                0% Completed
+            </p>
+
+        </div>
+
+        <div class="lesson-navigation">
+
+            <h3>
+                📚 Lessons
+            </h3>
+
+            <div id="lessonList">
+
+                <!-- Dynamic lessons -->
+
+            </div>
+
+        </div>
+
+    </aside>
+
+    <!-- =========================================
+       MAIN CONTENT
+    ========================================== -->
+
+    <main class="lesson-main">
+
+        <!-- =========================================
+           TOPBAR
+        ========================================== -->
+
+        <header class="lesson-topbar">
+
+            <div>
+
+                <h1 id="lessonTitle">
+                    Loading Lesson...
+                </h1>
+
+                <p id="lessonModule">
+                    Module Loading...
+                </p>
+
+            </div>
+
+            <div class="topbar-actions">
+
+                <button
+                    id="dashboardBtn"
+                    class="secondary-btn">
+
+                    Dashboard
+
+                </button>
+
+                <button
+                    id="logoutBtn"
+                    class="primary-btn">
+
+                    Logout
+
+                </button>
+
+            </div>
+
+        </header>
+
+        <!-- =========================================
+           LESSON CONTENT
+        ========================================== -->
+
+        <section class="lesson-content-card">
+
+            <!-- maps seamlessly to app.js innerHTML generation scripts -->
+            <div
+                id="lessonContent"
+                class="lesson-section">
+
+                <!-- Dynamic Explanation & Syntax Breakdown -->
+
+            </div>
+
+        </section>
+
+        <!-- =========================================
+           LIVE SANDBOX
+        ========================================== -->
+
+        <section class="sandbox-section">
+
+            <div class="section-header">
+
+                <h2>
+                    💻 Live Code Playground
+                </h2>
+
+                <p>
+                    Edit code and see results instantly
+                </p>
+
+            </div>
+
+            <div class="sandbox-grid">
+
+                <!-- CODE EDITOR -->
+
+                <div class="editor-container">
+
+                    <div class="editor-topbar">
+
+                        <span>
+                            index.html
+                        </span>
+
+                        <button
+                            id="runCodeBtn"
+                            class="primary-btn small-btn">
+
+                            ▶ Run Code
+
+                        </button>
+
+                    </div>
+
+                    <textarea
+                        id="codeEditor"
+                        spellcheck="false"></textarea>
+
+                </div>
+
+                <!-- LIVE PREVIEW -->
+
+                <div class="preview-container">
+
+                    <div class="editor-topbar">
+
+                        <span>
+                            Live Preview
+                        </span>
+
+                    </div>
+
+                    <!-- Updated ID to live-preview to align precisely with editor.js targeting parameters -->
+                    <iframe
+                        id="live-preview">
+                    </iframe>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- =========================================
+           MINI CHALLENGE
+        ========================================== -->
+
+        <section class="challenge-section">
+
+            <div class="section-header">
+
+                <h2>
+                    🎯 Mini Challenge
+                </h2>
+
+                <p>
+                    Practice what you learned
+                </p>
+
+            </div>
+
+            <div class="challenge-card">
+
+                <div
+                    id="challengeInstruction"
+                    class="challenge-content">
+
+                    <!-- Instruction -->
+
+                </div>
+
+                <div class="challenge-hint">
+
+                    <button
+                        id="showHintBtn"
+                        class="secondary-btn">
+
+                        💡 Show Hint
+
+                    </button>
+
+                    <div
+                        id="challengeHint"
+                        class="hint-box hidden">
+
+                        <!-- Hint -->
+
+                    </div>
+
+                </div>
+
+                <button
+                    id="checkChallengeBtn"
+                    class="primary-btn big-btn">
+
+                    ✅ Check Challenge
+
+                </button>
+
+                <p
+                    id="challengeResult"
+                    class="challenge-result">
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- =========================================
+           SUMMARY
+        ========================================== -->
+
+        <section class="summary-section">
+
+            <div class="section-header">
+
+                <h2>
+                    🧠 Lesson Summary
+                </h2>
+
+                <p>
+                    Important concepts to remember
+                </p>
+
+            </div>
+
+            <div class="summary-grid">
+
+                <!-- TAKEAWAYS -->
+
+                <div class="summary-card">
+
+                    <h3>
+                        📌 Key Takeaways
+                    </h3>
+
+                    <ul id="takeawaysList">
+
+                        <!-- Dynamic -->
+
+                    </ul>
+
+                </div>
+
+                <!-- CHEAT SHEET -->
+
+                <div class="summary-card">
+
+                    <h3>
+                        ⚡ Cheat Sheet
+                    </h3>
+
+                    <div id="cheatSheetList">
+
+                        <!-- Dynamic -->
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- =========================================
+           QUIZ CONTAINER ARCHITECTURE
+        ========================================== -->
+
+        <section class="quiz-cta">
+
+            <div class="quiz-card">
+
+                <h2 id="quizQuestion">
+                    🧠 Ready For The Quiz?
+                </h2>
+
+                <p>
+                    Test your understanding and earn XP.
+                </p>
+
+                <!-- Anchor box to handle modular option element injections seamlessly -->
+                <div id="quizOptions" class="quiz-options-wrapper"></div>
+
+                <div id="quiz-feedback" class="quiz-feedback"></div>
+
+                <button
+                    id="submit-quiz-btn"
+                    class="primary-btn big-btn"
+                    style="display: none;">
+
+                    Submit Answer 🚀
+
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- =========================================
+           NAVIGATION BUTTONS
+        ========================================== -->
+
+        <section class="lesson-controls">
+
+            <button
+                id="prevLessonBtn"
+                class="secondary-btn">
+
+                ⬅ Previous Lesson
+
+            </button>
+
+            <button
+                id="nextLessonBtn"
+                class="primary-btn">
+
+                Next Lesson ➡
+
+            </button>
+
+        </section>
+
+    </main>
+
+    <!-- =========================================
+       SUCCESS MODAL
+    ========================================== -->
+
+    <div
+        id="successModal"
+        class="modal hidden">
+
+        <div class="modal-content">
+
+            <h2>
+                🎉 Challenge Completed!
+            </h2>
+
+            <p>
+                Great job developer! XP earned successfully.
+            </p>
+
+            <button
+                id="closeModalBtn"
+                class="primary-btn">
+
+                Continue Learning
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- =========================================
+       MAIN GLOBAL CORE ARCHITECTURE LOGIC
+    ========================================== -->
+
+    <script type="module" src="./app.js"></script>
+
+    <!-- =========================================
+       COMPONENT CONTROLLER INITIALIZER PIPELINE
+    ========================================== -->
+
+    <script type="module">
+        import { initEditor } from "./components/editor.js";
+        import { initQuizEngine } from "./components/quiz-engine.js";
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Evaluates runtime initialization safety hooks after disk assets land safely
+            setTimeout(() => {
+                initEditor();
+                
+                // Exposes manual initialization trigger hooks if quiz components are processed asynchronously
+                if (window.cymorQuiz) {
+                    console.log("⚡ Cymor Engine Interface Initialized.");
+                }
+            }, 300);
+        });
+    </script>
+
+</body>
+
+</html>
