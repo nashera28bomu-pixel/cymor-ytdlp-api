@@ -1,0 +1,57 @@
+{
+  "meta": {
+    "next_lesson": 6,
+    "prev_lesson": 4,
+    "xp_reward": 10,
+    "difficulty": "beginner",
+    "module_index": 1
+  },
+  "id": 5,
+  "module": "Introduction",
+  "title": "Lesson 5: Tags & Elements",
+
+  "content": {
+    "explanation": "<h3>🧱 What is an HTML Element?</h3><p>An HTML element is a complete building block of a webpage.</p><p>It is made of 3 parts:</p><ul><li>🔹 Opening tag</li><li>🔹 Content</li><li>🔹 Closing tag</li></ul><hr><h3>📦 Simple Analogy</h3><p>Think of elements like boxes:</p><ul><li>📦 Outer box = tag</li><li>📄 Inside = content</li><li>🔒 Closing = sealing the box</li></ul><p>Every box must be properly closed or everything breaks.</p><hr><h3>🧠 Key Idea</h3><p>HTML is like stacking boxes inside boxes in the correct order.</p>",
+
+    "syntax_breakdown": "<h3>🔧 How Nesting Works</h3><p>Nesting means putting one element inside another.</p><p>But there is ONE important rule:</p><hr><h3>⚠️ Inside-out rule</h3><p>The last tag you open must be the first one you close.</p><pre><code>&lt;!-- ✅ Correct --&gt;\n&lt;p&gt;This is &lt;strong&gt;bold text&lt;/strong&gt; inside a paragraph&lt;/p&gt;\n\n&lt;!-- ❌ Wrong --&gt;\n&lt;p&gt;This is &lt;strong&gt;broken structure&lt;/p&gt;&lt;/strong&gt;</code></pre><p>If nesting is wrong, the browser gets confused and layout breaks.</p>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Nesting Practice</title>\n</head>\n<body>\n    <!-- Fix the broken structure below -->\n    <p>We are building an ecosystem with <strong>Cymor Tech Services</p></strong>\n</body>\n</html>",
+
+    "mini_challenge": {
+      "instruction": "🎯 Mission: Fix the broken code\n\n1. The tags are in the wrong order\n2. Fix them so HTML follows correct nesting rules\n3. Run the code and make sure it displays correctly",
+
+      "hint": "👉 Correct structure should look like this:\n<p>Text <strong>Bold Text</strong></p>\n\nRemember: close INNER tag first!",
+
+      "validation_keyword": "</strong></p>"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "What is the correct rule for nesting HTML elements?",
+    "options": [
+      "Always close tags in the reverse order they were opened",
+      "It does not matter which tag closes first",
+      "Always close outer tags first before inner tags"
+    ],
+    "correct_index": 0,
+    "points": 10,
+    "explanation_feedback": "Correct 🎉 HTML follows the inside-out rule. The last opened tag must always be the first one closed to keep structure valid."
+  },
+
+  "summary": {
+    "takeaways": [
+      "An element is made of opening tag, content, and closing tag",
+      "Nesting means placing elements inside other elements",
+      "HTML must follow inside-out closing order",
+      "Incorrect nesting breaks layout and structure"
+    ],
+
+    "cheat_sheet": {
+      "element": "A full HTML structure unit (tag + content + tag)",
+      "nesting": "Placing elements inside other elements safely",
+      "rule": "Close inner tags before outer tags"
+    }
+  }
+}
