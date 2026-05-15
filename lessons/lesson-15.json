@@ -1,0 +1,60 @@
+{
+  "id": 15,
+  "module": "Core HTML Elements",
+  "meta": {
+    "next_lesson": 16,
+    "prev_lesson": 14,
+    "xp_reward": 30,
+    "difficulty": "beginner",
+    "module_index": 3
+  },
+
+  "title": "Lesson 15: Mini Project — Build Your First Website",
+
+  "content": {
+    "explanation": "<h3>🚀 You Are Now Building Real Websites</h3><p>Congratulations — you’ve learned all the core building blocks of HTML:</p><ul><li>Headings</li><li>Paragraphs</li><li>Links</li><li>Images</li><li>Lists</li><li>Navigation</li></ul><hr><h3>🏗️ This is Your First Real Project</h3><p>Instead of learning one tag at a time, you will now combine everything into a complete webpage.</p><p>This is exactly how real developers build websites — by combining small pieces into a full structure.</p><hr><h3>🎯 Project Goal</h3><p>You will build a simple personal homepage with navigation, content, and structure.</p>"
+  },
+
+  "syntax_breakdown": {
+    "content": "<h3>🧪 Project Structure Overview</h3><p>Your page must include:</p><ul><li>A main heading (<strong>h1</strong>)</li><li>A navigation menu (<strong>ul + li + a</strong>)</li><li>An image (<strong>img</strong>)</li><li>A paragraph (<strong>p</strong>)</li><li>A list of skills (<strong>ul</strong>)</li></ul><hr><h3>📌 Real Developer Thinking</h3><p>👉 Websites are just structured blocks stacked together</p><p>👉 Every section has a purpose</p>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!-- Cymor Code Learner 🚀 FINAL BEGINNER PROJECT -->\n\n",
+
+    "mini_challenge": {
+      "instruction": "🎯 FINAL MISSION: Build your first complete website\n\nYou must include ALL of the following:\n\n1. A full HTML structure (DOCTYPE, html, head, body)\n2. Title: My First Website\n3. Inside body:\n   - <h1> with your name or brand\n   - Navigation menu with 3 links (Home, About, Contact)\n   - An image (use any placeholder image)\n   - A paragraph describing yourself or your journey\n   - A list of 3 skills you are learning\n\n🔥 Combine everything you learned from Lessons 1–14\n\n👉 This is your first real developer project",
+
+      "hint": "Start with:\n<!DOCTYPE html>\n<html>\n<head>\n<title>My First Website</title>\n</head>\n<body>\n\nThen build step by step:\n- h1\n- nav menu (ul + li + a)\n- img\n- p\n- ul skills\n\nFinish with </body> and </html>",
+
+      "validation_keyword": "<html>"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "What is the main purpose of this mini project?",
+    "options": [
+      "To memorize HTML tags individually",
+      "To combine multiple HTML elements into a real webpage structure",
+      "To learn advanced JavaScript logic"
+    ],
+    "correct_index": 1,
+    "points": 30,
+    "explanation_feedback": "Correct 🎉 This project is about combining all your HTML knowledge to build a complete structured webpage like a real developer."
+  },
+
+  "summary": {
+    "takeaways": [
+      "Real websites are made by combining multiple HTML elements",
+      "Structure matters more than individual tags",
+      "Navigation, images, and text work together",
+      "This is your first full webpage project"
+    ],
+
+    "cheat_sheet": {
+      "project_structure": "doctype → html → head → body",
+      "core_elements": "h1, nav (ul/li/a), img, p, ul",
+      "developer_rule": "Think in sections, not single tags"
+    }
+  }
+}
