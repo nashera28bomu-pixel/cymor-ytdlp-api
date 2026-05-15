@@ -1,0 +1,58 @@
+{
+  "id": 2,
+  "module": "Introduction",
+  "meta": {
+    "next_lesson": 3,
+    "prev_lesson": 1,
+    "xp_reward": 10,
+    "difficulty": "beginner",
+    "module_index": 1
+  },
+  "title": "Lesson 2: How Websites Work",
+
+  "content": {
+    "explanation": "<h3>🌐 How the Web Actually Works</h3><p>When you open a website like cymortech.com, something very fast happens behind the scenes.</p><p>Your device (phone or computer) sends a <strong>request</strong> to a computer somewhere in the world called a <strong>server</strong>.</p><p>The server sends back website files, and your browser displays them instantly.</p><hr><h3>⚡ Simple Idea</h3><p>Think of it like ordering food:</p><ul><li>📱 You = Customer (Client)</li><li>🍔 Restaurant = Server</li><li>🚚 Delivery = Internet</li></ul><p>You order → server responds → you receive the website.</p>",
+
+    "frontend_vs_backend": "<h3>🧠 Two Parts of Every Website</h3><p>Every website has two sides working together:</p><hr><h3>💻 Frontend (What you see)</h3><ul><li>Runs in your browser</li><li>Built with HTML, CSS, JavaScript</li><li>Buttons, text, images, layout</li></ul><p>This is everything you interact with.</p><hr><h3>🗄️ Backend (Hidden system)</h3><ul><li>Runs on remote servers</li><li>Stores data like accounts and messages</li><li>Handles login, security, database</li></ul><p>You never see it, but it powers everything.</p><hr><p>Example: Firebase (which you are using) is part of backend services.</p>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!-- Web System Simulation 🚀 -->\n<h1>Website Connection Active</h1>\n<p>The browser has received data from a server and is rendering it here.</p>",
+
+    "mini_challenge": {
+      "instruction": "🎯 Mission: Simulate a live update\n\n1. Add a new <h1> tag below the paragraph\n2. Write exactly: Frontend Engine Active\n3. Run the code and observe how the page updates instantly",
+
+      "hint": "👉 Example:\n<h1>Frontend Engine Active</h1>\nMake sure you close your tag properly like </h1>",
+
+      "validation_keyword": "Frontend Engine Active"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "What does the browser do when it receives HTML from a server?",
+    "options": [
+      "Stores it permanently in a database",
+      "Parses it and displays a visual webpage",
+      "Deletes it after downloading"
+    ],
+    "correct_index": 1,
+    "points": 10,
+    "explanation_feedback": "Correct 🎉 The browser reads (parses) HTML and converts it into a visual webpage you can interact with."
+  },
+
+  "summary": {
+    "takeaways": [
+      "Websites work through a request-response system",
+      "Browsers (clients) request data from servers",
+      "Servers send HTML, CSS, and JS back to the browser",
+      "Frontend is what users see, backend is the hidden system"
+    ],
+
+    "cheat_sheet": {
+      "client": "Your browser that requests and displays websites",
+      "server": "A remote computer that stores and sends website files",
+      "frontend": "Visible part of the website (UI)",
+      "backend": "Hidden system that manages data and logic"
+    }
+  }
+}
