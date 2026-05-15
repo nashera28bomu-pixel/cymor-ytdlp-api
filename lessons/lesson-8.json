@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "next_lesson": 9,
+    "prev_lesson": 7,
+    "xp_reward": 10,
+    "difficulty": "beginner",
+    "module_index": 2
+  },
+  "id": 8,
+  "module": "Text & Content",
+  "title": "Lesson 8: Text Formatting (b, i, strong, em)",
+
+  "content": {
+    "explanation": "<h3>✨ Why Text Formatting Matters</h3><p>When people read websites, they don’t read every word — they scan.</p><p>So we use formatting to highlight important parts of text.</p><hr><h3>🧠 Two Types of Formatting</h3><ul><li>🎨 <strong>Visual tags</strong> → change how text looks</li><li>📖 <strong>Meaning tags</strong> → add importance to text</li></ul>",
+
+    "syntax_breakdown": "<h3>🎨 Visual Formatting Tags</h3><ul><li><code>&lt;b&gt;</code> → makes text bold (no meaning)</li><li><code>&lt;i&gt;</code> → makes text italic (no meaning)</li></ul><hr><h3>📖 Semantic Formatting Tags</h3><ul><li><code>&lt;strong&gt;</code> → important text (bold + meaning)</li><li><code>&lt;em&gt;</code> → emphasized text (italic + meaning)</li></ul><hr><h3>⚡ Simple Rule</h3><p>👉 Use <strong>strong/em</strong> for real importance<br>👉 Use <strong>b/i</strong> only for visual styling</p>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Formatting Engine</title>\n</head>\n<body>\n    <h1>System Deployment Notification</h1>\n    <p>Warning: Ensure your configuration parameters are secure before hosting your application codebase.</p>\n</body>\n</html>",
+
+    "mini_challenge": {
+      "instruction": "🎯 Mission: Highlight important text\n\n1. Wrap 'Warning:' with <strong>\n2. Wrap 'secure' with <em>\n3. Run and observe emphasis changes",
+
+      "hint": "👉 Example:\n<strong>Warning:</strong>\n<em>secure</em>\n\nBoth must stay inside the <p> tag",
+
+      "validation_keyword": "<strong>Warning:</strong>"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "What is the difference between <b> and <strong>?",
+    "options": [
+      "<strong> makes text bigger than <b>",
+      "<b> is visual only, <strong> adds meaning and importance",
+      "<strong> creates a new paragraph"
+    ],
+    "correct_index": 1,
+    "points": 10,
+    "explanation_feedback": "Correct 🎉 <b> is only visual, while <strong> tells browsers and assistive tools that the text is important."
+  },
+
+  "summary": {
+    "takeaways": [
+      "Formatting helps highlight important text",
+      "<b> and <i> are visual only",
+      "<strong> and <em> add meaning and importance",
+      "Use semantic tags for better structure and accessibility"
+    ],
+
+    "cheat_sheet": {
+      "b": "Bold text (visual only)",
+      "i": "Italic text (visual only)",
+      "strong": "Important bold text (semantic meaning)",
+      "em": "Emphasized italic text (semantic meaning)"
+    }
+  }
+}
