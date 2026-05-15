@@ -1,5 +1,5 @@
 /* =========================================
-   CYMOR CODE LEARNER - RESPONSIVE OPTIMIZED
+   CYMOR CODE LEARNER - FULL SYSTEM STYLE
 ========================================= */
 
 * {
@@ -48,109 +48,10 @@ h1, h2, h3, p, span {
     overflow-wrap: break-word;
 }
 
-/* =========================================
-   NAVBAR
-========================================= */
-
-.navbar {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    padding: 15px 0;
-    backdrop-filter: blur(15px);
-    background: rgba(5, 8, 22, 0.8);
-    border-bottom: 1px solid var(--border);
-}
-
-.nav-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* =========================================
-   HERO SECTION & VERTICAL STACKING
-========================================= */
-
-.hero {
-    padding: clamp(40px, 10vh, 80px) 0;
-}
-
-/* The core fix for mobile overcrowding */
-.hero-container {
-    display: flex;
-    flex-direction: column; /* Vertical on mobile */
-    align-items: center;
-    gap: 40px;
-    text-align: center;
-}
-
-.hero h1 {
-    font-size: clamp(2.2rem, 8vw, 4rem);
-    margin-bottom: 20px;
-    font-weight: 800;
-    line-height: 1.2;
-}
-
-.hero h1 span {
+.gradient-text {
     background: linear-gradient(135deg, var(--accent), var(--accent-2));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-}
-
-.hero-buttons {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 30px;
-}
-
-/* =========================================
-   CODE WINDOW STYLING
-========================================= */
-
-.code-window {
-    background: #020617;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    width: 100%;
-    max-width: 550px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    text-align: left;
-}
-
-.window-top {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 12px 18px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    border-bottom: 1px solid var(--border);
-}
-
-.window-dots {
-    display: flex;
-    gap: 6px;
-}
-
-.window-dots span {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-}
-
-.window-dots span:nth-child(1) { background: #ff5f56; }
-.window-dots span:nth-child(2) { background: #ffbd2e; }
-.window-dots span:nth-child(3) { background: #27c93f; }
-
-.code-window pre {
-    padding: 20px;
-    font-family: 'Fira Code', monospace;
-    font-size: 0.9rem;
-    color: var(--accent);
-    overflow-x: auto;
 }
 
 /* =========================================
@@ -168,6 +69,7 @@ h1, h2, h3, p, span {
     cursor: pointer;
     text-decoration: none;
     min-height: 48px;
+    border: none;
 }
 
 .primary-btn {
@@ -184,9 +86,78 @@ h1, h2, h3, p, span {
 .big-btn { padding: 18px 36px; font-size: 1.1rem; }
 
 /* =========================================
-   DASHBOARD & GRID
+   NAVBAR & HERO (LANDING PAGE)
 ========================================= */
 
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 15px 0;
+    backdrop-filter: blur(15px);
+    background: rgba(5, 8, 22, 0.8);
+    border-bottom: 1px solid var(--border);
+}
+
+.hero { padding: clamp(40px, 10vh, 80px) 0; }
+
+.hero-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: clamp(2.2rem, 8vw, 4rem);
+    margin-bottom: 20px;
+    font-weight: 800;
+}
+
+.code-window {
+    background: #020617;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    width: 100%;
+    max-width: 550px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    text-align: left;
+}
+
+/* =========================================
+   DASHBOARD ARCHITECTURE
+========================================= */
+
+.dashboard-page {
+    display: flex;
+    background: var(--bg-primary);
+    min-height: 100vh;
+}
+
+.dashboard-sidebar {
+    width: 280px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: rgba(15, 23, 42, 0.95);
+    border-right: 1px solid var(--border);
+    padding: 30px 20px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-main {
+    flex: 1;
+    margin-left: 280px; /* Pushes content away from fixed sidebar */
+    padding: 40px;
+    width: calc(100% - 280px);
+}
+
+/* Dashboard Component Styles */
 .card {
     background: var(--bg-card);
     border: 1px solid var(--border);
@@ -195,45 +166,99 @@ h1, h2, h3, p, span {
     backdrop-filter: blur(10px);
 }
 
-.features-grid, .modules-grid {
+.stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
-    margin-top: 40px;
+    margin-bottom: 30px;
+}
+
+.dashboard-content-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.sidebar-link {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    padding: 12px 15px;
+    text-align: left;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 1rem;
+    text-decoration: none;
+}
+
+.sidebar-link:hover, .active-link {
+    background: rgba(0, 245, 255, 0.1);
+    color: var(--accent);
 }
 
 /* =========================================
-   RESPONSIVE BREAKPOINTS
+   RESPONSIVE LOGIC
 ========================================= */
 
-/* Desktop view (1024px+) */
+/* Desktop view adaptations */
 @media (min-width: 1024px) {
     .hero-container {
-        flex-direction: row; /* Side-by-side */
+        flex-direction: row;
         text-align: left;
         justify-content: space-between;
     }
-    .hero-content {
-        flex: 1;
+}
+
+/* Tablet view adaptations */
+@media (max-width: 1024px) {
+    .dashboard-sidebar {
+        width: 80px;
+        padding: 20px 10px;
     }
-    .hero-buttons {
-        justify-content: flex-start;
+    /* Hide text labels for a slim icon sidebar */
+    .dashboard-sidebar h2, 
+    .sidebar-user p, 
+    .sidebar-user h3, 
+    .sidebar-link span,
+    .sidebar-logo p {
+        display: none;
     }
-    .hero-visual {
-        flex: 1;
-        display: flex;
-        justify-content: flex-end;
+    .dashboard-main {
+        margin-left: 80px;
+        width: calc(100% - 80px);
     }
 }
 
-/* Phone view updates */
+/* Phone view adaptations */
 @media (max-width: 768px) {
+    /* Hero/Landing Page */
     .hero h1 { font-size: 2.2rem; }
-    
     .hero-buttons .primary-btn, 
-    .hero-buttons .secondary-btn {
-        width: 100%;
+    .hero-buttons .secondary-btn { width: 100%; }
+
+    /* Dashboard Mobile stacking */
+    .dashboard-page { flex-direction: column; }
+    .dashboard-sidebar { 
+        position: relative; 
+        width: 100%; 
+        height: auto; 
+        border-right: none;
+        border-bottom: 1px solid var(--border);
     }
-    
-    .nav-links { display: none; }
+    .dashboard-main { 
+        margin-left: 0; 
+        width: 100%; 
+        padding: 20px; 
+    }
+    .dashboard-content-split { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
 }
