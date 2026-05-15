@@ -1,0 +1,62 @@
+{
+  "id": 24,
+  "module": "Multi-Page Websites",
+  "meta": {
+    "next_lesson": 25,
+    "prev_lesson": 23,
+    "xp_reward": 35,
+    "difficulty": "beginner",
+    "module_index": 5
+  },
+
+  "title": "Lesson 24: Website Structure (How Real Projects Are Organized)",
+
+  "content": {
+    "explanation": "<h3>📁 Thinking Like a Developer</h3><p>Before writing code in real-world projects, developers always plan how files will be organized.</p><p>This is called <strong>project structure</strong>.</p><hr><h3>🌐 Why Structure Matters</h3><ul><li>Keeps your website clean and scalable</li><li>Makes collaboration easier on GitHub</li><li>Prevents broken file paths</li></ul><p>Every professional website follows a predictable folder system.</p>"
+  },
+
+  "syntax_breakdown": {
+    "content": "<h3>🧪 Typical Website Folder Structure</h3><pre><code>my-website/\n│\n├── index.html\n├── about.html\n├── contact.html\n│\n├── images/\n│   ├── profile.jpg\n│   ├── banner.png\n│\n├── css/\n│   ├── style.css\n│\n├── js/\n│   ├── script.js\n</code></pre><hr><h3>📌 Explanation</h3><ul><li><strong>index.html</strong> → Home page (entry point)</li><li><strong>images/</strong> → All images stored here</li><li><strong>css/</strong> → Styling files</li><li><strong>js/</strong> → JavaScript logic</li></ul><hr><h3>🧠 Key Rule</h3><p>👉 Clean structure = fewer bugs + easier deployment</p>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!-- Cymor Code Learner 🚀 Project Structure -->\n<h1>My Website Plan</h1>\n<p>Learning how real developers organize projects.</p>",
+
+    "mini_challenge": {
+      "instruction": "🎯 Mission: Design your project structure concept\n\n1. Write a simple HTML page that includes:\n   - A main heading (h1) called 'My Website Structure'\n   - A paragraph explaining your project idea\n   - A list (<ul>) of at least 3 folders you would create (images, css, js)\n\n2. Use proper HTML tags only\n\n🔥 Think like a real developer planning a GitHub project",
+
+      "hint": "👉 Example:\n<ul>\n  <li>images</li>\n  <li>css</li>\n  <li>js</li>\n</ul>",
+
+      "validation_keyword": "<ul>"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "Why do developers use structured folders in real websites?",
+    "options": [
+      "To make websites look colorful",
+      "To organize files and make projects scalable and maintainable",
+      "To increase website loading speed automatically"
+    ],
+    "correct_index": 1,
+    "points": 35,
+    "explanation_feedback": "Correct 🎉 Proper structure keeps projects clean, scalable, and prevents broken links or confusion when working on large websites."
+  },
+
+  "summary": {
+    "takeaways": [
+      "Real websites use organized folder structures",
+      "index.html is the main entry file",
+      "Assets like images, CSS, and JS are separated into folders",
+      "Good structure prevents broken paths and confusion",
+      "Professional developers always plan before coding"
+    ],
+
+    "cheat_sheet": {
+      "root_folder": "Main project container",
+      "index_html": "Homepage entry point",
+      "assets": "Images, CSS, JS grouped in folders",
+      "rule": "Organize before you code"
+    }
+  }
+}
