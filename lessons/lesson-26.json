@@ -1,0 +1,62 @@
+{
+  "id": 26,
+  "module": "Styling Basics",
+  "meta": {
+    "next_lesson": 27,
+    "prev_lesson": 25,
+    "xp_reward": 50,
+    "difficulty": "beginner",
+    "module_index": 7
+  },
+
+  "title": "Lesson 26: Introduction to CSS (Making Your Website Beautiful)",
+
+  "content": {
+    "explanation": "<h3>🎨 Your Website Works — Now Let’s Style It</h3><p>Up until now, your websites have been built using HTML only.</p><p>That means they work — but they don’t look very attractive yet.</p><hr><h3>🌐 What is CSS?</h3><p><strong>CSS (Cascading Style Sheets)</strong> is used to style HTML elements.</p><p>It controls colors, spacing, fonts, and layout.</p><hr><h3>⚡ Simple Analogy</h3><ul><li>HTML = structure (bones)</li><li>CSS = design (clothes, colors, appearance)</li></ul>"
+  },
+
+  "syntax_breakdown": {
+    "content": "<h3>🧪 First CSS Example</h3><pre><code>&lt;style&gt;\n  h1 {\n    color: blue;\n    font-size: 40px;\n  }\n\n  p {\n    color: gray;\n  }\n&lt;/style&gt;</code></pre><hr><h3>📌 How It Works</h3><ul><li><strong>selector</strong> → selects HTML element (h1, p, etc.)</li><li><strong>property</strong> → what you want to change (color, size)</li><li><strong>value</strong> → new setting (blue, 40px)</li></ul><hr><h3>🧠 Key Rule</h3><p>👉 CSS changes appearance, not structure</p>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!-- Cymor Code Learner 🚀 CSS Introduction -->\n<h1>My Styled Website</h1>\n<p>This is my first time adding styles.</p>",
+
+    "mini_challenge": {
+      "instruction": "🎯 Mission: Add basic styling\n\n1. Add a <style> block in the document\n2. Make the <h1> color red and font size 40px\n3. Make the <p> color green\n\n🔥 Watch your website transform visually",
+
+      "hint": "👉 Example:\n<style>\nh1 { color: red; }\np { color: green; }\n</style>",
+
+      "validation_keyword": "<style>"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "What is the main purpose of CSS?",
+    "options": [
+      "To structure content on a webpage",
+      "To style and design HTML elements",
+      "To create database connections"
+    ],
+    "correct_index": 1,
+    "points": 50,
+    "explanation_feedback": "Correct 🎉 CSS is used to style HTML elements like colors, spacing, fonts, and layout."
+  },
+
+  "summary": {
+    "takeaways": [
+      "CSS is used to style HTML elements",
+      "HTML handles structure, CSS handles design",
+      "CSS uses selectors like h1 and p",
+      "You can change colors, sizes, and layout",
+      "Style rules go inside <style> tags"
+    ],
+
+    "cheat_sheet": {
+      "css_definition": "Language used to style HTML",
+      "selector": "Targets HTML elements",
+      "property": "What you want to change",
+      "value": "New setting applied"
+    }
+  }
+}
