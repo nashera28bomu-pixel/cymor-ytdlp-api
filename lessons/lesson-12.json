@@ -1,0 +1,59 @@
+{
+  "id": 12,
+  "module": "Core HTML Elements",
+  "meta": {
+    "next_lesson": 13,
+    "prev_lesson": 11,
+    "xp_reward": 15,
+    "difficulty": "beginner",
+    "module_index": 3
+  },
+
+  "title": "Lesson 12: Images in HTML (The <img> Tag)",
+
+  "content": {
+    "explanation": "<h3>🖼️ Bringing Webpages to Life</h3><p>Text and links are powerful, but websites become truly engaging when you add <strong>images</strong>.</p><p>Images are added using the <strong>&lt;img&gt;</strong> tag, which is different from most HTML tags because it does NOT have a closing tag.</p><hr><h3>🌐 Why Images Matter</h3><p>Images help you:</p><ul><li>📌 Show products or ideas visually</li><li>🎨 Improve design and engagement</li><li>🧠 Communicate faster than text</li></ul><p>A webpage without images often feels incomplete.</p>",
+
+    "syntax_breakdown": "<h3>🧪 Image Tag Structure</h3><p>The basic format is:</p><pre><code>&lt;img src=\"image-url\" alt=\"description\"&gt;</code></pre><hr><h3>📌 Important Attributes</h3><ul><li><strong>src:</strong> the image source (URL or file path)</li><li><strong>alt:</strong> text shown if image fails + used for accessibility</li></ul><hr><h3>🧠 Example</h3><pre><code>&lt;img src=\"https://example.com/photo.jpg\" alt=\"A sample image\"&gt;</code></pre><p>👉 Always include <strong>alt</strong> for better accessibility and SEO.</p>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!-- Cymor Code Learner 🚀 Images Practice -->\n<h1>My Visual Web Page</h1>\n<p>This page will now include images.</p>",
+
+    "mini_challenge": {
+      "instruction": "🎯 Mission: Add your first image\n\n1. Below the paragraph, add an <img> tag\n2. Use this image URL:\nhttps://via.placeholder.com/300\n3. Add alt text: My First Image\n\n👉 Then run your code and see the image appear",
+
+      "hint": "👉 Example format:\n<img src=\"https://via.placeholder.com/300\" alt=\"My First Image\">\n\nRemember: img tags do NOT need a closing tag.",
+
+      "validation_keyword": "My First Image"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "Why does the <img> tag not require a closing tag?",
+    "options": [
+      "Because images are automatically closed by browsers",
+      "Because it is a self-closing (empty) element that does not wrap content",
+      "Because HTML does not support closing tags"
+    ],
+    "correct_index": 1,
+    "points": 15,
+    "explanation_feedback": "Correct 🎉 The <img> tag is a self-closing element because it does not contain inner content like text or other elements."
+  },
+
+  "summary": {
+    "takeaways": [
+      "The <img> tag is used to display images in HTML",
+      "It does not require a closing tag",
+      "src defines the image source",
+      "alt improves accessibility and SEO",
+      "Images make websites more engaging and visual"
+    ],
+
+    "cheat_sheet": {
+      "img_tag": "Displays an image on a webpage",
+      "src": "Image source URL or file path",
+      "alt": "Text description of the image"
+    }
+  }
+}
