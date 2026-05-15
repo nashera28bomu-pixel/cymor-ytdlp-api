@@ -1,0 +1,59 @@
+{
+  "id": 14,
+  "module": "Core HTML Elements",
+  "meta": {
+    "next_lesson": 15,
+    "prev_lesson": 13,
+    "xp_reward": 20,
+    "difficulty": "beginner",
+    "module_index": 3
+  },
+
+  "title": "Lesson 14: Navigation Bars (Building Menus with HTML)",
+
+  "content": {
+    "explanation": "<h3>🧭 What is Navigation?</h3><p>Every website you use has a navigation menu — the bar at the top that lets you move between pages.</p><p>Navigation is built using a combination of:</p><ul><li><strong>&lt;ul&gt;</strong> (list container)</li><li><strong>&lt;li&gt;</strong> (menu items)</li><li><strong>&lt;a&gt;</strong> (links)</li></ul><hr><h3>🌐 Why Navigation is Important</h3><p>A website without navigation is like a book with no table of contents — users get lost quickly.</p><p>Good navigation = better user experience + professional websites.</p>",
+
+    "syntax_breakdown": "<h3>🧪 Basic Navigation Structure</h3><pre><code>&lt;ul&gt;\n  &lt;li&gt;&lt;a href=\"#home\"&gt;Home&lt;/a&gt;&lt;/li&gt;\n  &lt;li&gt;&lt;a href=\"#about\"&gt;About&lt;/a&gt;&lt;/li&gt;\n  &lt;li&gt;&lt;a href=\"#contact\"&gt;Contact&lt;/a&gt;&lt;/li&gt;\n&lt;/ul&gt;</code></pre><hr><h3>🧠 Key Idea</h3><p>👉 Lists organize items<br>👉 Links make them clickable<br>👉 Together they form navigation menus</p><hr><h3>📌 Real Website Example</h3><p>Most websites (Google, YouTube, Facebook) use navigation bars built using this exact structure — later styled with CSS.</p>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!-- Cymor Code Learner 🚀 Navigation Practice -->\n<h1>My Website</h1>\n<p>Welcome to my homepage.</p>",
+
+    "mini_challenge": {
+      "instruction": "🎯 Mission: Build a navigation menu\n\n1. Below the paragraph, create a <ul>\n2. Add 3 menu items using <li>\n3. Inside each <li>, add an <a> link:\n   - Home (#home)\n   - About (#about)\n   - Contact (#contact)\n\n👉 Run your code and see a working menu structure",
+
+      "hint": "👉 Example:\n<li><a href=\"#home\">Home</a></li>\n\nRemember: link goes inside list item",
+
+      "validation_keyword": "Contact"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "What is the correct structure for building a navigation menu in HTML?",
+    "options": [
+      "Only using <a> tags",
+      "Using <ul>, <li>, and <a> together",
+      "Using <nav> without any list items"
+    ],
+    "correct_index": 1,
+    "points": 20,
+    "explanation_feedback": "Correct 🎉 Navigation menus are built using lists (<ul>, <li>) combined with links (<a>) to create structured clickable menus."
+  },
+
+  "summary": {
+    "takeaways": [
+      "Navigation helps users move through a website",
+      "Menus are built using lists and links together",
+      "<ul> organizes menu structure",
+      "<li> holds each menu item",
+      "<a> makes items clickable"
+    ],
+
+    "cheat_sheet": {
+      "nav_structure": "ul → li → a",
+      "menu_item": "<li><a href='url'>Text</a></li>",
+      "navigation": "System for moving between pages"
+    }
+  }
+}
