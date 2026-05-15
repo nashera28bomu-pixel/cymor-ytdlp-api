@@ -1,0 +1,57 @@
+{
+  "meta": {
+    "next_lesson": 11,
+    "prev_lesson": 9,
+    "xp_reward": 20,
+    "difficulty": "beginner",
+    "module_index": 2
+  },
+  "id": 10,
+  "module": "Text & Content",
+  "title": "Lesson 10: Semantic Meaning of Text (Module Review)",
+
+  "content": {
+    "explanation": "<h3>🧠 You Are Now Building Real Web Pages</h3><p>You’ve learned the building blocks of HTML: structure, headings, paragraphs, formatting, and comments.</p><p>Now it’s time to combine everything into a real webpage layout.</p><hr><h3>🏗️ What “Semantic HTML” Really Means</h3><p>Semantic HTML means writing code that describes meaning, not just appearance.</p><p>Instead of thinking “make this big or bold”, you now think:</p><p>👉 “What is this content?” (title, section, warning, description)</p>",
+
+    "syntax_breakdown": "<h3>📌 What You Must Now Be Able To Do</h3><ul><li>Build full HTML structure from scratch</li><li>Use headings in correct order (h1 → h2)</li><li>Write paragraphs with meaningful text</li><li>Highlight important words using <strong></strong></li><li>Use comments to organize your code</li></ul><hr><h3>🎯 Real Example Thinking</h3><p>A real webpage is not random text — it is structured content blocks stacked neatly like LEGO bricks.</p>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "",
+
+    "mini_challenge": {
+      "instruction": "🚀 FINAL MODULE CHALLENGE\n\nBuild a complete webpage from scratch using everything you’ve learned.\n\nYour page MUST include:\n\n1. Start with DOCTYPE + full HTML structure\n2. Page title inside <head> → 'Cymor Practice Page'\n3. Inside <body>:\n   - An <h1> heading: Cymor Tech Services\n   - An <h2> heading: Web Development Journey\n   - A <p> paragraph describing your learning journey\n   - Inside the paragraph, wrap at least ONE important word with <strong>\n   - Add a comment anywhere in the page\n\n💡 Think like a real developer building a homepage\n\n👉 Start from scratch and structure everything cleanly",
+
+      "hint": "Start like this:\n<!DOCTYPE html>\n<html>\n<head>\n  <title>Cymor Practice Page</title>\n</head>\n<body>\n\nThen build step-by-step:\n<h1>Cymor Tech Services</h1>\n<h2>Web Development Journey</h2>\n<p>...</p>\n<!-- comment -->\n\nClose with </body> and </html>",
+
+      "validation_keyword": "Cymor Tech Services"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "What is the main goal of semantic HTML when building real websites?",
+    "options": [
+      "To make text look visually bigger or smaller",
+      "To describe the meaning and structure of content clearly",
+      "To increase server speed and reduce loading time"
+    ],
+    "correct_index": 1,
+    "points": 20,
+    "explanation_feedback": "Correct 🎉 Semantic HTML is about meaning and structure, not appearance. It helps browsers, search engines, and accessibility tools understand your content properly."
+  },
+
+  "summary": {
+    "takeaways": [
+      "Semantic HTML focuses on meaning, not appearance",
+      "Real websites are built using structured blocks (headings, paragraphs, sections)",
+      "You should now be able to build a full basic webpage from scratch",
+      "Comments help organize large code projects"
+    ],
+
+    "cheat_sheet": {
+      "structure": "DOCTYPE → html → head → body",
+      "content": "h1, h2, p, strong, em",
+      "developer_rule": "Write HTML like building structured blocks, not random text"
+    }
+  }
+}
