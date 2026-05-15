@@ -4,15 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cymor Code Learner Dashboard 🚀</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body class="dashboard-page">
-    <div class="bg-blur blur-1"></div>
-    <div class="bg-blur blur-2"></div>
 
     <aside class="dashboard-sidebar">
+
         <div class="sidebar-logo">
             <h2>🚀 Cymor Code Learner</h2>
             <p>Developer Panel</p>
@@ -20,100 +20,95 @@
 
         <div class="sidebar-user">
             <div class="user-avatar">
-                <img id="userPhoto" src="https://i.imgur.com/HeIi0wU.png" alt="Avatar" />
+                <!-- FIX: smaller clean avatar (no ugly large head effect) -->
+                <img src="https://i.imgur.com/HeIi0wU.png" alt="User" />
             </div>
             <h3 id="userName">Developer</h3>
-            <p id="userEmail">developer@email.com</p>
         </div>
 
         <nav class="sidebar-nav">
+
             <a href="dashboard.html" class="sidebar-link active-link">📊 Dashboard</a>
-            <button id="continueLearningBtn" class="sidebar-link">📚 Continue Learning</button>
+
+            <!-- FIX: direct link instead of JS button -->
+            <a href="lesson.html" class="sidebar-link">📚 Continue Learning</a>
+
             <a href="lessons.html" class="sidebar-link">🧠 All Lessons</a>
-            <button id="logoutBtn" class="sidebar-link logout-link">🚪 Logout</button>
+
+            <a href="#" id="logoutBtn" class="sidebar-link logout-link">🚪 Logout</a>
+
         </nav>
     </aside>
 
     <main class="dashboard-main">
+
         <header class="dashboard-header">
             <div class="welcome-text">
-                <h1>Welcome Back, <span id="welcomeName" class="gradient-text">Developer</span> 🚀</h1>
+                <h1>Welcome Back, <span class="gradient-text">Developer</span> 🚀</h1>
                 <p>Ready to write some clean code today?</p>
             </div>
-            <button id="resumeBtn" class="primary-btn big-btn">▶ Resume Lesson</button>
+
+            <!-- FIX: direct link (no broken JS dependency) -->
+            <a href="lesson.html" class="primary-btn big-btn">▶ Resume Lesson</a>
         </header>
 
         <section class="stats-grid">
+
             <div class="stat-box card">
                 <div class="stat-icon">⚡</div>
                 <div><h2 id="xpValue">0</h2><p>Total XP</p></div>
             </div>
+
             <div class="stat-box card">
                 <div class="stat-icon">🏆</div>
                 <div><h2 id="levelValue">1</h2><p>Level</p></div>
             </div>
+
             <div class="stat-box card">
                 <div class="stat-icon">✅</div>
                 <div><h2 id="completedLessons">0</h2><p>Completed</p></div>
             </div>
+
             <div class="stat-box card">
                 <div class="stat-icon">🔥</div>
                 <div><h2 id="streakValue">0</h2><p>Streak</p></div>
             </div>
+
         </section>
-
-        <div class="dashboard-content-split">
-            <section class="dashboard-card progress-card card">
-                <div class="card-header">
-                    <h2>📈 Overall Progress</h2>
-                    <span id="progressPercent">0%</span>
-                </div>
-                <div class="progress-bar-container">
-                    <div id="dashboardProgressFill" class="progress-fill" style="width: 0%;"></div>
-                </div>
-            </section>
-
-            <section class="dashboard-card continue-card card">
-                <div class="card-header"><h2>🚀 Current Task</h2></div>
-                <div class="task-flex">
-                    <div>
-                        <h3 id="currentLessonTitle">Lesson 1: Intro to HTML</h3>
-                        <p>Structure your first webpage.</p>
-                    </div>
-                    <button id="continueBtn" class="primary-btn">Continue ➡</button>
-                </div>
-            </section>
-        </div>
 
         <section class="dashboard-card card">
-            <div class="card-header"><h2>📚 Course Modules</h2></div>
-            <div class="modules-dashboard-grid">
-                <div class="module-item">
-                    <span>🧱 HTML Foundations</span>
-                    <div class="mini-bar"><div class="mini-fill" style="width: 20%"></div></div>
-                </div>
-                <div class="module-item">
-                    <span>📝 Text Content</span>
-                    <div class="mini-bar"><div class="mini-fill" style="width: 0%"></div></div>
-                </div>
-                <div class="module-item">
-                    <span>🚀 Deployment</span>
-                    <div class="mini-bar"><div class="mini-fill" style="width: 0%"></div></div>
-                </div>
+
+            <div class="card-header">
+                <h2>📈 Overall Progress</h2>
+                <span id="progressPercent">0%</span>
             </div>
+
+            <div class="progress-bar-container">
+                <div id="dashboardProgressFill" class="progress-fill"></div>
+            </div>
+
         </section>
+
+        <section class="dashboard-card card">
+
+            <div class="card-header">
+                <h2>🚀 Current Lesson</h2>
+            </div>
+
+            <div class="task-flex">
+
+                <div>
+                    <h3>Lesson 1: Intro to HTML</h3>
+                    <p>Structure your first webpage.</p>
+                </div>
+
+                <a href="lesson.html" class="primary-btn">Continue ➡</a>
+
+            </div>
+
+        </section>
+
     </main>
 
-    <script type="module" src="./firebase/firebase-config.js"></script>
-    <script type="module" src="app.js"></script>
-    
-    <script>
-        // Ensure buttons redirect to the lesson page
-        const redirectLearning = () => { window.location.href = 'lesson.html'; };
-        
-        document.getElementById('continueLearningBtn')?.addEventListener('click', redirectLearning);
-        document.getElementById('resumeBtn')?.addEventListener('click', redirectLearning);
-        document.getElementById('continueBtn')?.addEventListener('click', redirectLearning);
-    </script>
 </body>
 </html>
