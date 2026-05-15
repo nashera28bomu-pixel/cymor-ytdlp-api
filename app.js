@@ -1,6 +1,5 @@
 // =========================================
-// CYMOR CODE LEARNER
-// MAIN APPLICATION ENGINE
+// CYMOR CODE LEARNER - MAIN ENGINE
 // =========================================
 
 import {
@@ -13,506 +12,182 @@ import {
     signOut,
     onAuthStateChanged,
     createUserDocument
-} from "./firebase/firebase-config.js"; // Standardized to lowercase path
+} from "./firebase/firebase-config.js";
 
-// We also need access to the base Firestore methods for internal document queries
 import { 
     doc, 
     getDoc, 
-    setDoc, 
     updateDoc 
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // =========================================
-// GLOBAL VARIABLES
+// GLOBAL STATE
 // =========================================
-
 let currentUser = null;
 const TOTAL_LESSONS = 30;
-
-// =========================================
-// PAGE DETECTION (Optimized for Vercel Clean URLs)
-// =========================================
-
 const pathSegments = window.location.pathname.split("/");
 const currentPage = pathSegments[pathSegments.length - 1] || "index.html";
 
 // =========================================
-// INIT APP
+// INITIALIZER pipeline
 // =========================================
-
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-        initializeApp();
-    }
-);
-
-// =========================================
-// MAIN INITIALIZER
-// =========================================
-
-function initializeApp() {
+document.addEventListener("DOMContentLoaded", () => {
     setupAuthState();
     setupGlobalButtons();
-    setupDashboard();
-    setupLessonPage();
-    setupQuizPage();
-}
-
-// =========================================
-// AUTH STATE LISTENER
-// =========================================
-
-function setupAuthState() {
-    onAuthStateChanged(
-        auth,
-        async (user) => {
-            if (user) {
-                currentUser = user;
-                await createUserDocument(user);
-                updateUI(user);
-            } else {
-                currentUser = null;
-                handleGuestState();
-            }
-        }
-    );
-}
-
-// =========================================
-// UPDATE UI
-// =========================================
-
-async function updateUI(user) {
-    updateUserProfile(user);
-    await loadDashboardData();
-}
-
-// =========================================
-// GUEST STATE
-// =========================================
-
-function handleGuestState() {
-    // Check handles both 'dashboard.html' and clean path Vercel structures '/dashboard'
-    const protectedPages = ["dashboard.html", "dashboard"];
-
-    if (protectedPages.includes(currentPage)) {
-        window.location.href = "index.html";
-    }
-}
-
-// =========================================
-// UPDATE USER PROFILE
-// =========================================
-
-function updateUserProfile(user) {
-    const name = user.displayName || "Developer";
-    const email = user.email || "";
-    const photo = user.photoURL || "https://i.imgur.com/HeIi0wU.png";
-
-    const userName = document.getElementById("userName");
-    const userEmail = document.getElementById("userEmail");
-    const userPhoto = document.getElementById("userPhoto");
-    const welcomeName = document.getElementById("welcomeName");
-
-    if (userName) userName.textContent = name;
-    if (userEmail) userEmail.textContent = email;
-    if (userPhoto) userPhoto.src = photo;
-    if (welcomeName) welcomeName.textContent = name;
-}
-
-// =========================================
-// GLOBAL BUTTONS
-// =========================================
-
-function setupGlobalButtons() {
-    setupAuthButtons();
-    setupNavigationButtons();
-}
-
-// =========================================
-// AUTH BUTTONS
-// =========================================
-
-function setupAuthButtons() {
-    // GOOGLE LOGIN
-    const googleBtns = document.querySelectorAll(".google-login-btn");
-
-    googleBtns.forEach((btn) => {
-        btn.addEventListener(
-            "click",
-            async () => {
-                try {
-                    await signInWithPopup(auth, googleProvider);
-                    showToast("Login successful 🚀");
-
-                    setTimeout(() => {
-                        window.location.href = "dashboard.html";
-                    }, 1000);
-                } catch (error) {
-                    console.error(error);
-                    showToast("Google login failed ❌");
-                }
-            }
-        );
-    });
-
-    // EMAIL SIGNUP
-    const signupForm = document.getElementById("signupForm");
-
-    if (signupForm) {
-        signupForm.addEventListener(
-            "submit",
-            async (e) => {
-                e.preventDefault();
-                const email = document.getElementById("signupEmail").value;
-                const password = document.getElementById("signupPassword").value;
-
-                try {
-                    await createUserWithEmailAndPassword(auth, email, password);
-                    showToast("Account created 🎉");
-                    window.location.href = "dashboard.html";
-                } catch (error) {
-                    console.error(error);
-                    showToast(error.message);
-                }
-            }
-        );
-    }
-
-    // EMAIL LOGIN
-    const loginForm = document.getElementById("loginForm");
-
-    if (loginForm) {
-        loginForm.addEventListener(
-            "submit",
-            async (e) => {
-                e.preventDefault();
-                const email = document.getElementById("loginEmail").value;
-                const password = document.getElementById("loginPassword").value;
-
-                try {
-                    await signInWithEmailAndPassword(auth, email, password);
-                    showToast("Welcome back 🚀");
-                    window.location.href = "dashboard.html";
-                } catch (error) {
-                    console.error(error);
-                    showToast("Invalid login ❌");
-                }
-            }
-        );
-    }
-
-    // LOGOUT
-    const logoutBtn = document.getElementById("logoutBtn");
-
-    if (logoutBtn) {
-        logoutBtn.addEventListener(
-            "click",
-            async () => {
-                await signOut(auth);
-                showToast("Logged out 👋");
-
-                setTimeout(() => {
-                    window.location.href = "index.html";
-                }, 1000);
-            }
-        );
-    }
-}
-
-// =========================================
-// NAVIGATION BUTTONS
-// =========================================
-
-function setupNavigationButtons() {
-    const continueBtn = document.getElementById("continueBtn");
-    const resumeBtn = document.getElementById("resumeBtn");
-    const continueLearningBtn = document.getElementById("continueLearningBtn");
-
-    if (continueBtn) {
-        continueBtn.addEventListener("click", openCurrentLesson);
-    }
-
-    if (resumeBtn) {
-        resumeBtn.addEventListener("click", openCurrentLesson);
-    }
-
-    if (continueLearningBtn) {
-        continueLearningBtn.addEventListener("click", openCurrentLesson);
-    }
-}
-
-// =========================================
-// OPEN CURRENT LESSON
-// =========================================
-
-async function openCurrentLesson() {
-    if (!currentUser) {
-        window.location.href = "index.html";
-        return;
-    }
-
-    try {
-        const userRef = doc(db, "users", currentUser.uid);
-        const snapshot = await getDoc(userRef);
-        const data = snapshot.data();
-        const lesson = data.currentLesson || 1;
-
-        window.location.href = `lesson.html?id=${lesson}`;
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-// =========================================
-// DASHBOARD
-// =========================================
-
-function setupDashboard() {
-    if (currentPage !== "dashboard.html" && currentPage !== "dashboard") return;
-    loadDashboardData();
-}
-
-// =========================================
-// LOAD DASHBOARD DATA
-// =========================================
-
-async function loadDashboardData() {
-    if (!currentUser) return;
-
-    try {
-        const userRef = doc(db, "users", currentUser.uid);
-        const snapshot = await getDoc(userRef);
-        const data = snapshot.data();
-
-        if (!data) return;
-        updateDashboardStats(data);
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-// =========================================
-// UPDATE DASHBOARD STATS
-// =========================================
-
-function updateDashboardStats(data) {
-    const xp = data.xp || 0;
-    const level = data.level || 1;
-    const completed = data.completedLessons?.length || 0;
-    const streak = data.streak || 1;
-    const progress = Math.floor((completed / TOTAL_LESSONS) * 100);
-
-    setText("xpValue", xp);
-    setText("levelValue", level);
-    setText("completedLessons", completed);
-    setText("streakValue", streak);
-    setText("progressPercent", `${progress}%`);
-
-    const progressFill = document.getElementById("dashboardProgressFill");
-    if (progressFill) {
-        progressFill.style.width = `${progress}%`;
-    }
-
-    setText("currentLessonTitle", `Lesson ${data.currentLesson || 1}`);
-}
-
-// =========================================
-// LESSON PAGE
-// =========================================
-
-function setupLessonPage() {
-    if (currentPage !== "lesson.html" && currentPage !== "lesson") return;
-    loadLesson();
-}
-
-// =========================================
-// LOAD LESSON
-// =========================================
-
-async function loadLesson() {
-    try {
-        const params = new URLSearchParams(window.location.search);
-        const lessonId = params.get("id") || 1;
-
-        const response = await fetch(`./lessons/lesson-${lessonId}.json`);
-        const lesson = await response.json();
-
-        renderLesson(lesson);
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-// =========================================
-// RENDER LESSON
-// =========================================
-
-function renderLesson(lesson) {
-    const title = document.getElementById("lessonTitle");
-    const content = document.getElementById("lessonContent");
-    const editor = document.getElementById("codeEditor");
-
-    if (title) title.textContent = lesson.title;
-
-    if (content) {
-        content.innerHTML = `
-            ${lesson.content.explanation}
-            <br><br>
-            ${lesson.content.syntax_breakdown || ""}
-        `;
-    }
-
-    if (editor) {
-        editor.value = lesson.editor_sandbox.starter_code;
-    }
-}
-
-// =========================================
-// QUIZ PAGE
-// =========================================
-
-function setupQuizPage() {
-    if (currentPage !== "quiz.html" && currentPage !== "quiz") return;
-    loadQuiz();
-}
-
-// =========================================
-// LOAD QUIZ
-// =========================================
-
-async function loadQuiz() {
-    try {
-        const params = new URLSearchParams(window.location.search);
-        const lessonId = params.get("id") || 1;
-
-        const response = await fetch(`./lessons/lesson-${lessonId}.json`);
-        const lesson = await response.json();
-
-        renderQuiz(lesson.quiz_engine, lessonId);
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-// =========================================
-// RENDER QUIZ
-// =========================================
-
-function renderQuiz(quiz, lessonId) {
-    const question = document.getElementById("quizQuestion");
-    const optionsContainer = document.getElementById("quizOptions");
-
-    if (!question || !optionsContainer) return;
-
-    question.textContent = quiz.question;
-    optionsContainer.innerHTML = "";
-
-    quiz.options.forEach((option, index) => {
-        const button = document.createElement("button");
-        button.className = "quiz-option";
-        button.innerHTML = option;
-
-        button.addEventListener("click", async () => {
-            const allOptions = document.querySelectorAll(".quiz-option");
-            allOptions.forEach((btn) => { btn.disabled = true; });
-
-            if (index === quiz.correct_index) {
-                button.classList.add("correct-answer");
-                showToast("Correct 🎉");
-                await completeLesson(lessonId, quiz.points);
-            } else {
-                button.classList.add("wrong-answer");
-                allOptions[quiz.correct_index].classList.add("correct-answer");
-                showToast("Wrong answer ❌");
-            }
-        });
-
-        optionsContainer.appendChild(button);
-    });
-}
-
-// =========================================
-// COMPLETE LESSON
-// =========================================
-
-async function completeLesson(lessonId, points) {
-    if (!currentUser) return;
-
-    try {
-        const userRef = doc(db, "users", currentUser.uid);
-        const snapshot = await getDoc(userRef);
-        const data = snapshot.data();
-
-        let completedLessons = data.completedLessons || [];
-
-        if (!completedLessons.includes(Number(lessonId))) {
-            completedLessons.push(Number(lessonId));
-        }
-
-        const nextLesson = Number(lessonId) + 1;
-        const xp = (data.xp || 0) + points;
-        const level = Math.floor(xp / 100) + 1;
-
-        await updateDoc(userRef, {
-            completedLessons,
-            xp,
-            level,
-            currentLesson: nextLesson
-        });
-
-        setTimeout(() => {
-            window.location.href = `lesson.html?id=${nextLesson}`;
-        }, 2000);
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-// =========================================
-// TOAST
-// =========================================
-
-function showToast(message) {
-    const toast = document.createElement("div");
-    toast.className = "toast-notification";
-    toast.textContent = message;
-    document.body.appendChild(toast);
-
-    setTimeout(() => {
-        toast.classList.add("show-toast");
-    }, 100);
-
-    setTimeout(() => {
-        toast.classList.remove("show-toast");
-        setTimeout(() => { toast.remove(); }, 300);
-    }, 3000);
-}
-
-// =========================================
-// HELPER
-// =========================================
-
-function setText(id, value) {
-    const element = document.getElementById(id);
-    if (element) {
-        element.textContent = value;
-    }
-}
-
-// =========================================
-// GLOBAL MOBILE MENU
-// =========================================
-
-window.addEventListener("resize", () => {
-    if (window.innerWidth > 950) {
-        document.body.classList.remove("mobile-menu-open");
-    }
+    
+    // Page specific triggers
+    if (currentPage.includes("dashboard")) setupDashboard();
+    if (currentPage.includes("lesson")) setupLessonPage();
+    if (currentPage.includes("quiz")) setupQuizPage();
 });
 
 // =========================================
-// CYMOR ENGINE READY 🚀
+// AUTH LOGIC
 // =========================================
-console.log("🚀 Cymor Code Learner Initialized Successfully");
+function setupAuthState() {
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            currentUser = user;
+            await createUserDocument(user);
+            updateUI(user);
+        } else {
+            currentUser = null;
+            handleGuestState();
+        }
+    });
+}
+
+function handleGuestState() {
+    const protectedPages = ["dashboard.html", "dashboard", "lesson.html", "lesson"];
+    if (protectedPages.some(p => currentPage.includes(p))) {
+        window.location.href = "index.html";
+    }
+}
+
+// =========================================
+// BUTTON WIRING (The fix for your "Non-working" buttons)
+// =========================================
+function setupGlobalButtons() {
+    
+    // 1. SIGN IN BUTTONS (Catches "Login" or "Start Learning" in your screenshot)
+    const loginTriggers = document.querySelectorAll('#loginBtn, .login-btn, #startLearningBtn, .primary-btn');
+    
+    loginTriggers.forEach(btn => {
+        // Only attach Google login if the button text suggests it and user isn't logged in
+        btn.addEventListener('click', async () => {
+            if (!currentUser) {
+                try {
+                    await signInWithPopup(auth, googleProvider);
+                    showToast("Redirecting to Dashboard... 🚀");
+                    setTimeout(() => window.location.href = "dashboard.html", 1000);
+                } catch (err) {
+                    console.error("Auth Error:", err);
+                    showToast("Login Failed ❌");
+                }
+            } else {
+                // If already logged in, just go to dashboard
+                window.location.href = "dashboard.html";
+            }
+        });
+    });
+
+    // 2. LOGOUT LOGIC
+    const logoutBtn = document.getElementById("logoutBtn");
+    if (logoutBtn) {
+        logoutBtn.onclick = async () => {
+            await signOut(auth);
+            window.location.href = "index.html";
+        };
+    }
+
+    // 3. LESSON NAVIGATION
+    const continueBtn = document.getElementById("continueBtn");
+    if (continueBtn) {
+        continueBtn.onclick = openCurrentLesson;
+    }
+}
+
+// =========================================
+// DATA LOADING
+// =========================================
+async function updateUI(user) {
+    const userName = document.getElementById("userName");
+    const welcomeName = document.getElementById("welcomeName");
+    
+    if (userName) userName.textContent = user.displayName || "Developer";
+    if (welcomeName) welcomeName.textContent = user.displayName || "Developer";
+    
+    await loadDashboardData();
+}
+
+async function loadDashboardData() {
+    if (!currentUser) return;
+    try {
+        const userRef = doc(db, "users", currentUser.uid);
+        const snapshot = await getDoc(userRef);
+        const data = snapshot.data();
+        if (data) updateDashboardStats(data);
+    } catch (error) { console.error(error); }
+}
+
+function updateDashboardStats(data) {
+    const completed = data.completedLessons?.length || 0;
+    const progress = Math.floor((completed / TOTAL_LESSONS) * 100);
+
+    setText("xpValue", data.xp || 0);
+    setText("levelValue", data.level || 1);
+    setText("progressPercent", `${progress}%`);
+
+    const fill = document.getElementById("dashboardProgressFill");
+    if (fill) fill.style.width = `${progress}%`;
+}
+
+// =========================================
+// LESSON ENGINE
+// =========================================
+async function loadLesson() {
+    const params = new URLSearchParams(window.location.search);
+    const lessonId = params.get("id") || 1;
+
+    try {
+        const res = await fetch(`./lessons/lesson-${lessonId}.json`);
+        const lesson = await res.json();
+        
+        document.getElementById("lessonTitle").textContent = lesson.title;
+        // Combines your content into the single 'lessonContent' div for cleaner mobile display
+        document.getElementById("lessonContent").innerHTML = `
+            <div class="explanation">${lesson.content.explanation}</div>
+            <div class="syntax">${lesson.content.syntax_breakdown || ""}</div>
+        `;
+        
+        const editor = document.getElementById("codeEditor");
+        if (editor) editor.value = lesson.editor_sandbox.starter_code;
+        
+    } catch (err) { console.error("Lesson Load Fail:", err); }
+}
+
+async function openCurrentLesson() {
+    if (!currentUser) return;
+    const userRef = doc(db, "users", currentUser.uid);
+    const snap = await getDoc(userRef);
+    const lessonId = snap.data()?.currentLesson || 1;
+    window.location.href = `lesson.html?id=${lessonId}`;
+}
+
+// =========================================
+// UI HELPERS
+// =========================================
+function showToast(msg) {
+    const t = document.createElement("div");
+    t.style.cssText = "position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#8b5cf6; color:white; padding:12px 24px; border-radius:10px; z-index:9999; font-weight:bold;";
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 3000);
+}
+
+function setText(id, val) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+}
+
+console.log("Cymor Engine Live 🚀");
