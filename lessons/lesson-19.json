@@ -1,0 +1,61 @@
+{
+  "id": 19,
+  "module": "Interactive HTML",
+  "meta": {
+    "next_lesson": 20,
+    "prev_lesson": 18,
+    "xp_reward": 30,
+    "difficulty": "beginner",
+    "module_index": 4
+  },
+
+  "title": "Lesson 19: Form Validation (Required Fields & Rules)",
+
+  "content": {
+    "explanation": "<h3>🧾 What is Form Validation?</h3><p>When users fill in forms, you often need to make sure they enter correct and complete information.</p><p>This is called <strong>form validation</strong>.</p><hr><h3>🌐 Why Validation Matters</h3><ul><li>Prevents empty submissions</li><li>Ensures correct data format</li><li>Improves security and user experience</li></ul><hr><h3>⚡ Real-Life Example</h3><p>If someone tries to sign up without an email, the system should stop them and show an error.</p>"
+  },
+
+  "syntax_breakdown": {
+    "content": "<h3>🧪 Basic Validation Attributes</h3><pre><code>&lt;input type=\"text\" required&gt;\n&lt;input type=\"email\" required&gt;\n&lt;input type=\"password\" minlength=\"6\" required&gt;</code></pre><hr><h3>📌 Key Attributes</h3><ul><li><strong>required</strong> → field must not be empty</li><li><strong>minlength</strong> → minimum number of characters</li><li><strong>type=\"email\"</strong> → checks email format</li></ul><hr><h3>🧠 Key Rule</h3><p>👉 Validation happens before data is submitted to a server</p>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!-- Cymor Code Learner 🚀 Form Validation -->\n<h1>Sign Up Form</h1>\n<p>Create your account below:</p>\n\n<form>\n  <label for=\"email\">Email</label>\n  <input id=\"email\" type=\"email\">\n\n  <label for=\"password\">Password</label>\n  <input id=\"password\" type=\"password\">\n\n  <button>Submit</button>\n</form>",
+
+    "mini_challenge": {
+      "instruction": "🎯 Mission: Secure your form\n\n1. Add 'required' to both inputs\n2. Add minlength=\"6\" to the password field\n3. Make sure email uses type=\"email\"\n\n🔥 This makes your form behave like a real app",
+
+      "hint": "👉 Example:\n<input required>\n<input minlength=\"6\">\n\nThese attributes go inside input tags",
+
+      "validation_keyword": "required"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "What does the 'required' attribute do in an HTML form?",
+    "options": [
+      "It styles the input field",
+      "It makes the field mandatory before submission",
+      "It encrypts the user input"
+    ],
+    "correct_index": 1,
+    "points": 30,
+    "explanation_feedback": "Correct 🎉 The required attribute ensures that users cannot submit a form without filling in that field."
+  },
+
+  "summary": {
+    "takeaways": [
+      "Validation checks user input before submission",
+      "required makes fields mandatory",
+      "minlength controls minimum character length",
+      "type=email ensures correct email format",
+      "Validation improves security and user experience"
+    ],
+
+    "cheat_sheet": {
+      "required": "Field must be filled before submit",
+      "minlength": "Minimum number of characters allowed",
+      "validation": "Rules that check user input correctness"
+    }
+  }
+}
