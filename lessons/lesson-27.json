@@ -1,0 +1,62 @@
+{
+  "id": 27,
+  "module": "Styling Basics",
+  "meta": {
+    "next_lesson": 28,
+    "prev_lesson": 26,
+    "xp_reward": 55,
+    "difficulty": "beginner",
+    "module_index": 7
+  },
+
+  "title": "Lesson 27: CSS Styling Essentials (Colors, Fonts & Spacing)",
+
+  "content": {
+    "explanation": "<h3>🎨 Making Websites Look Professional</h3><p>Now that you understand basic CSS, we are going to improve how your websites actually look.</p><p>These are the 3 most important styling fundamentals every developer uses daily:</p><hr><h3>🌈 1. Colors</h3><p>Colors are used to make text and backgrounds visually appealing.</p><hr><h3>✍️ 2. Fonts</h3><p>Fonts control how your text looks (style and readability).</p><hr><h3>📏 3. Spacing</h3><p>Spacing controls how elements are separated on the page.</p>"
+  },
+
+  "syntax_breakdown": {
+    "content": "<h3>🧪 CSS Essentials Example</h3><pre><code>&lt;style&gt;\n  body {\n    background-color: #f4f4f4;\n    font-family: Arial;\n  }\n\n  h1 {\n    color: blue;\n    font-size: 36px;\n  }\n\n  p {\n    color: #333;\n    line-height: 1.5;\n    margin-top: 10px;\n  }\n&lt;/style&gt;</code></pre><hr><h3>📌 Key Properties</h3><ul><li><strong>color</strong> → text color</li><li><strong>background-color</strong> → page or box background</li><li><strong>font-family</strong> → text style</li><li><strong>margin</strong> → spacing outside elements</li></ul><hr><h3>🧠 Key Idea</h3><p>👉 Small CSS changes = big visual improvements</p>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!-- Cymor Code Learner 🚀 CSS Essentials -->\n<h1>My Styled Page</h1>\n<p>Learning real CSS fundamentals.</p>",
+
+    "mini_challenge": {
+      "instruction": "🎯 Mission: Improve your page design\n\n1. Add a <style> block\n2. Set:\n   - background color of body\n   - h1 color and font size\n   - paragraph color and spacing\n\n🔥 Make your page look modern",
+
+      "hint": "👉 Example:\nbody { background-color: lightgray; }\nh1 { color: red; }\np { color: black; }",
+
+      "validation_keyword": "font-family"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "Which CSS property controls the space outside an element?",
+    "options": [
+      "padding",
+      "margin",
+      "border"
+    ],
+    "correct_index": 1,
+    "points": 55,
+    "explanation_feedback": "Correct 🎉 Margin controls space outside elements, helping structure layout spacing."
+  },
+
+  "summary": {
+    "takeaways": [
+      "CSS controls colors, fonts, and spacing",
+      "margin adds space outside elements",
+      "font-family changes text appearance",
+      "background-color styles the page background",
+      "small CSS changes improve UI massively"
+    ],
+
+    "cheat_sheet": {
+      "color": "Text color",
+      "background_color": "Background styling",
+      "font_family": "Text style",
+      "margin": "Outer spacing around elements"
+    }
+  }
+}
