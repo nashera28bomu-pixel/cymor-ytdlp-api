@@ -1,0 +1,62 @@
+{
+  "id": 30,
+  "module": "Deployment & Real World Workflow",
+  "meta": {
+    "next_lesson": null,
+    "prev_lesson": 29,
+    "xp_reward": 120,
+    "difficulty": "beginner",
+    "module_index": 8
+  },
+
+  "title": "Lesson 30: FINAL BOSS — Deploy Your Website (Netlify / Vercel)",
+
+  "content": {
+    "explanation": "<h3>🚀 You Are Now a Real Developer</h3><p>You have built websites using HTML, styled them with CSS, and learned how real projects work.</p><p>Now it is time for the final step: <strong>putting your website online</strong>.</p><hr><h3>🌐 What is Deployment?</h3><p>Deployment means making your website accessible to anyone in the world using a link.</p><hr><h3>⚡ Platforms You Will Use</h3><ul><li>Netlify</li><li>Vercel</li><li>GitHub Pages</li></ul><hr><h3>🔥 This is what real developers do every day</h3>"
+  },
+
+  "syntax_breakdown": {
+    "content": "<h3>🧪 Deployment Steps (Simple Workflow)</h3><pre><code>1. Create GitHub repository\n2. Upload your project files\n3. Go to Netlify or Vercel\n4. Connect your GitHub repo\n5. Click Deploy\n6. Get your live website link</code></pre><hr><h3>📌 Example Result</h3><p>Your website becomes:</p><pre><code>https://your-project-name.netlify.app</code></pre><hr><h3>🧠 Key Idea</h3><p>👉 Code locally → Push to GitHub → Deploy online</p>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!-- Cymor Code Learner 🚀 FINAL DEPLOYMENT -->\n<h1>My First Live Website</h1>\n<p>This project will soon be online for the world to see.</p>",
+
+    "mini_challenge": {
+      "instruction": "🎯 FINAL MISSION:\n\n1. Imagine your project is ready for deployment\n2. Write a page that includes:\n   - A title saying 'My Deployed Website'\n   - A paragraph describing your project\n   - A list of files in your project\n3. Add a note saying: 'Ready for GitHub and Netlify deployment'\n\n🔥 This is your graduation moment",
+
+      "hint": "👉 You should include:\n<ul>\n  <li>index.html</li>\n  <li>about.html</li>\n</ul>",
+
+      "validation_keyword": "Netlify"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "What is the main purpose of deploying a website?",
+    "options": [
+      "To store code locally on your computer",
+      "To make your website accessible online to users",
+      "To improve HTML syntax"
+    ],
+    "correct_index": 1,
+    "points": 120,
+    "explanation_feedback": "Correct 🎉 Deployment makes your website live and accessible on the internet using platforms like Netlify or Vercel."
+  },
+
+  "summary": {
+    "takeaways": [
+      "Deployment makes websites live on the internet",
+      "GitHub stores your project code",
+      "Netlify/Vercel host your website",
+      "Developers use CI/CD workflow daily",
+      "You have completed your beginner web journey"
+    ],
+
+    "cheat_sheet": {
+      "deployment": "Publishing a website online",
+      "netlify": "Hosting platform for static websites",
+      "vercel": "Modern deployment platform for web apps",
+      "workflow": "Code → GitHub → Deploy → Live site"
+    }
+  }
+}
