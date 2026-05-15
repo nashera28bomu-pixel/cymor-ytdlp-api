@@ -1,0 +1,60 @@
+{
+  "id": 18,
+  "module": "Interactive HTML",
+  "meta": {
+    "next_lesson": 19,
+    "prev_lesson": 17,
+    "xp_reward": 25,
+    "difficulty": "beginner",
+    "module_index": 4
+  },
+
+  "title": "Lesson 18: Labels & Accessibility (Making Forms User-Friendly)",
+
+  "content": {
+    "explanation": "<h3>🏷️ What are Labels?</h3><p>When you build forms, users need to know what each input field is for.</p><p>This is where <strong>&lt;label&gt;</strong> comes in.</p><hr><h3>🌐 Why Labels Matter</h3><ul><li>They describe input fields clearly</li><li>They improve accessibility for screen readers</li><li>They make forms easier to click and use on mobile</li></ul><hr><h3>♿ Accessibility Idea</h3><p>Without labels, users (especially screen reader users) may not understand what each input means.</p><p>Good labels = professional and inclusive websites.</p>"
+  },
+
+  "syntax_breakdown": {
+    "content": "<h3>🧪 Label + Input Connection</h3><pre><code>&lt;label for=\"username\"&gt;Username&lt;/label&gt;\n&lt;input id=\"username\" type=\"text\"&gt;</code></pre><hr><h3>📌 How it works</h3><ul><li><strong>for</strong> links label to input</li><li><strong>id</strong> connects input to label</li></ul><hr><h3>🧠 Key Rule</h3><p>👉 Every important input should have a label</p><p>👉 Labels improve usability + accessibility</p>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!-- Cymor Code Learner 🚀 Labels Practice -->\n<h1>Registration Form</h1>\n<p>Please fill in your details:</p>\n\n<form>\n  <input type=\"text\" placeholder=\"Enter username\">\n  <input type=\"email\" placeholder=\"Enter email\">\n</form>",
+
+    "mini_challenge": {
+      "instruction": "🎯 Mission: Make your form professional\n\nInside the <form>:\n\n1. Add a label for username\n2. Add a label for email\n3. Connect each label using 'for' and matching 'id'\n\nExample:\n<label for=\"username\">Username</label>\n<input id=\"username\" type=\"text\">\n\n🔥 Make your form accessible and clean",
+
+      "hint": "👉 Remember:\nlabel for=\"name\"\ninput id=\"name\"\n\nThey must match exactly",
+
+      "validation_keyword": "label"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "What is the main purpose of using a <label> in HTML forms?",
+    "options": [
+      "To style input boxes with colors",
+      "To describe and connect inputs for better usability and accessibility",
+      "To replace input fields completely"
+    ],
+    "correct_index": 1,
+    "points": 25,
+    "explanation_feedback": "Correct 🎉 Labels help users understand what each input field means and improve accessibility for screen readers and mobile usability."
+  },
+
+  "summary": {
+    "takeaways": [
+      "Labels describe form inputs clearly",
+      "They connect to inputs using 'for' and 'id'",
+      "They improve accessibility for all users",
+      "Professional forms always use labels"
+    ],
+
+    "cheat_sheet": {
+      "label_structure": "<label for='id'>Text</label>",
+      "input_link": "<input id='id'>",
+      "accessibility": "Making websites usable for everyone, including screen readers"
+    }
+  }
+}
