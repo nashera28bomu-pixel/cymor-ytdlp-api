@@ -1,0 +1,62 @@
+{
+  "id": 22,
+  "module": "Multi-Page Websites",
+  "meta": {
+    "next_lesson": 23,
+    "prev_lesson": 21,
+    "xp_reward": 30,
+    "difficulty": "beginner",
+    "module_index": 5
+  },
+
+  "title": "Lesson 22: Images in HTML (Adding Visual Content)",
+
+  "content": {
+    "explanation": "<h3>🖼️ Why Images Matter</h3><p>Websites are not just text — they are visual experiences.</p><p>Images help explain ideas, improve design, and make websites more engaging.</p><hr><h3>🌐 Real Use Cases</h3><ul><li>Profile pictures</li><li>Product images</li><li>Blog thumbnails</li><li>Portfolio projects</li></ul><hr><h3>⚡ Core Idea</h3><p>Images are added using the <strong>&lt;img&gt;</strong> tag.</p>"
+  },
+
+  "syntax_breakdown": {
+    "content": "<h3>🧪 Basic Image Structure</h3><pre><code>&lt;img src=\"image.jpg\" alt=\"Description of image\"&gt;</code></pre><hr><h3>📌 Key Attributes</h3><ul><li><strong>src</strong> → path to image file</li><li><strong>alt</strong> → description if image fails to load</li></ul><hr><h3>🧠 Important Rule</h3><p>👉 The <code>&lt;img&gt;</code> tag is self-closing (no closing tag)</p><p>👉 Always include alt text for accessibility</p>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!-- Cymor Code Learner 🚀 Images Practice -->\n<h1>My Profile</h1>\n<p>This is my personal website profile page.</p>",
+
+    "mini_challenge": {
+      "instruction": "🎯 Mission: Add an image to your page\n\n1. Add an <img> tag below the paragraph\n2. Use any placeholder image URL like:\n   https://via.placeholder.com/300\n3. Add alt text describing the image\n\n🔥 This makes your page visual and professional",
+
+      "hint": "👉 Example:\n<img src=\"https://via.placeholder.com/300\" alt=\"Profile image\">\n\nRemember: no closing tag needed",
+
+      "validation_keyword": "src"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "Which attribute is required to specify the image file location in HTML?",
+    "options": [
+      "alt",
+      "href",
+      "src"
+    ],
+    "correct_index": 2,
+    "points": 30,
+    "explanation_feedback": "Correct 🎉 The src attribute defines the path or URL of the image to be displayed."
+  },
+
+  "summary": {
+    "takeaways": [
+      "Images make websites visually engaging",
+      "<img> is used to insert images",
+      "src defines image source path",
+      "alt provides description for accessibility",
+      "Images are self-closing elements"
+    ],
+
+    "cheat_sheet": {
+      "img_tag": "<img src='path' alt='description'>",
+      "src": "Image file location or URL",
+      "alt": "Text description of image",
+      "rule": "Always use alt for accessibility"
+    }
+  }
+}
