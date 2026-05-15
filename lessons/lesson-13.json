@@ -1,0 +1,59 @@
+{
+  "id": 13,
+  "module": "Core HTML Elements",
+  "meta": {
+    "next_lesson": 14,
+    "prev_lesson": 12,
+    "xp_reward": 15,
+    "difficulty": "beginner",
+    "module_index": 3
+  },
+
+  "title": "Lesson 13: Lists in HTML (ul, ol, li)",
+
+  "content": {
+    "explanation": "<h3>📋 Organizing Information Clearly</h3><p>When websites display multiple items—like menus, features, or steps—they use <strong>lists</strong>.</p><p>Lists help structure content so it is easy to read, scan, and understand.</p><hr><h3>📌 Two Types of Lists</h3><ul><li><strong>Unordered List (&lt;ul&gt;):</strong> Bullet points (no order)</li><li><strong>Ordered List (&lt;ol&gt;):</strong> Numbered steps (sequence matters)</li></ul><p>Each item inside a list uses the <strong>&lt;li&gt;</strong> tag.</p>",
+
+    "syntax_breakdown": "<h3>🧪 List Structure</h3><p>Unordered list example:</p><pre><code>&lt;ul&gt;\n  &lt;li&gt;HTML&lt;/li&gt;\n  &lt;li&gt;CSS&lt;/li&gt;\n  &lt;li&gt;JavaScript&lt;/li&gt;\n&lt;/ul&gt;</code></pre><hr><p>Ordered list example:</p><pre><code>&lt;ol&gt;\n  &lt;li&gt;Step 1&lt;/li&gt;\n  &lt;li&gt;Step 2&lt;/li&gt;\n  &lt;li&gt;Step 3&lt;/li&gt;\n&lt;/ol&gt;</code></pre><hr><h3>🧠 Key Rule</h3><p>👉 Only <strong>&lt;li&gt;</strong> elements are allowed inside lists.</p>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!-- Cymor Code Learner 🚀 Lists Practice -->\n<h1>My Developer Skills</h1>\n<p>Here are the technologies I am learning:</p>",
+
+    "mini_challenge": {
+      "instruction": "🎯 Mission: Build your first list\n\n1. Add an unordered list (<ul>) below the paragraph\n2. Add 3 list items (<li>):\n   - HTML\n   - CSS\n   - JavaScript\n3. Run your code and observe bullet points",
+
+      "hint": "👉 Example:\n<ul>\n  <li>HTML</li>\n</ul>\n\nRemember: every item must be inside <li> tags",
+
+      "validation_keyword": "JavaScript"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "Which tag is used to create a list item in HTML?",
+    "options": [
+      "<list>",
+      "<li>",
+      "<item>"
+    ],
+    "correct_index": 1,
+    "points": 15,
+    "explanation_feedback": "Correct 🎉 The <li> tag is used to define each item inside both ordered and unordered lists."
+  },
+
+  "summary": {
+    "takeaways": [
+      "Lists help organize multiple items clearly",
+      "<ul> creates bullet point lists",
+      "<ol> creates numbered lists",
+      "<li> defines each list item",
+      "Lists are used in menus, steps, and feature sections"
+    ],
+
+    "cheat_sheet": {
+      "ul": "Unordered list (bullet points)",
+      "ol": "Ordered list (numbered steps)",
+      "li": "List item inside a list container"
+    }
+  }
+}
