@@ -8,7 +8,6 @@
 "difficulty": "beginner",
 "module_index": 1
 },
-  {
   "title": "Lesson 1: What is HTML?",
   "content": {
     "explanation": "<h3>🌐 What is HTML?</h3><p>HTML (HyperText Markup Language) is the <strong>foundation of every website</strong> on the internet.</p><p>It is used to <strong>structure content</strong> like headings, paragraphs, images, and links.</p><p>Think of HTML as the <strong>skeleton of a website</strong> — it holds everything in place.</p><hr><h3>🏗️ Simple Analogy</h3><ul><li>🏠 HTML = structure (walls, rooms)</li><li>🎨 CSS = design (colors, styles)</li><li>⚙️ JavaScript = behavior (interactions, logic)</li></ul><p>Without HTML, a website has no structure at all.</p>",
