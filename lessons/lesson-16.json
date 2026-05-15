@@ -1,0 +1,61 @@
+{
+  "id": 16,
+  "module": "Interactive HTML",
+  "meta": {
+    "next_lesson": 17,
+    "prev_lesson": 15,
+    "xp_reward": 25,
+    "difficulty": "beginner",
+    "module_index": 4
+  },
+
+  "title": "Lesson 16: HTML Forms (User Input Basics)",
+
+  "content": {
+    "explanation": "<h3>🧾 What are Forms?</h3><p>Until now, your websites only displayed information. But real websites allow users to <strong>send information back</strong>.</p><p>This is done using <strong>HTML forms</strong>.</p><hr><h3>🌐 Real-Life Examples</h3><ul><li>Login pages</li><li>Sign-up forms</li><li>Search bars</li><li>Contact forms</li></ul><p>All of these are built using HTML forms.</p><hr><h3>⚡ Core Idea</h3><p>A form collects user input like text, email, or passwords and sends it to a server for processing.</p>"
+  },
+
+  "syntax_breakdown": {
+    "content": "<h3>🧪 Basic Form Structure</h3><pre><code>&lt;form&gt;\n  &lt;input type=\"text\" placeholder=\"Enter your name\"&gt;\n  &lt;input type=\"email\" placeholder=\"Enter your email\"&gt;\n  &lt;button&gt;Submit&lt;/button&gt;\n&lt;/form&gt;</code></pre><hr><h3>📌 Important Elements</h3><ul><li><strong>&lt;form&gt;</strong> → container for inputs</li><li><strong>&lt;input&gt;</strong> → user text fields</li><li><strong>&lt;button&gt;</strong> → submits form</li></ul><hr><h3>🧠 Key Rule</h3><p>👉 Forms are used to collect data, not just display content</p>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!-- Cymor Code Learner 🚀 Forms Intro -->\n<h1>Contact Me</h1>\n<p>Send me a message using the form below:</p>",
+
+    "mini_challenge": {
+      "instruction": "🎯 Mission: Build your first form\n\n1. Add a <form> under the paragraph\n2. Inside it add:\n   - Text input for name\n   - Email input\n   - A submit button\n\n3. Run your code and test the layout\n\n🔥 This is your first interactive web feature",
+
+      "hint": "👉 Example:\n<form>\n  <input type=\"text\">\n</form>\n\nRemember: inputs go inside form",
+
+      "validation_keyword": "<form>"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "What is the main purpose of an HTML form?",
+    "options": [
+      "To style text and colors",
+      "To collect user input and send data",
+      "To display images on a webpage"
+    ],
+    "correct_index": 1,
+    "points": 25,
+    "explanation_feedback": "Correct 🎉 Forms are used to collect user input like names, emails, and messages that can be sent to a server."
+  },
+
+  "summary": {
+    "takeaways": [
+      "Forms allow users to send data to websites",
+      "<form> is the container for inputs",
+      "<input> collects user data",
+      "<button> submits the form",
+      "Forms are the foundation of login and signup systems"
+    ],
+
+    "cheat_sheet": {
+      "form": "Container for user input fields",
+      "input": "Field where users type data",
+      "button": "Triggers form submission"
+    }
+  }
+}
