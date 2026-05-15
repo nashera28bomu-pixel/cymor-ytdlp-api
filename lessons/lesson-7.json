@@ -1,0 +1,56 @@
+{
+  "meta": {
+    "next_lesson": 8,
+    "prev_lesson": 6,
+    "xp_reward": 10,
+    "difficulty": "beginner",
+    "module_index": 2
+  },
+  "id": 7,
+  "module": "Text & Content",
+  "title": "Lesson 7: Paragraphs & Line Breaks",
+
+  "content": {
+    "explanation": "<h3>📝 How Text Works in HTML</h3><p>In HTML, text does NOT automatically go to the next line when you press Enter.</p><p>Instead, the browser treats text as continuous unless you tell it otherwise using tags.</p><hr><h3>📦 Paragraphs (<p>)</h3><p>The <strong>&lt;p&gt;</strong> tag is used to create separate blocks of text.</p><p>Each paragraph automatically gets spacing above and below it.</p><hr><h3>🧠 Simple Rule</h3><p>👉 Use <strong>&lt;p&gt;</strong> for full text blocks<br>👉 Use line breaks only when you need small breaks inside text</p>",
+
+    "syntax_breakdown": "<h3>🔧 Line Breaks (<br>)</h3><p>The <strong>&lt;br&gt;</strong> tag forces text to move to the next line instantly.</p><p>It does NOT create a new paragraph — it just breaks the line.</p><hr><h3>⚡ Key Difference</h3><ul><li>📦 &lt;p&gt; = full block with spacing</li><li>➡️ &lt;br&gt; = simple line jump inside text</li></ul><hr><h3>🧪 Example</h3><pre><code>&lt;p&gt;\nFirst line&lt;br&gt;\nSecond line&lt;br&gt;\nThird line\n&lt;/p&gt;</code></pre>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Text Layouts</title>\n</head>\n<body>\n    <!-- Organize this text -->\n    Cymor Code Learner Hub\n    Learning HTML from zero to advanced.\n    Build and host modern websites.\n</body>\n</html>",
+
+    "mini_challenge": {
+      "instruction": "🎯 Mission: Structure your text\n\n1. Wrap all text inside ONE <p> tag\n2. Add <br> after 'Hub'\n3. Add <br> after 'advanced.'\n\n👉 Make the text appear in 3 lines using only HTML",
+
+      "hint": "👉 Structure should look like:\n<p>Text<br>Text<br>Text</p>\n\nRemember: <br> does NOT need a closing tag",
+
+      "validation_keyword": "<br>"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "What is the main difference between <p> and <br> in HTML?",
+    "options": [
+      "<p> creates a full text block, while <br> only moves text to the next line",
+      "<br> creates paragraphs and <p> creates line breaks",
+      "Both do exactly the same thing"
+    ],
+    "correct_index": 0,
+    "points": 10,
+    "explanation_feedback": "Correct 🎉 <p> creates structured text blocks with spacing, while <br> only creates a simple line break inside text."
+  },
+
+  "summary": {
+    "takeaways": [
+      "HTML does not automatically respect line breaks from your editor",
+      "<p> creates full text paragraphs with spacing",
+      "<br> creates a simple line break inside text",
+      "<br> does not require a closing tag"
+    ],
+
+    "cheat_sheet": {
+      "p": "Used for full paragraphs of text",
+      "br": "Used for simple line breaks inside text"
+    }
+  }
+}
