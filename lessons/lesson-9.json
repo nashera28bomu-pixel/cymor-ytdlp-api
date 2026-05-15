@@ -1,0 +1,56 @@
+{
+  "meta": {
+    "next_lesson": 10,
+    "prev_lesson": 8,
+    "xp_reward": 10,
+    "difficulty": "beginner",
+    "module_index": 2
+  },
+  "id": 9,
+  "module": "Text & Content",
+  "title": "Lesson 9: Comments in HTML",
+
+  "content": {
+    "explanation": "<h3>💬 What are HTML Comments?</h3><p>Comments are notes you write inside your code for yourself or other developers.</p><p>They are completely invisible on the website when it runs in the browser.</p><hr><h3>🧠 Simple Idea</h3><p>Think of comments like sticky notes inside your code.</p><p>They help you remember things, but users never see them.</p>",
+
+    "syntax_breakdown": "<h3>🔧 Comment Syntax</h3><p>HTML comments always look like this:</p><pre><code>&lt;!-- This is a comment --&gt;</code></pre><hr><h3>📦 Multi-line Comments</h3><pre><code>&lt;!--\nThis is a comment\nIt can span multiple lines\n--&gt;</code></pre><hr><h3>⚡ Why Comments are Useful</h3><ul><li>🧠 Explain your code</li><li>🐛 Debug problems</li><li>🚫 Temporarily disable code</li></ul>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Documentation Workspace</title>\n</head>\n<body>\n    <h1>Production Code Active</h1>\n    <p>This paragraph should remain visible to the user.</p>\n\n    <h2>Fix Me Before Launch</h2>\n    <p>This is temporary draft text that must be hidden from site visitors!</p>\n</body>\n</html>",
+
+    "mini_challenge": {
+      "instruction": "🎯 Mission: Hide draft content\n\n1. Wrap the <h2> and second <p> inside a comment\n2. Make sure they disappear from the webpage\n3. Run and confirm only main content is visible",
+
+      "hint": "👉 Example:\n<!--\n<h2>Hidden</h2>\n<p>Hidden text</p>\n-->\n\nEverything inside will be invisible",
+
+      "validation_keyword": "<!--"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "What happens to content inside an HTML comment?",
+    "options": [
+      "It becomes bold and highlighted",
+      "It is shown in a different color on the webpage",
+      "It is completely ignored and invisible in the browser"
+    ],
+    "correct_index": 2,
+    "points": 10,
+    "explanation_feedback": "Correct 🎉 Anything inside <!-- --> is completely ignored by the browser and never shown on the webpage."
+  },
+
+  "summary": {
+    "takeaways": [
+      "Comments are invisible notes inside code",
+      "They help developers understand and organize code",
+      "Comments do not appear on the final website",
+      "They are useful for debugging and testing"
+    ],
+
+    "cheat_sheet": {
+      "comment": "<!-- This is a comment -->",
+      "multi_line": "<!-- multi-line comments allowed -->"
+    }
+  }
+}
