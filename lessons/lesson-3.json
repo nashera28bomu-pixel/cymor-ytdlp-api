@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "next_lesson": 4,
+    "prev_lesson": 2,
+    "xp_reward": 10,
+    "difficulty": "beginner",
+    "module_index": 1
+  },
+  "id": 3,
+  "module": "Introduction",
+  "title": "Lesson 3: Your First HTML Page",
+
+  "content": {
+    "explanation": "<h3>🧱 Building Your First Real Web Page</h3><p>Now that you understand how browsers read HTML, it's time to build your first real page structure.</p><p>A webpage is made of simple building blocks called <strong>tags</strong>.</p><hr><h3>📌 The 2 Most Important Tags</h3><ul><li><strong>🧭 Headings (&lt;h1&gt; to &lt;h6&gt;):</strong> Used for titles and sub-titles</li><li><strong>📝 Paragraphs (&lt;p&gt;):</strong> Used for normal text content</li></ul><p>These two tags are the foundation of every website you will ever build.</p><hr><h3>🎯 Simple Rule</h3><p>👉 One page = one main heading (&lt;h1&gt;)<br>👉 Everything else supports it below</p>",
+
+    "syntax_breakdown": "<h3>🧪 How HTML is Structured</h3><p>HTML works like stacking blocks from top to bottom.</p><p>You always write one complete element before starting the next.</p><pre><code>&lt;h1&gt;Main Title&lt;/h1&gt;\n&lt;h2&gt;Sub Title&lt;/h2&gt;\n&lt;p&gt;This is a paragraph&lt;/p&gt;</code></pre><hr><h3>🧠 Hierarchy Idea</h3><p>Think of it like levels in a game:</p><ul><li>🏆 h1 = Boss level title</li><li>🥈 h2 = Section title</li><li>🥉 h3 = Sub-section</li></ul>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!-- My First Structured Web Page 🚀 -->\n<h1>Developer Profile Dashboard</h1>\n<h2>Software Engineer Architecture</h2>\n<p>Currently building modern web applications.</p>",
+
+    "mini_challenge": {
+      "instruction": "🎯 Mission: Improve your page structure\n\n1. Add an <h3> tag under the <h2>\n2. The text must be: Tech Stack Focus\n3. Add a paragraph under it saying: HTML Structural Layouts\n\n👉 Then run your code and observe the hierarchy",
+
+      "hint": "👉 Example format:\n<h3>Tech Stack Focus</h3>\n<p>HTML Structural Layouts</p>\n\nMake sure every tag is properly closed.",
+
+      "validation_keyword": "Tech Stack Focus"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "What is the correct way to structure headings in HTML?",
+    "options": [
+      "Use only <h1> for everything",
+      "Mix tags randomly depending on style",
+      "Use heading levels (<h1> to <h6>) in order of importance"
+    ],
+    "correct_index": 2,
+    "points": 10,
+    "explanation_feedback": "Correct 🎉 HTML headings follow a hierarchy from h1 (most important) to h6 (least important). This keeps pages structured and readable."
+  },
+
+  "summary": {
+    "takeaways": [
+      "Headings define structure and importance on a webpage",
+      "h1 is the main title, h2 and h3 are sub-sections",
+      "Paragraphs (<p>) are used for normal text content",
+      "HTML must be written in clean top-to-bottom structure"
+    ],
+
+    "cheat_sheet": {
+      "h1": "Main page title (only one per page recommended)",
+      "h2": "Section heading",
+      "h3": "Sub-section heading",
+      "p": "Paragraph text block"
+    }
+  }
+}
