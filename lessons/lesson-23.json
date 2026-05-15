@@ -1,0 +1,62 @@
+{
+  "id": 23,
+  "module": "Multi-Page Websites",
+  "meta": {
+    "next_lesson": 24,
+    "prev_lesson": 22,
+    "xp_reward": 35,
+    "difficulty": "beginner",
+    "module_index": 5
+  },
+
+  "title": "Lesson 23: File Paths (Relative vs Absolute Paths)",
+
+  "content": {
+    "explanation": "<h3>📁 How Websites Find Files</h3><p>When you add images, links, or scripts, your browser needs to know exactly <strong>where the file is located</strong>.</p><p>This is done using something called a <strong>file path</strong>.</p><hr><h3>🌐 Why This Matters</h3><p>Without correct file paths:</p><ul><li>Images won’t load</li><li>Links will break</li><li>Websites will fail in production</li></ul><p>This is one of the most important real-world skills in web development.</p>"
+  },
+
+  "syntax_breakdown": {
+    "content": "<h3>🧪 Types of File Paths</h3><hr><h3>1. Relative Path (Most Important)</h3><pre><code>&lt;img src=\"images/profile.jpg\"&gt;</code></pre><p>👉 Used when files are inside your project folder</p><hr><h3>2. Same Folder Path</h3><pre><code>&lt;img src=\"profile.jpg\"&gt;</code></pre><hr><h3>3. Absolute Path (URL)</h3><pre><code>&lt;img src=\"https://example.com/image.jpg\"&gt;</code></pre><hr><h3>🧠 Key Rule</h3><p>👉 Relative paths are used in real projects (GitHub, Netlify, Vercel)</p>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!-- Cymor Code Learner 🚀 File Paths Practice -->\n<h1>My Portfolio</h1>\n<p>Learning how files connect in real websites.</p>",
+
+    "mini_challenge": {
+      "instruction": "🎯 Mission: Practice file paths\n\n1. Add 3 images below the paragraph:\n   - One using same folder path (profile.jpg)\n   - One using folder path (images/photo.jpg)\n   - One using full URL (https://via.placeholder.com/150)\n\n2. Add alt text for each image\n\n🔥 Understand how real websites load assets",
+
+      "hint": "👉 Example:\n<img src=\"images/photo.jpg\" alt=\"My photo\">\n\nMix all 3 types of paths",
+
+      "validation_keyword": "images/"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "Which type of file path is most commonly used in real web projects?",
+    "options": [
+      "Absolute URLs only",
+      "Relative paths inside project folders",
+      "Random file names"
+    ],
+    "correct_index": 1,
+    "points": 35,
+    "explanation_feedback": "Correct 🎉 Relative paths are essential in real projects because they keep your site portable across servers like GitHub, Netlify, and Vercel."
+  },
+
+  "summary": {
+    "takeaways": [
+      "File paths tell the browser where to find files",
+      "Relative paths are used inside project folders",
+      "Absolute paths use full URLs",
+      "Incorrect paths break images and links",
+      "File structure is critical in real deployments"
+    ],
+
+    "cheat_sheet": {
+      "relative_path": "images/photo.jpg",
+      "same_folder": "photo.jpg",
+      "absolute_path": "https://site.com/image.jpg",
+      "rule": "Use relative paths in real projects"
+    }
+  }
+}
