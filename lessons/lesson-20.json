@@ -1,0 +1,61 @@
+{
+  "id": 20,
+  "module": "Interactive HTML",
+  "meta": {
+    "next_lesson": 21,
+    "prev_lesson": 19,
+    "xp_reward": 40,
+    "difficulty": "beginner",
+    "module_index": 4
+  },
+
+  "title": "Lesson 20: Mini Project — Build a Login & Signup Page",
+
+  "content": {
+    "explanation": "<h3>🚀 You Are Building Real Web Apps Now</h3><p>Congratulations — you now understand forms, inputs, labels, and validation.</p><p>That means you are ready to build something real: a <strong>login and signup interface</strong>.</p><hr><h3>🌐 What You Are Building</h3><ul><li>A signup form for new users</li><li>A login form for existing users</li><li>Validation to protect inputs</li></ul><p>This is exactly what real apps like Instagram, Facebook, and Netflix use.</p><hr><h3>⚡ Developer Mindset</h3><p>👉 This is not just HTML anymore — this is UI engineering.</p>"
+  },
+
+  "syntax_breakdown": {
+    "content": "<h3>🧪 Login Form Structure Example</h3><pre><code>&lt;form&gt;\n  &lt;h2&gt;Login&lt;/h2&gt;\n\n  &lt;label for=\"email\"&gt;Email&lt;/label&gt;\n  &lt;input id=\"email\" type=\"email\" required&gt;\n\n  &lt;label for=\"password\"&gt;Password&lt;/label&gt;\n  &lt;input id=\"password\" type=\"password\" required minlength=\"6\"&gt;\n\n  &lt;button&gt;Login&lt;/button&gt;\n&lt;/form&gt;</code></pre><hr><h3>🧪 Signup Form Structure Example</h3><pre><code>&lt;form&gt;\n  &lt;h2&gt;Sign Up&lt;/h2&gt;\n\n  &lt;label&gt;Username&lt;/label&gt;\n  &lt;input type=\"text\" required&gt;\n\n  &lt;label&gt;Email&lt;/label&gt;\n  &lt;input type=\"email\" required&gt;\n\n  &lt;label&gt;Password&lt;/label&gt;\n  &lt;input type=\"password\" required minlength=\"6\"&gt;\n\n  &lt;button&gt;Create Account&lt;/button&gt;\n&lt;/form&gt;</code></pre><hr><h3>🧠 Key Idea</h3><p>👉 Real apps are just structured HTML forms + logic later (JavaScript + Firebase)</p>"
+  },
+
+  "editor_sandbox": {
+    "starter_code": "<!-- Cymor Code Learner 🚀 FINAL BEGINNER PROJECT -->\n<h1>Welcome to Cymor App</h1>\n<p>Create or login to your account</p>\n\n",
+
+    "mini_challenge": {
+      "instruction": "🎯 FINAL MISSION: Build a working login + signup UI\n\nYou must include:\n\n1. A LOGIN form\n   - email input\n   - password input\n   - validation (required + minlength 6)\n\n2. A SIGNUP form\n   - username input\n   - email input\n   - password input\n   - validation on all fields\n\n3. Proper labels for all inputs\n4. Proper HTML structure\n\n🔥 This is your first real application UI",
+
+      "hint": "👉 Structure:\n<form>Login...</form>\n<form>Signup...</form>\n\nUse labels + inputs + buttons inside each form",
+
+      "validation_keyword": "Create Account"
+    }
+  },
+
+  "quiz_engine": {
+    "question": "What is the main purpose of this login/signup project?",
+    "options": [
+      "To practice only HTML tags",
+      "To build a real-world user authentication interface layout",
+      "To learn CSS animations"
+    ],
+    "correct_index": 1,
+    "points": 40,
+    "explanation_feedback": "Correct 🎉 This project simulates real-world authentication interfaces used in modern web applications."
+  },
+
+  "summary": {
+    "takeaways": [
+      "Login pages are built using HTML forms",
+      "Signup pages collect user registration data",
+      "Labels and validation make forms professional",
+      "Real apps combine forms + backend systems later",
+      "You just built your first real UI system"
+    ],
+
+    "cheat_sheet": {
+      "login_form": "Email + password inputs with validation",
+      "signup_form": "Username + email + password inputs",
+      "real_apps": "Frontend UI + backend authentication (Firebase later)"
+    }
+  }
+}
