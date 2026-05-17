@@ -1,6 +1,5 @@
 // =============================================
-// CYMOR CODE LEARNER - INTERACTIVE ENGINE
-// File: lessons.js
+// CYMOR CODE LEARNER - INTERACTIVE ENGINE (TEST MODE)
 // =============================================
 import { auth, db } from "./firebase/firebase-config.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -20,32 +19,43 @@ const stepIndicator = document.getElementById("stepIndicator");
 // INITIALIZATION
 // =============================================
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Monitor Auth to populate user levels/stats
+    console.log("🚀 Test Mode: Loading Lesson", lessonId);
+    
+    // 1. Load data IMMEDIATELY without waiting for Auth
+    loadLessonData(lessonId);
+
+    // 2. Auth is now OPTIONAL for testing
     onAuthStateChanged(auth, (user) => {
         if (user) {
+            console.log("👤 Logged in as:", user.email);
             syncUserSidebar(user.uid);
-            loadLessonData(lessonId);
         } else {
-            window.location.href = "login.html";
+            console.log("🔓 Running in Guest/Test Mode");
+            // Set guest defaults
+            document.getElementById("userName").textContent = "Guest Developer";
+            document.getElementById("userLevel").textContent = "Test";
         }
     });
     
     setupNavigation();
 });
 
-// Load the JSON from the /lessons/ folder
+// Load JSON from /lessons/ folder
 async function loadLessonData(id) {
     try {
-        const response = await fetch(`./lessons/lesson-${id}.json`);
-        if (!response.ok) throw new Error("Lesson file missing in /lessons/ folder");
+        const path = `./lessons/lesson-${id}.json`;
+        const response = await fetch(path);
+        
+        if (!response.ok) throw new Error(`File not found: ${path}`);
         
         currentLessonData = await response.json();
         renderTheoryStep();
         updateProgressUI();
+        console.log("✅ Lesson Data Loaded");
     } catch (error) {
-        console.error("Critical Error:", error);
-        document.getElementById("lessonTitle").textContent = "Error Loading Lesson";
-        alert("Make sure lesson-" + id + ".json exists in your lessons folder!");
+        console.error("❌ Fetch Error:", error);
+        document.getElementById("lessonTitle").textContent = "JSON Load Error";
+        alert("Check Console! Is the file in /lessons/lesson-" + id + ".json?");
     }
 }
 
@@ -83,17 +93,16 @@ function renderChallengeStep() {
     const sandbox = currentLessonData.editor_sandbox;
     document.getElementById("challengeInstruction").textContent = sandbox.mini_challenge.instruction;
     
-    // Auto-inject starter code into your editor
     const editor = document.getElementById("codeEditor");
     if(editor && !editor.value) {
         editor.value = sandbox.starter_code;
-        // Trigger your live-preview logic if it exists in editor.js
+        // This triggers the preview refresh
         editor.dispatchEvent(new Event('input')); 
     }
 
-    stepIndicator.textContent = "STEP 2: CODING CHALLENGE";
+    stepIndicator.textContent = "STEP 2: CHALLENGE";
     masterNextBtn.textContent = "Check Code ➡";
-    masterNextBtn.disabled = true; // Lock until passed
+    masterNextBtn.disabled = true; 
     
     setupChallengeVerification(sandbox.mini_challenge.validation_keyword);
 }
@@ -106,9 +115,9 @@ function setupChallengeVerification(keyword) {
         if (editor.value.toLowerCase().includes(keyword.toLowerCase())) {
             masterNextBtn.disabled = false;
             masterNextBtn.textContent = "Go to Quiz ➡";
-            alert("🎯 Challenge Complete! Click Continue.");
+            alert("🎯 Success! You unlocked the next step.");
         } else {
-            alert("❌ Keyword '" + keyword + "' not found in your code!");
+            alert(`❌ Missing keyword: "${keyword}"`);
         }
     };
 }
@@ -125,11 +134,11 @@ function renderQuizStep() {
     
     const optionsWrapper = document.getElementById("quizOptions");
     optionsWrapper.innerHTML = quiz.options.map((opt, i) => `
-        <button class="quiz-option card glass-effect" data-index="${i}">${opt}</button>
+        <button class="quiz-option card" data-index="${i}">${opt}</button>
     `).join("");
 
-    stepIndicator.textContent = "STEP 3: FINAL QUIZ";
-    masterNextBtn.textContent = "Finish Lesson 🏆";
+    stepIndicator.textContent = "STEP 3: QUIZ";
+    masterNextBtn.textContent = "Complete Lesson 🏆";
     masterNextBtn.disabled = true;
 
     document.querySelectorAll(".quiz-option").forEach(btn => {
@@ -144,7 +153,7 @@ function renderQuizStep() {
 }
 
 // =============================================
-// CORE NAVIGATION & SYNC
+// ENGINE UTILS
 // =============================================
 function setupNavigation() {
     masterNextBtn.addEventListener("click", () => {
@@ -153,18 +162,23 @@ function setupNavigation() {
         else if (currentStep === 3) finishLesson();
     });
 
-    document.getElementById("prevLessonBtn").addEventListener("click", () => {
+    document.getElementById("prevLessonBtn").onclick = () => {
         if (currentStep === 2) renderTheoryStep();
         else if (currentStep === 3) renderChallengeStep();
-    });
+    };
 }
 
 function toggleStepVisibility() {
-    // Hide all, then show current
     document.querySelectorAll(".lesson-step").forEach(s => s.classList.remove("active"));
     const steps = ["step-theory", "step-challenge", "step-quiz"];
     document.getElementById(steps[currentStep-1]).classList.add("active");
     window.scrollTo(0,0);
+}
+
+function updateProgressUI() {
+    const percent = Math.round((lessonId / 30) * 100);
+    document.getElementById("progressPercent").textContent = percent + "%";
+    document.getElementById("progressFill").style.width = percent + "%";
 }
 
 async function syncUserSidebar(uid) {
@@ -176,15 +190,10 @@ async function syncUserSidebar(uid) {
     }
 }
 
-function updateProgressUI() {
-    const percent = Math.round((lessonId / 30) * 100);
-    document.getElementById("progressPercent").textContent = percent + "%";
-    document.getElementById("progressFill").style.width = percent + "%";
-}
-
 async function finishLesson() {
     const user = auth.currentUser;
     if (user) {
+        // Only try to update DB if someone is logged in
         await updateDoc(doc(db, "users", user.uid), {
             completedLessons: arrayUnion(parseInt(lessonId)),
             totalXP: increment(currentLessonData.meta.xp_reward || 10)
