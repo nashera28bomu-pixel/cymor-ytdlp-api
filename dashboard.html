@@ -1,108 +1,648 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
+    <!-- =========================================
+       META
+    ========================================== -->
+
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0" />
+
+    <meta
+        name="description"
+        content="Cymor Code Learner Dashboard - Learn coding interactively with lessons, quizzes, playgrounds and achievements." />
+
     <title>Cymor Code Learner Dashboard 🚀</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css" />
+    <!-- =========================================
+       GOOGLE FONTS
+    ========================================== -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- =========================================
+       MAIN CSS
+    ========================================== -->
+
+    <link
+        rel="stylesheet"
+        href="styles.css" />
+
 </head>
 
 <body class="dashboard-page">
 
+    <!-- =========================================
+       SIDEBAR
+    ========================================== -->
+
     <aside class="dashboard-sidebar">
 
         <div class="sidebar-logo">
-            <h2>🚀 Cymor Code Learner</h2>
-            <p>Developer Panel</p>
+
+            <div class="logo-circle">
+                🚀
+            </div>
+
+            <div>
+                <h2>Cymor Code Learner</h2>
+                <p>Developer Dashboard</p>
+            </div>
+
         </div>
 
-        <div class="sidebar-user">
+        <!-- USER PROFILE -->
+
+        <div class="sidebar-user card">
+
             <div class="user-avatar">
-                <!-- FIX: smaller clean avatar (no ugly large head effect) -->
-                <img src="https://i.imgur.com/HeIi0wU.png" alt="User" />
+                <img
+                    id="userPhoto"
+                    src="https://i.imgur.com/HeIi0wU.png"
+                    alt="User Avatar" />
             </div>
-            <h3 id="userName">Developer</h3>
+
+            <div class="user-meta">
+                <h3 id="userName">
+                    Cymor Developer
+                </h3>
+
+                <p id="userEmail">
+                    developer@cymor.dev
+                </p>
+            </div>
+
         </div>
+
+        <!-- NAVIGATION -->
 
         <nav class="sidebar-nav">
 
-            <a href="dashboard.html" class="sidebar-link active-link">📊 Dashboard</a>
+            <a
+                href="dashboard.html"
+                class="sidebar-link active-link">
 
-            <!-- FIX: direct link instead of JS button -->
-            <a href="lesson.html" class="sidebar-link">📚 Continue Learning</a>
+                <span>📊</span>
+                Dashboard
 
-            <a href="lessons.html" class="sidebar-link">🧠 All Lessons</a>
+            </a>
 
-            <a href="#" id="logoutBtn" class="sidebar-link logout-link">🚪 Logout</a>
+            <a
+                href="lessons.html"
+                class="sidebar-link">
+
+                <span>📚</span>
+                Lessons
+
+            </a>
+
+            <a
+                href="lesson.html?id=1"
+                class="sidebar-link">
+
+                <span>💻</span>
+                Playground
+
+            </a>
+
+            <a
+                href="quiz.html"
+                class="sidebar-link">
+
+                <span>🧠</span>
+                Quizzes
+
+            </a>
+
+            <a
+                href="#"
+                class="sidebar-link">
+
+                <span>🏆</span>
+                Achievements
+
+            </a>
+
+            <a
+                href="#"
+                class="sidebar-link">
+
+                <span>⚙️</span>
+                Settings
+
+            </a>
 
         </nav>
+
+        <!-- BOTTOM ACTION -->
+
+        <div class="sidebar-bottom">
+
+            <button
+                id="logoutBtn"
+                class="logout-btn">
+
+                🚪 Logout
+
+            </button>
+
+        </div>
+
     </aside>
+
+    <!-- =========================================
+       MAIN CONTENT
+    ========================================== -->
 
     <main class="dashboard-main">
 
+        <!-- =========================================
+           TOP HEADER
+        ========================================== -->
+
         <header class="dashboard-header">
-            <div class="welcome-text">
-                <h1>Welcome Back, <span class="gradient-text">Developer</span> 🚀</h1>
-                <p>Ready to write some clean code today?</p>
+
+            <div class="welcome-section">
+
+                <p class="dashboard-label">
+                    WELCOME BACK 👋
+                </p>
+
+                <h1>
+
+                    Ready To Become A
+                    <span class="gradient-text">
+                        Coding Legend?
+                    </span>
+
+                </h1>
+
+                <p class="dashboard-subtext">
+
+                    Continue your journey and
+                    level up your frontend
+                    development skills.
+
+                </p>
+
             </div>
 
-            <!-- FIX: direct link (no broken JS dependency) -->
-            <a href="lesson.html" class="primary-btn big-btn">▶ Resume Lesson</a>
+            <div class="header-actions">
+
+                <a
+                    href="lesson.html?id=1"
+                    class="primary-btn big-btn">
+
+                    ▶ Continue Learning
+
+                </a>
+
+            </div>
+
         </header>
+
+        <!-- =========================================
+           QUICK STATS
+        ========================================== -->
 
         <section class="stats-grid">
 
-            <div class="stat-box card">
-                <div class="stat-icon">⚡</div>
-                <div><h2 id="xpValue">0</h2><p>Total XP</p></div>
-            </div>
+            <!-- XP -->
 
-            <div class="stat-box card">
-                <div class="stat-icon">🏆</div>
-                <div><h2 id="levelValue">1</h2><p>Level</p></div>
-            </div>
+            <div class="stat-card card">
 
-            <div class="stat-box card">
-                <div class="stat-icon">✅</div>
-                <div><h2 id="completedLessons">0</h2><p>Completed</p></div>
-            </div>
-
-            <div class="stat-box card">
-                <div class="stat-icon">🔥</div>
-                <div><h2 id="streakValue">0</h2><p>Streak</p></div>
-            </div>
-
-        </section>
-
-        <section class="dashboard-card card">
-
-            <div class="card-header">
-                <h2>📈 Overall Progress</h2>
-                <span id="progressPercent">0%</span>
-            </div>
-
-            <div class="progress-bar-container">
-                <div id="dashboardProgressFill" class="progress-fill"></div>
-            </div>
-
-        </section>
-
-        <section class="dashboard-card card">
-
-            <div class="card-header">
-                <h2>🚀 Current Lesson</h2>
-            </div>
-
-            <div class="task-flex">
-
-                <div>
-                    <h3>Lesson 1: Intro to HTML</h3>
-                    <p>Structure your first webpage.</p>
+                <div class="stat-icon cyan">
+                    ⚡
                 </div>
 
-                <a href="lesson.html" class="primary-btn">Continue ➡</a>
+                <div>
+
+                    <h2 id="xpValue">
+                        0
+                    </h2>
+
+                    <p>
+                        Total XP
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- LEVEL -->
+
+            <div class="stat-card card">
+
+                <div class="stat-icon purple">
+                    🏆
+                </div>
+
+                <div>
+
+                    <h2 id="levelValue">
+                        1
+                    </h2>
+
+                    <p>
+                        Current Level
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- LESSONS -->
+
+            <div class="stat-card card">
+
+                <div class="stat-icon green">
+                    📚
+                </div>
+
+                <div>
+
+                    <h2 id="completedLessons">
+                        0
+                    </h2>
+
+                    <p>
+                        Lessons Completed
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- STREAK -->
+
+            <div class="stat-card card">
+
+                <div class="stat-icon orange">
+                    🔥
+                </div>
+
+                <div>
+
+                    <h2 id="streakValue">
+                        0
+                    </h2>
+
+                    <p>
+                        Day Streak
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- =========================================
+           MAIN GRID
+        ========================================== -->
+
+        <section class="dashboard-grid">
+
+            <!-- LEFT SIDE -->
+
+            <div class="dashboard-left">
+
+                <!-- PROGRESS -->
+
+                <div class="dashboard-card card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <p class="mini-label">
+                                OVERALL PROGRESS
+                            </p>
+
+                            <h2>
+                                Your Learning Journey
+                            </h2>
+
+                        </div>
+
+                        <h3 id="progressPercent">
+                            0%
+                        </h3>
+
+                    </div>
+
+                    <div class="progress-wrapper">
+
+                        <div class="progress-bar">
+
+                            <div
+                                id="dashboardProgressFill"
+                                class="progress-fill">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="progress-meta">
+
+                        <span>
+                            Beginner
+                        </span>
+
+                        <span>
+                            Advanced Developer
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <!-- CURRENT LESSON -->
+
+                <div class="dashboard-card card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <p class="mini-label">
+                                CONTINUE LEARNING
+                            </p>
+
+                            <h2>
+                                Current Lesson
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+                    <div class="lesson-continue">
+
+                        <div class="lesson-thumbnail">
+
+                            <span>
+                                💻
+                            </span>
+
+                        </div>
+
+                        <div class="lesson-details">
+
+                            <h3 id="currentLessonTitle">
+                                Lesson 1: Introduction To HTML
+                            </h3>
+
+                            <p>
+                                Learn how websites are structured using HTML elements.
+                            </p>
+
+                            <div class="lesson-tags">
+
+                                <span class="tag">
+                                    HTML
+                                </span>
+
+                                <span class="tag">
+                                    Beginner
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="lesson-actions">
+
+                        <a
+                            href="lesson.html?id=1"
+                            class="primary-btn">
+
+                            Resume Lesson ➡
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <!-- ACHIEVEMENTS -->
+
+                <div class="dashboard-card card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <p class="mini-label">
+                                ACHIEVEMENTS
+                            </p>
+
+                            <h2>
+                                Your Badges
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+                    <div
+                        id="achievement-badges"
+                        class="badges-grid">
+
+                        <div class="badge-card">
+
+                            <span>
+                                🚀
+                            </span>
+
+                            <p>
+                                Beginner Explorer
+                            </p>
+
+                        </div>
+
+                        <div class="badge-card">
+
+                            <span>
+                                🔥
+                            </span>
+
+                            <p>
+                                Fast Learner
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT SIDE -->
+
+            <div class="dashboard-right">
+
+                <!-- DAILY GOAL -->
+
+                <div class="dashboard-card card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <p class="mini-label">
+                                DAILY TARGET
+                            </p>
+
+                            <h2>
+                                Today's Goal
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+                    <div class="daily-goal-box">
+
+                        <div class="goal-circle">
+
+                            <span>
+                                65%
+                            </span>
+
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                3 Lessons Remaining
+                            </h3>
+
+                            <p>
+                                Complete today's target to earn bonus XP rewards.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- QUICK ACCESS -->
+
+                <div class="dashboard-card card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <p class="mini-label">
+                                QUICK ACCESS
+                            </p>
+
+                            <h2>
+                                Developer Tools
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+                    <div class="quick-actions-grid">
+
+                        <a
+                            href="lesson.html?id=1"
+                            class="quick-action">
+
+                            <span>
+                                💻
+                            </span>
+
+                            Playground
+
+                        </a>
+
+                        <a
+                            href="quiz.html"
+                            class="quick-action">
+
+                            <span>
+                                🧠
+                            </span>
+
+                            Quiz Arena
+
+                        </a>
+
+                        <a
+                            href="lessons.html"
+                            class="quick-action">
+
+                            <span>
+                                📚
+                            </span>
+
+                            Lessons
+
+                        </a>
+
+                        <a
+                            href="#"
+                            class="quick-action">
+
+                            <span>
+                                🏆
+                            </span>
+
+                            Achievements
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <!-- MOTIVATION -->
+
+                <div class="dashboard-card motivation-card">
+
+                    <div class="motivation-icon">
+                        ⚡
+                    </div>
+
+                    <h2>
+                        Keep Building.
+                        Keep Learning.
+                    </h2>
+
+                    <p>
+
+                        Every great developer
+                        started with a single
+                        line of code.
+
+                    </p>
+
+                </div>
 
             </div>
 
@@ -110,5 +650,24 @@
 
     </main>
 
+    <!-- =========================================
+       FIREBASE CONFIG
+    ========================================== -->
+
+    <script
+        type="module"
+        src="./firebase/firebase-config.js">
+    </script>
+
+    <!-- =========================================
+       MAIN APP
+    ========================================== -->
+
+    <script
+        type="module"
+        src="./app.js">
+    </script>
+
 </body>
+
 </html>
