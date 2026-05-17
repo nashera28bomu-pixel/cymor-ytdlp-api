@@ -3,12 +3,14 @@
 // File: lessons.js
 // =============================================
 import { auth, db } from "./firebase/firebase-config.js";
-import { doc, getDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { doc, getDoc, updateDoc, arrayUnion, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // --- State Management ---
 let currentLessonData = null;
-let currentStep = 1; // 1: Theory, 2: Challenge, 3: Quiz
-const lessonId = new URLSearchParams(window.location.search).get("id") || "1";
+let currentStep = 1; 
+const urlParams = new URLSearchParams(window.location.search);
+const lessonId = urlParams.get("id") || "1";
 
 // --- DOM Elements ---
 const masterNextBtn = document.getElementById("masterNextBtn");
@@ -18,52 +20,61 @@ const stepIndicator = document.getElementById("stepIndicator");
 // INITIALIZATION
 // =============================================
 document.addEventListener("DOMContentLoaded", () => {
-    loadLessonData(lessonId);
+    // 1. Monitor Auth to populate user levels/stats
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            syncUserSidebar(user.uid);
+            loadLessonData(lessonId);
+        } else {
+            window.location.href = "login.html";
+        }
+    });
+    
     setupNavigation();
 });
 
+// Load the JSON from the /lessons/ folder
 async function loadLessonData(id) {
     try {
         const response = await fetch(`./lessons/lesson-${id}.json`);
-        if (!response.ok) throw new Error("Lesson not found");
-        currentLessonData = await response.json();
+        if (!response.ok) throw new Error("Lesson file missing in /lessons/ folder");
         
+        currentLessonData = await response.json();
         renderTheoryStep();
-        updateSidebarProgress();
+        updateProgressUI();
     } catch (error) {
-        console.error("Error loading lesson:", error);
-        document.getElementById("lessonTitle").textContent = "Lesson Not Found";
+        console.error("Critical Error:", error);
+        document.getElementById("lessonTitle").textContent = "Error Loading Lesson";
+        alert("Make sure lesson-" + id + ".json exists in your lessons folder!");
     }
 }
 
 // =============================================
-// STEP 1: RENDER THEORY
+// STEP 1: THEORY
 // =============================================
 function renderTheoryStep() {
     currentStep = 1;
     toggleStepVisibility();
     
-    // Fill Content
     document.getElementById("lessonTitle").textContent = currentLessonData.title;
     document.getElementById("heroLessonTitle").textContent = currentLessonData.title;
-    document.getElementById("heroLessonDescription").textContent = currentLessonData.module;
     
     const contentArea = document.getElementById("lessonContent");
     contentArea.innerHTML = `
-        <div class="card">${currentLessonData.content.explanation}</div>
-        <div class="card">${currentLessonData.content.syntax_breakdown}</div>
+        <div class="card glass-effect">${currentLessonData.content.explanation}</div>
+        <div class="card glass-effect">${currentLessonData.content.syntax_breakdown}</div>
     `;
 
-    // Fill Takeaways
     const list = document.getElementById("takeawaysList");
     list.innerHTML = currentLessonData.summary.takeaways.map(t => `<li>${t}</li>`).join("");
 
     stepIndicator.textContent = "STEP 1: THEORY";
     masterNextBtn.textContent = "Start Practice ➡";
+    masterNextBtn.disabled = false;
 }
 
 // =============================================
-// STEP 2: RENDER CHALLENGE (EDITOR)
+// STEP 2: CHALLENGE
 // =============================================
 function renderChallengeStep() {
     currentStep = 2;
@@ -71,15 +82,18 @@ function renderChallengeStep() {
 
     const sandbox = currentLessonData.editor_sandbox;
     document.getElementById("challengeInstruction").textContent = sandbox.mini_challenge.instruction;
-    document.getElementById("challengeHint").textContent = sandbox.mini_challenge.hint;
     
-    // Initialize Code Editor with starter code
+    // Auto-inject starter code into your editor
     const editor = document.getElementById("codeEditor");
-    if(!editor.value) editor.value = sandbox.starter_code;
+    if(editor && !editor.value) {
+        editor.value = sandbox.starter_code;
+        // Trigger your live-preview logic if it exists in editor.js
+        editor.dispatchEvent(new Event('input')); 
+    }
 
     stepIndicator.textContent = "STEP 2: CODING CHALLENGE";
-    masterNextBtn.textContent = "Go to Quiz ➡";
-    masterNextBtn.disabled = true; // Lock until they pass the challenge
+    masterNextBtn.textContent = "Check Code ➡";
+    masterNextBtn.disabled = true; // Lock until passed
     
     setupChallengeVerification(sandbox.mini_challenge.validation_keyword);
 }
@@ -89,19 +103,18 @@ function setupChallengeVerification(keyword) {
     const editor = document.getElementById("codeEditor");
 
     checkBtn.onclick = () => {
-        const code = editor.value.toLowerCase();
-        if (code.includes(keyword.toLowerCase())) {
-            showToast("✅ Challenge Passed!", "success");
+        if (editor.value.toLowerCase().includes(keyword.toLowerCase())) {
             masterNextBtn.disabled = false;
-            masterNextBtn.classList.add("pulse-animation");
+            masterNextBtn.textContent = "Go to Quiz ➡";
+            alert("🎯 Challenge Complete! Click Continue.");
         } else {
-            showToast("❌ Not quite! Check the instructions.", "error");
+            alert("❌ Keyword '" + keyword + "' not found in your code!");
         }
     };
 }
 
 // =============================================
-// STEP 3: RENDER QUIZ
+// STEP 3: QUIZ
 // =============================================
 function renderQuizStep() {
     currentStep = 3;
@@ -112,85 +125,70 @@ function renderQuizStep() {
     
     const optionsWrapper = document.getElementById("quizOptions");
     optionsWrapper.innerHTML = quiz.options.map((opt, i) => `
-        <button class="quiz-option" data-index="${i}">${opt}</button>
+        <button class="quiz-option card glass-effect" data-index="${i}">${opt}</button>
     `).join("");
 
     stepIndicator.textContent = "STEP 3: FINAL QUIZ";
     masterNextBtn.textContent = "Finish Lesson 🏆";
     masterNextBtn.disabled = true;
 
-    setupQuizLogic(quiz.correct_index);
-}
-
-function setupQuizLogic(correctIndex) {
-    const options = document.querySelectorAll(".quiz-option");
-    options.forEach(btn => {
+    document.querySelectorAll(".quiz-option").forEach(btn => {
         btn.onclick = () => {
-            options.forEach(b => b.classList.remove("selected"));
+            document.querySelectorAll(".quiz-option").forEach(b => b.classList.remove("selected"));
             btn.classList.add("selected");
-            
-            const isCorrect = parseInt(btn.dataset.index) === correctIndex;
-            if (isCorrect) {
-                showToast("🎉 Perfect!", "success");
+            if (parseInt(btn.dataset.index) === quiz.correct_index) {
                 masterNextBtn.disabled = false;
-            } else {
-                showToast("😟 Try again!", "error");
             }
         };
     });
 }
 
 // =============================================
-// CORE NAVIGATION LOGIC
+// CORE NAVIGATION & SYNC
 // =============================================
 function setupNavigation() {
     masterNextBtn.addEventListener("click", () => {
         if (currentStep === 1) renderChallengeStep();
         else if (currentStep === 2) renderQuizStep();
-        else if (currentStep === 3) completeLesson();
+        else if (currentStep === 3) finishLesson();
     });
 
     document.getElementById("prevLessonBtn").addEventListener("click", () => {
         if (currentStep === 2) renderTheoryStep();
         else if (currentStep === 3) renderChallengeStep();
-        else window.history.back();
     });
 }
 
 function toggleStepVisibility() {
-    document.querySelectorAll(".lesson-step").forEach(step => step.classList.remove("active"));
-    if (currentStep === 1) document.getElementById("step-theory").classList.add("active");
-    if (currentStep === 2) document.getElementById("step-challenge").classList.add("active");
-    if (currentStep === 3) document.getElementById("step-quiz").classList.add("active");
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Hide all, then show current
+    document.querySelectorAll(".lesson-step").forEach(s => s.classList.remove("active"));
+    const steps = ["step-theory", "step-challenge", "step-quiz"];
+    document.getElementById(steps[currentStep-1]).classList.add("active");
+    window.scrollTo(0,0);
 }
 
-async function completeLesson() {
+async function syncUserSidebar(uid) {
+    const snap = await getDoc(doc(db, "users", uid));
+    if(snap.exists()) {
+        const data = snap.data();
+        document.getElementById("userLevel").textContent = data.level || "1";
+        document.getElementById("userName").textContent = data.username || "Developer";
+    }
+}
+
+function updateProgressUI() {
+    const percent = Math.round((lessonId / 30) * 100);
+    document.getElementById("progressPercent").textContent = percent + "%";
+    document.getElementById("progressFill").style.width = percent + "%";
+}
+
+async function finishLesson() {
     const user = auth.currentUser;
     if (user) {
-        const userRef = doc(db, "users", user.uid);
-        await updateDoc(userRef, {
+        await updateDoc(doc(db, "users", user.uid), {
             completedLessons: arrayUnion(parseInt(lessonId)),
-            totalXP: (currentLessonData.meta.xp_reward || 10)
+            totalXP: increment(currentLessonData.meta.xp_reward || 10)
         });
     }
     document.getElementById("successModal").classList.remove("hidden");
-}
-
-// =============================================
-// HELPERS
-// =============================================
-function showToast(msg, type) {
-    const toast = document.getElementById("authMessage");
-    if(!toast) return alert(msg);
-    toast.textContent = msg;
-    toast.className = `auth-message ${type}`;
-    toast.style.display = "flex";
-    setTimeout(() => toast.style.display = "none", 3000);
-}
-
-function updateSidebarProgress() {
-    // Basic sidebar update logic
-    document.getElementById("progressPercent").textContent = `${Math.round((lessonId / 30) * 100)}%`;
-    document.getElementById("progressFill").style.width = `${(lessonId / 30) * 100}%`;
 }
