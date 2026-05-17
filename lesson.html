@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="learn.css" />
 
     <style>
-        /* Essential Logic: Sections are hidden by default */
+        /* Engine Logic: Steps are hidden unless active */
         .lesson-step { display: none; animation: fadeIn 0.5s ease-out forwards; }
         .lesson-step.active { display: block; }
         
@@ -23,15 +23,16 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Hide Scrollbar but keep functionality */
+        /* UI Polish */
         body::-webkit-scrollbar { display: none; }
         
-        /* Disable next button until task is done */
         .primary-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
             filter: grayscale(1);
         }
+
+        .hidden { display: none !important; }
     </style>
 </head>
 
@@ -58,7 +59,8 @@
 
         <div class="lessons-card card">
             <div class="card-top"><h3>📚 Path</h3></div>
-            <div id="lessonList" class="lesson-list"></div>
+            <div id="lessonList" class="lesson-list">
+                </div>
         </div>
 
         <div class="sidebar-actions">
@@ -71,7 +73,7 @@
         <header class="lesson-topbar">
             <div>
                 <p class="lesson-label" id="stepIndicator">STEP 1: THEORY</p>
-                <h1 id="lessonTitle">Loading...</h1>
+                <h1 id="lessonTitle">Preparing Lesson...</h1>
             </div>
             <div class="lesson-top-actions">
                 <button id="prevLessonBtn" class="secondary-btn">⬅ Back</button>
@@ -84,7 +86,7 @@
                 <div class="lesson-hero-left">
                     <p class="mini-label">CURRENT TOPIC</p>
                     <h2 id="heroLessonTitle">Loading...</h2>
-                    <p id="heroLessonDescription">Preparing your lesson content...</p>
+                    <p id="heroLessonDescription">Preparing content...</p>
                 </div>
                 <div class="lesson-hero-right">
                     <div class="lesson-badge">🚀 Level <span id="userLevel">1</span></div>
@@ -108,7 +110,7 @@
             <section class="challenge-section">
                 <div class="challenge-card card">
                     <div class="mini-label">🎯 CHALLENGE</div>
-                    <div id="challengeInstruction" class="challenge-text">Loading instructions...</div>
+                    <div id="challengeInstruction" class="challenge-text">Loading...</div>
                     <div class="challenge-actions">
                         <button id="showHintBtn" class="secondary-btn">💡 Hint</button>
                         <button id="checkChallengeBtn" class="primary-btn">✅ Run & Verify</button>
@@ -138,19 +140,14 @@
             <section class="quiz-section">
                 <div class="quiz-card card">
                     <div class="quiz-topbar">
-                        <div class="quiz-stat">⚡ XP: <span id="quiz-xp">0</span></div>
-                        <div class="quiz-stat">⏰ <span id="quiz-timer">30s</span></div>
+                        <div class="quiz-stat">⚡ XP: <span id="quiz-xp">10</span></div>
                     </div>
-                    <h2 id="quizQuestion">Quiz loading...</h2>
+                    <h2 id="quizQuestion">Loading quiz...</h2>
                     <div id="quizOptions" class="quiz-options-wrapper"></div>
                     <div id="quiz-feedback" class="quiz-feedback"></div>
-                    <div class="quiz-actions">
-                        <button id="submit-quiz-btn" class="primary-btn">🚀 Check Answer</button>
-                    </div>
                 </div>
             </section>
         </div>
-
     </main>
 
     <div id="successModal" class="modal hidden">
@@ -158,11 +155,11 @@
             <div class="success-icon">🎉</div>
             <h2>Level Complete!</h2>
             <p>You've mastered this lesson. XP added to your profile.</p>
-            <button id="closeModalBtn" class="primary-btn">Next Lesson 🚀</button>
+            <button id="closeModalBtn" class="primary-btn" onclick="location.reload()">Next Lesson 🚀</button>
         </div>
     </div>
 
     <script type="module" src="./firebase/firebase-config.js"></script>
-    <script type="module" src="./app.js"></script>
-    <script type="module" src="./lessons.js"></script> </body>
+    <script type="module" src="./lessons.js"></script>
+</body>
 </html>
