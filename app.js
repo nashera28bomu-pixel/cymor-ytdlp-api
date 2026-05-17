@@ -14,7 +14,6 @@ import {
     doc,
     getDoc,
     updateDoc,
-    increment,
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -33,7 +32,6 @@ import "./components/progress-tracker.js";
 ========================================= */
 
 let currentUser = null;
-
 let currentLesson = null;
 
 const TOTAL_LESSONS = 30;
@@ -42,7 +40,7 @@ const TOTAL_LESSONS = 30;
    DOM READY
 ========================================= */
 
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", () => {
 
     initializeApp();
 
@@ -62,23 +60,23 @@ async function initializeApp() {
 
     initializeLogout();
 
-    initializeAuthProtection();
+    initializeHints();
 
     initializeButtons();
 
-    initializeHints();
-
     initializeScrollEffects();
 
-    initializeLessonSystem();
+    initializeAnimations();
+
+    initializeAuthProtection();
+
+    await initializeLessonSystem();
 
     initializeDashboard();
 
     initializeLessonsPage();
 
     initializeQuizPage();
-
-    initializeAnimations();
 
 }
 
@@ -90,33 +88,35 @@ function initializeAuthProtection() {
 
     onAuthStateChanged(auth, async (user) => {
 
-        const currentPage =
-            window.location.pathname;
-
-        const protectedPages = [
-            "dashboard.html",
-            "lesson.html",
-            "lessons.html",
-            "quiz.html"
-        ];
-
-        const requiresAuth =
-            protectedPages.some(page =>
-                currentPage.includes(page)
-            );
+        currentUser = user || null;
 
         if (user) {
 
-            currentUser = user;
+            console.log("👤 Logged In:", user.email);
 
             await updateUserUI(user);
 
         } else {
 
-            if (requiresAuth) {
+            console.log("🔓 Guest Mode Active");
 
-                window.location.href =
-                    "login.html";
+            const userName =
+                document.getElementById("userName");
+
+            const userLevel =
+                document.getElementById("userLevel");
+
+            if (userName) {
+
+                userName.textContent =
+                    "Guest Developer";
+
+            }
+
+            if (userLevel) {
+
+                userLevel.textContent =
+                    "1";
 
             }
 
@@ -132,29 +132,29 @@ function initializeAuthProtection() {
 
 async function updateUserUI(user) {
 
-    const userName =
-        document.getElementById("userName");
-
-    const userAvatar =
-        document.getElementById("userAvatar");
-
-    if (userName) {
-
-        userName.textContent =
-            user.displayName ||
-            "Cymor Developer";
-
-    }
-
-    if (userAvatar) {
-
-        userAvatar.src =
-            user.photoURL ||
-            "https://i.imgur.com/HeIi0wU.png";
-
-    }
-
     try {
+
+        const userName =
+            document.getElementById("userName");
+
+        const userAvatar =
+            document.getElementById("userAvatar");
+
+        if (userName) {
+
+            userName.textContent =
+                user.displayName ||
+                "Cymor Developer";
+
+        }
+
+        if (userAvatar) {
+
+            userAvatar.src =
+                user.photoURL ||
+                "https://i.imgur.com/HeIi0wU.png";
+
+        }
 
         const userRef =
             doc(db, "users", user.uid);
@@ -164,14 +164,16 @@ async function updateUserUI(user) {
 
         if (!snapshot.exists()) return;
 
-        const data =
-            snapshot.data();
-
-        updateDashboardStats(data);
+        updateDashboardStats(
+            snapshot.data()
+        );
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "❌ updateUserUI Error:",
+            error
+        );
 
     }
 
@@ -183,28 +185,6 @@ async function updateUserUI(user) {
 
 function updateDashboardStats(data) {
 
-    const xpValue =
-        document.getElementById("xpValue");
-
-    const levelValue =
-        document.getElementById("levelValue");
-
-    const streakValue =
-        document.getElementById("streakValue");
-
-    const completedLessons =
-        document.getElementById("completedLessons");
-
-    const progressFill =
-        document.getElementById(
-            "dashboardProgressFill"
-        );
-
-    const progressPercent =
-        document.getElementById(
-            "progressPercent"
-        );
-
     const completed =
         data.completedLessons?.length || 0;
 
@@ -213,29 +193,45 @@ function updateDashboardStats(data) {
             (completed / TOTAL_LESSONS) * 100
         );
 
-    if (xpValue)
-        xpValue.textContent =
-            data.totalXP || 0;
+    setText(
+        "xpValue",
+        data.totalXP || 0
+    );
 
-    if (levelValue)
-        levelValue.textContent =
-            data.level || 1;
+    setText(
+        "levelValue",
+        data.level || 1
+    );
 
-    if (streakValue)
-        streakValue.textContent =
-            data.streak || 0;
+    setText(
+        "streakValue",
+        data.streak || 0
+    );
 
-    if (completedLessons)
-        completedLessons.textContent =
-            completed;
+    setText(
+        "completedLessons",
+        completed
+    );
 
-    if (progressFill)
+    setText(
+        "progressPercent",
+        `${percent}%`
+    );
+
+    const progressFill =
+        document.getElementById(
+            "progressFill"
+        ) ||
+        document.getElementById(
+            "dashboardProgressFill"
+        );
+
+    if (progressFill) {
+
         progressFill.style.width =
             `${percent}%`;
 
-    if (progressPercent)
-        progressPercent.textContent =
-            `${percent}%`;
+    }
 
 }
 
@@ -261,6 +257,10 @@ async function initializeLessonSystem() {
 
     try {
 
+        console.log(
+            `📚 Loading Lesson ${lessonId}`
+        );
+
         showPageLoader();
 
         const response =
@@ -268,33 +268,60 @@ async function initializeLessonSystem() {
                 `./lessons/lesson-${lessonId}.json`
             );
 
-        if (!response.ok)
+        if (!response.ok) {
+
             throw new Error(
-                "Lesson not found"
+                `Lesson ${lessonId} not found`
             );
+
+        }
 
         const lesson =
             await response.json();
 
         currentLesson = lesson;
 
-        renderLesson(lesson, lessonId);
+        console.log(
+            "✅ Lesson Loaded:",
+            lesson.title
+        );
 
-        initializeEditorAfterLesson();
+        renderLesson(
+            lesson,
+            lessonId
+        );
 
-        initializeQuiz(lesson, lessonId);
+        initializeEditorAfterLesson(
+            lesson
+        );
 
-        renderLessonSidebar(lessonId);
+        initializeQuiz(
+            lesson,
+            lessonId
+        );
 
-        saveLastOpenedLesson(lessonId);
+        renderLessonSidebar(
+            lessonId
+        );
+
+        setupLessonNavigation(
+            lessonId
+        );
+
+        saveLastOpenedLesson(
+            lessonId
+        );
 
         hidePageLoader();
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "❌ Lesson Load Error:",
+            error
+        );
 
-        renderLessonError();
+        renderLessonError(error);
 
     }
 
@@ -304,10 +331,18 @@ async function initializeLessonSystem() {
    RENDER LESSON
 ========================================= */
 
-function renderLesson(lesson, lessonId) {
+function renderLesson(
+    lesson,
+    lessonId
+) {
 
     setText(
         "lessonTitle",
+        lesson.title
+    );
+
+    setText(
+        "heroLessonTitle",
         lesson.title
     );
 
@@ -330,7 +365,7 @@ function renderLesson(lesson, lessonId) {
                 <h2>📘 Explanation</h2>
 
                 <div class="lesson-rich-text">
-                    ${lesson.content.explanation}
+                    ${lesson.content?.explanation || ""}
                 </div>
 
             </div>
@@ -340,7 +375,7 @@ function renderLesson(lesson, lessonId) {
                 <h2>⚡ Syntax Breakdown</h2>
 
                 <div class="lesson-rich-text syntax-highlight">
-                    ${lesson.content.syntax_breakdown}
+                    ${lesson.content?.syntax_breakdown || ""}
                 </div>
 
             </div>
@@ -355,21 +390,48 @@ function renderLesson(lesson, lessonId) {
 
     renderCheatSheet(lesson);
 
-    setupLessonNavigation(lessonId);
-
 }
 
 /* =========================================
    EDITOR SYSTEM
 ========================================= */
 
-function initializeEditorAfterLesson() {
+function initializeEditorAfterLesson(
+    lesson
+) {
 
-    setTimeout(() => {
+    try {
 
-        initEditor();
+        const editor =
+            document.getElementById(
+                "codeEditor"
+            );
 
-    }, 500);
+        if (
+            editor &&
+            lesson.editor_sandbox
+        ) {
+
+            editor.value =
+                lesson.editor_sandbox
+                .starter_code || "";
+
+        }
+
+        setTimeout(() => {
+
+            initEditor();
+
+        }, 300);
+
+    } catch (error) {
+
+        console.error(
+            "❌ Editor Error:",
+            error
+        );
+
+    }
 
 }
 
@@ -377,26 +439,51 @@ function initializeEditorAfterLesson() {
    QUIZ SYSTEM
 ========================================= */
 
-function initializeQuiz(lesson, lessonId) {
+function initializeQuiz(
+    lesson,
+    lessonId
+) {
 
-    if (!lesson.quiz) return;
+    try {
 
-    initQuizEngine(
+        if (!lesson.quiz_engine) {
 
-        lesson.quiz,
-
-        lessonId,
-
-        async (completedLessonId, xp) => {
-
-            await completeLesson(
-                completedLessonId,
-                xp
+            console.warn(
+                "⚠ No quiz_engine found"
             );
+
+            return;
 
         }
 
-    );
+        initQuizEngine(
+
+            lesson.quiz_engine,
+
+            lessonId,
+
+            async (
+                completedLessonId,
+                xp
+            ) => {
+
+                await completeLesson(
+                    completedLessonId,
+                    xp
+                );
+
+            }
+
+        );
+
+    } catch (error) {
+
+        console.error(
+            "❌ Quiz Engine Error:",
+            error
+        );
+
+    }
 
 }
 
@@ -409,9 +496,18 @@ async function completeLesson(
     xp = 10
 ) {
 
-    if (!currentUser) return;
-
     try {
+
+        if (!currentUser) {
+
+            createToast(
+                "⚠ Login to save progress",
+                "warning"
+            );
+
+            return;
+
+        }
 
         const userRef =
             doc(
@@ -443,6 +539,9 @@ async function completeLesson(
 
         }
 
+        const totalXP =
+            (data.totalXP || 0) + xp;
+
         const progressPercent =
             Math.floor(
                 (
@@ -450,9 +549,6 @@ async function completeLesson(
                     TOTAL_LESSONS
                 ) * 100
             );
-
-        const totalXP =
-            (data.totalXP || 0) + xp;
 
         await updateDoc(userRef, {
 
@@ -470,15 +566,20 @@ async function completeLesson(
         });
 
         createToast(
-            `🎉 Lesson Completed! +${xp} XP`,
+            `🎉 Lesson Complete! +${xp} XP`,
             "success"
         );
 
-        await updateUserUI(currentUser);
+        await updateUserUI(
+            currentUser
+        );
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "❌ completeLesson Error:",
+            error
+        );
 
     }
 
@@ -488,7 +589,9 @@ async function completeLesson(
    LESSON SIDEBAR
 ========================================= */
 
-function renderLessonSidebar(currentId) {
+function renderLessonSidebar(
+    currentId
+) {
 
     const lessonList =
         document.getElementById(
@@ -505,26 +608,23 @@ function renderLessonSidebar(currentId) {
         i++
     ) {
 
-        const lessonItem =
+        const item =
             document.createElement("a");
 
-        lessonItem.href =
+        item.href =
             `lesson.html?id=${i}`;
 
-        lessonItem.className =
+        item.className =
             `lesson-link ${
                 i === currentId
                     ? "active-lesson"
                     : ""
             }`;
 
-        lessonItem.innerHTML = `
-            <span>Lesson ${i}</span>
-        `;
+        item.innerHTML =
+            `📘 Lesson ${i}`;
 
-        lessonList.appendChild(
-            lessonItem
-        );
+        lessonList.appendChild(item);
 
     }
 
@@ -558,9 +658,7 @@ function setupLessonNavigation(
         prevBtn.onclick = () => {
 
             window.location.href =
-                `lesson.html?id=${
-                    lessonId - 1
-                }`;
+                `lesson.html?id=${lessonId - 1}`;
 
         };
 
@@ -571,9 +669,7 @@ function setupLessonNavigation(
         nextBtn.onclick = () => {
 
             window.location.href =
-                `lesson.html?id=${
-                    lessonId + 1
-                }`;
+                `lesson.html?id=${lessonId + 1}`;
 
         };
 
@@ -587,36 +683,45 @@ function setupLessonNavigation(
 
 function setupChallenge(lesson) {
 
-    const instruction =
-        document.getElementById(
-            "challengeInstruction"
+    try {
+
+        const sandbox =
+            lesson.editor_sandbox;
+
+        if (!sandbox) return;
+
+        const instruction =
+            document.getElementById(
+                "challengeInstruction"
+            );
+
+        const hint =
+            document.getElementById(
+                "challengeHint"
+            );
+
+        if (instruction) {
+
+            instruction.innerHTML =
+                sandbox.mini_challenge
+                ?.instruction || "";
+
+        }
+
+        if (hint) {
+
+            hint.innerHTML =
+                sandbox.mini_challenge
+                ?.hint || "";
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "❌ Challenge Error:",
+            error
         );
-
-    const hint =
-        document.getElementById(
-            "challengeHint"
-        );
-
-    if (
-        instruction &&
-        lesson.editor_sandbox
-    ) {
-
-        instruction.innerHTML =
-            lesson.editor_sandbox
-            .mini_challenge
-            .instruction;
-
-    }
-
-    if (
-        hint &&
-        lesson.editor_sandbox
-    ) {
-
-        hint.innerHTML =
-            lesson.editor_sandbox
-            .mini_challenge.hint;
 
     }
 
@@ -638,8 +743,11 @@ function renderTakeaways(lesson) {
         !lesson.summary
     ) return;
 
+    const takeaways =
+        lesson.summary.takeaways || [];
+
     takeawaysList.innerHTML =
-        lesson.summary.takeaways
+        takeaways
         .map(
             item => `
             <li>✅ ${item}</li>
@@ -668,16 +776,19 @@ function renderCheatSheet(
     ) return;
 
     const cheats =
-        lesson.summary.cheat_sheet || [];
+        lesson.summary.cheat_sheet || {};
 
     cheatSheet.innerHTML =
-        cheats.map(
-            item => `
+        Object.entries(cheats)
+        .map(
+            ([key, value]) => `
             <div class="cheat-item">
-                ${item}
+                <strong>${key}</strong>
+                <p>${value}</p>
             </div>
         `
-        ).join("");
+        )
+        .join("");
 
 }
 
@@ -685,7 +796,7 @@ function renderCheatSheet(
    LESSONS PAGE
 ========================================= */
 
-async function initializeLessonsPage() {
+function initializeLessonsPage() {
 
     if (
         !window.location.pathname.includes(
@@ -708,16 +819,17 @@ async function initializeLessonsPage() {
         i++
     ) {
 
-        const lessonCard =
+        const card =
             document.createElement("a");
 
-        lessonCard.href =
+        card.href =
             `lesson.html?id=${i}`;
 
-        lessonCard.className =
+        card.className =
             "lesson-card";
 
-        lessonCard.innerHTML = `
+        card.innerHTML = `
+
             <div class="lesson-card-top">
                 <span class="lesson-badge">
                     Lesson ${i}
@@ -736,11 +848,10 @@ async function initializeLessonsPage() {
                 <span>⚡ +10 XP</span>
                 <span>➡</span>
             </div>
+
         `;
 
-        lessonsGrid.appendChild(
-            lessonCard
-        );
+        lessonsGrid.appendChild(card);
 
     }
 
@@ -870,19 +981,17 @@ function initializeButtons() {
             "dashboardBtn"
         );
 
-    if (dashboardBtn) {
+    if (!dashboardBtn) return;
 
-        dashboardBtn.addEventListener(
-            "click",
-            () => {
+    dashboardBtn.addEventListener(
+        "click",
+        () => {
 
-                window.location.href =
-                    "dashboard.html";
+            window.location.href =
+                "dashboard.html";
 
-            }
-        );
-
-    }
+        }
+    );
 
 }
 
@@ -1011,7 +1120,8 @@ function createToast(
     toast.className =
         `cymor-toast ${type}`;
 
-    toast.innerHTML = message;
+    toast.innerHTML =
+        `<span>${message}</span>`;
 
     document.body.appendChild(
         toast
@@ -1042,7 +1152,7 @@ function createToast(
 }
 
 /* =========================================
-   LESSON STORAGE
+   STORAGE
 ========================================= */
 
 function saveLastOpenedLesson(
@@ -1073,17 +1183,39 @@ function setText(id, value) {
 
 }
 
-function renderLessonError() {
+function renderLessonError(error) {
 
-    const lessonTitle =
+    console.error(error);
+
+    setText(
+        "lessonTitle",
+        "🚧 Lesson Failed To Load"
+    );
+
+    const lessonContent =
         document.getElementById(
-            "lessonTitle"
+            "lessonContent"
         );
 
-    if (lessonTitle) {
+    if (lessonContent) {
 
-        lessonTitle.textContent =
-            "🚧 Lesson Coming Soon";
+        lessonContent.innerHTML = `
+
+            <div class="glass-card lesson-block">
+
+                <h2>❌ Error Loading Lesson</h2>
+
+                <p>
+                    The lesson could not load properly.
+                </p>
+
+                <pre>
+${error}
+                </pre>
+
+            </div>
+
+        `;
 
     }
 
