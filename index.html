@@ -2,146 +2,851 @@
 <html lang="en">
 
 <head>
+
+    <!-- =========================================
+       META
+    ========================================== -->
+
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Cymor Code Learner - Learn coding from zero to real deployment." />
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0" />
+
+    <meta
+        name="description"
+        content="Cymor Code Learner - Learn coding interactively with live playgrounds, quizzes, XP rewards and modern developer lessons." />
+
     <title>Cymor Code Learner 🚀</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- =========================================
+       GOOGLE FONTS
+    ========================================== -->
 
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- =========================================
+       MAIN CSS
+    ========================================== -->
+
+    <link rel="stylesheet"
+        href="styles.css">
+
+    <style>
+        /* =========================================
+           LANDING PAGE EXCLUSIVE STYLES
+        ========================================== */
+
+        .landing-page {
+            overflow-x: hidden;
+            background:
+                radial-gradient(circle at top left,
+                    rgba(0, 245, 255, 0.12),
+                    transparent 25%),
+
+                radial-gradient(circle at bottom right,
+                    rgba(139, 92, 246, 0.18),
+                    transparent 30%),
+
+                var(--bg-primary);
+        }
+
+        /* =========================================
+           NAVBAR
+        ========================================== */
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 18px 7%;
+
+            backdrop-filter: blur(18px);
+
+            background:
+                rgba(5, 8, 22, 0.72);
+
+            border-bottom:
+                1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .logo h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .logo span {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 14px;
+        }
+
+        /* =========================================
+           HERO SECTION
+        ========================================== */
+
+        .hero {
+            padding:
+                90px 7% 70px;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+
+            background:
+                rgba(255, 255, 255, 0.05);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.1);
+
+            padding: 12px 18px;
+
+            border-radius: 999px;
+
+            margin-bottom: 25px;
+
+            font-size: 0.9rem;
+
+            color: var(--text-secondary);
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 6vw, 5.2rem);
+            line-height: 1.05;
+            font-weight: 800;
+
+            margin-bottom: 25px;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: var(--text-secondary);
+
+            max-width: 650px;
+
+            margin-bottom: 35px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+        }
+
+        /* =========================================
+           CODE WINDOW
+        ========================================== */
+
+        .hero-code {
+            position: relative;
+        }
+
+        .code-window {
+            background: #020617;
+
+            border-radius: 22px;
+
+            border:
+                1px solid rgba(255, 255, 255, 0.08);
+
+            overflow: hidden;
+
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.5);
+
+            animation:
+                floatWindow 5s ease-in-out infinite;
+        }
+
+        @keyframes floatWindow {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .window-topbar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 15px 20px;
+
+            background:
+                rgba(255, 255, 255, 0.04);
+
+            border-bottom:
+                1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot.red {
+            background: #ef4444;
+        }
+
+        .dot.yellow {
+            background: #f59e0b;
+        }
+
+        .dot.green {
+            background: #22c55e;
+        }
+
+        .code-content {
+            padding: 30px;
+            overflow-x: auto;
+        }
+
+        .code-content pre {
+            color: #00f5ff;
+            font-family: "Fira Code", monospace;
+            line-height: 1.9;
+            font-size: 0.95rem;
+        }
+
+        /* =========================================
+           STATS
+        ========================================== */
+
+        .stats-section {
+            padding: 20px 7% 70px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .stat-card {
+            background:
+                rgba(255, 255, 255, 0.04);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.08);
+
+            padding: 30px;
+
+            border-radius: 22px;
+
+            backdrop-filter: blur(15px);
+
+            transition: 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            background:
+                rgba(255, 255, 255, 0.06);
+        }
+
+        .stat-card h2 {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+        }
+
+        .stat-card p {
+            color: var(--text-muted);
+        }
+
+        /* =========================================
+           FEATURES
+        ========================================== */
+
+        .features {
+            padding: 90px 7%;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2.2rem, 5vw, 4rem);
+            margin-bottom: 18px;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .feature-card {
+            background:
+                rgba(255, 255, 255, 0.04);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.08);
+
+            border-radius: 24px;
+
+            padding: 35px;
+
+            transition: 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color:
+                rgba(0, 245, 255, 0.3);
+        }
+
+        .feature-icon {
+            width: 75px;
+            height: 75px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(135deg,
+                    var(--accent),
+                    var(--accent-2));
+
+            font-size: 2rem;
+
+            margin-bottom: 24px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* =========================================
+           CTA
+        ========================================== */
+
+        .cta-section {
+            padding:
+                80px 7% 120px;
+        }
+
+        .cta-card {
+            background:
+                linear-gradient(135deg,
+                    rgba(0, 245, 255, 0.12),
+                    rgba(139, 92, 246, 0.12));
+
+            border:
+                1px solid rgba(255, 255, 255, 0.1);
+
+            border-radius: 30px;
+
+            padding: 70px 50px;
+
+            text-align: center;
+
+            backdrop-filter: blur(18px);
+        }
+
+        .cta-card h2 {
+            font-size: clamp(2.2rem, 5vw, 4rem);
+            margin-bottom: 20px;
+        }
+
+        .cta-card p {
+            max-width: 700px;
+            margin: 0 auto 35px;
+            color: var(--text-secondary);
+            line-height: 1.9;
+        }
+
+        /* =========================================
+           FOOTER
+        ========================================== */
+
+        footer {
+            padding: 30px 7%;
+            border-top:
+                1px solid rgba(255, 255, 255, 0.08);
+
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        footer p {
+            color: var(--text-muted);
+        }
+
+        /* =========================================
+           RESPONSIVE
+        ========================================== */
+
+        @media (max-width: 1100px) {
+
+            .hero-grid,
+            .features-grid,
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding-top: 60px;
+            }
+
+            .hero-content {
+                text-align: center;
+            }
+
+            .hero-description {
+                margin-inline: auto;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .navbar {
+                padding: 18px 20px;
+            }
+
+            .hero,
+            .features,
+            .cta-section,
+            .stats-section {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .cta-card {
+                padding: 50px 25px;
+            }
+
+            footer {
+                padding: 30px 20px;
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+
 </head>
 
-<body>
+<body class="landing-page">
 
-    <div class="bg-blur blur-1"></div>
-    <div class="bg-blur blur-2"></div>
+    <!-- =========================================
+       NAVBAR
+    ========================================== -->
 
     <header class="navbar">
-        <div class="container nav-content">
-            <div class="logo">
-                <span class="logo-icon">🚀</span>
-                <div>
-                    <h2 style="font-size: 1.2rem;">Cymor Code Learner</h2>
-                    <p style="font-size: 0.7rem; color: var(--accent);">Learn • Build • Deploy</p>
-                </div>
-            </div>
 
-            <nav class="nav-links">
-                <a href="#features">Features</a>
-                <a href="#modules">Lessons</a>
-            </nav>
+        <div class="logo">
 
-            <div class="nav-buttons">
-                <button id="loginBtn" class="secondary-btn login-btn">Login</button>
-            </div>
+            <h2 class="gradient-text">
+                🚀 Cymor Code Learner
+            </h2>
+
+            <span>
+                Interactive Coding Universe
+            </span>
+
         </div>
+
+        <div class="nav-actions">
+
+            <a href="login.html"
+                class="secondary-btn">
+                Login
+            </a>
+
+            <a href="register.html"
+                class="primary-btn">
+                Start Learning
+            </a>
+
+        </div>
+
     </header>
 
+    <!-- =========================================
+       HERO
+    ========================================== -->
+
     <section class="hero">
-        <div class="container hero-container">
-            
+
+        <div class="hero-grid">
+
+            <!-- LEFT -->
+
             <div class="hero-content">
-                <div class="hero-badge">🔥 Beginner Friendly Coding Platform</div>
-                <h1>Learn Coding From <span>Zero</span> To Real Websites</h1>
-                <p class="hero-text">
-                    Master HTML step-by-step with interactive lessons, quizzes, live coding, and real-world deployment training.
+
+                <div class="hero-badge">
+                    ⚡ Gamified Coding Experience
+                </div>
+
+                <h1 class="hero-title">
+
+                    Learn Coding Like A
+
+                    <span class="gradient-text">
+                        Real Developer
+                    </span>
+
+                </h1>
+
+                <p class="hero-description">
+
+                    Cymor Code Learner transforms coding education into an immersive experience with live code playgrounds, interactive lessons, developer dashboards, quizzes, XP rewards and real-world coding projects.
+
                 </p>
 
                 <div class="hero-buttons">
-                    <button id="startLearningBtn" class="primary-btn big-btn">🚀 Start Learning Free</button>
+
+                    <a href="register.html"
+                        class="primary-btn big-btn">
+
+                        🚀 Start Free
+
+                    </a>
+
+                    <a href="dashboard.html"
+                        class="secondary-btn big-btn">
+
+                        📚 Explore Platform
+
+                    </a>
+
                 </div>
 
-                <div class="hero-stats">
-                    <div class="stat-card"><h2>30</h2><p>Lessons</p></div>
-                    <div class="stat-card"><h2>100%</h2><p>Free</p></div>
-                    <div class="stat-card"><h2>∞</h2><p>Practice</p></div>
-                </div>
             </div>
 
-            <div class="hero-visual">
+            <!-- RIGHT -->
+
+            <div class="hero-code">
+
                 <div class="code-window">
-                    <div class="window-top">
-                        <div class="window-dots"><span></span><span></span><span></span></div>
-                        <p>index.html</p>
+
+                    <div class="window-topbar">
+
+                        <div class="dot red"></div>
+                        <div class="dot yellow"></div>
+                        <div class="dot green"></div>
+
                     </div>
-                    <pre><code>&lt;!DOCTYPE html&gt;
+
+                    <div class="code-content">
+
+                        <pre>
 &lt;html&gt;
-&lt;head&gt;
-  &lt;title&gt;My Site&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-  &lt;h1&gt;Hello World 🚀&lt;/h1&gt;
-  &lt;p&gt;Built with Cymor&lt;/p&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
+    &lt;head&gt;
+        &lt;title&gt;
+            Cymor Code
+        &lt;/title&gt;
+    &lt;/head&gt;
+
+    &lt;body&gt;
+
+        &lt;h1&gt;
+            Hello Developer 🚀
+        &lt;/h1&gt;
+
+        &lt;p&gt;
+            Learn. Build. Grow.
+        &lt;/p&gt;
+
+    &lt;/body&gt;
+&lt;/html&gt;
+                        </pre>
+
+                    </div>
+
                 </div>
+
             </div>
 
         </div>
+
     </section>
 
-    <section id="features" class="section">
-        <div class="container">
-            <div class="section-title">
-                <p class="small-label">WHY CYMOR CODE LEARNER?</p>
-                <h2>Built For Future Developers</h2>
+    <!-- =========================================
+       STATS
+    ========================================== -->
+
+    <section class="stats-section">
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <h2 class="gradient-text">30+</h2>
+                <p>Interactive Lessons</p>
             </div>
 
-            <div class="features-grid">
-                <div class="card feature-card">
-                    <div class="feature-icon">💻</div>
-                    <h3>Live Editor</h3>
-                    <p>Write and run HTML code instantly in your browser.</p>
-                </div>
-                <div class="card feature-card">
-                    <div class="feature-icon">🧠</div>
-                    <h3>Smart Quizzes</h3>
-                    <p>Test your knowledge and earn XP after every module.</p>
-                </div>
-                <div class="card feature-card">
-                    <div class="feature-icon">🌍</div>
-                    <h3>Real Deployment</h3>
-                    <p>Learn to push your code to GitHub and Vercel.</p>
-                </div>
+            <div class="stat-card">
+                <h2 class="gradient-text">Live</h2>
+                <p>Code Playground</p>
             </div>
+
+            <div class="stat-card">
+                <h2 class="gradient-text">XP</h2>
+                <p>Gamified Learning</p>
+            </div>
+
+            <div class="stat-card">
+                <h2 class="gradient-text">24/7</h2>
+                <p>Learning Access</p>
+            </div>
+
         </div>
+
     </section>
 
-    <section id="modules" class="section">
-        <div class="container">
-            <div class="section-title">
-                <p class="small-label">COURSE PATH</p>
-                <h2>Structured Learning</h2>
+    <!-- =========================================
+       FEATURES
+    ========================================== -->
+
+    <section class="features">
+
+        <div class="section-header">
+
+            <h2>
+
+                Why Developers Love
+
+                <span class="gradient-text">
+                    Cymor
+                </span>
+
+            </h2>
+
+            <p>
+
+                Built with a modern SaaS-inspired experience that keeps learners engaged, motivated and progressing every day.
+
+            </p>
+
+        </div>
+
+        <div class="features-grid">
+
+            <!-- FEATURE -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    💻
+                </div>
+
+                <h3>
+                    Live Coding Sandbox
+                </h3>
+
+                <p>
+                    Write real code directly in your browser and instantly preview results in a modern interactive playground.
+                </p>
+
             </div>
 
-            <div class="modules-grid">
-                <div class="module-card card">
-                    <h3>🧱 Foundations</h3>
-                    <p>HTML Basics (Lessons 1-5)</p>
+            <!-- FEATURE -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    🧠
                 </div>
-                <div class="module-card card">
-                    <h3>📝 Content</h3>
-                    <p>Text & Media (Lessons 6-15)</p>
-                </div>
-                <div class="module-card card">
-                    <h3>🚀 Deployment</h3>
-                    <p>Vercel/Netlify & Github (Lessons 29-30)</p>
-                </div>
+
+                <h3>
+                    Smart Interactive Lessons
+                </h3>
+
+                <p>
+                    Structured coding lessons designed for beginners with clear explanations, examples and mini challenges.
+                </p>
+
             </div>
+
+            <!-- FEATURE -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    ⚡
+                </div>
+
+                <h3>
+                    XP & Leveling System
+                </h3>
+
+                <p>
+                    Earn XP, unlock achievements, maintain streaks and level up your developer profile while learning.
+                </p>
+
+            </div>
+
+            <!-- FEATURE -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    🎯
+                </div>
+
+                <h3>
+                    Interactive Quizzes
+                </h3>
+
+                <p>
+                    Reinforce your understanding using quiz systems with instant feedback and progress tracking.
+                </p>
+
+            </div>
+
+            <!-- FEATURE -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    🚀
+                </div>
+
+                <h3>
+                    Modern Developer UI
+                </h3>
+
+                <p>
+                    Experience a futuristic interface inspired by premium developer platforms and coding tools.
+                </p>
+
+            </div>
+
+            <!-- FEATURE -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    ☁️
+                </div>
+
+                <h3>
+                    Cloud Progress Sync
+                </h3>
+
+                <p>
+                    Firebase-powered syncing ensures your lessons, XP and achievements are securely saved online.
+                </p>
+
+            </div>
+
         </div>
+
     </section>
 
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 Cymor Tech Services. Powered by Cymor.</p>
+    <!-- =========================================
+       CTA
+    ========================================== -->
+
+    <section class="cta-section">
+
+        <div class="cta-card">
+
+            <h2>
+
+                Become A
+
+                <span class="gradient-text">
+                    Next-Gen Developer
+                </span>
+
+            </h2>
+
+            <p>
+
+                Stop watching endless tutorials. Start building real coding skills interactively with Cymor Code Learner today.
+
+            </p>
+
+            <a href="register.html"
+                class="primary-btn big-btn">
+
+                🚀 Create Free Account
+
+            </a>
+
         </div>
+
+    </section>
+
+    <!-- =========================================
+       FOOTER
+    ========================================== -->
+
+    <footer>
+
+        <p>
+            © 2026 Cymor Code Learner. All rights reserved.
+        </p>
+
+        <p>
+            Built for future developers ⚡
+        </p>
+
     </footer>
 
-    <script type="module" src="./firebase/firebase-config.js"></script>
-    <script type="module" src="app.js"></script>
-
 </body>
+
 </html>
