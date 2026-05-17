@@ -15,17 +15,15 @@
 
     <meta
         name="description"
-        content="Interactive quiz system for Cymor Code Learner." />
+        content="Interactive coding quiz system for Cymor Code Learner." />
 
-    <title>Cymor Quiz 🚀</title>
+    <title>Cymor Code Learner • Quiz 🚀</title>
 
     <!-- =========================================
-       GOOGLE FONT
+       GOOGLE FONTS
     ========================================== -->
 
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
 
     <link
         rel="preconnect"
@@ -33,7 +31,7 @@
         crossorigin>
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
         rel="stylesheet">
 
     <!-- =========================================
@@ -52,271 +50,356 @@
        BACKGROUND EFFECTS
     ========================================== -->
 
-    <div class="bg-blur blur-1"></div>
-    <div class="bg-blur blur-2"></div>
+    <div class="quiz-glow glow-1"></div>
+    <div class="quiz-glow glow-2"></div>
 
     <!-- =========================================
-       TOP NAVBAR
+       QUIZ NAVBAR
     ========================================== -->
 
     <header class="quiz-navbar">
 
-        <div class="quiz-logo">
+        <div class="quiz-brand">
 
             <h2>
                 🚀 Cymor Code Learner
             </h2>
 
             <p>
-                Interactive Quiz System
+                Interactive Quiz Arena
             </p>
 
         </div>
 
-        <div class="quiz-user-area">
+        <div class="quiz-top-actions">
 
-            <div class="xp-box">
+            <div class="xp-display">
 
                 <span>
                     ⚡ XP
                 </span>
 
-                <h3 id="userXP">
+                <h3 id="quiz-xp">
                     0
                 </h3>
 
             </div>
 
-            <button
-                id="dashboardBtn"
+            <a
+                href="dashboard.html"
                 class="secondary-btn">
 
                 Dashboard
 
-            </button>
+            </a>
 
         </div>
 
     </header>
 
     <!-- =========================================
-       QUIZ WRAPPER
+       MAIN QUIZ WRAPPER
     ========================================== -->
 
     <main class="quiz-wrapper">
 
         <!-- =========================================
-           QUIZ HEADER
+           LEFT SIDE
         ========================================== -->
 
-        <section class="quiz-header-card">
+        <section class="quiz-main-section">
 
-            <div class="quiz-header-left">
+            <!-- =========================================
+               QUIZ HEADER
+            ========================================== -->
 
-                <p class="quiz-label">
-                    LESSON QUIZ
-                </p>
+            <div class="quiz-hero card">
 
-                <h1 id="quizLessonTitle">
-                    Loading Quiz...
-                </h1>
+                <div>
 
-                <p id="quizDescription">
+                    <p class="quiz-label">
+                        LESSON QUIZ
+                    </p>
 
-                    Test your understanding
-                    and earn XP rewards.
+                    <h1 id="quizLessonTitle">
+                        HTML Fundamentals Quiz 🚀
+                    </h1>
 
-                </p>
+                    <p id="quizLessonDescription">
+
+                        Answer questions correctly,
+                        build your streak and earn XP rewards.
+
+                    </p>
+
+                </div>
+
+                <div class="quiz-circle-progress">
+
+                    <div class="circle-inner">
+
+                        <h2 id="questionCounter">
+                            1/5
+                        </h2>
+
+                        <p>
+                            Questions
+                        </p>
+
+                    </div>
+
+                </div>
 
             </div>
 
-            <div class="quiz-progress-area">
+            <!-- =========================================
+               PROGRESS BAR
+            ========================================== -->
 
-                <div class="quiz-progress-circle">
+            <div class="quiz-progress-card card">
 
-                    <span id="questionCounter">
-                        1 / 1
+                <div class="progress-header">
+
+                    <span>
+                        Quiz Progress
+                    </span>
+
+                    <span id="quiz-progress-text">
+                        0%
                     </span>
 
                 </div>
 
+                <div class="progress-track">
+
+                    <div
+                        id="quiz-progress-bar"
+                        class="progress-fill">
+                    </div>
+
+                </div>
+
             </div>
+
+            <!-- =========================================
+               QUIZ CARD
+            ========================================== -->
+
+            <section class="quiz-card card">
+
+                <!-- TIMER -->
+
+                <div class="quiz-meta-row">
+
+                    <div class="timer-box">
+
+                        ⏰ Time Left:
+                        <span id="quiz-timer">
+                            30s
+                        </span>
+
+                    </div>
+
+                    <div class="streak-box">
+
+                        🔥 Streak:
+                        <span id="quiz-streak">
+                            0
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <!-- QUESTION -->
+
+                <div class="question-container">
+
+                    <h2 id="quizQuestion">
+
+                        Loading Question...
+
+                    </h2>
+
+                </div>
+
+                <!-- OPTIONS -->
+
+                <div
+                    id="quizOptions"
+                    class="quiz-options-grid">
+
+                    <!-- Dynamic quiz options -->
+
+                </div>
+
+                <!-- FEEDBACK -->
+
+                <div
+                    id="quiz-feedback"
+                    class="quiz-feedback">
+
+                </div>
+
+                <!-- ACTION BUTTONS -->
+
+                <div class="quiz-actions">
+
+                    <button
+                        id="submit-quiz-btn"
+                        class="primary-btn big-btn">
+
+                        ✅ Submit Answer
+
+                    </button>
+
+                    <button
+                        id="next-lesson-btn"
+                        class="secondary-btn big-btn">
+
+                        🚀 Next Lesson
+
+                    </button>
+
+                </div>
+
+            </section>
 
         </section>
 
         <!-- =========================================
-           MAIN QUIZ CARD
+           RIGHT SIDEBAR
         ========================================== -->
 
-        <section class="quiz-card">
+        <aside class="quiz-sidebar">
 
-            <!-- QUESTION -->
+            <!-- =========================================
+               USER STATS
+            ========================================== -->
 
-            <div class="question-area">
-
-                <h2 id="quizQuestion">
-
-                    Loading Question...
-
-                </h2>
-
-            </div>
-
-            <!-- OPTIONS -->
-
-            <div
-                id="quizOptions"
-                class="options-grid">
-
-                <!-- Dynamic Options -->
-
-            </div>
-
-            <!-- FEEDBACK -->
-
-            <div
-                id="feedbackBox"
-                class="feedback-box hidden">
-
-                <!-- Dynamic feedback -->
-
-            </div>
-
-            <!-- ACTION BUTTONS -->
-
-            <div class="quiz-actions">
-
-                <button
-                    id="submitAnswerBtn"
-                    class="primary-btn big-btn">
-
-                    ✅ Submit Answer
-
-                </button>
-
-                <button
-                    id="nextQuestionBtn"
-                    class="secondary-btn big-btn hidden">
-
-                    Next ➡
-
-                </button>
-
-            </div>
-
-        </section>
-
-        <!-- =========================================
-           QUIZ SIDEBAR INFO
-        ========================================== -->
-
-        <section class="quiz-info-grid">
-
-            <!-- XP CARD -->
-
-            <div class="info-card">
-
-                <div class="info-icon">
-                    ⚡
-                </div>
+            <div class="sidebar-card card">
 
                 <h3>
-                    XP Reward
+                    🧠 Your Stats
                 </h3>
 
-                <p id="xpReward">
-                    +10 XP
-                </p>
+                <div class="stats-list">
 
-            </div>
+                    <div class="stat-item">
 
-            <!-- ACCURACY CARD -->
+                        <span>
+                            ⚡ XP
+                        </span>
 
-            <div class="info-card">
+                        <strong id="sidebarXP">
+                            0
+                        </strong>
 
-                <div class="info-icon">
-                    🎯
+                    </div>
+
+                    <div class="stat-item">
+
+                        <span>
+                            🏆 Score
+                        </span>
+
+                        <strong id="quiz-score">
+                            0
+                        </strong>
+
+                    </div>
+
+                    <div class="stat-item">
+
+                        <span>
+                            🔥 Streak
+                        </span>
+
+                        <strong id="sidebarStreak">
+                            0
+                        </strong>
+
+                    </div>
+
                 </div>
 
-                <h3>
-                    Accuracy
-                </h3>
-
-                <p id="accuracyText">
-                    0%
-                </p>
-
             </div>
 
-            <!-- STREAK CARD -->
+            <!-- =========================================
+               TIPS
+            ========================================== -->
 
-            <div class="info-card">
-
-                <div class="info-icon">
-                    🔥
-                </div>
+            <div class="sidebar-card card">
 
                 <h3>
-                    Learning Streak
+                    💡 Quiz Tips
                 </h3>
 
-                <p id="streakText">
-                    0 Days
-                </p>
-
-            </div>
-
-        </section>
-
-        <!-- =========================================
-           QUIZ TIPS
-        ========================================== -->
-
-        <section class="tips-section">
-
-            <div class="tips-card">
-
-                <h2>
-                    🧠 Quiz Tips
-                </h2>
-
-                <ul>
+                <ul class="tips-list">
 
                     <li>
-                        Read the question carefully
+                        Read each question carefully
                     </li>
 
                     <li>
-                        Eliminate obviously wrong answers
+                        Eliminate wrong answers first
                     </li>
 
                     <li>
-                        Think about the lesson examples
+                        Practice inside the sandbox
                     </li>
 
                     <li>
-                        Learning matters more than speed
+                        Stay consistent daily
                     </li>
 
                 </ul>
 
             </div>
 
-        </section>
+            <!-- =========================================
+               ACHIEVEMENTS
+            ========================================== -->
+
+            <div class="sidebar-card card">
+
+                <h3>
+                    🏅 Achievements
+                </h3>
+
+                <div class="badge-grid">
+
+                    <div class="badge-pill">
+                        🚀 Beginner
+                    </div>
+
+                    <div class="badge-pill">
+                        ⚡ XP Hunter
+                    </div>
+
+                    <div class="badge-pill">
+                        🔥 Streak Hero
+                    </div>
+
+                </div>
+
+            </div>
+
+        </aside>
 
     </main>
 
     <!-- =========================================
-       QUIZ RESULT MODAL
+       QUIZ COMPLETE MODAL
     ========================================== -->
 
     <div
-        id="resultModal"
-        class="modal hidden">
+        id="quizCompleteModal"
+        class="quiz-modal hidden">
 
-        <div class="modal-content large-modal">
+        <div class="quiz-modal-content card">
 
-            <div class="result-icon">
+            <div class="modal-icon">
                 🏆
             </div>
 
@@ -326,16 +409,16 @@
 
             <p id="finalScoreText">
 
-                You scored 100%
+                Amazing work developer 🚀
 
             </p>
 
-            <div class="result-stats">
+            <div class="final-stats-grid">
 
-                <div class="result-stat-card">
+                <div class="final-stat">
 
                     <h3 id="earnedXP">
-                        +10
+                        +50
                     </h3>
 
                     <p>
@@ -344,10 +427,10 @@
 
                 </div>
 
-                <div class="result-stat-card">
+                <div class="final-stat">
 
                     <h3 id="correctAnswers">
-                        1/1
+                        5/5
                     </h3>
 
                     <p>
@@ -358,7 +441,7 @@
 
             </div>
 
-            <div class="result-actions">
+            <div class="modal-actions">
 
                 <button
                     id="retryQuizBtn"
@@ -368,13 +451,13 @@
 
                 </button>
 
-                <button
-                    id="nextLessonBtn"
+                <a
+                    href="lesson.html?id=1"
                     class="primary-btn big-btn">
 
                     🚀 Continue Learning
 
-                </button>
+                </a>
 
             </div>
 
@@ -383,13 +466,420 @@
     </div>
 
     <!-- =========================================
-       FIREBASE
+       QUIZ PAGE CSS
     ========================================== -->
 
-    <script
-        type="module"
-        src="./Firebase/firebase-config.js">
-    </script>
+    <style>
+
+        .quiz-page {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top left,
+                rgba(0,245,255,0.08),
+                transparent 30%),
+                radial-gradient(circle at bottom right,
+                rgba(139,92,246,0.08),
+                transparent 30%),
+                var(--bg-primary);
+            color: white;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .quiz-glow {
+            position: fixed;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.25;
+            z-index: 0;
+        }
+
+        .glow-1 {
+            background: var(--accent);
+            top: -100px;
+            left: -100px;
+        }
+
+        .glow-2 {
+            background: var(--accent-2);
+            bottom: -100px;
+            right: -100px;
+        }
+
+        .quiz-navbar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(18px);
+            background: rgba(5,8,22,0.75);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .quiz-brand h2 {
+            margin-bottom: 5px;
+        }
+
+        .quiz-brand p {
+            color: var(--text-muted);
+        }
+
+        .quiz-top-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .xp-display {
+            padding: 12px 18px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .xp-display span {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .quiz-wrapper {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 30px;
+            padding: 40px;
+        }
+
+        .quiz-main-section {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .quiz-hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .quiz-label {
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .quiz-hero h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 12px;
+        }
+
+        .quiz-hero p {
+            color: var(--text-muted);
+        }
+
+        .quiz-circle-progress {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--accent),
+                    var(--accent-2)
+                );
+            padding: 6px;
+        }
+
+        .circle-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .circle-inner p {
+            color: var(--text-muted);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .progress-track {
+            height: 12px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.08);
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            border-radius: inherit;
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--accent),
+                    var(--accent-2)
+                );
+            transition: 0.3s ease;
+        }
+
+        .quiz-card {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .quiz-meta-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .timer-box,
+        .streak-box {
+            padding: 12px 18px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            font-weight: 600;
+        }
+
+        .question-container h2 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            line-height: 1.5;
+        }
+
+        .quiz-options-grid {
+            display: grid;
+            gap: 18px;
+        }
+
+        .quiz-option {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: 0.25s ease;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .quiz-option:hover {
+            transform: translateY(-3px);
+            border-color: rgba(0,245,255,0.3);
+            background: rgba(0,245,255,0.08);
+        }
+
+        .quiz-option.selected {
+            border-color: var(--accent);
+            background: rgba(0,245,255,0.1);
+        }
+
+        .option-letter {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--accent),
+                    var(--accent-2)
+                );
+            color: black;
+            font-weight: 700;
+        }
+
+        .quiz-feedback {
+            min-height: 60px;
+            padding: 18px;
+            border-radius: 18px;
+            font-weight: 500;
+        }
+
+        .quiz-feedback.success {
+            background: rgba(34,197,94,0.12);
+            border: 1px solid rgba(34,197,94,0.3);
+        }
+
+        .quiz-feedback.error {
+            background: rgba(239,68,68,0.12);
+            border: 1px solid rgba(239,68,68,0.3);
+        }
+
+        .quiz-feedback.warning {
+            background: rgba(245,158,11,0.12);
+            border: 1px solid rgba(245,158,11,0.3);
+        }
+
+        .quiz-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .quiz-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar-card h3 {
+            margin-bottom: 20px;
+        }
+
+        .stats-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.04);
+        }
+
+        .tips-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            color: var(--text-muted);
+            padding-left: 18px;
+        }
+
+        .badge-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .badge-pill {
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(0,245,255,0.1);
+            border: 1px solid rgba(0,245,255,0.2);
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
+
+        .quiz-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 200;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .quiz-modal-content {
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .modal-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .final-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .final-stat {
+            padding: 24px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+        }
+
+        .final-stat h3 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 1100px) {
+
+            .quiz-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 768px) {
+
+            .quiz-navbar {
+                padding: 20px;
+                flex-direction: column;
+                gap: 18px;
+            }
+
+            .quiz-wrapper {
+                padding: 20px;
+            }
+
+            .quiz-hero {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .quiz-circle-progress {
+                width: 120px;
+                height: 120px;
+            }
+
+            .final-stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
 
     <!-- =========================================
        QUIZ ENGINE
@@ -401,21 +891,12 @@
     </script>
 
     <!-- =========================================
-       PROGRESS TRACKER
+       APP
     ========================================== -->
 
     <script
         type="module"
-        src="./components/progress-tracker.js">
-    </script>
-
-    <!-- =========================================
-       MAIN APP
-    ========================================== -->
-
-    <script
-        type="module"
-        src="app.js">
+        src="./app.js">
     </script>
 
 </body>
