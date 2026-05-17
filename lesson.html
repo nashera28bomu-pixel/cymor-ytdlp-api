@@ -1,797 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <!-- =========================================
-       META
-    ========================================== -->
-
     <meta charset="UTF-8" />
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0" />
-
-    <meta
-        name="description"
-        content="Interactive coding lessons for Cymor Code Learner." />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Interactive coding lessons for Cymor Code Learner." />
     <title>Cymor Code Learner 🚀</title>
 
-    <!-- =========================================
-       GOOGLE FONTS
-    ========================================== -->
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="learn.css" />
 
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin>
+    <style>
+        /* Essential Logic: Sections are hidden by default */
+        .lesson-step { display: none; animation: fadeIn 0.5s ease-out forwards; }
+        .lesson-step.active { display: block; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
-        rel="stylesheet">
-
-    <!-- =========================================
-       CSS
-    ========================================== -->
-
-    <link
-        rel="stylesheet"
-        href="styles.css" />
-
-    <link
-        rel="stylesheet"
-        href="learn.css" />
-
+        /* Hide Scrollbar but keep functionality */
+        body::-webkit-scrollbar { display: none; }
+        
+        /* Disable next button until task is done */
+        .primary-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            filter: grayscale(1);
+        }
+    </style>
 </head>
 
 <body class="lesson-page">
-
-    <!-- =========================================
-       BACKGROUND BLUR
-    ========================================== -->
-
     <div class="bg-blur blur-1"></div>
     <div class="bg-blur blur-2"></div>
 
-    <!-- =========================================
-       SIDEBAR
-    ========================================== -->
-
     <aside class="lesson-sidebar">
-
-        <!-- LOGO -->
-
         <div class="sidebar-logo">
-
-            <div class="logo-circle">
-                🚀
-            </div>
-
+            <div class="logo-circle">🚀</div>
             <div>
-
-                <h2>
-                    Cymor Code Learner
-                </h2>
-
-                <p>
-                    Interactive Coding Track
-                </p>
-
+                <h2>Cymor Code</h2>
+                <p>Learning Track</p>
             </div>
-
         </div>
-
-        <!-- USER -->
-
-        <div class="sidebar-user card">
-
-            <div class="user-avatar">
-
-                <img
-                    id="userPhoto"
-                    src="https://i.imgur.com/HeIi0wU.png"
-                    alt="User" />
-
-            </div>
-
-            <div>
-
-                <h3 id="userName">
-                    Cymor Developer
-                </h3>
-
-                <p>
-                    Level
-                    <span id="userLevel">
-                        1
-                    </span>
-                </p>
-
-            </div>
-
-        </div>
-
-        <!-- PROGRESS -->
 
         <div class="progress-card card">
-
             <div class="card-top">
-
-                <h3>
-                    📈 Progress
-                </h3>
-
-                <span id="progressPercent">
-                    0%
-                </span>
-
+                <h3>📈 Progress</h3>
+                <span id="progressPercent">0%</span>
             </div>
-
-            <div class="progress-bar">
-
-                <div
-                    id="progressFill"
-                    class="progress-fill">
-
-                </div>
-
-            </div>
-
-            <p id="progressText">
-                0% Completed
-            </p>
-
+            <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
         </div>
-
-        <!-- LESSONS -->
 
         <div class="lessons-card card">
-
-            <div class="card-top">
-
-                <h3>
-                    📚 Lessons
-                </h3>
-
-            </div>
-
-            <div
-                id="lessonList"
-                class="lesson-list">
-
-                <!-- DYNAMIC LESSONS -->
-
-            </div>
-
+            <div class="card-top"><h3>📚 Path</h3></div>
+            <div id="lessonList" class="lesson-list"></div>
         </div>
-
-        <!-- ACTIONS -->
 
         <div class="sidebar-actions">
-
-            <a
-                href="dashboard.html"
-                class="secondary-btn">
-
-                📊 Dashboard
-
-            </a>
-
-            <button
-                id="logoutBtn"
-                class="logout-btn">
-
-                🚪 Logout
-
-            </button>
-
+            <a href="dashboard.html" class="secondary-btn">📊 Dashboard</a>
+            <button id="logoutBtn" class="logout-btn">🚪 Logout</button>
         </div>
-
     </aside>
 
-    <!-- =========================================
-       MAIN CONTENT
-    ========================================== -->
-
     <main class="lesson-main">
-
-        <!-- =========================================
-           TOPBAR
-        ========================================== -->
-
         <header class="lesson-topbar">
-
             <div>
-
-                <p class="lesson-label">
-                    INTERACTIVE LESSON
-                </p>
-
-                <h1 id="lessonTitle">
-                    Loading Lesson...
-                </h1>
-
-                <p
-                    id="lessonModule"
-                    class="gradient-text">
-
-                    Please wait...
-
-                </p>
-
+                <p class="lesson-label" id="stepIndicator">STEP 1: THEORY</p>
+                <h1 id="lessonTitle">Loading...</h1>
             </div>
-
             <div class="lesson-top-actions">
-
-                <button
-                    id="prevLessonBtn"
-                    class="secondary-btn">
-
-                    ⬅ Previous
-
-                </button>
-
-                <button
-                    id="nextLessonBtn"
-                    class="primary-btn">
-
-                    Next ➡
-
-                </button>
-
+                <button id="prevLessonBtn" class="secondary-btn">⬅ Back</button>
+                <button id="masterNextBtn" class="primary-btn">Continue ➡</button>
             </div>
-
         </header>
 
-        <!-- =========================================
-           LESSON HERO
-        ========================================== -->
-
-        <section class="lesson-hero card">
-
-            <div class="lesson-hero-left">
-
-                <p class="mini-label">
-                    CURRENT TOPIC
-                </p>
-
-                <h2 id="heroLessonTitle">
-                    Loading...
-                </h2>
-
-                <p id="heroLessonDescription">
-
-                    Preparing your lesson content...
-
-                </p>
-
-            </div>
-
-            <div class="lesson-hero-right">
-
-                <div class="lesson-badge">
-                    🚀 Beginner Friendly
+        <div id="step-theory" class="lesson-step active">
+            <section class="lesson-hero card">
+                <div class="lesson-hero-left">
+                    <p class="mini-label">CURRENT TOPIC</p>
+                    <h2 id="heroLessonTitle">Loading...</h2>
+                    <p id="heroLessonDescription">Preparing your lesson content...</p>
                 </div>
-
-            </div>
-
-        </section>
-
-        <!-- =========================================
-           LESSON CONTENT
-        ========================================== -->
-
-        <section
-            id="lessonContent"
-            class="lesson-content">
-
-            <!-- LESSON CONTENT LOADS HERE -->
-
-            <div class="loading-card card">
-
-                <h2>
-                    ⏳ Loading Lesson Content...
-                </h2>
-
-            </div>
-
-        </section>
-
-        <!-- =========================================
-           SUMMARY SECTION
-        ========================================== -->
-
-        <section class="summary-section">
-
-            <div class="section-header">
-
-                <div>
-
-                    <p class="mini-label">
-                        LESSON SUMMARY
-                    </p>
-
-                    <h2>
-                        🧠 Quick Revision
-                    </h2>
-
+                <div class="lesson-hero-right">
+                    <div class="lesson-badge">🚀 Level <span id="userLevel">1</span></div>
                 </div>
+            </section>
 
-            </div>
+            <section id="lessonContent" class="lesson-content">
+                </section>
 
-            <div class="summary-grid">
-
-                <!-- TAKEAWAYS -->
-
-                <div class="summary-card card">
-
-                    <h3>
-                        📌 Key Takeaways
-                    </h3>
-
-                    <ul id="takeawaysList">
-
-                    </ul>
-
-                </div>
-
-                <!-- CHEAT SHEET -->
-
-                <div class="summary-card card">
-
-                    <h3>
-                        ⚡ Cheat Sheet
-                    </h3>
-
-                    <div id="cheatSheetList">
-
+            <section class="summary-section">
+                <div class="summary-grid">
+                    <div class="summary-card card">
+                        <h3>📌 Key Takeaways</h3>
+                        <ul id="takeawaysList"></ul>
                     </div>
-
                 </div>
+            </section>
+        </div>
 
-            </div>
-
-        </section>
-
-        <!-- =========================================
-           LIVE SANDBOX
-           APPEARS LATER IN LESSON
-        ========================================== -->
-
-        <section class="sandbox-section">
-
-            <div class="section-header">
-
-                <div>
-
-                    <p class="mini-label">
-                        LIVE PLAYGROUND
-                    </p>
-
-                    <h2>
-                        💻 Practice Your Code
-                    </h2>
-
-                    <p>
-                        Experiment with code and see live results instantly.
-                    </p>
-
+        <div id="step-challenge" class="lesson-step">
+            <section class="challenge-section">
+                <div class="challenge-card card">
+                    <div class="mini-label">🎯 CHALLENGE</div>
+                    <div id="challengeInstruction" class="challenge-text">Loading instructions...</div>
+                    <div class="challenge-actions">
+                        <button id="showHintBtn" class="secondary-btn">💡 Hint</button>
+                        <button id="checkChallengeBtn" class="primary-btn">✅ Run & Verify</button>
+                    </div>
+                    <div id="challengeHint" class="hint-box hidden"></div>
                 </div>
+            </section>
 
-                <div class="sandbox-actions">
-
-                    <button
-                        id="copy-code-btn"
-                        class="secondary-btn small-btn">
-
-                        📋 Copy
-
-                    </button>
-
-                    <button
-                        id="reset-code-btn"
-                        class="secondary-btn small-btn">
-
-                        🔄 Reset
-
-                    </button>
-
-                    <button
-                        id="runCodeBtn"
-                        class="primary-btn small-btn">
-
-                        ▶ Run Code
-
-                    </button>
-
-                </div>
-
-            </div>
-
-            <!-- SANDBOX GRID -->
-
-            <div class="sandbox-grid">
-
-                <!-- EDITOR -->
-
-                <div class="editor-container card">
-
-                    <div class="editor-topbar">
-
-                        <div class="editor-dots">
-
-                            <span class="dot red"></span>
-                            <span class="dot yellow"></span>
-                            <span class="dot green"></span>
-
+            <section class="sandbox-section">
+                <div class="sandbox-grid">
+                    <div class="editor-container card">
+                        <div class="editor-topbar">
+                            <div class="editor-dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+                            <span>index.html</span>
                         </div>
-
-                        <span>
-                            index.html
-                        </span>
-
-                        <div class="editor-stats">
-
-                            <span id="editor-word-count">
-                                0 Words
-                            </span>
-
-                            <span id="editor-line-count">
-                                0 Lines
-                            </span>
-
-                        </div>
-
+                        <textarea id="codeEditor" spellcheck="false"></textarea>
                     </div>
-
-                    <textarea
-                        id="codeEditor"
-                        spellcheck="false">
-
-                    </textarea>
-
-                </div>
-
-                <!-- PREVIEW -->
-
-                <div class="preview-container card">
-
-                    <div class="editor-topbar">
-
-                        <span>
-                            🌐 Live Preview
-                        </span>
-
+                    <div class="preview-container card">
+                        <div class="editor-topbar"><span>🌐 Preview</span></div>
+                        <iframe id="live-preview"></iframe>
                     </div>
-
-                    <iframe
-                        id="live-preview"
-                        title="Code Preview">
-
-                    </iframe>
-
                 </div>
+            </section>
+        </div>
 
-            </div>
-
-        </section>
-
-        <!-- =========================================
-           MINI CHALLENGE
-        ========================================== -->
-
-        <section class="challenge-section">
-
-            <div class="section-header">
-
-                <div>
-
-                    <p class="mini-label">
-                        MINI CHALLENGE
-                    </p>
-
-                    <h2>
-                        🎯 Practice Challenge
-                    </h2>
-
-                </div>
-
-            </div>
-
-            <div class="challenge-card card">
-
-                <div
-                    id="challengeInstruction"
-                    class="challenge-text">
-
-                    Loading challenge...
-
-                </div>
-
-                <div class="challenge-actions">
-
-                    <button
-                        id="showHintBtn"
-                        class="secondary-btn">
-
-                        💡 Show Hint
-
-                    </button>
-
-                    <button
-                        id="checkChallengeBtn"
-                        class="primary-btn">
-
-                        ✅ Check Challenge
-
-                    </button>
-
-                </div>
-
-                <div
-                    id="challengeHint"
-                    class="hint-box hidden">
-
-                </div>
-
-                <div
-                    id="challengeResult"
-                    class="challenge-result">
-
-                </div>
-
-            </div>
-
-        </section>
-
-        <!-- =========================================
-           QUIZ SECTION
-        ========================================== -->
-
-        <section class="quiz-section">
-
-            <div class="section-header">
-
-                <div>
-
-                    <p class="mini-label">
-                        LESSON QUIZ
-                    </p>
-
-                    <h2>
-                        🧠 Test Your Understanding
-                    </h2>
-
-                </div>
-
-            </div>
-
-            <div class="quiz-card card">
-
-                <!-- QUIZ STATS -->
-
-                <div class="quiz-topbar">
-
-                    <div class="quiz-stat">
-                        ⚡ XP:
-                        <span id="quiz-xp">
-                            0
-                        </span>
+        <div id="step-quiz" class="lesson-step">
+            <section class="quiz-section">
+                <div class="quiz-card card">
+                    <div class="quiz-topbar">
+                        <div class="quiz-stat">⚡ XP: <span id="quiz-xp">0</span></div>
+                        <div class="quiz-stat">⏰ <span id="quiz-timer">30s</span></div>
                     </div>
-
-                    <div class="quiz-stat">
-                        🔥 Streak:
-                        <span id="quiz-streak">
-                            0
-                        </span>
+                    <h2 id="quizQuestion">Quiz loading...</h2>
+                    <div id="quizOptions" class="quiz-options-wrapper"></div>
+                    <div id="quiz-feedback" class="quiz-feedback"></div>
+                    <div class="quiz-actions">
+                        <button id="submit-quiz-btn" class="primary-btn">🚀 Check Answer</button>
                     </div>
-
-                    <div class="quiz-stat">
-                        ⏰
-                        <span id="quiz-timer">
-                            30s
-                        </span>
-                    </div>
-
                 </div>
-
-                <!-- PROGRESS -->
-
-                <div class="quiz-progress-bar">
-
-                    <div
-                        id="quiz-progress-bar"
-                        class="quiz-progress-fill">
-
-                    </div>
-
-                </div>
-
-                <!-- QUESTION -->
-
-                <h2 id="quizQuestion">
-
-                    Quiz loading...
-
-                </h2>
-
-                <!-- OPTIONS -->
-
-                <div
-                    id="quizOptions"
-                    class="quiz-options-wrapper">
-
-                </div>
-
-                <!-- FEEDBACK -->
-
-                <div
-                    id="quiz-feedback"
-                    class="quiz-feedback">
-
-                </div>
-
-                <!-- ACTIONS -->
-
-                <div class="quiz-actions">
-
-                    <button
-                        id="submit-quiz-btn"
-                        class="primary-btn">
-
-                        🚀 Submit Answer
-
-                    </button>
-
-                    <button
-                        id="next-lesson-btn"
-                        class="secondary-btn">
-
-                        Next Lesson ➡
-
-                    </button>
-
-                </div>
-
-            </div>
-
-        </section>
-
-        <!-- =========================================
-           BOTTOM NAVIGATION
-        ========================================== -->
-
-        <section class="lesson-navigation-bottom">
-
-            <button
-                id="bottomPrevLessonBtn"
-                class="secondary-btn">
-
-                ⬅ Previous Lesson
-
-            </button>
-
-            <button
-                id="bottomNextLessonBtn"
-                class="primary-btn">
-
-                Continue ➡
-
-            </button>
-
-        </section>
+            </section>
+        </div>
 
     </main>
 
-    <!-- =========================================
-       SUCCESS MODAL
-    ========================================== -->
-
-    <div
-        id="successModal"
-        class="modal hidden">
-
+    <div id="successModal" class="modal hidden">
         <div class="modal-content card">
-
-            <div class="success-icon">
-                🎉
-            </div>
-
-            <h2>
-                Challenge Completed!
-            </h2>
-
-            <p>
-
-                Excellent work developer.
-                Your progress has been updated.
-
-            </p>
-
-            <button
-                id="closeModalBtn"
-                class="primary-btn">
-
-                Continue Learning 🚀
-
-            </button>
-
+            <div class="success-icon">🎉</div>
+            <h2>Level Complete!</h2>
+            <p>You've mastered this lesson. XP added to your profile.</p>
+            <button id="closeModalBtn" class="primary-btn">Next Lesson 🚀</button>
         </div>
-
     </div>
 
-    <!-- =========================================
-       FIREBASE
-    ========================================== -->
-
-    <script
-        type="module"
-        src="./firebase/firebase-config.js">
-    </script>
-
-    <!-- =========================================
-       APP.JS
-    ========================================== -->
-
-    <script
-        type="module"
-        src="./app.js">
-    </script>
-
-    <!-- =========================================
-       EDITOR + QUIZ ENGINE
-    ========================================== -->
-
-    <script type="module">
-
-        import { initEditor }
-        from "./components/editor.js";
-
-        import { initQuizEngine }
-        from "./components/quiz-engine.js";
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            () => {
-
-                initEditor();
-
-                // Hint toggle
-
-                const hintBtn =
-                    document.getElementById(
-                        "showHintBtn"
-                    );
-
-                const hintBox =
-                    document.getElementById(
-                        "challengeHint"
-                    );
-
-                hintBtn?.addEventListener(
-                    "click",
-                    () => {
-
-                        hintBox.classList.toggle(
-                            "hidden"
-                        );
-
-                    }
-                );
-
-                console.log(
-                    "🚀 Cymor Lesson Engine Ready"
-                );
-
-            }
-        );
-
-    </script>
-
-</body>
-
+    <script type="module" src="./firebase/firebase-config.js"></script>
+    <script type="module" src="./app.js"></script>
+    <script type="module" src="./lessons.js"></script> </body>
 </html>
