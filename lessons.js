@@ -90,39 +90,41 @@ async function initApp() {
 }
 
 // =============================================
-// LOAD LESSON
+// LOAD LESSON (REWRITTEN FOR MOBILE DEBUGGING)
 // =============================================
 
 async function loadLessonData(id) {
   try {
-    // FIXED PATH  
-    const path = `/lessons/lesson-${id}.json`;  
-
+    // 1. Try a relative path that works on most web servers
+    const path = `./lessons/lesson-${id}.json`;  
+    
     console.log("📂 Fetching:", path);  
 
     const response = await fetch(path);  
 
-    console.log("📡 Status:", response.status);  
-
+    // 2. If the fetch fails, tell us exactly where it looked
     if (!response.ok) {  
+      alert(`404 Error: I looked for ${path} but couldn't find it. Check if the 'lessons' folder is in the same directory as this HTML file.`);
       throw new Error(`Lesson ${id} not found`);  
     }  
 
     const data = await response.json();  
 
-    // VALIDATION  
+    // 3. Validation
     if (!data.title || !data.content) {  
-      throw new Error("Invalid lesson structure");  
+      throw new Error("Invalid lesson structure inside the JSON file");  
     }  
 
     currentLessonData = data;  
-
     console.log("✅ Lesson Loaded");  
 
     renderTheoryStep();  
     updateProgressUI();
+
   } catch (error) {
-    console.error("LESSON LOAD ERROR:", error);  
+    console.error("LESSON LOAD ERROR:", error);
+    // This is vital for phone users!
+    alert("CRITICAL ERROR: " + error.message);
     showFatalError(error.message);
   }
 }
@@ -188,7 +190,7 @@ function renderTheoryStep() {
       .join("");
   }
 
-  // --- ADDED CHEAT SHEET ENGINE LOGIC ---
+  // --- CHEAT SHEET ENGINE LOGIC ---
   const cheatSheetList = $("cheatSheetList");
 
   if (
@@ -205,7 +207,6 @@ function renderTheoryStep() {
       `)
       .join("");
   }
-  // --------------------------------------
 
   if (stepIndicator)
     stepIndicator.textContent = "STEP 1: THEORY";
