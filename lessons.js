@@ -1,22 +1,22 @@
 // =============================================
-// CYMOR CODE LEARNER - LESSON ENGINE V10
+// CYMOR CODE LEARNER - LESSON ENGINE V11
 // =============================================
 
 import {
-    auth,
-    db
+  auth,
+  db
 } from "./firebase/firebase-config.js";
 
 import {
-    onAuthStateChanged
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import {
-    doc,
-    getDoc,
-    updateDoc,
-    arrayUnion,
-    increment
+  doc,
+  getDoc,
+  updateDoc,
+  arrayUnion,
+  increment
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // =============================================
@@ -26,584 +26,368 @@ import {
 let currentLessonData = null;
 let currentStep = 1;
 
-const urlParams =
-    new URLSearchParams(window.location.search);
-
-const lessonId =
-    urlParams.get("id") || "1";
+const urlParams = new URLSearchParams(window.location.search);
+const lessonId = urlParams.get("id") || "1";
 
 // =============================================
 // DOM ELEMENTS
 // =============================================
 
-const masterNextBtn =
-    document.getElementById("masterNextBtn");
+const $ = (id) => document.getElementById(id);
 
-const stepIndicator =
-    document.getElementById("stepIndicator");
+const masterNextBtn = $("masterNextBtn");
+const stepIndicator = $("stepIndicator");
 
-const lessonTitle =
-    document.getElementById("lessonTitle");
+const lessonTitle = $("lessonTitle");
+const heroLessonTitle = $("heroLessonTitle");
+const heroLessonDescription = $("heroLessonDescription");
 
-const heroLessonTitle =
-    document.getElementById("heroLessonTitle");
+const progressPercent = $("progressPercent");
+const progressFill = $("progressFill");
 
-const heroLessonDescription =
-    document.getElementById("heroLessonDescription");
-
-const progressPercent =
-    document.getElementById("progressPercent");
-
-const progressFill =
-    document.getElementById("progressFill");
-
-const userName =
-    document.getElementById("userName");
-
-const userLevel =
-    document.getElementById("userLevel");
+const userName = $("userName");
+const userLevel = $("userLevel");
 
 // =============================================
-// INITIALIZATION
+// INIT
 // =============================================
 
-document.addEventListener(
-    "DOMContentLoaded",
-    async () => {
+document.addEventListener("DOMContentLoaded", initApp);
 
-        try {
+async function initApp() {
+  try {
+    console.log("🚀 Engine Started");  
+    console.log("📘 Lesson:", lessonId);  
 
-            console.log(
-                "🚀 Cymor Lesson Engine Started"
-            );
+    await loadLessonData(lessonId);  
 
-            console.log(
-                "📘 Loading Lesson:",
-                lessonId
-            );
+    setupNavigation();  
+    setupLivePreview();  
+    setupHintSystem();  
 
-            // Load Lesson First
-            await loadLessonData(lessonId);
+    onAuthStateChanged(auth, async (user) => {  
+      try {  
+        if (user) {  
+          console.log("👤 Logged In:", user.email);  
+          await syncUserSidebar(user.uid);  
+        } else {  
+          console.log("🔓 Guest Mode");  
 
-            // Setup Navigation
-            setupNavigation();
+          if (userName)  
+            userName.textContent = "Guest Developer";  
 
-            // Setup Live Preview
-            setupLivePreview();
-
-            // Setup Hint Button
-            setupHintSystem();
-
-            // Optional Auth
-            onAuthStateChanged(
-                auth,
-                async (user) => {
-
-                    try {
-
-                        if (user) {
-
-                            console.log(
-                                "👤 Logged in:",
-                                user.email
-                            );
-
-                            await syncUserSidebar(
-                                user.uid
-                            );
-
-                        } else {
-
-                            console.log(
-                                "🔓 Guest/Test Mode"
-                            );
-
-                            if (userName)
-                                userName.textContent =
-                                "Guest Developer";
-
-                            if (userLevel)
-                                userLevel.textContent =
-                                "1";
-
-                        }
-
-                    } catch (authError) {
-
-                        console.error(
-                            "❌ Auth Error:",
-                            authError
-                        );
-
-                    }
-
-                }
-            );
-
-        } catch (initError) {
-
-            console.error(
-                "❌ INIT ERROR:",
-                initError
-            );
-
-            showFatalError(
-                initError.message
-            );
-
-        }
-
-    }
-);
+          if (userLevel)  
+            userLevel.textContent = "1";  
+        }  
+      } catch (err) {  
+        console.error("Auth Error:", err);  
+      }  
+    });
+  } catch (err) {
+    console.error("INIT ERROR:", err);  
+    showFatalError(err.message);
+  }
+}
 
 // =============================================
-// LOAD LESSON JSON
+// LOAD LESSON
 // =============================================
 
 async function loadLessonData(id) {
+  try {
+    // FIXED PATH  
+    const path = `/lessons/lesson-${id}.json`;  
 
-    try {
+    console.log("📂 Fetching:", path);  
 
-        const path =
-            `./lessons/lesson-${id}.json`;
+    const response = await fetch(path);  
 
-        console.log(
-            "📂 Fetching:",
-            path
-        );
+    console.log("📡 Status:", response.status);  
 
-        const response =
-            await fetch(path);
+    if (!response.ok) {  
+      throw new Error(`Lesson ${id} not found`);  
+    }  
 
-        console.log(
-            "📡 Response Status:",
-            response.status
-        );
+    const data = await response.json();  
 
-        if (!response.ok) {
+    // VALIDATION  
+    if (!data.title || !data.content) {  
+      throw new Error("Invalid lesson structure");  
+    }  
 
-            throw new Error(
-                `Lesson file not found:
-                 ${path}`
-            );
+    currentLessonData = data;  
 
-        }
+    console.log("✅ Lesson Loaded");  
 
-        const text =
-            await response.text();
-
-        console.log(
-            "📄 Raw JSON Loaded"
-        );
-
-        currentLessonData =
-            JSON.parse(text);
-
-        console.log(
-            "✅ Lesson Parsed Successfully"
-        );
-
-        renderTheoryStep();
-
-        updateProgressUI();
-
-    } catch (error) {
-
-        console.error(
-            "❌ LESSON LOAD ERROR:",
-            error
-        );
-
-        showFatalError(error.message);
-
-    }
-
+    renderTheoryStep();  
+    updateProgressUI();
+  } catch (error) {
+    console.error("LESSON LOAD ERROR:", error);  
+    showFatalError(error.message);
+  }
 }
 
 // =============================================
-// STEP 1 - THEORY
+// THEORY STEP
 // =============================================
 
 function renderTheoryStep() {
+  if (!currentLessonData) return;
 
-    if (!currentLessonData) return;
+  currentStep = 1;
 
-    currentStep = 1;
+  toggleStepVisibility();
 
-    toggleStepVisibility();
+  const explanation =
+    currentLessonData?.content?.explanation || "";
 
-    // Titles
+  const syntax =
+    currentLessonData?.content?.syntax_breakdown || "";
 
-    if (lessonTitle)
-        lessonTitle.textContent =
-        currentLessonData.title;
+  if (lessonTitle)
+    lessonTitle.textContent =
+      currentLessonData.title;
 
-    if (heroLessonTitle)
-        heroLessonTitle.textContent =
-        currentLessonData.title;
+  if (heroLessonTitle)
+    heroLessonTitle.textContent =
+      currentLessonData.title;
 
-    // Description Preview
+  if (heroLessonDescription) {
+    const plainText =  
+      explanation  
+      .replace(/<[^>]*>/g, "")  
+      .substring(0, 160);  
 
-    if (heroLessonDescription) {
+    heroLessonDescription.textContent =  
+      plainText + "...";
+  }
 
-        const plainText =
-            currentLessonData
-            .content
-            .explanation
-            .replace(/<[^>]*>/g, "")
-            .substring(0, 160);
+  const contentArea = $("lessonContent");
 
-        heroLessonDescription.textContent =
-            plainText + "...";
+  if (contentArea) {
+    contentArea.innerHTML = `  
+      <div class="card">  
+        ${explanation}  
+      </div>  
+    
+      <div class="card">  
+        ${syntax}  
+      </div>  
+    `;
+  }
 
-    }
+  const takeawaysList = $("takeawaysList");
 
-    // Main Content
+  if (
+    takeawaysList &&
+    currentLessonData.summary?.takeaways
+  ) {
+    takeawaysList.innerHTML =  
+      currentLessonData.summary.takeaways  
+      .map(item => `<li>${item}</li>`)  
+      .join("");
+  }
 
-    const contentArea =
-        document.getElementById(
-            "lessonContent"
-        );
+  // --- ADDED CHEAT SHEET ENGINE LOGIC ---
+  const cheatSheetList = $("cheatSheetList");
 
-    if (contentArea) {
-
-        contentArea.innerHTML = `
-
+  if (
+    cheatSheetList &&
+    currentLessonData.summary?.cheat_sheet
+  ) {
+    cheatSheetList.innerHTML =
+      Object.entries(currentLessonData.summary.cheat_sheet)
+      .map(([key, value]) => `
         <div class="card">
-            ${currentLessonData.content.explanation}
+          <h3>${key}</h3>
+          <p>${value}</p>
         </div>
+      `)
+      .join("");
+  }
+  // --------------------------------------
 
-        <div class="card">
-            ${currentLessonData.content.syntax_breakdown}
-        </div>
+  if (stepIndicator)
+    stepIndicator.textContent = "STEP 1: THEORY";
 
-        `;
-
-    }
-
-    // Takeaways
-
-    const list =
-        document.getElementById(
-            "takeawaysList"
-        );
-
-    if (
-        list &&
-        currentLessonData.summary?.takeaways
-    ) {
-
-        list.innerHTML =
-            currentLessonData.summary
-            .takeaways
-            .map(
-                item =>
-                `<li>${item}</li>`
-            )
-            .join("");
-
-    }
-
-    // Button States
-
-    if (stepIndicator)
-        stepIndicator.textContent =
-        "STEP 1: THEORY";
-
-    if (masterNextBtn) {
-
-        masterNextBtn.textContent =
-            "Start Practice ➡";
-
-        masterNextBtn.disabled =
-            false;
-
-    }
-
+  if (masterNextBtn) {
+    masterNextBtn.textContent = "Start Practice ➡";  
+    masterNextBtn.disabled = false;
+  }
 }
 
 // =============================================
-// STEP 2 - CHALLENGE
+// CHALLENGE STEP
 // =============================================
 
 function renderChallengeStep() {
+  currentStep = 2;
 
-    currentStep = 2;
+  toggleStepVisibility();
 
-    toggleStepVisibility();
+  const sandbox =
+    currentLessonData?.editor_sandbox;
 
-    const sandbox =
-        currentLessonData.editor_sandbox;
+  if (!sandbox) {
+    showFatalError("Missing challenge data");
+    return;
+  }
 
-    // Challenge Text
+  const instruction = $("challengeInstruction");
 
-    const challengeInstruction =
-        document.getElementById(
-            "challengeInstruction"
-        );
+  if (instruction) {
+    instruction.textContent =  
+      sandbox?.mini_challenge?.instruction ||  
+      "Complete the coding task.";
+  }
 
-    if (challengeInstruction) {
+  const editor = $("codeEditor");
 
-        challengeInstruction.textContent =
-            sandbox.mini_challenge
-            .instruction;
+  if (editor && editor.value.trim() === "") {
+    editor.value =  
+      sandbox.starter_code || "";  
 
-    }
+    updateLivePreview();
+  }
 
-    // Starter Code
+  if (stepIndicator)
+    stepIndicator.textContent =
+      "STEP 2: CHALLENGE";
 
-    const editor =
-        document.getElementById(
-            "codeEditor"
-        );
+  if (masterNextBtn) {
+    masterNextBtn.textContent = "Check Code ➡";  
+    masterNextBtn.disabled = true;
+  }
 
-    if (
-        editor &&
-        !editor.value
-    ) {
-
-        editor.value =
-            sandbox.starter_code;
-
-        updateLivePreview();
-
-    }
-
-    // Buttons
-
-    if (stepIndicator)
-        stepIndicator.textContent =
-        "STEP 2: CHALLENGE";
-
-    if (masterNextBtn) {
-
-        masterNextBtn.textContent =
-            "Check Code ➡";
-
-        masterNextBtn.disabled =
-            true;
-
-    }
-
-    // Validation
-
-    setupChallengeVerification(
-        sandbox
-        .mini_challenge
-        .validation_keyword
-    );
-
+  setupChallengeVerification(
+    sandbox?.mini_challenge?.validation_keyword || ""
+  );
 }
 
 // =============================================
-// CHALLENGE VERIFICATION
+// CHALLENGE VERIFY
 // =============================================
 
 function setupChallengeVerification(keyword) {
+  const checkBtn = $("checkChallengeBtn");
+  const editor = $("codeEditor");
 
-    const checkBtn =
-        document.getElementById(
-            "checkChallengeBtn"
-        );
+  if (!checkBtn || !editor) return;
 
-    const editor =
-        document.getElementById(
-            "codeEditor"
-        );
+  checkBtn.onclick = () => {
+    const code =  
+      editor.value.toLowerCase();  
 
-    if (!checkBtn || !editor) return;
+    if (!keyword) {  
+      masterNextBtn.disabled = false;  
+      return;  
+    }  
 
-    checkBtn.onclick = () => {
-
-        const code =
-            editor.value.toLowerCase();
-
-        if (
-            code.includes(
-                keyword.toLowerCase()
-            )
-        ) {
-
-            masterNextBtn.disabled =
-                false;
-
-            masterNextBtn.textContent =
-                "Go To Quiz ➡";
-
-            alert(
-                "🎉 Challenge completed successfully!"
-            );
-
-        } else {
-
-            alert(
-                `❌ Missing:
-                "${keyword}"`
-            );
-
-        }
-
-    };
-
+    if (code.includes(keyword.toLowerCase())) {  
+      masterNextBtn.disabled = false;  
+      masterNextBtn.textContent = "Go To Quiz ➡";  
+      alert("🎉 Challenge Completed!");  
+    } else {  
+      alert(`❌ Missing keyword: ${keyword}`);  
+    }
+  };
 }
 
 // =============================================
-// STEP 3 - QUIZ
+// QUIZ STEP
 // =============================================
 
 function renderQuizStep() {
+  currentStep = 3;
 
-    currentStep = 3;
+  toggleStepVisibility();
 
-    toggleStepVisibility();
+  const quiz =
+    currentLessonData?.quiz_engine;
 
-    const quiz =
-        currentLessonData.quiz_engine;
+  if (!quiz) {
+    showFatalError("Quiz data missing");
+    return;
+  }
 
-    // Question
+  const question = $("quizQuestion");
 
-    const question =
-        document.getElementById(
-            "quizQuestion"
-        );
+  if (question)
+    question.textContent =
+      quiz.question || "Quiz";
 
-    if (question)
-        question.textContent =
-        quiz.question;
+  const xp = $("quiz-xp");
 
-    // XP
+  if (xp)
+    xp.textContent = quiz.points || 10;
 
-    const xp =
-        document.getElementById(
-            "quiz-xp"
-        );
+  const optionsWrapper = $("quizOptions");
 
-    if (xp)
-        xp.textContent =
-        quiz.points || 10;
+  if (optionsWrapper) {
+    optionsWrapper.innerHTML =  
+      quiz.options.map((opt, i) => `  
+        <button  
+          class="quiz-option"  
+          data-index="${i}">  
+          ${opt}  
+        </button>  
+      `).join("");
+  }
 
-    // Options
+  if (stepIndicator)
+    stepIndicator.textContent =
+      "STEP 3: QUIZ";
 
-    const optionsWrapper =
-        document.getElementById(
-            "quizOptions"
-        );
+  if (masterNextBtn) {
+    masterNextBtn.textContent =  
+      "Complete Lesson 🏆";  
+    masterNextBtn.disabled = true;
+  }
 
-    if (optionsWrapper) {
+  document
+    .querySelectorAll(".quiz-option")
+    .forEach(btn => {
+      btn.onclick = () => {  
+        document  
+          .querySelectorAll(".quiz-option")  
+          .forEach(b =>  
+            b.classList.remove("selected")  
+          );  
 
-        optionsWrapper.innerHTML =
-            quiz.options.map(
-                (opt, i) => `
+        btn.classList.add("selected");  
 
-            <button
-            class="quiz-option"
-            data-index="${i}">
-                ${opt}
-            </button>
+        const selected =  
+          Number(btn.dataset.index);  
 
-            `
-            ).join("");
-
-    }
-
-    // Buttons
-
-    if (stepIndicator)
-        stepIndicator.textContent =
-        "STEP 3: QUIZ";
-
-    if (masterNextBtn) {
-
-        masterNextBtn.textContent =
-            "Complete Lesson 🏆";
-
-        masterNextBtn.disabled =
-            true;
-
-    }
-
-    // Quiz Logic
-
-    document
-        .querySelectorAll(
-            ".quiz-option"
-        )
-        .forEach(btn => {
-
-            btn.onclick = () => {
-
-                document
-                    .querySelectorAll(
-                        ".quiz-option"
-                    )
-                    .forEach(b =>
-                        b.classList.remove(
-                            "selected"
-                        )
-                    );
-
-                btn.classList.add(
-                    "selected"
-                );
-
-                const selected =
-                    parseInt(
-                        btn.dataset.index
-                    );
-
-                if (
-                    selected ===
-                    quiz.correct_index
-                ) {
-
-                    masterNextBtn.disabled =
-                        false;
-
-                }
-
-            };
-
-        });
-
+        if (selected === quiz.correct_index) {  
+          masterNextBtn.disabled = false;  
+        }  
+      };  
+    });
 }
 
 // =============================================
-// LIVE PREVIEW ENGINE
+// LIVE PREVIEW
 // =============================================
 
 function setupLivePreview() {
+  const editor = $("codeEditor");
 
-    const editor =
-        document.getElementById(
-            "codeEditor"
-        );
+  if (!editor) return;
 
-    if (!editor) return;
-
-    editor.addEventListener(
-        "input",
-        updateLivePreview
-    );
-
+  editor.addEventListener(
+    "input",
+    updateLivePreview
+  );
 }
 
 function updateLivePreview() {
+  const editor = $("codeEditor");
+  const preview = $("live-preview");
 
-    const editor =
-        document.getElementById(
-            "codeEditor"
-        );
+  if (!editor || !preview) return;
 
-    const preview =
-        document.getElementById(
-            "live-preview"
-        );
-
-    if (!editor || !preview) return;
-
-    preview.srcdoc =
-        editor.value;
-
+  preview.srcdoc = editor.value;
 }
 
 // =============================================
@@ -611,41 +395,25 @@ function updateLivePreview() {
 // =============================================
 
 function setupHintSystem() {
+  const hintBtn = $("showHintBtn");
+  const hintBox = $("challengeHint");
 
-    const hintBtn =
-        document.getElementById(
-            "showHintBtn"
-        );
+  if (!hintBtn || !hintBox) return;
 
-    const hintBox =
-        document.getElementById(
-            "challengeHint"
-        );
+  hintBtn.onclick = () => {
+    const hint =  
+      currentLessonData  
+      ?.editor_sandbox  
+      ?.mini_challenge  
+      ?.hint;  
 
-    if (!hintBtn || !hintBox) return;
+    if (!hint) return;  
 
-    hintBtn.onclick = () => {
+    hintBox.innerHTML =  
+      hint.replace(/\n/g, "<br>");  
 
-        const hint =
-            currentLessonData
-            ?.editor_sandbox
-            ?.mini_challenge
-            ?.hint;
-
-        if (!hint) return;
-
-        hintBox.innerHTML =
-            hint.replace(
-                /\n/g,
-                "<br>"
-            );
-
-        hintBox.classList.toggle(
-            "hidden"
-        );
-
-    };
-
+    hintBox.classList.toggle("hidden");
+  };
 }
 
 // =============================================
@@ -653,52 +421,27 @@ function setupHintSystem() {
 // =============================================
 
 function setupNavigation() {
+  if (masterNextBtn) {
+    masterNextBtn.onclick = () => {  
+      if (currentStep === 1)  
+        renderChallengeStep();  
+      else if (currentStep === 2)  
+        renderQuizStep();  
+      else if (currentStep === 3)  
+        finishLesson();  
+    };
+  }
 
-    if (masterNextBtn) {
+  const prevBtn = $("prevLessonBtn");
 
-        masterNextBtn.addEventListener(
-            "click",
-            () => {
-
-                if (currentStep === 1)
-                    renderChallengeStep();
-
-                else if (
-                    currentStep === 2
-                )
-                    renderQuizStep();
-
-                else if (
-                    currentStep === 3
-                )
-                    finishLesson();
-
-            }
-        );
-
-    }
-
-    const prevBtn =
-        document.getElementById(
-            "prevLessonBtn"
-        );
-
-    if (prevBtn) {
-
-        prevBtn.onclick = () => {
-
-            if (currentStep === 2)
-                renderTheoryStep();
-
-            else if (
-                currentStep === 3
-            )
-                renderChallengeStep();
-
-        };
-
-    }
-
+  if (prevBtn) {
+    prevBtn.onclick = () => {  
+      if (currentStep === 2)  
+        renderTheoryStep();  
+      else if (currentStep === 3)  
+        renderChallengeStep();  
+    };
+  }
 }
 
 // =============================================
@@ -706,108 +449,73 @@ function setupNavigation() {
 // =============================================
 
 function toggleStepVisibility() {
-
-    document
-        .querySelectorAll(
-            ".lesson-step"
-        )
-        .forEach(step => {
-
-            step.classList.remove(
-                "active"
-            );
-
-        });
-
-    const steps = [
-        "step-theory",
-        "step-challenge",
-        "step-quiz"
-    ];
-
-    const current =
-        document.getElementById(
-            steps[currentStep - 1]
-        );
-
-    if (current)
-        current.classList.add(
-            "active"
-        );
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
+  document
+    .querySelectorAll(".lesson-step")
+    .forEach(step => {
+      step.classList.remove("active");
     });
 
+  const steps = [
+    "step-theory",
+    "step-challenge",
+    "step-quiz"
+  ];
+
+  const current =
+    $(steps[currentStep - 1]);
+
+  if (current)
+    current.classList.add("active");
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 }
 
 // =============================================
-// PROGRESS UI
+// PROGRESS
 // =============================================
 
 function updateProgressUI() {
+  const totalLessons = 30;
 
-    const totalLessons = 30;
+  const percent = Math.round(
+    (parseInt(lessonId) / totalLessons) * 100
+  );
 
-    const percent =
-        Math.round(
-            (parseInt(lessonId) /
-                totalLessons) * 100
-        );
+  if (progressPercent)
+    progressPercent.textContent =
+      percent + "%";
 
-    if (progressPercent)
-        progressPercent.textContent =
-        percent + "%";
-
-    if (progressFill)
-        progressFill.style.width =
-        percent + "%";
-
+  if (progressFill)
+    progressFill.style.width =
+      percent + "%";
 }
 
 // =============================================
-// USER SIDEBAR
+// USER DATA
 // =============================================
 
 async function syncUserSidebar(uid) {
+  try {
+    const snap =  
+      await getDoc(doc(db, "users", uid));  
 
-    try {
+    if (!snap.exists()) return;  
 
-        const snap =
-            await getDoc(
-                doc(
-                    db,
-                    "users",
-                    uid
-                )
-            );
+    const data = snap.data();  
 
-        if (snap.exists()) {
+    if (userLevel)  
+      userLevel.textContent =  
+        data.level || "1";  
 
-            const data =
-                snap.data();
-
-            if (userLevel)
-                userLevel.textContent =
-                data.level || "1";
-
-            if (userName)
-                userName.textContent =
-                data.username ||
-                "Developer";
-
-        }
-
-    } catch (error) {
-
-        console.error(
-            "❌ Sidebar Sync Error:",
-            error
-        );
-
-    }
-
+    if (userName)  
+      userName.textContent =  
+        data.username || "Developer";
+  } catch (error) {
+    console.error("Sidebar Error:", error);
+  }
 }
 
 // =============================================
@@ -815,93 +523,52 @@ async function syncUserSidebar(uid) {
 // =============================================
 
 async function finishLesson() {
+  try {
+    const user = auth.currentUser;  
 
-    try {
+    if (user) {  
+      await updateDoc(  
+        doc(db, "users", user.uid),  
+        {  
+          completedLessons: arrayUnion(  
+            parseInt(lessonId)  
+          ),  
 
-        const user =
-            auth.currentUser;
+          totalXP: increment(  
+            currentLessonData?.meta?.xp_reward || 10  
+          )  
+        }  
+      );  
+    }  
 
-        // Save Progress
+    const modal = $("successModal");  
 
-        if (user) {
+    if (modal)  
+      modal.classList.remove("hidden");  
 
-            await updateDoc(
-                doc(
-                    db,
-                    "users",
-                    user.uid
-                ),
-                {
-                    completedLessons:
-                    arrayUnion(
-                        parseInt(
-                            lessonId
-                        )
-                    ),
-
-                    totalXP:
-                    increment(
-                        currentLessonData
-                        ?.meta
-                        ?.xp_reward || 10
-                    )
-                }
-            );
-
-        }
-
-        // Show Success
-
-        const modal =
-            document.getElementById(
-                "successModal"
-            );
-
-        if (modal)
-            modal.classList.remove(
-                "hidden"
-            );
-
-        console.log(
-            "🏆 Lesson Completed"
-        );
-
-    } catch (error) {
-
-        console.error(
-            "❌ Finish Error:",
-            error
-        );
-
-        alert(
-            "Failed to save progress."
-        );
-
-    }
-
+    console.log("🏆 Lesson Completed");
+  } catch (error) {
+    console.error("Finish Error:", error);  
+    alert("Failed to save progress.");
+  }
 }
 
 // =============================================
-// FATAL ERROR UI
+// ERROR UI
 // =============================================
 
 function showFatalError(message) {
+  console.error("💥 Fatal:", message);
 
-    console.error(
-        "💥 Fatal:",
-        message
-    );
+  if (lessonTitle)
+    lessonTitle.textContent =
+      "Lesson Failed To Load";
 
-    if (lessonTitle)
-        lessonTitle.textContent =
-        "Lesson Failed To Load";
+  if (heroLessonTitle)
+    heroLessonTitle.textContent =
+      "Engine Error";
 
-    if (heroLessonTitle)
-        heroLessonTitle.textContent =
-        "Engine Error";
-
-    if (heroLessonDescription)
-        heroLessonDescription.textContent =
-        message;
-
+  if (heroLessonDescription)
+    heroLessonDescription.textContent =
+      message;
 }
