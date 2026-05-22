@@ -1,11 +1,9 @@
 // =============================================
-// CYMOR CODE LEARNER - CORE ENGINE v2.2
+// CYMOR CODE LEARNER - CORE ENGINE v2.3
 // =============================================
 
-// Firebase Variables
 let auth, db, doc, getDoc, updateDoc, arrayUnion, increment, onAuthStateChanged;
 
-// 1. Initialize Firebase Connection
 async function loadFirebase() {
   try {
     const fb = await import("./firebase/firebase-config.js");
@@ -25,9 +23,8 @@ async function loadFirebase() {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         await syncUserSidebar(user.uid);
-      } else {
-        if (document.getElementById("userName")) 
-            document.getElementById("userName").textContent = "Guest Developer";
+      } else if ($("userName")) {
+            $("userName").textContent = "Guest Developer";
       }
     });
   } catch (e) {
@@ -35,16 +32,14 @@ async function loadFirebase() {
   }
 }
 
-// 2. State Management
+// State Management
 let currentLessonData = null;
-let currentStep = 1; // 1: Theory, 2: Challenge, 3: Quiz
+let currentStep = 1; 
 const urlParams = new URLSearchParams(window.location.search);
-const lessonId = urlParams.get("id") || "1";
+const lessonId = parseInt(urlParams.get("id")) || 1; // Ensure this is a number
 
-// Helper for selecting elements
 const $ = (id) => document.getElementById(id);
 
-// 3. Page Initialization
 document.addEventListener("DOMContentLoaded", () => {
     loadFirebase();
     loadLessonData(lessonId);
@@ -52,7 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
     setupLivePreview();
 });
 
-// 4. Data Fetching
 async function loadLessonData(id) {
     try {
         const response = await fetch(`./lessons/lesson-${id}.json`);
@@ -67,7 +61,6 @@ async function loadLessonData(id) {
     }
 }
 
-// 5. Navigation & Step Control
 function setupNavigation() {
     const masterBtn = $("masterNextBtn");
     const prevBtn = $("prevLessonBtn");
@@ -99,7 +92,7 @@ function toggleStepVisibility(stepNum) {
     window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-// 6. Step Renderers
+// 1. FIXED: Cheat Sheet now renders content properly
 function renderTheoryStep() {
     toggleStepVisibility(1);
     const { title, content, summary } = currentLessonData;
@@ -108,12 +101,21 @@ function renderTheoryStep() {
     if ($("heroLessonTitle")) $("heroLessonTitle").textContent = title;
     if ($("heroLessonDescription")) $("heroLessonDescription").innerHTML = content.explanation;
 
-    // Fill Takeaways
     if ($("takeawaysList") && summary.takeaways) {
         $("takeawaysList").innerHTML = summary.takeaways.map(t => `<li>${t}</li>`).join("");
     }
 
-    // Update Button
+    // RENDER CHEAT SHEET CONTENT
+    if ($("cheatSheetList") && summary.cheat_sheet) {
+        $("cheatSheetList").innerHTML = Object.entries(summary.cheat_sheet)
+            .map(([key, value]) => `
+                <div class="card" style="margin-bottom:10px; border-left: 4px solid #00d9ff;">
+                    <h4 style="color:#00d9ff; font-size: 0.9rem; margin-bottom: 5px;">${key}</h4>
+                    <p style="font-size: 0.85rem; opacity: 0.9;">${value}</p>
+                </div>
+            `).join("");
+    }
+
     $("masterNextBtn").textContent = "Start Practice ➡";
     $("masterNextBtn").disabled = false;
     $("stepIndicator").textContent = "STEP 1: THEORY";
@@ -129,10 +131,9 @@ function renderChallengeStep() {
     updateLivePreview();
     
     $("masterNextBtn").textContent = "Check Code ➡";
-    $("masterNextBtn").disabled = true; // Disabled until challenge is verified
+    $("masterNextBtn").disabled = true; 
     $("stepIndicator").textContent = "STEP 2: CHALLENGE";
 
-    // Setup Challenge Verification
     const checkBtn = $("checkChallengeBtn");
     const keyword = sandbox.mini_challenge.validation_keyword;
 
@@ -166,7 +167,7 @@ function renderQuizStep() {
     $("stepIndicator").textContent = "STEP 3: QUIZ";
 }
 
-// 7. Interaction Handlers
+// 2. FIXED: Wrong answer now triggers a pop-up toast
 window.handleQuizSelection = (selectedIndex, correctIndex) => {
     const options = document.querySelectorAll(".quiz-option");
     options.forEach(opt => opt.classList.remove("selected", "correct", "wrong"));
@@ -177,9 +178,11 @@ window.handleQuizSelection = (selectedIndex, correctIndex) => {
     if (selectedIndex === correctIndex) {
         selectedBtn.classList.add("correct");
         $("masterNextBtn").disabled = false;
+        showToast("Brilliant! That is correct.", "success");
     } else {
         selectedBtn.classList.add("wrong");
         $("masterNextBtn").disabled = true;
+        showToast("Incorrect answer. Try again!", "error"); // POP UP FOR WRONG ANSWER
     }
 };
 
@@ -192,54 +195,55 @@ function setupLivePreview() {
 function updateLivePreview() {
     const preview = $("live-preview");
     const code = $("codeEditor").value;
-    if (preview) preview.srcdoc = `<html><style>body{color:black; font-family:sans-serif;}</style><body>${code}</body></html>`;
+    if (preview) preview.srcdoc = `<html><style>body{color:black; font-family:sans-serif; padding:15px;}</style><body>${code}</body></html>`;
 }
 
-// 8. Completion & Progress
+// 3. FIXED: finishLesson now forces calculation of nextId
 async function finishLesson() {
     const modal = $("successModal");
     const masterBtn = $("masterNextBtn");
 
-    // Prevent double clicking
     masterBtn.disabled = true;
     masterBtn.textContent = "Saving...";
 
     try {
         if (auth?.currentUser) {
             await updateDoc(doc(db, "users", auth.currentUser.uid), {
-                completedLessons: arrayUnion(parseInt(lessonId)),
+                completedLessons: arrayUnion(lessonId),
                 totalXP: increment(10)
             });
         }
 
         if (modal) {
             modal.classList.remove("hidden");
-            const nextId = parseInt(lessonId) + 1;
+            const nextId = lessonId + 1; // Increment logic
             const modalBtn = modal.querySelector(".primary-btn");
             if (modalBtn) {
-                modalBtn.onclick = () => window.location.href = `lesson.html?id=${nextId}`;
+                // FORCE REDIRECT TO NEXT ID
+                modalBtn.onclick = () => {
+                    window.location.href = `./lesson.html?id=${nextId}`;
+                };
                 modalBtn.textContent = `Start Lesson ${nextId} 🚀`;
             }
         }
     } catch (error) {
         console.error("Save Error:", error);
-        if (modal) modal.classList.remove("hidden"); // Show anyway so they aren't stuck
+        if (modal) modal.classList.remove("hidden"); 
     }
 }
 
-// 9. UI Helpers
 function showToast(msg, type) {
     const toast = $("authMessage");
     if (!toast) return;
     toast.textContent = msg;
     toast.className = `auth-message ${type}`;
-    toast.style.display = "block";
+    toast.style.display = "flex"; // Using flex to align text/icons
     setTimeout(() => { toast.style.display = "none"; }, 3000);
 }
 
 function updateProgressUI() {
     const totalLessons = 30;
-    const progress = Math.min((parseInt(lessonId) / totalLessons) * 100, 100);
+    const progress = Math.min((lessonId / totalLessons) * 100, 100);
     if ($("progressPercent")) $("progressPercent").textContent = `${Math.round(progress)}%`;
     if ($("progressFill")) $("progressFill").style.width = `${progress}%`;
 }
