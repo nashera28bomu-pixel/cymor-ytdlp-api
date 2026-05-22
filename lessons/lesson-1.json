@@ -1,57 +1,80 @@
 {
-"id": 1,
-"module": "Introduction",
-"meta": {
-"next_lesson": 2,
-"prev_lesson": null,
-"xp_reward": 10,
-"difficulty": "beginner",
-"module_index": 1
-},
-  "title": "Lesson 1: What is HTML?",
-  "content": {
-    "explanation": "<h3>🌐 What is HTML?</h3><p>HTML (HyperText Markup Language) is the <strong>foundation of every website</strong> on the internet.</p><p>It is used to <strong>structure content</strong> like headings, paragraphs, images, and links.</p><p>Think of HTML as the <strong>skeleton of a website</strong> — it holds everything in place.</p><hr><h3>🏗️ Simple Analogy</h3><ul><li>🏠 HTML = structure (walls, rooms)</li><li>🎨 CSS = design (colors, styles)</li><li>⚙️ JavaScript = behavior (interactions, logic)</li></ul><p>Without HTML, a website has no structure at all.</p>",
+  "id": 1,
+  "module": "Introduction",
 
-    "syntax_breakdown": "<h3>🧱 How HTML Works</h3><p>HTML uses <strong>tags</strong> written inside angle brackets like this:</p><pre><code>&lt;tag&gt;Content&lt;/tag&gt;</code></pre><p>Most elements have:</p><ul><li><strong>Opening tag:</strong> starts the element</li><li><strong>Closing tag:</strong> ends the element</li></ul><h4>Example:</h4><pre><code>&lt;h1&gt;Hello World&lt;/h1&gt;\n&lt;p&gt;This is a paragraph&lt;/p&gt;</code></pre><p>The browser reads this and turns it into a visible webpage.</p>"
+  "meta": {
+    "next_lesson": 2,
+    "prev_lesson": null,
+    "xp_reward": 10,
+    "difficulty": "beginner",
+    "module_index": 1
+  },
+
+  "title": "Lesson 1: What is HTML?",
+
+  "content": {
+
+    "explanation": "<h3>🌐 What is HTML?</h3><p>HTML (HyperText Markup Language) is the <strong>foundation of every website</strong> on the internet.</p><p>It is used to <strong>structure content</strong> like headings, paragraphs, images, and links.</p><p>Think of HTML as the <strong>skeleton of a website</strong>.</p><hr><h3>🏗️ Simple Analogy</h3><ul><li>🏠 HTML = structure</li><li>🎨 CSS = design</li><li>⚙️ JavaScript = behavior</li></ul><p>Without HTML, websites would have no structure.</p>",
+
+    "syntax_breakdown": "<h3>🧱 How HTML Works</h3><p>HTML uses tags written inside angle brackets.</p><pre><code>&lt;tag&gt;Content&lt;/tag&gt;</code></pre><p>Most elements contain an opening and closing tag.</p><h4>Example:</h4><pre><code>&lt;h1&gt;Hello World&lt;/h1&gt;\n&lt;p&gt;This is a paragraph&lt;/p&gt;</code></pre><p>The browser reads this code and displays a webpage.</p>"
+
   },
 
   "editor_sandbox": {
+
     "starter_code": "<!-- Welcome to Cymor Code Learner 🚀 -->\n<h1>My First Website</h1>\n<p>Hello, I am learning HTML step by step.</p>",
 
     "mini_challenge": {
-      "instruction": "🎯 Challenge: Make this page your own! \n\n1. Change the text inside the <h1> to your name or title\n2. Add a new <p> line that says: 'I am building my first website'\n3. Click RUN and see your result",
 
-      "hint": "👉 Example:\n<p>I am building my first website</p>\nMake sure every tag has a closing tag like </p> or </h1>",
+      "instruction": "🎯 Challenge:\n\n1. Change the text inside the h1 heading\n2. Add another paragraph saying: I am building my first website\n3. Run and verify your code",
+
+      "hint": "👉 Example:\n<p>I am building my first website</p>\nRemember to close every tag properly.",
 
       "validation_keyword": "building my first website"
+
     }
+
   },
 
   "quiz_engine": {
+
     "question": "What is the main purpose of HTML?",
+
     "options": [
-      "To design how a website looks (colors and styling)",
-      "To structure and organize content on a webpage",
-      "To create animations and game logic"
+      "To design how a website looks",
+      "To structure content on a webpage",
+      "To create game logic"
     ],
+
     "correct_index": 1,
+
     "points": 10,
-    "explanation_feedback": "Correct 🎉 HTML is used to structure content. CSS handles design and JavaScript handles logic and interaction."
+
+    "explanation_feedback": "Correct 🎉 HTML structures webpage content."
+
   },
 
   "summary": {
+
     "takeaways": [
-      "HTML is the structure of all websites",
-      "It uses tags like <h1> and <p> to organize content",
-      "Every tag usually has an opening and closing part",
-      "Without HTML, a webpage cannot exist"
+      "HTML structures webpages",
+      "HTML uses tags",
+      "Most tags have opening and closing parts",
+      "HTML is the foundation of websites"
     ],
 
     "cheat_sheet": {
-      "html_definition": "HTML is the language used to structure web pages",
-      "tag_structure": "<tag>content</tag>",
-      "h1_tag": "Main heading of a webpage",
-      "p_tag": "Paragraph text block"
+
+      "HTML Definition": "HTML structures web pages",
+
+      "Tag Structure": "&lt;tag&gt;content&lt;/tag&gt;",
+
+      "H1 Tag": "Main webpage heading",
+
+      "P Tag": "Paragraph text"
+
     }
+
   }
+
 }
