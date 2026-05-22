@@ -150,7 +150,7 @@ function renderTheoryStep() {
 }
 
 // =============================================
-// CHALLENGE & QUIZ LOGIC (Original Engine)
+// CHALLENGE & QUIZ LOGIC
 // =============================================
 function renderChallengeStep() {
   currentStep = 2;
@@ -286,18 +286,40 @@ async function syncUserSidebar(uid) {
   }
 }
 
+// =============================================
+// FINISH LESSON (UPDATED WITH NEXT NAVIGATION)
+// =============================================
 async function finishLesson() {
   try {
+    // 1. Sync Progress to Firebase
     if (auth?.currentUser && updateDoc) {
       await updateDoc(doc(db, "users", auth.currentUser.uid), {
         completedLessons: arrayUnion(parseInt(lessonId)),
         totalXP: increment(currentLessonData?.meta?.xp_reward || 10)
       });
     }
-    if ($("successModal")) $("successModal").classList.remove("hidden");
+
+    // 2. Show Modal and Handle Navigation
+    const modal = $("successModal");
+    if (modal) {
+      modal.classList.remove("hidden");
+      
+      // Update the button inside the modal to point to the next lesson
+      const nextId = parseInt(lessonId) + 1;
+      const nextBtn = modal.querySelector(".primary-btn");
+      if (nextBtn) {
+        nextBtn.onclick = () => {
+            // Refreshes the page with the next lesson ID
+            window.location.href = `lesson.html?id=${nextId}`;
+        };
+        nextBtn.textContent = `Start Lesson ${nextId} 🚀`;
+      }
+    }
+    
+    console.log("🏆 Lesson Completed");
   } catch (e) {
-    console.error(e);
-    alert("Lesson complete! (Progress sync failed)");
+    console.error("Finish Error:", e);
+    alert("Lesson complete! (Syncing error, but you can continue)");
     if ($("successModal")) $("successModal").classList.remove("hidden");
   }
 }
