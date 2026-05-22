@@ -12,7 +12,6 @@ import {
     signOut,
     onAuthStateChanged,
     updateProfile,
-    sendPasswordResetEmail,
     setPersistence,
     browserLocalPersistence
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -28,7 +27,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // =============================================
-// CONFIGURATION (RESTORED CREDENTIALS)
+// CONFIGURATION
 // =============================================
 const firebaseConfig = {
     apiKey: "AIzaSyCqBFLRpYuRB1JVl1OkynE-NBd-Lp5iH7g",
@@ -44,8 +43,11 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Enable Session Persistence
-await setPersistence(auth, browserLocalPersistence);
+// Enable Session Persistence (NON-BLOCKING)
+// We use .then() instead of await to avoid freezing the script import
+setPersistence(auth, browserLocalPersistence)
+    .then(() => console.log("🔒 Persistence Enabled"))
+    .catch((err) => console.error("Persistence Error:", err));
 
 // Google Auth Setup
 const googleProvider = new GoogleAuthProvider();
@@ -56,17 +58,17 @@ googleProvider.setCustomParameters({ prompt: "select_account" });
 // =============================================
 
 /**
- * Register a new user with Email and Password
+ * Register a new user
  */
 export async function registerUser(name, email, password) {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // Set Display Name in Firebase Auth
+        // Update profile display name immediately
         await updateProfile(user, { displayName: name });
 
-        // Initialize Firestore Document
+        // Initialize Firestore
         await createUserDocument(user, { name });
 
         return { success: true, user };
@@ -81,9 +83,8 @@ export async function registerUser(name, email, password) {
 export async function loginUser(email, password) {
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-        await updateLastLogin(user.uid);
-        return { success: true, user };
+        await updateLastLogin(userCredential.user.uid);
+        return { success: true, user: userCredential.user };
     } catch (error) {
         return { success: false, error: formatFirebaseError(error) };
     }
@@ -118,9 +119,6 @@ export async function logoutUser() {
 // FIRESTORE DATA FUNCTIONS
 // =============================================
 
-/**
- * Creates or updates the user profile in Firestore
- */
 export async function createUserDocument(user, extraData = {}) {
     if (!user) return;
     const userRef = doc(db, "users", user.uid);
@@ -150,7 +148,6 @@ export async function createUserDocument(user, extraData = {}) {
                 ...extraData
             };
             await setDoc(userRef, userData);
-            console.log("✅ New user profile created in Firestore");
         } else {
             await updateLastLogin(user.uid);
         }
@@ -159,28 +156,16 @@ export async function createUserDocument(user, extraData = {}) {
     }
 }
 
-/**
- * Award XP to a user
- */
-export async function awardXP(uid, amount = 10) {
+async function updateLastLogin(uid) {
     try {
         const userRef = doc(db, "users", uid);
         await updateDoc(userRef, {
-            xp: increment(amount),
-            totalXP: increment(amount),
+            lastLogin: serverTimestamp(),
             updatedAt: serverTimestamp()
         });
-    } catch (error) {
-        console.error("❌ XP Award Error:", error);
+    } catch (e) {
+        console.warn("Failed to update last login timestamp.");
     }
-}
-
-async function updateLastLogin(uid) {
-    const userRef = doc(db, "users", uid);
-    await updateDoc(userRef, {
-        lastLogin: serverTimestamp(),
-        updatedAt: serverTimestamp()
-    });
 }
 
 // =============================================
@@ -188,14 +173,17 @@ async function updateLastLogin(uid) {
 // =============================================
 
 function formatFirebaseError(error) {
+    console.error("Firebase Auth Error Code:", error.code);
     switch (error.code) {
         case "auth/email-already-in-use": return "This email is already registered.";
         case "auth/invalid-email": return "Invalid email address.";
         case "auth/weak-password": return "Password must be at least 6 characters.";
-        case "auth/user-not-found": return "No account found.";
-        case "auth/wrong-password": return "Incorrect password.";
+        case "auth/user-not-found": 
+        case "auth/wrong-password": 
+        case "auth/invalid-credential": return "Incorrect email or password.";
         case "auth/too-many-requests": return "Too many attempts. Try again later.";
-        default: return error.message;
+        case "auth/popup-closed-by-user": return "Login cancelled.";
+        default: return "An authentication error occurred. Please try again.";
     }
 }
 
