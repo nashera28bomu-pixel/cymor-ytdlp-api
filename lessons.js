@@ -1,5 +1,5 @@
 // =============================================
-// CYMOR CODE LEARNER - CORE ENGINE v2.3
+// CYMOR CODE LEARNER - CORE ENGINE v2.4
 // =============================================
 
 let auth, db, doc, getDoc, updateDoc, arrayUnion, increment, onAuthStateChanged;
@@ -36,7 +36,7 @@ async function loadFirebase() {
 let currentLessonData = null;
 let currentStep = 1; 
 const urlParams = new URLSearchParams(window.location.search);
-const lessonId = parseInt(urlParams.get("id")) || 1; // Ensure this is a number
+const lessonId = parseInt(urlParams.get("id")) || 1; 
 
 const $ = (id) => document.getElementById(id);
 
@@ -92,7 +92,6 @@ function toggleStepVisibility(stepNum) {
     window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-// 1. FIXED: Cheat Sheet now renders content properly
 function renderTheoryStep() {
     toggleStepVisibility(1);
     const { title, content, summary } = currentLessonData;
@@ -105,7 +104,6 @@ function renderTheoryStep() {
         $("takeawaysList").innerHTML = summary.takeaways.map(t => `<li>${t}</li>`).join("");
     }
 
-    // RENDER CHEAT SHEET CONTENT
     if ($("cheatSheetList") && summary.cheat_sheet) {
         $("cheatSheetList").innerHTML = Object.entries(summary.cheat_sheet)
             .map(([key, value]) => `
@@ -167,7 +165,6 @@ function renderQuizStep() {
     $("stepIndicator").textContent = "STEP 3: QUIZ";
 }
 
-// 2. FIXED: Wrong answer now triggers a pop-up toast
 window.handleQuizSelection = (selectedIndex, correctIndex) => {
     const options = document.querySelectorAll(".quiz-option");
     options.forEach(opt => opt.classList.remove("selected", "correct", "wrong"));
@@ -182,7 +179,7 @@ window.handleQuizSelection = (selectedIndex, correctIndex) => {
     } else {
         selectedBtn.classList.add("wrong");
         $("masterNextBtn").disabled = true;
-        showToast("Incorrect answer. Try again!", "error"); // POP UP FOR WRONG ANSWER
+        showToast("Incorrect answer. Try again!", "error"); 
     }
 };
 
@@ -198,7 +195,7 @@ function updateLivePreview() {
     if (preview) preview.srcdoc = `<html><style>body{color:black; font-family:sans-serif; padding:15px;}</style><body>${code}</body></html>`;
 }
 
-// 3. FIXED: finishLesson now forces calculation of nextId
+// UPDATED: Robust Navigation Fix
 async function finishLesson() {
     const modal = $("successModal");
     const masterBtn = $("masterNextBtn");
@@ -212,18 +209,23 @@ async function finishLesson() {
                 completedLessons: arrayUnion(lessonId),
                 totalXP: increment(10)
             });
+            console.log("Progress saved for Lesson:", lessonId);
         }
 
         if (modal) {
             modal.classList.remove("hidden");
-            const nextId = lessonId + 1; // Increment logic
+            const nextId = Number(lessonId) + 1; 
             const modalBtn = modal.querySelector(".primary-btn");
+            
             if (modalBtn) {
-                // FORCE REDIRECT TO NEXT ID
-                modalBtn.onclick = () => {
-                    window.location.href = `./lesson.html?id=${nextId}`;
-                };
                 modalBtn.textContent = `Start Lesson ${nextId} 🚀`;
+                modalBtn.onclick = (e) => {
+                    e.preventDefault();
+                    // Using URL constructor to safely set the next ID
+                    const nextUrl = new URL(window.location.href);
+                    nextUrl.searchParams.set("id", nextId);
+                    window.location.href = nextUrl.pathname + nextUrl.search;
+                };
             }
         }
     } catch (error) {
@@ -237,7 +239,7 @@ function showToast(msg, type) {
     if (!toast) return;
     toast.textContent = msg;
     toast.className = `auth-message ${type}`;
-    toast.style.display = "flex"; // Using flex to align text/icons
+    toast.style.display = "flex"; 
     setTimeout(() => { toast.style.display = "none"; }, 3000);
 }
 
