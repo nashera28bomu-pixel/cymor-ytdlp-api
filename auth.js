@@ -27,6 +27,7 @@ const googleButtons = document.querySelectorAll(".google-signin-btn");
 const logoutBtn = document.getElementById("logoutBtn");
 const authLoader = document.getElementById("authLoader");
 const authMessage = document.getElementById("authMessage");
+const authCard = document.querySelector(".auth-card") || document.querySelector(".register-card");
 
 /* =========================================
    INITIALIZATION
@@ -37,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setupGoogleAuth();
     setupLogout();
     
-    // Uses the observer from our config file
+    // Observe Auth State
     observeAuthState((user) => {
         handleAuthStateChange(user);
     });
@@ -56,14 +57,21 @@ function setupLogin() {
 
         if (!email || !password) return showMessage("⚠️ Please fill all fields.", "error");
 
+        // UI LOCK: Prevent double submission
+        loginForm.style.pointerEvents = "none";
+        loginForm.style.opacity = "0.7";
+        
         startLoading("Signing you in...");
         const result = await loginUser(email, password);
-        stopLoading();
 
         if (result.success) {
+            if (authCard) authCard.style.display = "none"; // Hide buttons immediately
             showMessage("✅ Login successful!", "success");
-            setTimeout(redirectUser, 1000);
+            setTimeout(redirectUser, 800);
         } else {
+            stopLoading();
+            loginForm.style.pointerEvents = "all";
+            loginForm.style.opacity = "1";
             showMessage(result.error, "error");
         }
     });
@@ -86,14 +94,18 @@ function setupRegister() {
         if (password.length < 6) return showMessage("⚠️ Password too short (min 6 chars).", "error");
         if (password !== confirm) return showMessage("⚠️ Passwords do not match.", "error");
 
+        registerForm.style.pointerEvents = "none";
         startLoading("Creating account...");
+        
         const result = await registerUser(name, email, password);
-        stopLoading();
 
         if (result.success) {
+            if (authCard) authCard.style.display = "none"; // Hide buttons immediately
             showMessage("🎉 Account created successfully!", "success");
-            setTimeout(redirectUser, 1200);
+            setTimeout(redirectUser, 1000);
         } else {
+            stopLoading();
+            registerForm.style.pointerEvents = "all";
             showMessage(result.error, "error");
         }
     });
@@ -107,12 +119,13 @@ function setupGoogleAuth() {
         btn.addEventListener("click", async () => {
             startLoading("Connecting to Google...");
             const result = await loginWithGoogle();
-            stopLoading();
 
             if (result.success) {
+                if (authCard) authCard.style.display = "none"; // Hide buttons immediately
                 showMessage(`🚀 Welcome ${result.user.displayName}!`, "success");
-                setTimeout(redirectUser, 1000);
+                setTimeout(redirectUser, 800);
             } else {
+                stopLoading();
                 showMessage(result.error, "error");
             }
         });
@@ -129,7 +142,7 @@ function setupLogout() {
         if (result.success) {
             localStorage.removeItem("cymor_last_opened_lesson");
             showMessage("👋 Logged out.", "success");
-            setTimeout(() => window.location.href = "login.html", 800);
+            setTimeout(() => window.location.href = "login.html", 600);
         }
     });
 }
@@ -139,15 +152,27 @@ function setupLogout() {
 ========================================= */
 function handleAuthStateChange(user) {
     const path = window.location.pathname;
-    const isAuthPage = path.includes("login.html") || path.includes("register.html") || path === "/";
+    
+    // Check if we are on an auth-related page
+    const isAuthPage = path.includes("login.html") || 
+                       path.includes("register.html") || 
+                       path === "/" || 
+                       path.endsWith("/");
+
     const protectedPages = ["dashboard.html", "lesson.html", "quiz.html", "lessons.html"];
     const isProtected = protectedPages.some(page => path.includes(page));
 
     if (user) {
-        if (isAuthPage) redirectUser();
+        // If user is already logged in and views Login/Register, hide the UI and redirect
+        if (isAuthPage) {
+            if (authCard) authCard.style.opacity = "0"; 
+            redirectUser();
+        }
         updateUserUI(user);
     } else {
-        if (isProtected) window.location.href = "login.html";
+        if (isProtected) {
+            window.location.href = "login.html";
+        }
     }
 }
 
@@ -197,7 +222,12 @@ function updateDashboardStats(data) {
 ========================================= */
 function redirectUser() {
     const lastLesson = localStorage.getItem("cymor_last_opened_lesson");
-    window.location.href = lastLesson ? `lesson.html?id=${lastLesson}` : "dashboard.html";
+    const target = lastLesson ? `lesson.html?id=${lastLesson}` : "dashboard.html";
+    
+    // Safety check to prevent infinite loop
+    if (!window.location.pathname.includes(target)) {
+        window.location.href = target;
+    }
 }
 
 function showMessage(message, type = "default") {
