@@ -1,131 +1,101 @@
 // =============================================
-// CYMOR CODE LEARNER - LESSON ENGINE V11
-// =============================================
-alert("Script is running!");
-
-import {
-  auth,
-  db
-} from "./firebase/firebase-config.js";
-
-import {
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-import {
-  doc,
-  getDoc,
-  updateDoc,
-  arrayUnion,
-  increment
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-// =============================================
-// GLOBAL STATE
+// CYMOR CODE LEARNER - EMERGENCY BYPASS ENGINE
 // =============================================
 
-let currentLessonData = null;
-let currentStep = 1;
+// 1. Alert immediately to verify the file is linked and loading
+alert("Engine is starting...");
 
-const urlParams = new URLSearchParams(window.location.search);
-const lessonId = urlParams.get("id") || "1";
+// Firebase Global Variables
+let auth, db, doc, getDoc, updateDoc, arrayUnion, increment, onAuthStateChanged;
 
-// =============================================
-// DOM ELEMENTS
-// =============================================
-
-const $ = (id) => document.getElementById(id);
-
-const masterNextBtn = $("masterNextBtn");
-const stepIndicator = $("stepIndicator");
-
-const lessonTitle = $("lessonTitle");
-const heroLessonTitle = $("heroLessonTitle");
-const heroLessonDescription = $("heroLessonDescription");
-
-const progressPercent = $("progressPercent");
-const progressFill = $("progressFill");
-
-const userName = $("userName");
-const userLevel = $("userLevel");
-
-// =============================================
-// INIT
-// =============================================
-
-document.addEventListener("DOMContentLoaded", initApp);
-
-async function initApp() {
+async function loadFirebase() {
   try {
-    console.log("🚀 Engine Started");  
-    console.log("📘 Lesson:", lessonId);  
-
-    await loadLessonData(lessonId);  
-
-    setupNavigation();  
-    setupLivePreview();  
-    setupHintSystem();  
-
-    onAuthStateChanged(auth, async (user) => {  
-      try {  
-        if (user) {  
-          console.log("👤 Logged In:", user.email);  
-          await syncUserSidebar(user.uid);  
-        } else {  
-          console.log("🔓 Guest Mode");  
-
-          if (userName)  
-            userName.textContent = "Guest Developer";  
-
-          if (userLevel)  
-            userLevel.textContent = "1";  
-        }  
-      } catch (err) {  
-        console.error("Auth Error:", err);  
-      }  
+    // Dynamic import of your local config
+    const fb = await import("./firebase/firebase-config.js");
+    auth = fb.auth;
+    db = fb.db;
+    
+    // Dynamic import of Firebase SDKs to prevent blocking
+    const authSDK = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js");
+    const firestoreSDK = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
+    
+    onAuthStateChanged = authSDK.onAuthStateChanged;
+    doc = firestoreSDK.doc;
+    getDoc = firestoreSDK.getDoc;
+    updateDoc = firestoreSDK.updateDoc;
+    arrayUnion = firestoreSDK.arrayUnion;
+    increment = firestoreSDK.increment;
+    
+    console.log("🔥 Firebase Connected");
+    
+    // Once Firebase is ready, check auth state
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        await syncUserSidebar(user.uid);
+      } else {
+        if ($("userName")) $("userName").textContent = "Guest Developer";
+      }
     });
-  } catch (err) {
-    console.error("INIT ERROR:", err);  
-    showFatalError(err.message);
+  } catch (e) {
+    console.error("Firebase connection failed, but lesson will still function.", e);
   }
 }
 
 // =============================================
-// LOAD LESSON (REWRITTEN FOR MOBILE DEBUGGING)
+// GLOBAL STATE & DOM
 // =============================================
+let currentLessonData = null;
+let currentStep = 1;
+const urlParams = new URLSearchParams(window.location.search);
+const lessonId = urlParams.get("id") || "1";
+const $ = (id) => document.getElementById(id);
 
+const masterNextBtn = $("masterNextBtn");
+const stepIndicator = $("stepIndicator");
+const lessonTitle = $("lessonTitle");
+const heroLessonTitle = $("heroLessonTitle");
+const heroLessonDescription = $("heroLessonDescription");
+
+// =============================================
+// INIT (ENTRY POINT)
+// =============================================
+document.addEventListener("DOMContentLoaded", () => {
+  // Load lesson data immediately - do not wait for Firebase
+  loadLessonData(lessonId);
+  
+  // Connect to Firebase in the background
+  loadFirebase();
+  
+  // Set up UI listeners
+  setupNavigation();
+  setupLivePreview();
+  setupHintSystem();
+});
+
+// =============================================
+// DATA LOADING
+// =============================================
 async function loadLessonData(id) {
   try {
-    // 1. Try a relative path that works on most web servers
-    const path = `./lessons/lesson-${id}.json`;  
+    const path = `./lessons/lesson-${id}.json`;
+    console.log("📂 Fetching:", path);
+
+    const response = await fetch(path);
     
-    console.log("📂 Fetching:", path);  
+    if (!response.ok) {
+      alert("404: Lesson file not found at " + path);
+      throw new Error("File not found");
+    }
 
-    const response = await fetch(path);  
-
-    // 2. If the fetch fails, tell us exactly where it looked
-    if (!response.ok) {  
-      alert(`404 Error: I looked for ${path} but couldn't find it. Check if the 'lessons' folder is in the same directory as this HTML file.`);
-      throw new Error(`Lesson ${id} not found`);  
-    }  
-
-    const data = await response.json();  
-
-    // 3. Validation
-    if (!data.title || !data.content) {  
-      throw new Error("Invalid lesson structure inside the JSON file");  
-    }  
-
-    currentLessonData = data;  
-    console.log("✅ Lesson Loaded");  
-
-    renderTheoryStep();  
+    const data = await response.json();
+    currentLessonData = data;
+    
+    renderTheoryStep();
     updateProgressUI();
-
+    alert("✅ Success! Lesson content loaded.");
+    
   } catch (error) {
-    console.error("LESSON LOAD ERROR:", error);
-    // This is vital for phone users!
-    alert("CRITICAL ERROR: " + error.message);
+    console.error("LOAD ERROR:", error);
     showFatalError(error.message);
   }
 }
@@ -133,444 +103,206 @@ async function loadLessonData(id) {
 // =============================================
 // THEORY STEP
 // =============================================
-
 function renderTheoryStep() {
   if (!currentLessonData) return;
-
   currentStep = 1;
-
   toggleStepVisibility();
 
-  const explanation =
-    currentLessonData?.content?.explanation || "";
+  const { explanation, syntax_breakdown } = currentLessonData.content;
 
-  const syntax =
-    currentLessonData?.content?.syntax_breakdown || "";
-
-  if (lessonTitle)
-    lessonTitle.textContent =
-      currentLessonData.title;
-
-  if (heroLessonTitle)
-    heroLessonTitle.textContent =
-      currentLessonData.title;
-
+  if (lessonTitle) lessonTitle.textContent = currentLessonData.title;
+  if (heroLessonTitle) heroLessonTitle.textContent = currentLessonData.title;
+  
   if (heroLessonDescription) {
-    const plainText =  
-      explanation  
-      .replace(/<[^>]*>/g, "")  
-      .substring(0, 160);  
-
-    heroLessonDescription.textContent =  
-      plainText + "...";
+    heroLessonDescription.textContent = explanation.replace(/<[^>]*>/g, "").substring(0, 160) + "...";
   }
 
   const contentArea = $("lessonContent");
-
   if (contentArea) {
-    contentArea.innerHTML = `  
-      <div class="card">  
-        ${explanation}  
-      </div>  
-    
-      <div class="card">  
-        ${syntax}  
-      </div>  
+    contentArea.innerHTML = `
+      <div class="card">${explanation}</div>
+      <div class="card">${syntax_breakdown}</div>
     `;
   }
 
   const takeawaysList = $("takeawaysList");
-
-  if (
-    takeawaysList &&
-    currentLessonData.summary?.takeaways
-  ) {
-    takeawaysList.innerHTML =  
-      currentLessonData.summary.takeaways  
-      .map(item => `<li>${item}</li>`)  
-      .join("");
+  if (takeawaysList && currentLessonData.summary?.takeaways) {
+    takeawaysList.innerHTML = currentLessonData.summary.takeaways
+      .map(item => `<li>${item}</li>`).join("");
   }
 
-  // --- CHEAT SHEET ENGINE LOGIC ---
   const cheatSheetList = $("cheatSheetList");
-
-  if (
-    cheatSheetList &&
-    currentLessonData.summary?.cheat_sheet
-  ) {
-    cheatSheetList.innerHTML =
-      Object.entries(currentLessonData.summary.cheat_sheet)
+  if (cheatSheetList && currentLessonData.summary?.cheat_sheet) {
+    cheatSheetList.innerHTML = Object.entries(currentLessonData.summary.cheat_sheet)
       .map(([key, value]) => `
-        <div class="card">
-          <h3>${key}</h3>
+        <div class="card" style="margin-bottom:10px;">
+          <h4 style="color:#00d9ff">${key}</h4>
           <p>${value}</p>
         </div>
-      `)
-      .join("");
+      `).join("");
   }
 
-  if (stepIndicator)
-    stepIndicator.textContent = "STEP 1: THEORY";
-
+  if (stepIndicator) stepIndicator.textContent = "STEP 1: THEORY";
   if (masterNextBtn) {
-    masterNextBtn.textContent = "Start Practice ➡";  
+    masterNextBtn.textContent = "Start Practice ➡";
     masterNextBtn.disabled = false;
   }
 }
 
 // =============================================
-// CHALLENGE STEP
+// CHALLENGE & QUIZ LOGIC (Original Engine)
 // =============================================
-
 function renderChallengeStep() {
   currentStep = 2;
-
   toggleStepVisibility();
-
-  const sandbox =
-    currentLessonData?.editor_sandbox;
-
-  if (!sandbox) {
-    showFatalError("Missing challenge data");
-    return;
-  }
-
-  const instruction = $("challengeInstruction");
-
-  if (instruction) {
-    instruction.textContent =  
-      sandbox?.mini_challenge?.instruction ||  
-      "Complete the coding task.";
+  const sandbox = currentLessonData?.editor_sandbox;
+  
+  if ($("challengeInstruction")) {
+    $("challengeInstruction").textContent = sandbox?.mini_challenge?.instruction || "Complete the task.";
   }
 
   const editor = $("codeEditor");
-
   if (editor && editor.value.trim() === "") {
-    editor.value =  
-      sandbox.starter_code || "";  
-
+    editor.value = sandbox.starter_code || "";
     updateLivePreview();
   }
 
-  if (stepIndicator)
-    stepIndicator.textContent =
-      "STEP 2: CHALLENGE";
-
+  if (stepIndicator) stepIndicator.textContent = "STEP 2: CHALLENGE";
   if (masterNextBtn) {
-    masterNextBtn.textContent = "Check Code ➡";  
+    masterNextBtn.textContent = "Check Code ➡";
     masterNextBtn.disabled = true;
   }
 
-  setupChallengeVerification(
-    sandbox?.mini_challenge?.validation_keyword || ""
-  );
+  setupChallengeVerification(sandbox?.mini_challenge?.validation_keyword || "");
 }
-
-// =============================================
-// CHALLENGE VERIFY
-// =============================================
 
 function setupChallengeVerification(keyword) {
   const checkBtn = $("checkChallengeBtn");
-  const editor = $("codeEditor");
-
-  if (!checkBtn || !editor) return;
-
+  if (!checkBtn) return;
   checkBtn.onclick = () => {
-    const code =  
-      editor.value.toLowerCase();  
-
-    if (!keyword) {  
-      masterNextBtn.disabled = false;  
-      return;  
-    }  
-
-    if (code.includes(keyword.toLowerCase())) {  
-      masterNextBtn.disabled = false;  
-      masterNextBtn.textContent = "Go To Quiz ➡";  
-      alert("🎉 Challenge Completed!");  
-    } else {  
-      alert(`❌ Missing keyword: ${keyword}`);  
+    const code = $("codeEditor").value.toLowerCase();
+    if (!keyword || code.includes(keyword.toLowerCase())) {
+      masterNextBtn.disabled = false;
+      masterNextBtn.textContent = "Go To Quiz ➡";
+      alert("🎉 Challenge Completed!");
+    } else {
+      alert(`❌ Missing keyword: ${keyword}`);
     }
   };
 }
 
-// =============================================
-// QUIZ STEP
-// =============================================
-
 function renderQuizStep() {
   currentStep = 3;
-
   toggleStepVisibility();
-
-  const quiz =
-    currentLessonData?.quiz_engine;
-
-  if (!quiz) {
-    showFatalError("Quiz data missing");
-    return;
-  }
-
-  const question = $("quizQuestion");
-
-  if (question)
-    question.textContent =
-      quiz.question || "Quiz";
-
-  const xp = $("quiz-xp");
-
-  if (xp)
-    xp.textContent = quiz.points || 10;
+  const quiz = currentLessonData?.quiz_engine;
+  if ($("quizQuestion")) $("quizQuestion").textContent = quiz.question;
 
   const optionsWrapper = $("quizOptions");
-
   if (optionsWrapper) {
-    optionsWrapper.innerHTML =  
-      quiz.options.map((opt, i) => `  
-        <button  
-          class="quiz-option"  
-          data-index="${i}">  
-          ${opt}  
-        </button>  
-      `).join("");
+    optionsWrapper.innerHTML = quiz.options.map((opt, i) => `
+      <button class="quiz-option" data-index="${i}">${opt}</button>
+    `).join("");
   }
 
-  if (stepIndicator)
-    stepIndicator.textContent =
-      "STEP 3: QUIZ";
-
+  if (stepIndicator) stepIndicator.textContent = "STEP 3: QUIZ";
   if (masterNextBtn) {
-    masterNextBtn.textContent =  
-      "Complete Lesson 🏆";  
+    masterNextBtn.textContent = "Complete Lesson 🏆";
     masterNextBtn.disabled = true;
   }
 
-  document
-    .querySelectorAll(".quiz-option")
-    .forEach(btn => {
-      btn.onclick = () => {  
-        document  
-          .querySelectorAll(".quiz-option")  
-          .forEach(b =>  
-            b.classList.remove("selected")  
-          );  
-
-        btn.classList.add("selected");  
-
-        const selected =  
-          Number(btn.dataset.index);  
-
-        if (selected === quiz.correct_index) {  
-          masterNextBtn.disabled = false;  
-        }  
-      };  
-    });
-}
-
-// =============================================
-// LIVE PREVIEW
-// =============================================
-
-function setupLivePreview() {
-  const editor = $("codeEditor");
-
-  if (!editor) return;
-
-  editor.addEventListener(
-    "input",
-    updateLivePreview
-  );
-}
-
-function updateLivePreview() {
-  const editor = $("codeEditor");
-  const preview = $("live-preview");
-
-  if (!editor || !preview) return;
-
-  preview.srcdoc = editor.value;
-}
-
-// =============================================
-// HINT SYSTEM
-// =============================================
-
-function setupHintSystem() {
-  const hintBtn = $("showHintBtn");
-  const hintBox = $("challengeHint");
-
-  if (!hintBtn || !hintBox) return;
-
-  hintBtn.onclick = () => {
-    const hint =  
-      currentLessonData  
-      ?.editor_sandbox  
-      ?.mini_challenge  
-      ?.hint;  
-
-    if (!hint) return;  
-
-    hintBox.innerHTML =  
-      hint.replace(/\n/g, "<br>");  
-
-    hintBox.classList.toggle("hidden");
-  };
-}
-
-// =============================================
-// NAVIGATION
-// =============================================
-
-function setupNavigation() {
-  if (masterNextBtn) {
-    masterNextBtn.onclick = () => {  
-      if (currentStep === 1)  
-        renderChallengeStep();  
-      else if (currentStep === 2)  
-        renderQuizStep();  
-      else if (currentStep === 3)  
-        finishLesson();  
+  document.querySelectorAll(".quiz-option").forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll(".quiz-option").forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
+      if (Number(btn.dataset.index) === quiz.correct_index) {
+        masterNextBtn.disabled = false;
+      }
     };
-  }
-
-  const prevBtn = $("prevLessonBtn");
-
-  if (prevBtn) {
-    prevBtn.onclick = () => {  
-      if (currentStep === 2)  
-        renderTheoryStep();  
-      else if (currentStep === 3)  
-        renderChallengeStep();  
-    };
-  }
-}
-
-// =============================================
-// STEP VISIBILITY
-// =============================================
-
-function toggleStepVisibility() {
-  document
-    .querySelectorAll(".lesson-step")
-    .forEach(step => {
-      step.classList.remove("active");
-    });
-
-  const steps = [
-    "step-theory",
-    "step-challenge",
-    "step-quiz"
-  ];
-
-  const current =
-    $(steps[currentStep - 1]);
-
-  if (current)
-    current.classList.add("active");
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
   });
 }
 
 // =============================================
-// PROGRESS
+// UTILITIES
 // =============================================
-
-function updateProgressUI() {
-  const totalLessons = 30;
-
-  const percent = Math.round(
-    (parseInt(lessonId) / totalLessons) * 100
-  );
-
-  if (progressPercent)
-    progressPercent.textContent =
-      percent + "%";
-
-  if (progressFill)
-    progressFill.style.width =
-      percent + "%";
+function setupLivePreview() {
+  const editor = $("codeEditor");
+  if (editor) editor.addEventListener("input", updateLivePreview);
 }
 
-// =============================================
-// USER DATA
-// =============================================
+function updateLivePreview() {
+  const preview = $("live-preview");
+  if (preview) preview.srcdoc = $("codeEditor").value;
+}
 
-async function syncUserSidebar(uid) {
-  try {
-    const snap =  
-      await getDoc(doc(db, "users", uid));  
-
-    if (!snap.exists()) return;  
-
-    const data = snap.data();  
-
-    if (userLevel)  
-      userLevel.textContent =  
-        data.level || "1";  
-
-    if (userName)  
-      userName.textContent =  
-        data.username || "Developer";
-  } catch (error) {
-    console.error("Sidebar Error:", error);
+function setupHintSystem() {
+  const hintBtn = $("showHintBtn");
+  const hintBox = $("challengeHint");
+  if (hintBtn && hintBox) {
+    hintBtn.onclick = () => {
+      const hint = currentLessonData?.editor_sandbox?.mini_challenge?.hint;
+      if (hint) {
+        hintBox.innerHTML = hint.replace(/\n/g, "<br>");
+        hintBox.classList.toggle("hidden");
+      }
+    };
   }
 }
 
-// =============================================
-// FINISH LESSON
-// =============================================
+function setupNavigation() {
+  if (masterNextBtn) {
+    masterNextBtn.onclick = () => {
+      if (currentStep === 1) renderChallengeStep();
+      else if (currentStep === 2) renderQuizStep();
+      else if (currentStep === 3) finishLesson();
+    };
+  }
+  if ($("prevLessonBtn")) {
+    $("prevLessonBtn").onclick = () => {
+      if (currentStep === 2) renderTheoryStep();
+      else if (currentStep === 3) renderChallengeStep();
+    };
+  }
+}
+
+function toggleStepVisibility() {
+  document.querySelectorAll(".lesson-step").forEach(s => s.classList.remove("active"));
+  const steps = ["step-theory", "step-challenge", "step-quiz"];
+  if ($(steps[currentStep - 1])) $(steps[currentStep - 1]).classList.add("active");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function updateProgressUI() {
+  const percent = Math.round((parseInt(lessonId) / 30) * 100);
+  if ($("progressPercent")) $("progressPercent").textContent = percent + "%";
+  if ($("progressFill")) $("progressFill").style.width = percent + "%";
+}
+
+async function syncUserSidebar(uid) {
+  if (!getDoc) return;
+  const snap = await getDoc(doc(db, "users", uid));
+  if (snap.exists()) {
+    const data = snap.data();
+    if ($("userName")) $("userName").textContent = data.username || "Developer";
+  }
+}
 
 async function finishLesson() {
   try {
-    const user = auth.currentUser;  
-
-    if (user) {  
-      await updateDoc(  
-        doc(db, "users", user.uid),  
-        {  
-          completedLessons: arrayUnion(  
-            parseInt(lessonId)  
-          ),  
-
-          totalXP: increment(  
-            currentLessonData?.meta?.xp_reward || 10  
-          )  
-        }  
-      );  
-    }  
-
-    const modal = $("successModal");  
-
-    if (modal)  
-      modal.classList.remove("hidden");  
-
-    console.log("🏆 Lesson Completed");
-  } catch (error) {
-    console.error("Finish Error:", error);  
-    alert("Failed to save progress.");
+    if (auth?.currentUser && updateDoc) {
+      await updateDoc(doc(db, "users", auth.currentUser.uid), {
+        completedLessons: arrayUnion(parseInt(lessonId)),
+        totalXP: increment(currentLessonData?.meta?.xp_reward || 10)
+      });
+    }
+    if ($("successModal")) $("successModal").classList.remove("hidden");
+  } catch (e) {
+    console.error(e);
+    alert("Lesson complete! (Progress sync failed)");
+    if ($("successModal")) $("successModal").classList.remove("hidden");
   }
 }
 
-// =============================================
-// ERROR UI
-// =============================================
-
-function showFatalError(message) {
-  console.error("💥 Fatal:", message);
-
-  if (lessonTitle)
-    lessonTitle.textContent =
-      "Lesson Failed To Load";
-
-  if (heroLessonTitle)
-    heroLessonTitle.textContent =
-      "Engine Error";
-
-  if (heroLessonDescription)
-    heroLessonDescription.textContent =
-      message;
+function showFatalError(msg) {
+  if (heroLessonTitle) heroLessonTitle.textContent = "Error";
+  if (heroLessonDescription) heroLessonDescription.textContent = msg;
 }
