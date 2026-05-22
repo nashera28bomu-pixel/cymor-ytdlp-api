@@ -69,9 +69,9 @@
 
       "Tag Structure": "&lt;tag&gt;content&lt;/tag&gt;",
 
-      "H1 Tag": "Main webpage heading",
+      "<h1></h1>": "Main webpage heading",
 
-      "P Tag": "Paragraph text"
+      "<p></p>": "Paragraph text"
 
     }
 
