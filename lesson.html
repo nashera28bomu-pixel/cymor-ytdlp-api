@@ -1,36 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8" />
+
 <meta
 name="viewport"
-content="width=device-width,
-initial-scale=1.0,
-maximum-scale=1.0,
-user-scalable=no"
+content="width=device-width, initial-scale=1.0"
 />
+
 <meta
 name="description"
 content="Interactive coding lessons for Cymor Code Learner."
 />
+
 <title>Cymor Code Learner 🚀</title>
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 <link
 href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
 rel="stylesheet"
 />
 
-<!-- Styles -->
-<link rel="stylesheet" href="styles.css" />
-<link rel="stylesheet" href="learn.css" />
+<!-- External CSS -->
+<link rel="stylesheet" href="./styles.css">
+<link rel="stylesheet" href="./learn.css">
 
 <style>
-/* ================= CORE RESET ================= */
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+
+/* ================= RESET ================= */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
 body{
 font-family:"Poppins",sans-serif;
 background:#050816;
@@ -38,131 +46,54 @@ color:white;
 overflow-x:hidden;
 min-height:100vh;
 }
-body::-webkit-scrollbar{width:0;height:0;}
 
-/* ================= BACKGROUND ================= */
+/* ================= BG ================= */
+
 .bg-blur{
 position:fixed;
 border-radius:50%;
 filter:blur(100px);
-z-index:-1;
 opacity:.25;
+z-index:-1;
 }
+
 .blur-1{
-width:300px;height:300px;
+width:300px;
+height:300px;
 background:#00d9ff;
-top:-80px;left:-100px;
+top:-80px;
+left:-100px;
 }
+
 .blur-2{
-width:350px;height:350px;
+width:350px;
+height:350px;
 background:#7b61ff;
-bottom:-120px;right:-100px;
+bottom:-120px;
+right:-100px;
 }
 
 /* ================= LAYOUT ================= */
-.lesson-page{display:flex;min-height:100vh;}
+
+.lesson-page{
+display:flex;
+min-height:100vh;
+}
+
 .lesson-sidebar{
 width:320px;
-background:rgba(255,255,255,0.03);
-backdrop-filter:blur(20px);
-border-right:1px solid rgba(255,255,255,0.08);
 padding:24px;
 display:flex;
 flex-direction:column;
 gap:22px;
-}
-.sidebar-logo{display:flex;align-items:center;gap:15px;}
-.logo-circle{
-width:55px;height:55px;
-border-radius:18px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:26px;
-background:linear-gradient(135deg,#00d9ff,#7b61ff);
-box-shadow:0 10px 40px rgba(0,217,255,.3);
-}
-.sidebar-logo h2{font-size:28px;font-weight:800;}
-.sidebar-logo p{opacity:.7;font-size:14px;}
-.sidebar-actions{
-display:flex;
-flex-direction:column;
-gap:12px;
-margin-top:auto;
+
+background:rgba(255,255,255,.03);
+
+backdrop-filter:blur(20px);
+
+border-right:1px solid rgba(255,255,255,.08);
 }
 
-/* ================= CARDS ================= */
-.card{
-background:rgba(255,255,255,0.04);
-border:1px solid rgba(255,255,255,0.08);
-border-radius:24px;
-padding:22px;
-backdrop-filter:blur(12px);
-box-shadow:0 10px 30px rgba(0,0,0,.25);
-}
-.card-top{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:16px;
-}
-
-/* ================= PROGRESS ================= */
-.progress-bar{
-height:12px;
-border-radius:999px;
-background:rgba(255,255,255,0.08);
-overflow:hidden;
-}
-.progress-fill{
-height:100%;
-width:0%;
-background:linear-gradient(90deg,#00d9ff,#7b61ff);
-transition:width .4s ease;
-}
-
-/* ================= BUTTONS ================= */
-.primary-btn,.secondary-btn,.logout-btn{
-border:none;
-outline:none;
-cursor:pointer;
-font-family:inherit;
-font-weight:700;
-transition:.25s ease;
-display:flex;
-align-items:center;
-justify-content:center;
-text-decoration:none;
-}
-.primary-btn{
-background:linear-gradient(90deg,#00d9ff,#7b61ff);
-color:white;
-padding:16px 22px;
-border-radius:18px;
-box-shadow:0 8px 25px rgba(0,217,255,.3);
-}
-.primary-btn:hover{transform:translateY(-2px);}
-.primary-btn:disabled{
-opacity:.5;
-cursor:not-allowed;
-filter:grayscale(1);
-}
-.secondary-btn{
-background:rgba(255,255,255,0.05);
-border:1px solid rgba(255,255,255,0.08);
-color:white;
-padding:14px 18px;
-border-radius:18px;
-}
-.secondary-btn:hover{background:rgba(255,255,255,0.08);}
-.logout-btn{
-background:#ff4d6d;
-color:white;
-padding:14px 18px;
-border-radius:18px;
-}
-
-/* ================= MAIN ================= */
 .lesson-main{
 flex:1;
 padding:30px;
@@ -170,128 +101,218 @@ display:flex;
 flex-direction:column;
 gap:28px;
 }
+
+/* ================= CARD ================= */
+
+.card{
+background:rgba(255,255,255,.04);
+
+border:1px solid rgba(255,255,255,.08);
+
+border-radius:24px;
+
+padding:22px;
+
+backdrop-filter:blur(12px);
+}
+
+/* ================= LOGO ================= */
+
+.sidebar-logo{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.logo-circle{
+width:55px;
+height:55px;
+
+border-radius:18px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:26px;
+
+background:linear-gradient(135deg,#00d9ff,#7b61ff);
+}
+
+.sidebar-logo h2{
+font-size:24px;
+font-weight:800;
+}
+
+/* ================= BUTTONS ================= */
+
+.primary-btn,
+.secondary-btn,
+.logout-btn{
+
+border:none;
+cursor:pointer;
+font-family:inherit;
+font-weight:700;
+
+border-radius:18px;
+
+padding:16px 20px;
+
+transition:.25s ease;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+text-decoration:none;
+}
+
+.primary-btn{
+background:linear-gradient(90deg,#00d9ff,#7b61ff);
+color:white;
+}
+
+.secondary-btn{
+background:rgba(255,255,255,.05);
+color:white;
+border:1px solid rgba(255,255,255,.08);
+}
+
+.logout-btn{
+background:#ff4d6d;
+color:white;
+}
+
+.primary-btn:hover,
+.secondary-btn:hover,
+.logout-btn:hover{
+transform:translateY(-2px);
+}
+
+/* ================= TOPBAR ================= */
+
 .lesson-topbar{
 display:flex;
 justify-content:space-between;
 align-items:center;
-flex-wrap:wrap;
 gap:20px;
+flex-wrap:wrap;
 }
+
 .lesson-label{
 font-size:14px;
 opacity:.7;
 letter-spacing:1px;
 margin-bottom:6px;
 }
+
 .lesson-topbar h1{
 font-size:48px;
 font-weight:800;
-line-height:1.1;
 }
+
 .lesson-top-actions{
 display:flex;
 gap:14px;
 flex-wrap:wrap;
 }
-#lessonModule{
-font-size:20px;
-opacity:.85;
-margin-top:4px;
+
+/* ================= MINI LABEL ================= */
+
+.mini-label{
+font-size:13px;
+letter-spacing:1px;
+opacity:.7;
+margin-bottom:8px;
 }
 
-/* ================= ENGINE LAYOUT CONTROL ================= */
+/* ================= STEP SYSTEM ================= */
+
 .lesson-step{
 display:none;
-animation:fadeIn .5s ease forwards;
+animation:fadeIn .4s ease forwards;
 }
-.lesson-step.active{display:block;}
-.hidden{display:none !important;}
+
+.lesson-step.active{
+display:block;
+}
+
+.hidden{
+display:none !important;
+}
 
 @keyframes fadeIn{
-from{opacity:0;transform:translateY(10px);}
-to{opacity:1;transform:translateY(0);}
+from{
+opacity:0;
+transform:translateY(10px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
 }
 
-/* ================= THEORY ================= */
-.lesson-hero{
-display:flex;
-justify-content:space-between;
-align-items:center;
-flex-wrap:wrap;
-gap:20px;
-}
-.lesson-hero h2{font-size:38px;font-weight:800;}
+/* ================= CONTENT ================= */
+
 .lesson-content{
 display:grid;
 gap:20px;
 margin-top:20px;
 line-height:1.9;
-font-size:16px;
-}
-#cheatSheetList{
-margin-top:20px;
-display:grid;
-gap:14px;
 }
 
-/* ================= CHALLENGE & SANDBOX ================= */
-.challenge-text{
-font-size:16px;
-line-height:1.8;
-margin:15px 0;
-white-space:pre-wrap;
-}
-.challenge-actions{
-display:flex;
-gap:14px;
-flex-wrap:wrap;
+#takeawaysList{
 margin-top:20px;
+padding-left:20px;
+display:grid;
+gap:10px;
 }
-.hint-box{
-margin-top:20px;
-padding:18px;
-border-radius:18px;
-background:rgba(255,255,255,0.05);
-line-height:1.8;
-white-space:pre-wrap;
+
+/* ================= PROGRESS ================= */
+
+.progress-bar{
+height:12px;
+border-radius:999px;
+overflow:hidden;
+background:rgba(255,255,255,.08);
 }
+
+.progress-fill{
+height:100%;
+width:0%;
+
+background:linear-gradient(90deg,#00d9ff,#7b61ff);
+
+transition:width .4s ease;
+}
+
+/* ================= SANDBOX ================= */
+
 .sandbox-grid{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:20px;
 margin-top:20px;
 }
-.editor-container, .preview-container{
-overflow:hidden;
-padding:0;
-}
-.editor-topbar{
-display:flex;
-align-items:center;
-gap:12px;
-padding:14px 18px;
-background:rgba(255,255,255,0.05);
-border-bottom:1px solid rgba(255,255,255,0.08);
-}
-.editor-dots{display:flex;gap:6px;}
-.dot{width:10px;height:10px;border-radius:50%;}
-.red{background:#ff5f57;}
-.yellow{background:#ffbd2e;}
-.green{background:#28c840;}
 
 #codeEditor{
 width:100%;
 height:420px;
-border:none;
-outline:none;
-resize:none;
-padding:20px;
+
 background:#0d1326;
 color:#00ffae;
+
+border:none;
+outline:none;
+
+padding:20px;
+
 font-family:"Fira Code",monospace;
-font-size:15px;
-line-height:1.8;
+
+resize:none;
 }
+
 #live-preview{
 width:100%;
 height:420px;
@@ -300,210 +321,386 @@ background:white;
 }
 
 /* ================= QUIZ ================= */
+
 .quiz-options-wrapper{
 display:grid;
 gap:14px;
-margin-top:24px;
+margin-top:20px;
 }
+
 .quiz-option{
 padding:18px;
+
 border-radius:18px;
-border:1px solid rgba(255,255,255,0.08);
-background:rgba(255,255,255,0.04);
+
+background:rgba(255,255,255,.04);
+
+border:1px solid rgba(255,255,255,.08);
+
 color:white;
+
 cursor:pointer;
-font-size:15px;
-font-weight:600;
-transition:.25s ease;
-text-align:left;
-outline:none;
 }
-.quiz-option:hover{
-transform:translateY(-2px);
-background:rgba(255,255,255,0.08);
-}
+
 .quiz-option.selected{
 border-color:#00d9ff;
-background:rgba(0,217,255,0.12);
+background:rgba(0,217,255,.12);
 }
 
 /* ================= MODAL ================= */
+
 .modal{
 position:fixed;
 inset:0;
+
 display:flex;
 align-items:center;
 justify-content:center;
+
 background:rgba(0,0,0,.7);
-z-index:1000;
+
 padding:20px;
-}
-.modal-content{
-max-width:420px;
-width:100%;
-text-align:center;
+z-index:1000;
 }
 
 /* ================= MOBILE ================= */
+
 @media(max-width:980px){
-.lesson-page{flex-direction:column;}
-.lesson-sidebar{width:100%;border-right:none;border-bottom:1px solid rgba(255,255,255,0.08);}
-.lesson-main{padding:20px;}
-.lesson-topbar h1{font-size:42px;}
-.sandbox-grid{grid-template-columns:1fr;}
-#codeEditor, #live-preview{height:320px;}
+
+.lesson-page{
+flex-direction:column;
 }
-@media(max-width:600px){
-.lesson-main{padding:16px;}
-.lesson-sidebar{padding:18px;}
-.lesson-topbar{align-items:flex-start;}
-.lesson-topbar h1{font-size:34px;}
-.lesson-hero h2{font-size:28px;}
-.primary-btn, .secondary-btn, .logout-btn{width:100%;}
-.lesson-top-actions, .challenge-actions{
+
+.lesson-sidebar{
 width:100%;
-display:grid;
+border-right:none;
+border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.sandbox-grid{
 grid-template-columns:1fr;
 }
+
+.lesson-topbar h1{
+font-size:38px;
 }
+
+}
+
 </style>
+
 </head>
 
 <body class="lesson-page">
 
-<!-- BACKGROUND -->
+<!-- BG -->
 <div class="bg-blur blur-1"></div>
 <div class="bg-blur blur-2"></div>
 
 <!-- SIDEBAR -->
 <aside class="lesson-sidebar">
+
 <div class="sidebar-logo">
+
 <div class="logo-circle">🚀</div>
+
 <div>
 <h2 id="userName">Guest Developer</h2>
 <p>Learning Track</p>
 </div>
+
 </div>
 
-<div class="progress-card card">
-<div class="card-top">
+<!-- Progress -->
+
+<div class="card">
+
+<div
+style="
+display:flex;
+justify-content:space-between;
+margin-bottom:14px;
+"
+>
 <h3>📈 Progress</h3>
+
 <span id="progressPercent">0%</span>
+
 </div>
+
 <div class="progress-bar">
 <div id="progressFill" class="progress-fill"></div>
 </div>
+
 </div>
 
-<div class="lessons-card card">
-<div class="card-top">
-<h3>📚 Path</h3>
-</div>
+<!-- Path -->
+
+<div class="card">
+<h3 style="margin-bottom:16px;">📚 Path</h3>
 <div id="lessonList"></div>
 </div>
 
-<div class="sidebar-actions">
-<a href="dashboard.html" class="secondary-btn">📊 Dashboard</a>
-<button id="logoutBtn" class="logout-btn">🚪 Logout</button>
+<!-- Sidebar Buttons -->
+
+<div style="display:grid;gap:14px;margin-top:auto;">
+
+<a
+href="./dashboard.html"
+class="secondary-btn"
+>
+📊 Dashboard
+</a>
+
+<button
+id="logoutBtn"
+class="logout-btn"
+>
+🚪 Logout
+</button>
+
 </div>
+
 </aside>
 
 <!-- MAIN -->
+
 <main class="lesson-main">
+
+<!-- TOPBAR -->
+
 <header class="lesson-topbar">
+
 <div>
-<p class="lesson-label" id="stepIndicator">STEP 1: THEORY</p>
+
+<p
+class="lesson-label"
+id="stepIndicator"
+>
+STEP 1: THEORY
+</p>
+
 <h2 id="lessonModule"></h2>
-<h1 id="lessonTitle">Preparing Lesson...</h1>
+
+<h1 id="lessonTitle">
+Preparing Lesson...
+</h1>
+
 </div>
+
 <div class="lesson-top-actions">
-<button id="prevLessonBtn" class="secondary-btn">⬅ Back</button>
-<button id="masterNextBtn" class="primary-btn">Continue ➡</button>
+
+<button
+id="prevLessonBtn"
+class="secondary-btn"
+>
+⬅ Back
+</button>
+
+<button
+id="masterNextBtn"
+class="primary-btn"
+>
+Continue ➡
+</button>
+
 </div>
+
 </header>
 
-<!-- STEP 1: THEORY -->
-<div id="step-theory" class="lesson-step active">
-<section class="lesson-hero card">
-<div>
-<p class="mini-label">CURRENT TOPIC</p>
-<h2 id="heroLessonTitle">Loading...</h2>
-<p id="heroLessonDescription">Preparing your lesson content...</p>
-</div>
-</section>
+<!-- THEORY -->
 
-<section id="lessonContent" class="lesson-content"></section>
+<section
+id="step-theory"
+class="lesson-step active"
+>
 
-<!-- NEW CHEAT SHEET AREA -->
-<div id="cheatSheetList"></div>
-</div>
-
-<!-- STEP 2: CHALLENGE & WORKSPACE -->
-<div id="step-challenge" class="lesson-step">
-<section class="challenge-section">
 <div class="card">
-<div class="mini-label">🎯 CHALLENGE</div>
-<div id="challengeInstruction" class="challenge-text">Loading challenge...</div>
-<div class="challenge-actions">
-<button id="showHintBtn" class="secondary-btn">💡 Hint</button>
-<button id="checkChallengeBtn" class="primary-btn">✅ Run & Verify</button>
+
+<p class="mini-label">
+CURRENT TOPIC
+</p>
+
+<h2 id="heroLessonTitle">
+Loading...
+</h2>
+
+<p id="heroLessonDescription">
+Preparing lesson...
+</p>
+
 </div>
-<div id="challengeHint" class="hint-box hidden"></div>
+
+<div
+id="lessonContent"
+class="lesson-content"
+></div>
+
+<!-- TAKEAWAYS -->
+
+<div class="card">
+
+<h3 style="margin-bottom:16px;">
+🧠 Key Takeaways
+</h3>
+
+<ul id="takeawaysList"></ul>
+
 </div>
+
 </section>
 
-<!-- SANDBOX CORE -->
-<section class="sandbox-section">
+<!-- CHALLENGE -->
+
+<section
+id="step-challenge"
+class="lesson-step"
+>
+
+<div class="card">
+
+<p class="mini-label">
+🎯 CHALLENGE
+</p>
+
+<div
+id="challengeInstruction"
+style="
+line-height:1.8;
+margin-top:12px;
+"
+>
+Loading challenge...
+</div>
+
+<div
+style="
+display:flex;
+gap:14px;
+margin-top:20px;
+flex-wrap:wrap;
+"
+>
+
+<button
+id="showHintBtn"
+class="secondary-btn"
+>
+💡 Hint
+</button>
+
+<button
+id="checkChallengeBtn"
+class="primary-btn"
+>
+✅ Run & Verify
+</button>
+
+</div>
+
+<div
+id="challengeHint"
+class="hidden"
+style="
+margin-top:20px;
+padding:18px;
+border-radius:18px;
+background:rgba(255,255,255,.05);
+"
+></div>
+
+</div>
+
+<!-- SANDBOX -->
+
 <div class="sandbox-grid">
-<!-- Editor Box -->
-<div class="editor-container card">
-<div class="editor-topbar">
-<div class="editor-dots">
-<span class="dot red"></span>
-<span class="dot yellow"></span>
-<span class="dot green"></span>
-</div>
-<span>index.html</span>
-</div>
-<textarea id="codeEditor" spellcheck="false"></textarea>
-</div>
 
-<!-- Live Preview Box -->
-<div class="preview-container card">
-<div class="editor-topbar">
-<span>🌐 Live Preview</span>
-</div>
-<iframe id="live-preview"></iframe>
-</div>
-</div>
-</section>
-</div>
-
-<!-- STEP 3: QUIZ -->
-<div id="step-quiz" class="lesson-step">
-<section class="quiz-section">
 <div class="card">
-<h2 id="quizQuestion">Loading quiz...</h2>
-<div id="quizOptions" class="quiz-options-wrapper"></div>
+
+<h3 style="margin-bottom:14px;">
+💻 Code Editor
+</h3>
+
+<textarea
+id="codeEditor"
+spellcheck="false"
+></textarea>
+
 </div>
+
+<div class="card">
+
+<h3 style="margin-bottom:14px;">
+🌐 Live Preview
+</h3>
+
+<iframe
+id="live-preview"
+sandbox="allow-scripts"
+></iframe>
+
+</div>
+
+</div>
+
 </section>
+
+<!-- QUIZ -->
+
+<section
+id="step-quiz"
+class="lesson-step"
+>
+
+<div class="card">
+
+<h2 id="quizQuestion">
+Loading quiz...
+</h2>
+
+<div
+id="quizOptions"
+class="quiz-options-wrapper"
+></div>
+
 </div>
+
+</section>
+
 </main>
 
-<!-- MODAL -->
-<div id="successModal" class="modal hidden">
-<div class="modal-content card">
-<h2>🎉 Level Complete!</h2>
-<p>You've mastered this lesson.</p>
-<button class="primary-btn" onclick="window.location.href='lessons.html'">
+<!-- SUCCESS MODAL -->
+
+<div
+id="successModal"
+class="modal hidden"
+>
+
+<div class="card" style="max-width:420px;width:100%;text-align:center;">
+
+<h2>🎉 Lesson Complete!</h2>
+
+<p style="margin:16px 0;">
+You mastered this lesson.
+</p>
+
+<button
+class="primary-btn"
+style="width:100%;"
+onclick="window.location.href='lessons.html'"
+>
 Next Lesson 🚀
 </button>
-</div>
+
 </div>
 
-<!-- SCRIPTS -->
-<script type="module" src="./firebase/firebase-config.js"></script>
-<script type="module" src="./lessons.js"></script>
+</div>
+
+<!-- JS -->
+<script
+type="module"
+src="./lessons.js"
+></script>
 
 </body>
 </html>
