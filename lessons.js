@@ -1,6 +1,7 @@
 // =============================================
 // CYMOR CODE LEARNER - LESSON ENGINE V11
 // =============================================
+alert("Script is running!");
 
 import {
   auth,
