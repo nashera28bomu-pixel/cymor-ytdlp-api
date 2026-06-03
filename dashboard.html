@@ -2,672 +2,1000 @@
 <html lang="en">
 
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Cymor Code Learner Dashboard" />
+  <title>Cymor Code Learner Dashboard 🚀</title>
 
-    <!-- =========================================
-       META
-    ========================================== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 
-    <meta charset="UTF-8" />
+  <style>
+    /* ===================== RESET & TOKENS ===================== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0" />
+    :root {
+      --bg:        #04060f;
+      --bg-2:      #080c1a;
+      --bg-3:      #0d1225;
+      --border:    rgba(255,255,255,0.07);
+      --border-hi: rgba(0,212,255,0.25);
+      --cyan:      #00d4ff;
+      --violet:    #7c5cff;
+      --green:     #00ffaa;
+      --orange:    #ff8c42;
+      --pink:      #ff4d8d;
+      --text:      #e2e8f4;
+      --muted:     #5a6a8a;
+      --card:      rgba(13,18,37,0.8);
+      --glow-c:    rgba(0,212,255,0.15);
+      --glow-v:    rgba(124,92,255,0.15);
+    }
 
-    <meta
-        name="description"
-        content="Cymor Code Learner Dashboard - Learn coding interactively with lessons, quizzes, playgrounds and achievements." />
+    html { scroll-behavior: smooth; }
 
-    <title>Cymor Code Learner Dashboard 🚀</title>
+    body {
+      font-family: "Space Grotesk", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-    <!-- =========================================
-       GOOGLE FONTS
-    ========================================== -->
+    /* ===================== NOISE OVERLAY ===================== */
+    body::before {
+      content: "";
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0; opacity: 0.5;
+    }
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    /* ===================== AMBIENT GLOW ===================== */
+    .ambient {
+      position: fixed; border-radius: 50%; filter: blur(120px);
+      pointer-events: none; z-index: 0;
+    }
+    .ambient-1 {
+      width: 600px; height: 600px;
+      background: var(--glow-c);
+      top: -200px; left: -200px;
+    }
+    .ambient-2 {
+      width: 500px; height: 500px;
+      background: var(--glow-v);
+      bottom: -100px; right: -100px;
+    }
 
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin>
+    /* ===================== LAYOUT ===================== */
+    .layout { display: flex; min-height: 100vh; position: relative; z-index: 1; }
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
-        rel="stylesheet">
+    /* ===================== SIDEBAR ===================== */
+    .sidebar {
+      width: 270px;
+      min-height: 100vh;
+      padding: 28px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: rgba(8,12,26,0.6);
+      border-right: 1px solid var(--border);
+      backdrop-filter: blur(24px);
+      position: sticky; top: 0; height: 100vh;
+      overflow-y: auto;
+    }
 
-    <!-- =========================================
-       MAIN CSS
-    ========================================== -->
+    .sidebar-brand {
+      display: flex; align-items: center; gap: 12px;
+      padding: 0 8px 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
 
-    <link
-        rel="stylesheet"
-        href="styles.css" />
+    .brand-icon {
+      width: 44px; height: 44px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--cyan), var(--violet));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 0 20px var(--glow-c);
+      flex-shrink: 0;
+    }
 
+    .brand-text h2 {
+      font-family: "Syne", sans-serif;
+      font-size: 0.95rem; font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+    .brand-text p { font-size: 0.72rem; color: var(--muted); margin-top: 1px; }
+
+    /* USER CARD */
+    .sidebar-user {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .user-avatar {
+      width: 42px; height: 42px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 2px solid var(--border-hi);
+      flex-shrink: 0;
+    }
+    .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+    .user-info h3 {
+      font-size: 0.88rem; font-weight: 600;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .user-info p { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+
+    /* XP PILL */
+    .xp-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.2);
+      border-radius: 20px; padding: 3px 10px;
+      font-size: 0.7rem; color: var(--cyan); font-weight: 600;
+      margin-top: 4px;
+    }
+
+    /* NAV LINKS */
+    .nav-section-label {
+      font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 1.5px; color: var(--muted);
+      text-transform: uppercase;
+      padding: 10px 10px 4px;
+    }
+
+    .nav-link {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.88rem; font-weight: 500;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .nav-link:hover { background: rgba(255,255,255,0.04); color: var(--text); }
+    .nav-link.active {
+      background: rgba(0,212,255,0.08);
+      color: var(--cyan);
+      border: 1px solid rgba(0,212,255,0.15);
+    }
+    .nav-link.active::before {
+      content: "";
+      position: absolute; left: 0; top: 20%; height: 60%;
+      width: 3px; border-radius: 2px;
+      background: var(--cyan);
+    }
+    .nav-icon { font-size: 16px; width: 20px; text-align: center; }
+
+    .sidebar-bottom { margin-top: auto; padding-top: 20px; border-top: 1px solid var(--border); }
+
+    .logout-btn {
+      width: 100%;
+      background: rgba(255,77,109,0.07);
+      border: 1px solid rgba(255,77,109,0.15);
+      color: #ff4d6d;
+      border-radius: 12px;
+      padding: 11px;
+      font-family: inherit;
+      font-size: 0.85rem; font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .logout-btn:hover { background: rgba(255,77,109,0.14); transform: translateY(-1px); }
+
+    /* ===================== MAIN ===================== */
+    .main {
+      flex: 1;
+      padding: 36px 40px;
+      overflow-x: hidden;
+    }
+
+    /* ===================== TOPBAR ===================== */
+    .topbar {
+      display: flex; align-items: flex-start;
+      justify-content: space-between; gap: 24px;
+      margin-bottom: 36px;
+    }
+
+    .topbar-greeting {
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 2px; color: var(--cyan);
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+
+    .topbar-title {
+      font-family: "Syne", sans-serif;
+      font-size: 2.2rem; font-weight: 800;
+      line-height: 1.15; letter-spacing: -0.5px;
+    }
+
+    .topbar-title .accent {
+      background: linear-gradient(90deg, var(--cyan), var(--violet));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .topbar-sub {
+      margin-top: 8px; font-size: 0.88rem;
+      color: var(--muted); max-width: 420px;
+      line-height: 1.6;
+    }
+
+    .cta-btn {
+      background: linear-gradient(135deg, var(--cyan), var(--violet));
+      color: white; border: none;
+      border-radius: 14px; padding: 14px 26px;
+      font-family: inherit; font-size: 0.9rem; font-weight: 700;
+      cursor: pointer; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 8px;
+      white-space: nowrap;
+      transition: all 0.25s;
+      box-shadow: 0 8px 24px rgba(0,212,255,0.2);
+      flex-shrink: 0;
+      align-self: flex-start;
+    }
+    .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,212,255,0.3); }
+
+    /* ===================== STATS ROW ===================== */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px;
+      backdrop-filter: blur(12px);
+      transition: border-color 0.25s, transform 0.2s;
+      position: relative; overflow: hidden;
+    }
+    .stat-card:hover { border-color: var(--border-hi); transform: translateY(-2px); }
+
+    .stat-card::after {
+      content: "";
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      border-radius: 20px 20px 0 0;
+    }
+    .stat-card.cyan::after  { background: linear-gradient(90deg, var(--cyan), transparent); }
+    .stat-card.violet::after { background: linear-gradient(90deg, var(--violet), transparent); }
+    .stat-card.green::after { background: linear-gradient(90deg, var(--green), transparent); }
+    .stat-card.orange::after { background: linear-gradient(90deg, var(--orange), transparent); }
+
+    .stat-icon-wrap {
+      width: 38px; height: 38px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      margin-bottom: 14px;
+    }
+    .stat-icon-wrap.cyan   { background: rgba(0,212,255,0.12); }
+    .stat-icon-wrap.violet { background: rgba(124,92,255,0.12); }
+    .stat-icon-wrap.green  { background: rgba(0,255,170,0.12); }
+    .stat-icon-wrap.orange { background: rgba(255,140,66,0.12); }
+
+    .stat-value {
+      font-family: "Syne", sans-serif;
+      font-size: 2rem; font-weight: 800;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat-card.cyan   .stat-value { color: var(--cyan); }
+    .stat-card.violet .stat-value { color: var(--violet); }
+    .stat-card.green  .stat-value { color: var(--green); }
+    .stat-card.orange .stat-value { color: var(--orange); }
+
+    .stat-label { font-size: 0.78rem; color: var(--muted); font-weight: 500; }
+
+    /* ===================== GRID ===================== */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 20px;
+    }
+
+    .grid-left { display: flex; flex-direction: column; gap: 20px; }
+    .grid-right { display: flex; flex-direction: column; gap: 20px; }
+
+    /* ===================== CARD BASE ===================== */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 26px;
+      backdrop-filter: blur(12px);
+    }
+
+    .card-label {
+      font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 2px; color: var(--muted);
+      text-transform: uppercase; margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-family: "Syne", sans-serif;
+      font-size: 1.15rem; font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    /* ===================== PROGRESS CARD ===================== */
+    .progress-header {
+      display: flex; justify-content: space-between;
+      align-items: flex-end; margin-bottom: 18px;
+    }
+
+    .progress-pct {
+      font-family: "Syne", sans-serif;
+      font-size: 2.4rem; font-weight: 800;
+      color: var(--cyan);
+      line-height: 1;
+    }
+
+    .progress-track {
+      height: 8px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 10px;
+      overflow: visible;
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .progress-fill {
+      height: 100%; border-radius: 10px;
+      background: linear-gradient(90deg, var(--cyan), var(--violet));
+      position: relative;
+      transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 12px rgba(0,212,255,0.4);
+    }
+
+    .progress-fill::after {
+      content: "";
+      position: absolute; right: -4px; top: 50%;
+      transform: translateY(-50%);
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 0 0 3px var(--cyan);
+    }
+
+    .progress-labels {
+      display: flex; justify-content: space-between;
+      font-size: 0.72rem; color: var(--muted);
+    }
+
+    /* MILESTONES */
+    .milestones {
+      display: flex; gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .milestone {
+      flex: 1; min-width: 80px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 10px;
+      text-align: center;
+    }
+    .milestone.done {
+      border-color: rgba(0,212,255,0.2);
+      background: rgba(0,212,255,0.05);
+    }
+
+    .milestone-icon { font-size: 20px; margin-bottom: 4px; }
+    .milestone-name { font-size: 0.68rem; color: var(--muted); }
+    .milestone.done .milestone-name { color: var(--cyan); }
+
+    /* ===================== CURRENT LESSON CARD ===================== */
+    .lesson-card-inner {
+      display: flex; gap: 18px; align-items: flex-start;
+      margin-bottom: 20px;
+    }
+
+    .lesson-thumb {
+      width: 56px; height: 56px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(0,212,255,0.2), rgba(124,92,255,0.2));
+      border: 1px solid var(--border-hi);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; flex-shrink: 0;
+    }
+
+    .lesson-meta h3 {
+      font-weight: 700; font-size: 1rem;
+      margin-bottom: 6px;
+    }
+
+    .lesson-meta p { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+
+    .tags { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+
+    .tag {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.7rem; font-weight: 600;
+      background: rgba(0,212,255,0.08);
+      border: 1px solid rgba(0,212,255,0.18);
+      color: var(--cyan);
+    }
+    .tag.purple {
+      background: rgba(124,92,255,0.08);
+      border-color: rgba(124,92,255,0.18);
+      color: var(--violet);
+    }
+
+    .resume-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, var(--cyan), var(--violet));
+      color: white; text-decoration: none;
+      border-radius: 14px; padding: 13px 22px;
+      font-size: 0.88rem; font-weight: 700;
+      transition: all 0.25s;
+      box-shadow: 0 6px 20px rgba(0,212,255,0.2);
+    }
+    .resume-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0,212,255,0.3); }
+
+    /* ===================== BADGES ===================== */
+    .badges-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .badge {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 10px;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .badge:hover { border-color: var(--border-hi); transform: translateY(-2px); }
+
+    .badge-emoji { font-size: 28px; margin-bottom: 8px; display: block; }
+    .badge-name { font-size: 0.72rem; color: var(--muted); font-weight: 500; }
+    .badge.earned .badge-name { color: var(--text); }
+    .badge.locked { opacity: 0.4; }
+
+    /* ===================== DAILY GOAL ===================== */
+    .goal-ring-wrap {
+      display: flex; align-items: center; gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .ring-svg { width: 80px; height: 80px; flex-shrink: 0; }
+    .ring-track { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 7; }
+    .ring-fill  {
+      fill: none; stroke: url(#ring-grad);
+      stroke-width: 7; stroke-linecap: round;
+      stroke-dasharray: 220;
+      stroke-dashoffset: 77; /* 65% done => offset = 220*(1-0.65) */
+      transform: rotate(-90deg);
+      transform-origin: center;
+      transition: stroke-dashoffset 1s ease;
+    }
+
+    .ring-pct {
+      font-family: "Syne", sans-serif;
+      font-size: 0.85rem; font-weight: 800;
+      fill: var(--cyan);
+    }
+
+    .goal-info h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+    .goal-info p  { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+
+    .goal-tasks { display: flex; flex-direction: column; gap: 10px; }
+
+    .goal-task {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 0.82rem;
+    }
+    .goal-task.done {
+      border-color: rgba(0,255,170,0.15);
+      background: rgba(0,255,170,0.04);
+    }
+
+    .task-check {
+      width: 18px; height: 18px; border-radius: 6px;
+      border: 2px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; flex-shrink: 0;
+    }
+    .goal-task.done .task-check {
+      background: var(--green); border-color: var(--green);
+      color: #04060f;
+    }
+
+    /* ===================== QUICK ACCESS ===================== */
+    .quick-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .quick-btn {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 8px;
+      padding: 18px 10px;
+      border-radius: 16px;
+      text-decoration: none;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.8rem; font-weight: 600;
+      transition: all 0.2s;
+    }
+    .quick-btn:hover {
+      background: rgba(0,212,255,0.06);
+      border-color: rgba(0,212,255,0.2);
+      color: var(--cyan);
+      transform: translateY(-2px);
+    }
+    .quick-btn span { font-size: 22px; }
+
+    /* ===================== MOTIVATION ===================== */
+    .motivation-card {
+      background: linear-gradient(135deg, rgba(0,212,255,0.08), rgba(124,92,255,0.12));
+      border: 1px solid rgba(124,92,255,0.2);
+      border-radius: 22px;
+      padding: 28px 26px;
+      position: relative; overflow: hidden;
+    }
+
+    .motivation-card::before {
+      content: "⚡";
+      position: absolute; right: -10px; top: -10px;
+      font-size: 100px; opacity: 0.06;
+      line-height: 1;
+    }
+
+    .motivation-eyebrow {
+      font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 2px; color: var(--violet);
+      text-transform: uppercase; margin-bottom: 10px;
+    }
+
+    .motivation-card h2 {
+      font-family: "Syne", sans-serif;
+      font-size: 1.3rem; font-weight: 800;
+      line-height: 1.3; margin-bottom: 10px;
+    }
+
+    .motivation-card p {
+      font-size: 0.82rem; color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ===================== LEADERBOARD TEASER ===================== */
+    .leaderboard-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .leaderboard-row:last-child { border-bottom: none; }
+
+    .lb-rank {
+      font-family: "DM Mono", monospace;
+      font-size: 0.75rem; color: var(--muted);
+      width: 24px; text-align: right; flex-shrink: 0;
+    }
+    .lb-rank.top { color: var(--orange); font-weight: 700; }
+
+    .lb-avatar {
+      width: 32px; height: 32px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--cyan), var(--violet));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; flex-shrink: 0;
+    }
+
+    .lb-name { font-size: 0.82rem; font-weight: 600; flex: 1; }
+    .lb-xp {
+      font-family: "DM Mono", monospace;
+      font-size: 0.75rem; color: var(--cyan);
+      font-weight: 500;
+    }
+
+    /* ===================== ANIMATIONS ===================== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .main > * { animation: fadeUp 0.5s ease forwards; opacity: 0; }
+    .topbar           { animation-delay: 0.05s; }
+    .stats-row        { animation-delay: 0.12s; }
+    .dashboard-grid   { animation-delay: 0.2s; }
+
+    /* ===================== SCROLLBAR ===================== */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+
+    /* ===================== RESPONSIVE ===================== */
+    @media (max-width: 1200px) {
+      .dashboard-grid { grid-template-columns: 1fr; }
+      .grid-right { flex-direction: row; flex-wrap: wrap; }
+      .grid-right > * { flex: 1; min-width: 280px; }
+    }
+
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main { padding: 24px 20px; }
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      .topbar { flex-direction: column; }
+      .topbar-title { font-size: 1.7rem; }
+    }
+
+    @media (max-width: 500px) {
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .badges-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
 </head>
 
-<body class="dashboard-page">
+<body>
 
-    <!-- =========================================
-       SIDEBAR
-    ========================================== -->
+  <!-- AMBIENT GLOW -->
+  <div class="ambient ambient-1"></div>
+  <div class="ambient ambient-2"></div>
 
-    <aside class="dashboard-sidebar">
+  <div class="layout">
 
-        <div class="sidebar-logo">
+    <!-- ===================== SIDEBAR ===================== -->
+    <aside class="sidebar">
 
-            <div class="logo-circle">
-                🚀
-            </div>
-
-            <div>
-                <h2>Cymor Code Learner</h2>
-                <p>Developer Dashboard</p>
-            </div>
-
+      <div class="sidebar-brand">
+        <div class="brand-icon">🚀</div>
+        <div class="brand-text">
+          <h2>Cymor Code</h2>
+          <p>Learner Dashboard</p>
         </div>
+      </div>
 
-        <!-- USER PROFILE -->
-
-        <div class="sidebar-user card">
-
-            <div class="user-avatar">
-                <img
-                    id="userPhoto"
-                    src="https://i.imgur.com/HeIi0wU.png"
-                    alt="User Avatar" />
-            </div>
-
-            <div class="user-meta">
-                <h3 id="userName">
-                    Cymor Developer
-                </h3>
-
-                <p id="userEmail">
-                    developer@cymor.dev
-                </p>
-            </div>
-
+      <!-- USER -->
+      <div class="sidebar-user">
+        <div class="user-avatar">
+          <img id="userPhoto" src="https://i.imgur.com/HeIi0wU.png" alt="Avatar" />
         </div>
-
-        <!-- NAVIGATION -->
-
-        <nav class="sidebar-nav">
-
-            <a
-                href="dashboard.html"
-                class="sidebar-link active-link">
-
-                <span>📊</span>
-                Dashboard
-
-            </a>
-
-            <a
-                href="lessons.html"
-                class="sidebar-link">
-
-                <span>📚</span>
-                Lessons
-
-            </a>
-
-            <a
-                href="lesson.html?id=1"
-                class="sidebar-link">
-
-                <span>💻</span>
-                Playground
-
-            </a>
-
-            <a
-                href="quiz.html"
-                class="sidebar-link">
-
-                <span>🧠</span>
-                Quizzes
-
-            </a>
-
-            <a
-                href="#"
-                class="sidebar-link">
-
-                <span>🏆</span>
-                Achievements
-
-            </a>
-
-            <a
-                href="#"
-                class="sidebar-link">
-
-                <span>⚙️</span>
-                Settings
-
-            </a>
-
-        </nav>
-
-        <!-- BOTTOM ACTION -->
-
-        <div class="sidebar-bottom">
-
-            <button
-                id="logoutBtn"
-                class="logout-btn">
-
-                🚪 Logout
-
-            </button>
-
+        <div class="user-info">
+          <h3 id="userName">Cymor Dev</h3>
+          <p id="userEmail">developer@cymor.dev</p>
+          <div class="xp-pill">⚡ <span id="xpValue">0</span> XP</div>
         </div>
+      </div>
+
+      <!-- NAV -->
+      <span class="nav-section-label">Main</span>
+
+      <a href="dashboard.html" class="nav-link active">
+        <span class="nav-icon">📊</span> Dashboard
+      </a>
+      <a href="lessons.html" class="nav-link">
+        <span class="nav-icon">📚</span> Lessons
+      </a>
+      <a href="lesson.html?id=1" class="nav-link">
+        <span class="nav-icon">💻</span> Playground
+      </a>
+      <a href="quiz.html" class="nav-link">
+        <span class="nav-icon">🧠</span> Quizzes
+      </a>
+
+      <span class="nav-section-label" style="margin-top:8px;">Profile</span>
+
+      <a href="#" class="nav-link">
+        <span class="nav-icon">🏆</span> Achievements
+      </a>
+      <a href="#" class="nav-link">
+        <span class="nav-icon">⚙️</span> Settings
+      </a>
+
+      <div class="sidebar-bottom">
+        <button id="logoutBtn" class="logout-btn">🚪 Logout</button>
+      </div>
 
     </aside>
 
-    <!-- =========================================
-       MAIN CONTENT
-    ========================================== -->
+    <!-- ===================== MAIN ===================== -->
+    <main class="main">
 
-    <main class="dashboard-main">
+      <!-- TOPBAR -->
+      <div class="topbar">
+        <div>
+          <p class="topbar-greeting">Welcome back 👋</p>
+          <h1 class="topbar-title">
+            Ready To Become A<br>
+            <span class="accent">Coding Legend?</span>
+          </h1>
+          <p class="topbar-sub">Continue your journey and level up your frontend development skills.</p>
+        </div>
+        <a href="lesson.html?id=1" class="cta-btn">▶ Continue Learning</a>
+      </div>
 
-        <!-- =========================================
-           TOP HEADER
-        ========================================== -->
+      <!-- STATS ROW -->
+      <div class="stats-row">
 
-        <header class="dashboard-header">
+        <div class="stat-card cyan">
+          <div class="stat-icon-wrap cyan">⚡</div>
+          <div class="stat-value" id="xpDisplay">0</div>
+          <div class="stat-label">Total XP Earned</div>
+        </div>
 
-            <div class="welcome-section">
+        <div class="stat-card violet">
+          <div class="stat-icon-wrap violet">🏆</div>
+          <div class="stat-value" id="levelValue">1</div>
+          <div class="stat-label">Current Level</div>
+        </div>
 
-                <p class="dashboard-label">
-                    WELCOME BACK 👋
-                </p>
+        <div class="stat-card green">
+          <div class="stat-icon-wrap green">📚</div>
+          <div class="stat-value" id="completedLessons">0</div>
+          <div class="stat-label">Lessons Completed</div>
+        </div>
 
-                <h1>
+        <div class="stat-card orange">
+          <div class="stat-icon-wrap orange">🔥</div>
+          <div class="stat-value" id="streakValue">0</div>
+          <div class="stat-label">Day Streak</div>
+        </div>
 
-                    Ready To Become A
-                    <span class="gradient-text">
-                        Coding Legend?
-                    </span>
+      </div>
 
-                </h1>
+      <!-- MAIN GRID -->
+      <div class="dashboard-grid">
 
-                <p class="dashboard-subtext">
+        <!-- LEFT -->
+        <div class="grid-left">
 
-                    Continue your journey and
-                    level up your frontend
-                    development skills.
-
-                </p>
-
+          <!-- PROGRESS CARD -->
+          <div class="card">
+            <div class="card-label">Overall Progress</div>
+            <div class="progress-header">
+              <h2 class="card-title" style="margin-bottom:0;">Your Learning Journey</h2>
+              <div class="progress-pct" id="progressPercent">0%</div>
             </div>
-
-            <div class="header-actions">
-
-                <a
-                    href="lesson.html?id=1"
-                    class="primary-btn big-btn">
-
-                    ▶ Continue Learning
-
-                </a>
-
+            <div class="progress-track">
+              <div class="progress-fill" id="dashboardProgressFill" style="width:0%;"></div>
             </div>
-
-        </header>
-
-        <!-- =========================================
-           QUICK STATS
-        ========================================== -->
-
-        <section class="stats-grid">
-
-            <!-- XP -->
-
-            <div class="stat-card card">
-
-                <div class="stat-icon cyan">
-                    ⚡
-                </div>
-
-                <div>
-
-                    <h2 id="xpValue">
-                        0
-                    </h2>
-
-                    <p>
-                        Total XP
-                    </p>
-
-                </div>
-
+            <div class="progress-labels">
+              <span>Beginner</span>
+              <span>Advanced Developer</span>
             </div>
-
-            <!-- LEVEL -->
-
-            <div class="stat-card card">
-
-                <div class="stat-icon purple">
-                    🏆
-                </div>
-
-                <div>
-
-                    <h2 id="levelValue">
-                        1
-                    </h2>
-
-                    <p>
-                        Current Level
-                    </p>
-
-                </div>
-
+            <div class="milestones">
+              <div class="milestone done">
+                <div class="milestone-icon">🌱</div>
+                <div class="milestone-name">HTML</div>
+              </div>
+              <div class="milestone">
+                <div class="milestone-icon">🎨</div>
+                <div class="milestone-name">CSS</div>
+              </div>
+              <div class="milestone">
+                <div class="milestone-icon">⚙️</div>
+                <div class="milestone-name">JS</div>
+              </div>
+              <div class="milestone">
+                <div class="milestone-icon">⚡</div>
+                <div class="milestone-name">React</div>
+              </div>
+              <div class="milestone">
+                <div class="milestone-icon">🚀</div>
+                <div class="milestone-name">Deploy</div>
+              </div>
             </div>
+          </div>
 
-            <!-- LESSONS -->
-
-            <div class="stat-card card">
-
-                <div class="stat-icon green">
-                    📚
+          <!-- CURRENT LESSON -->
+          <div class="card">
+            <div class="card-label">Continue Learning</div>
+            <h2 class="card-title">Current Lesson</h2>
+            <div class="lesson-card-inner">
+              <div class="lesson-thumb">💻</div>
+              <div class="lesson-meta">
+                <h3 id="currentLessonTitle">Lesson 1: Introduction To HTML</h3>
+                <p>Learn how websites are structured using HTML elements and semantic markup.</p>
+                <div class="tags">
+                  <span class="tag">HTML</span>
+                  <span class="tag purple">Beginner</span>
                 </div>
-
-                <div>
-
-                    <h2 id="completedLessons">
-                        0
-                    </h2>
-
-                    <p>
-                        Lessons Completed
-                    </p>
-
-                </div>
-
+              </div>
             </div>
+            <a href="lesson.html?id=1" class="resume-btn">Resume Lesson ➡</a>
+          </div>
 
-            <!-- STREAK -->
-
-            <div class="stat-card card">
-
-                <div class="stat-icon orange">
-                    🔥
-                </div>
-
-                <div>
-
-                    <h2 id="streakValue">
-                        0
-                    </h2>
-
-                    <p>
-                        Day Streak
-                    </p>
-
-                </div>
-
+          <!-- BADGES -->
+          <div class="card">
+            <div class="card-label">Achievements</div>
+            <h2 class="card-title">Your Badges</h2>
+            <div class="badges-grid" id="achievement-badges">
+              <div class="badge earned">
+                <span class="badge-emoji">🚀</span>
+                <div class="badge-name">Explorer</div>
+              </div>
+              <div class="badge earned">
+                <span class="badge-emoji">🔥</span>
+                <div class="badge-name">Fast Learner</div>
+              </div>
+              <div class="badge earned">
+                <span class="badge-emoji">⚡</span>
+                <div class="badge-name">First Code</div>
+              </div>
+              <div class="badge locked">
+                <span class="badge-emoji">🧠</span>
+                <div class="badge-name">Quiz Master</div>
+              </div>
+              <div class="badge locked">
+                <span class="badge-emoji">🏆</span>
+                <div class="badge-name">Champion</div>
+              </div>
+              <div class="badge locked">
+                <span class="badge-emoji">💎</span>
+                <div class="badge-name">Diamond</div>
+              </div>
             </div>
-
-        </section>
-
-        <!-- =========================================
-           MAIN GRID
-        ========================================== -->
-
-        <section class="dashboard-grid">
-
-            <!-- LEFT SIDE -->
-
-            <div class="dashboard-left">
-
-                <!-- PROGRESS -->
-
-                <div class="dashboard-card card">
-
-                    <div class="card-header">
-
-                        <div>
-
-                            <p class="mini-label">
-                                OVERALL PROGRESS
-                            </p>
-
-                            <h2>
-                                Your Learning Journey
-                            </h2>
-
-                        </div>
-
-                        <h3 id="progressPercent">
-                            0%
-                        </h3>
-
-                    </div>
-
-                    <div class="progress-wrapper">
-
-                        <div class="progress-bar">
-
-                            <div
-                                id="dashboardProgressFill"
-                                class="progress-fill">
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="progress-meta">
-
-                        <span>
-                            Beginner
-                        </span>
-
-                        <span>
-                            Advanced Developer
-                        </span>
-
-                    </div>
-
-                </div>
-
-                <!-- CURRENT LESSON -->
-
-                <div class="dashboard-card card">
-
-                    <div class="card-header">
-
-                        <div>
-
-                            <p class="mini-label">
-                                CONTINUE LEARNING
-                            </p>
-
-                            <h2>
-                                Current Lesson
-                            </h2>
-
-                        </div>
-
-                    </div>
-
-                    <div class="lesson-continue">
-
-                        <div class="lesson-thumbnail">
-
-                            <span>
-                                💻
-                            </span>
-
-                        </div>
-
-                        <div class="lesson-details">
-
-                            <h3 id="currentLessonTitle">
-                                Lesson 1: Introduction To HTML
-                            </h3>
-
-                            <p>
-                                Learn how websites are structured using HTML elements.
-                            </p>
-
-                            <div class="lesson-tags">
-
-                                <span class="tag">
-                                    HTML
-                                </span>
-
-                                <span class="tag">
-                                    Beginner
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="lesson-actions">
-
-                        <a
-                            href="lesson.html?id=1"
-                            class="primary-btn">
-
-                            Resume Lesson ➡
-
-                        </a>
-
-                    </div>
-
-                </div>
-
-                <!-- ACHIEVEMENTS -->
-
-                <div class="dashboard-card card">
-
-                    <div class="card-header">
-
-                        <div>
-
-                            <p class="mini-label">
-                                ACHIEVEMENTS
-                            </p>
-
-                            <h2>
-                                Your Badges
-                            </h2>
-
-                        </div>
-
-                    </div>
-
-                    <div
-                        id="achievement-badges"
-                        class="badges-grid">
-
-                        <div class="badge-card">
-
-                            <span>
-                                🚀
-                            </span>
-
-                            <p>
-                                Beginner Explorer
-                            </p>
-
-                        </div>
-
-                        <div class="badge-card">
-
-                            <span>
-                                🔥
-                            </span>
-
-                            <p>
-                                Fast Learner
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
+          </div>
+
+        </div>
+
+        <!-- RIGHT -->
+        <div class="grid-right">
+
+          <!-- DAILY GOAL -->
+          <div class="card">
+            <div class="card-label">Daily Target</div>
+            <h2 class="card-title">Today's Goal</h2>
+            <div class="goal-ring-wrap">
+              <svg class="ring-svg" viewBox="0 0 80 80">
+                <defs>
+                  <linearGradient id="ring-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#00d4ff"/>
+                    <stop offset="100%" stop-color="#7c5cff"/>
+                  </linearGradient>
+                </defs>
+                <circle class="ring-track" cx="40" cy="40" r="35"/>
+                <circle class="ring-fill" cx="40" cy="40" r="35"/>
+                <text x="40" y="44" text-anchor="middle" class="ring-pct">65%</text>
+              </svg>
+              <div class="goal-info">
+                <h3>3 Lessons Left</h3>
+                <p>Complete today's target to earn bonus XP rewards and keep your streak alive.</p>
+              </div>
             </div>
-
-            <!-- RIGHT SIDE -->
-
-            <div class="dashboard-right">
-
-                <!-- DAILY GOAL -->
-
-                <div class="dashboard-card card">
-
-                    <div class="card-header">
-
-                        <div>
-
-                            <p class="mini-label">
-                                DAILY TARGET
-                            </p>
-
-                            <h2>
-                                Today's Goal
-                            </h2>
-
-                        </div>
-
-                    </div>
-
-                    <div class="daily-goal-box">
-
-                        <div class="goal-circle">
-
-                            <span>
-                                65%
-                            </span>
-
-                        </div>
-
-                        <div>
-
-                            <h3>
-                                3 Lessons Remaining
-                            </h3>
-
-                            <p>
-                                Complete today's target to earn bonus XP rewards.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <!-- QUICK ACCESS -->
-
-                <div class="dashboard-card card">
-
-                    <div class="card-header">
-
-                        <div>
-
-                            <p class="mini-label">
-                                QUICK ACCESS
-                            </p>
-
-                            <h2>
-                                Developer Tools
-                            </h2>
-
-                        </div>
-
-                    </div>
-
-                    <div class="quick-actions-grid">
-
-                        <a
-                            href="lesson.html?id=1"
-                            class="quick-action">
-
-                            <span>
-                                💻
-                            </span>
-
-                            Playground
-
-                        </a>
-
-                        <a
-                            href="quiz.html"
-                            class="quick-action">
-
-                            <span>
-                                🧠
-                            </span>
-
-                            Quiz Arena
-
-                        </a>
-
-                        <a
-                            href="lessons.html"
-                            class="quick-action">
-
-                            <span>
-                                📚
-                            </span>
-
-                            Lessons
-
-                        </a>
-
-                        <a
-                            href="#"
-                            class="quick-action">
-
-                            <span>
-                                🏆
-                            </span>
-
-                            Achievements
-
-                        </a>
-
-                    </div>
-
-                </div>
-
-                <!-- MOTIVATION -->
-
-                <div class="dashboard-card motivation-card">
-
-                    <div class="motivation-icon">
-                        ⚡
-                    </div>
-
-                    <h2>
-                        Keep Building.
-                        Keep Learning.
-                    </h2>
-
-                    <p>
-
-                        Every great developer
-                        started with a single
-                        line of code.
-
-                    </p>
-
-                </div>
-
+            <div class="goal-tasks">
+              <div class="goal-task done">
+                <div class="task-check">✓</div>
+                Complete a theory lesson
+              </div>
+              <div class="goal-task done">
+                <div class="task-check">✓</div>
+                Finish a code challenge
+              </div>
+              <div class="goal-task">
+                <div class="task-check"></div>
+                Pass the daily quiz
+              </div>
+              <div class="goal-task">
+                <div class="task-check"></div>
+                Review cheat sheet
+              </div>
             </div>
+          </div>
 
-        </section>
+          <!-- QUICK ACCESS -->
+          <div class="card">
+            <div class="card-label">Quick Access</div>
+            <h2 class="card-title">Developer Tools</h2>
+            <div class="quick-grid">
+              <a href="lesson.html?id=1" class="quick-btn">
+                <span>💻</span> Playground
+              </a>
+              <a href="quiz.html" class="quick-btn">
+                <span>🧠</span> Quiz Arena
+              </a>
+              <a href="lessons.html" class="quick-btn">
+                <span>📚</span> All Lessons
+              </a>
+              <a href="#" class="quick-btn">
+                <span>🏆</span> Achievements
+              </a>
+            </div>
+          </div>
 
+          <!-- TOP LEARNERS -->
+          <div class="card">
+            <div class="card-label">Leaderboard</div>
+            <h2 class="card-title">Top Learners</h2>
+            <div>
+              <div class="leaderboard-row">
+                <span class="lb-rank top">1</span>
+                <div class="lb-avatar">👑</div>
+                <span class="lb-name">CodeNinja</span>
+                <span class="lb-xp">2,840 XP</span>
+              </div>
+              <div class="leaderboard-row">
+                <span class="lb-rank top">2</span>
+                <div class="lb-avatar">🔥</div>
+                <span class="lb-name">ByteWizard</span>
+                <span class="lb-xp">2,210 XP</span>
+              </div>
+              <div class="leaderboard-row">
+                <span class="lb-rank top">3</span>
+                <div class="lb-avatar">⚡</div>
+                <span class="lb-name">PixelHero</span>
+                <span class="lb-xp">1,990 XP</span>
+              </div>
+              <div class="leaderboard-row" style="background:rgba(0,212,255,0.04); border-radius:12px; margin-top:8px; padding: 10px 0;">
+                <span class="lb-rank" style="color:var(--cyan);">—</span>
+                <div class="lb-avatar" style="background: linear-gradient(135deg,#00d4ff,#7c5cff);">🚀</div>
+                <span class="lb-name" id="lbUserName">You</span>
+                <span class="lb-xp" id="lbUserXp">0 XP</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- MOTIVATION -->
+          <div class="motivation-card">
+            <div class="motivation-eyebrow">Daily Inspiration</div>
+            <h2>Keep Building.<br>Keep Learning.</h2>
+            <p>Every great developer started with a single line of code. Your journey has already begun.</p>
+          </div>
+
+        </div>
+
+      </div>
     </main>
 
-    <!-- =========================================
-       FIREBASE CONFIG
-    ========================================== -->
+  </div>
 
-    <script
-        type="module"
-        src="./firebase/firebase-config.js">
-    </script>
+  <!-- =========================================
+     FIREBASE CONFIG
+  ========================================== -->
+  <script type="module" src="./firebase/firebase-config.js"></script>
 
-    <!-- =========================================
-       MAIN APP
-    ========================================== -->
+  <!-- =========================================
+     MAIN APP
+  ========================================== -->
+  <script type="module" src="./app.js"></script>
 
-    <script
-        type="module"
-        src="./app.js">
-    </script>
+  <!-- DASHBOARD LIVE XP SYNC -->
+  <script type="module">
+    // Sync XP display + leaderboard row with live Firestore data
+    // app.js already loads user data — this augments it
+    document.addEventListener("DOMContentLoaded", () => {
+      const xpEl   = document.getElementById("xpValue");
+      const xpDisp = document.getElementById("xpDisplay");
+      const lbXp   = document.getElementById("lbUserXp");
+      const lbName = document.getElementById("lbUserName");
+      const nameEl = document.getElementById("userName");
+
+      // Mirror XP pill → stat card
+      const observer = new MutationObserver(() => {
+        const val = xpEl?.textContent || "0";
+        if (xpDisp) xpDisp.textContent = val;
+        if (lbXp)   lbXp.textContent   = val + " XP";
+        if (lbName && nameEl) lbName.textContent = nameEl.textContent;
+      });
+      if (xpEl) observer.observe(xpEl, { childList: true, characterData: true, subtree: true });
+    });
+  </script>
 
 </body>
-
 </html>
