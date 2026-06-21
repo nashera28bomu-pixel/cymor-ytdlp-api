@@ -1,4 +1,7 @@
 {
+  "id": 3,
+  "module": "HTML Basics",
+
   "meta": {
     "next_lesson": 4,
     "prev_lesson": 2,
@@ -6,53 +9,78 @@
     "difficulty": "beginner",
     "module_index": 1
   },
-  "id": 3,
-  "module": "Introduction",
-  "title": "Lesson 3: Your First HTML Page",
+
+  "title": "Lesson 3: Headings & Paragraphs",
 
   "content": {
-    "explanation": "<h3>🧱 Building Your First Real Web Page</h3><p>Now that you understand how browsers read HTML, it's time to build your first real page structure.</p><p>A webpage is made of simple building blocks called <strong>tags</strong>.</p><hr><h3>📌 The 2 Most Important Tags</h3><ul><li><strong>🧭 Headings (&lt;h1&gt; to &lt;h6&gt;):</strong> Used for titles and sub-titles</li><li><strong>📝 Paragraphs (&lt;p&gt;):</strong> Used for normal text content</li></ul><p>These two tags are the foundation of every website you will ever build.</p><hr><h3>🎯 Simple Rule</h3><p>👉 One page = one main heading (&lt;h1&gt;)<br>👉 Everything else supports it below</p>",
 
-    "syntax_breakdown": "<h3>🧪 How HTML is Structured</h3><p>HTML works like stacking blocks from top to bottom.</p><p>You always write one complete element before starting the next.</p><pre><code>&lt;h1&gt;Main Title&lt;/h1&gt;\n&lt;h2&gt;Sub Title&lt;/h2&gt;\n&lt;p&gt;This is a paragraph&lt;/p&gt;</code></pre><hr><h3>🧠 Hierarchy Idea</h3><p>Think of it like levels in a game:</p><ul><li>🏆 h1 = Boss level title</li><li>🥈 h2 = Section title</li><li>🥉 h3 = Sub-section</li></ul>"
+    "explanation": "<h3>📰 Headings — The Newspaper Rule</h3><p>HTML gives you 6 levels of headings: <code>&lt;h1&gt;</code> through <code>&lt;h6&gt;</code>. Think of a newspaper:</p><ul><li><strong>h1</strong> = the giant front-page headline (biggest, most important — used ONCE per page, usually for the main title)</li><li><strong>h2</strong> = section headings (like 'Sports' or 'Business')</li><li><strong>h3</strong> = sub-section headings within a section</li><li><strong>h4, h5, h6</strong> = increasingly smaller, more specific sub-headings (rarely used, but available)</li></ul><p>Each level gets smaller and less important as the number increases. <strong>h1 is the boss, h6 is the intern.</strong></p><hr><h3>🎯 Why You Should NEVER Just Pick Headings By Size</h3><p>A massive beginner trap: choosing <code>&lt;h3&gt;</code> instead of <code>&lt;p&gt;</code> just because you want bold, bigger text. This is wrong. Headings exist to describe the STRUCTURE and IMPORTANCE of your content — not to make text look a certain size. Screen readers (software blind users rely on to navigate the web) jump between headings to understand a page's outline. If you skip levels or misuse headings purely for appearance, you break that experience for real people. Sizing is CSS's job — you'll learn to control exactly how anything looks later in this course. For now: pick headings based on MEANING, not looks.</p><hr><h3>📄 Paragraphs — The Workhorse of Text</h3><p>The <code>&lt;p&gt;</code> tag is for ordinary blocks of text — sentences, explanations, descriptions. It's the most commonly used text element on the entire internet. Every paragraph automatically gets space above and below it, separating it visually from whatever comes before and after.</p><hr><h3>🤐 Why You Can't Just Press Enter for a New Line</h3><p>Here's something that surprises every beginner: if you write multiple lines of text inside ONE paragraph tag with line breaks in your code, the browser ignores those line breaks and squishes it all into one continuous line of text. HTML treats whitespace (spaces, tabs, line breaks) as just ONE space, no matter how many you type. If you want an actual new line, you need to either start a new <code>&lt;p&gt;</code> element, or use a special line-break tag (which you'll meet soon). This trips up almost every beginner at least once.</p>",
+
+    "syntax_breakdown": "<h3>🧱 Headings in Practice</h3><pre><code>&lt;h1&gt;Cymor Code Learner&lt;/h1&gt;\n&lt;h2&gt;HTML Module&lt;/h2&gt;\n&lt;h3&gt;Lesson 3: Headings&lt;/h3&gt;</code></pre><p>Read this like a table of contents: the h1 is the whole site's name, the h2 is a section within it, and the h3 is a specific page within that section. That's the logical nesting you should aim for — never jump from h1 straight to h4 and skip levels, as it confuses the page's outline.</p><hr><h4>📄 Paragraphs in Practice</h4><pre><code>&lt;h2&gt;About Me&lt;/h2&gt;\n&lt;p&gt;My name is Smiley. I am learning to build websites.&lt;/p&gt;\n&lt;p&gt;I want to become a full-stack developer.&lt;/p&gt;</code></pre><p>Notice TWO separate <code>&lt;p&gt;</code> elements are used here, not one big one — this gives proper visual spacing between the two ideas, and it's semantically correct because they're two distinct thoughts.</p><hr><h4>🚫 What Happens If You Try This Instead</h4><pre><code>&lt;p&gt;\nMy name is Smiley.\nI am learning to build websites.\n&lt;/p&gt;</code></pre><p>Even though this LOOKS like two lines in your code editor, the browser will render it as one continuous sentence: 'My name is Smiley. I am learning to build websites.' all squished onto a single line with just a single space between them. This is because HTML collapses all whitespace (including line breaks you type) down to one space when displaying the page. Code formatting and visual page output are two completely separate things — always remember that.</p>",
+
+    "common_mistakes": "<h4>⚠️ Common Beginner Mistakes</h4><ul><li><strong>Choosing heading levels by size instead of meaning</strong> — using h2 just because it 'looks about right' instead of because it's genuinely a section heading.</li><li><strong>Skipping heading levels</strong> — going h1 then straight to h4. Always step down logically: h1 → h2 → h3.</li><li><strong>Expecting line breaks in code to show as line breaks on the page</strong> — they won't. Use separate paragraph tags for separate visual lines of meaning.</li><li><strong>Using multiple h1 tags on one page</strong> — generally there should only be ONE h1 per page (the main title). Everything else should be h2 or lower.</li></ul>"
+
   },
 
   "editor_sandbox": {
-    "starter_code": "<!-- My First Structured Web Page 🚀 -->\n<h1>Developer Profile Dashboard</h1>\n<h2>Software Engineer Architecture</h2>\n<p>Currently building modern web applications.</p>",
+
+    "starter_code": "<h1>My Coding Journey</h1>\n<p>Welcome to my page.</p>",
 
     "mini_challenge": {
-      "instruction": "🎯 Mission: Improve your page structure\n\n1. Add an <h3> tag under the <h2>\n2. The text must be: Tech Stack Focus\n3. Add a paragraph under it saying: HTML Structural Layouts\n\n👉 Then run your code and observe the hierarchy",
 
-      "hint": "👉 Example format:\n<h3>Tech Stack Focus</h3>\n<p>HTML Structural Layouts</p>\n\nMake sure every tag is properly closed.",
+      "instruction": "🎯 Challenge:\n\n1. Add an h2 heading that says: About Me\n2. Add a new paragraph below it that says: I am learning HTML step by step\n3. Run and verify your code",
 
-      "validation_keyword": "Tech Stack Focus"
+      "hint": "👉 Example:\n<h2>About Me</h2>\n<p>I am learning HTML step by step</p>\n\nRemember: h2 should come logically after h1, not skip to h3 or h4.",
+
+      "validation_keyword": "i am learning html step by step"
+
     }
+
   },
 
   "quiz_engine": {
-    "question": "What is the correct way to structure headings in HTML?",
+
+    "question": "Why shouldn't you pick a heading level (h1-h6) just because of its visual size?",
+
     "options": [
-      "Use only <h1> for everything",
-      "Mix tags randomly depending on style",
-      "Use heading levels (<h1> to <h6>) in order of importance"
+      "Because heading sizes can't be changed",
+      "Because headings describe structure/importance, and sizing should be done with CSS",
+      "Because only h1 is allowed on a webpage"
     ],
-    "correct_index": 2,
+
+    "correct_index": 1,
+
     "points": 10,
-    "explanation_feedback": "Correct 🎉 HTML headings follow a hierarchy from h1 (most important) to h6 (least important). This keeps pages structured and readable."
+
+    "explanation_feedback": "Correct 🎉 Headings communicate the STRUCTURE of your content (and matter for accessibility/screen readers). Visual sizing is CSS's job, which you'll fully control later."
+
   },
 
   "summary": {
+
     "takeaways": [
-      "Headings define structure and importance on a webpage",
-      "h1 is the main title, h2 and h3 are sub-sections",
-      "Paragraphs (<p>) are used for normal text content",
-      "HTML must be written in clean top-to-bottom structure"
+      "HTML has 6 heading levels: h1 (most important) through h6 (least important)",
+      "Choose heading levels based on meaning/structure, not visual size",
+      "Don't skip heading levels — step down logically (h1 → h2 → h3)",
+      "Use <p> for ordinary blocks of text",
+      "HTML collapses line breaks typed in your code into a single space when displayed",
+      "Use separate <p> tags for visually separate paragraphs"
     ],
 
     "cheat_sheet": {
-      "h1": "Main page title (only one per page recommended)",
-      "h2": "Section heading",
-      "h3": "Sub-section heading",
-      "p": "Paragraph text block"
+
+      "<h1></h1>": "Biggest, most important heading — use once per page",
+
+      "<h2></h2>": "Section heading",
+
+      "<h3>-<h6>": "Increasingly smaller sub-headings",
+
+      "<p></p>": "A standard paragraph of text",
+
+      "Whitespace Rule": "Multiple spaces/line breaks in code collapse to one space on the page"
+
     }
+
   }
+
 }

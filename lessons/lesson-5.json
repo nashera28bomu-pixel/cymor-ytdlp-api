@@ -1,4 +1,7 @@
 {
+  "id": 5,
+  "module": "HTML Basics",
+
   "meta": {
     "next_lesson": 6,
     "prev_lesson": 4,
@@ -6,52 +9,75 @@
     "difficulty": "beginner",
     "module_index": 1
   },
-  "id": 5,
-  "module": "Introduction",
-  "title": "Lesson 5: Tags & Elements",
+
+  "title": "Lesson 5: Lists",
 
   "content": {
-    "explanation": "<h3>🧱 What is an HTML Element?</h3><p>An HTML element is a complete building block of a webpage.</p><p>It is made of 3 parts:</p><ul><li>🔹 Opening tag</li><li>🔹 Content</li><li>🔹 Closing tag</li></ul><hr><h3>📦 Simple Analogy</h3><p>Think of elements like boxes:</p><ul><li>📦 Outer box = tag</li><li>📄 Inside = content</li><li>🔒 Closing = sealing the box</li></ul><p>Every box must be properly closed or everything breaks.</p><hr><h3>🧠 Key Idea</h3><p>HTML is like stacking boxes inside boxes in the correct order.</p>",
 
-    "syntax_breakdown": "<h3>🔧 How Nesting Works</h3><p>Nesting means putting one element inside another.</p><p>But there is ONE important rule:</p><hr><h3>⚠️ Inside-out rule</h3><p>The last tag you open must be the first one you close.</p><pre><code>&lt;!-- ✅ Correct --&gt;\n&lt;p&gt;This is &lt;strong&gt;bold text&lt;/strong&gt; inside a paragraph&lt;/p&gt;\n\n&lt;!-- ❌ Wrong --&gt;\n&lt;p&gt;This is &lt;strong&gt;broken structure&lt;/p&gt;&lt;/strong&gt;</code></pre><p>If nesting is wrong, the browser gets confused and layout breaks.</p>"
+    "explanation": "<h3>📋 Why Lists Get Their Own Lesson</h3><p>So much real content is naturally a list: navigation menus, ingredient lists, step-by-step instructions, feature comparisons, social media links. HTML gives you dedicated tags for this instead of forcing you to fake it with paragraphs and dashes — which matters because real list tags are understood properly by screen readers, search engines, and CSS styling tools.</p><hr><h3>🔢 Two Main Types of Lists</h3><ul><li><strong>Unordered list</strong> — items where ORDER doesn't matter. Think a shopping list or a set of navigation links. Displayed with bullet points by default.</li><li><strong>Ordered list</strong> — items where ORDER matters. Think step-by-step instructions or a ranking. Displayed with numbers by default.</li></ul><p>The test is simple: if you rearranged the items, would the meaning change? If yes → ordered list. If no → unordered list.</p><hr><h3>📦 The Container + Items Pattern</h3><p>Every list in HTML follows the same pattern: ONE outer container tag that says 'a list starts here,' and MULTIPLE inner tags, one for each item. This container-plus-items pattern is incredibly common in HTML and you'll see it again later with tables and forms. Understanding this pattern now will make those future lessons click much faster.</p>",
+
+    "syntax_breakdown": "<h3>🧱 Unordered List (Bullet Points)</h3><pre><code>&lt;ul&gt;\n  &lt;li&gt;HTML&lt;/li&gt;\n  &lt;li&gt;CSS&lt;/li&gt;\n  &lt;li&gt;JavaScript&lt;/li&gt;\n&lt;/ul&gt;</code></pre><ul><li><code>&lt;ul&gt;</code> — short for 'unordered list.' This is the CONTAINER — it tells the browser 'a bulleted list starts here' but holds no text itself.</li><li><code>&lt;li&gt;</code> — short for 'list item.' Each individual item goes inside its own <code>&lt;li&gt;...&lt;/li&gt;</code> pair. Notice <code>&lt;li&gt;</code> tags must always live INSIDE a <code>&lt;ul&gt;</code> or <code>&lt;ol&gt;</code> — they can't float on their own.</li></ul><p>By default, the browser automatically adds a bullet point (•) before each <code>&lt;li&gt;</code> — you don't type the bullet character yourself.</p><hr><h3>🔢 Ordered List (Numbered)</h3><pre><code>&lt;ol&gt;\n  &lt;li&gt;Open your code editor&lt;/li&gt;\n  &lt;li&gt;Write your HTML&lt;/li&gt;\n  &lt;li&gt;Save and preview&lt;/li&gt;\n&lt;/ol&gt;</code></pre><p><code>&lt;ol&gt;</code> works EXACTLY like <code>&lt;ul&gt;</code> — same <code>&lt;li&gt;</code> items inside — the only difference is the container tag name, which automatically changes the numbering style from bullets to numbers (1, 2, 3...). This is a great example of how HTML separates MEANING (is this ordered or not?) from APPEARANCE (bullets vs numbers) — the browser decides the visual style based on which container you picked.</p><hr><h3>🪆 Nesting Lists Inside Lists</h3><pre><code>&lt;ul&gt;\n  &lt;li&gt;Frontend\n    &lt;ul&gt;\n      &lt;li&gt;HTML&lt;/li&gt;\n      &lt;li&gt;CSS&lt;/li&gt;\n    &lt;/ul&gt;\n  &lt;/li&gt;\n  &lt;li&gt;Backend&lt;/li&gt;\n&lt;/ul&gt;</code></pre><p>You can put an entire <code>&lt;ul&gt;</code> inside a single <code>&lt;li&gt;</code> to create a sub-list — useful for menus with categories, like 'Frontend' containing its own indented bullet list of 'HTML' and 'CSS.' Notice the inner <code>&lt;ul&gt;</code> still closes BEFORE the outer <code>&lt;li&gt;</code> closes — same nesting rule from Lesson 2.</p>",
+
+    "common_mistakes": "<h4>⚠️ Common Beginner Mistakes</h4><ul><li><strong>Putting text directly inside <ul> without an <li> wrapper</strong> — every single item needs its own <li> tags; text floating directly in a <ul> is invalid.</li><li><strong>Forgetting to close </li></strong> — especially in longer lists, it's easy to lose track. Each item needs its own complete opening and closing pair.</li><li><strong>Using <ol> when order doesn't actually matter</strong> — e.g. numbering a list of navigation links (Home, About, Contact) when their order isn't meaningful information — that should be a <ul> instead.</li></ul>"
+
   },
 
   "editor_sandbox": {
-    "starter_code": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Nesting Practice</title>\n</head>\n<body>\n    <!-- Fix the broken structure below -->\n    <p>We are building an ecosystem with <strong>Cymor Tech Services</p></strong>\n</body>\n</html>",
+
+    "starter_code": "<h1>My Skills</h1>\n<p>Here is what I'm learning:</p>",
 
     "mini_challenge": {
-      "instruction": "🎯 Mission: Fix the broken code\n\n1. The tags are in the wrong order\n2. Fix them so HTML follows correct nesting rules\n3. Run the code and make sure it displays correctly",
 
-      "hint": "👉 Correct structure should look like this:\n<p>Text <strong>Bold Text</strong></p>\n\nRemember: close INNER tag first!",
+      "instruction": "🎯 Challenge:\n\n1. Add an unordered list with 3 list items: HTML, CSS, JavaScript\n2. Below it, add a paragraph that says: lists organize content clearly\n3. Run and verify your code",
 
-      "validation_keyword": "</strong></p>"
+      "hint": "👉 Example:\n<ul>\n  <li>HTML</li>\n  <li>CSS</li>\n  <li>JavaScript</li>\n</ul>\n<p>lists organize content clearly</p>",
+
+      "validation_keyword": "lists organize content clearly"
+
     }
+
   },
 
   "quiz_engine": {
-    "question": "What is the correct rule for nesting HTML elements?",
+
+    "question": "What's the correct test for choosing <ol> (ordered) over <ul> (unordered)?",
+
     "options": [
-      "Always close tags in the reverse order they were opened",
-      "It does not matter which tag closes first",
-      "Always close outer tags first before inner tags"
+      "Use <ol> if you want numbers instead of bullets, purely for looks",
+      "Use <ol> if rearranging the items would change the meaning",
+      "Use <ol> only for navigation menus"
     ],
-    "correct_index": 0,
+
+    "correct_index": 1,
+
     "points": 10,
-    "explanation_feedback": "Correct 🎉 HTML follows the inside-out rule. The last opened tag must always be the first one closed to keep structure valid."
+
+    "explanation_feedback": "Correct 🎉 Choose based on MEANING: if order matters (like step-by-step instructions), use <ol>. If it doesn't (like a set of links), use <ul>, even though both can be styled to look any way later with CSS."
+
   },
 
   "summary": {
+
     "takeaways": [
-      "An element is made of opening tag, content, and closing tag",
-      "Nesting means placing elements inside other elements",
-      "HTML must follow inside-out closing order",
-      "Incorrect nesting breaks layout and structure"
+      "<ul> = unordered list (bullets) — use when item order doesn't matter",
+      "<ol> = ordered list (numbers) — use when item order matters",
+      "<li> = list item — must always live inside a <ul> or <ol>",
+      "Lists follow the container + items pattern you'll see again later",
+      "Lists can be nested inside each other for sub-categories"
     ],
 
     "cheat_sheet": {
-      "element": "A full HTML structure unit (tag + content + tag)",
-      "nesting": "Placing elements inside other elements safely",
-      "rule": "Close inner tags before outer tags"
+
+      "<ul></ul>": "Unordered list — bullet points",
+
+      "<ol></ol>": "Ordered list — numbers",
+
+      "<li></li>": "A single list item, used inside ul or ol",
+
+      "Choosing Rule": "Order matters → ol. Order doesn't matter → ul."
+
     }
+
   }
+
 }

@@ -1,57 +1,82 @@
 {
+  "id": 10,
+  "module": "HTML Practice Checkpoint",
+
   "meta": {
     "next_lesson": 11,
     "prev_lesson": 9,
-    "xp_reward": 20,
-    "difficulty": "beginner",
-    "module_index": 2
+    "xp_reward": 30,
+    "difficulty": "checkpoint",
+    "module_index": 1
   },
-  "id": 10,
-  "module": "Text & Content",
-  "title": "Lesson 10: Semantic Meaning of Text (Module Review)",
+
+  "title": "Lesson 10: 🛠️ Build a Real Page — HTML Checkpoint",
 
   "content": {
-    "explanation": "<h3>🧠 You Are Now Building Real Web Pages</h3><p>You’ve learned the building blocks of HTML: structure, headings, paragraphs, formatting, and comments.</p><p>Now it’s time to combine everything into a real webpage layout.</p><hr><h3>🏗️ What “Semantic HTML” Really Means</h3><p>Semantic HTML means writing code that describes meaning, not just appearance.</p><p>Instead of thinking “make this big or bold”, you now think:</p><p>👉 “What is this content?” (title, section, warning, description)</p>",
 
-    "syntax_breakdown": "<h3>📌 What You Must Now Be Able To Do</h3><ul><li>Build full HTML structure from scratch</li><li>Use headings in correct order (h1 → h2)</li><li>Write paragraphs with meaningful text</li><li>Highlight important words using <strong></strong></li><li>Use comments to organize your code</li></ul><hr><h3>🎯 Real Example Thinking</h3><p>A real webpage is not random text — it is structured content blocks stacked neatly like LEGO bricks.</p>"
+    "explanation": "<h3>🚦 You've Reached a Checkpoint</h3><p>This lesson is different from the last nine. There's no new tag to learn here — instead, this is where you PROVE you can combine everything from Lessons 1 to 9 into one real, working page. This matters more than any single lesson before it, because real development isn't about knowing individual tags in isolation — it's about combining them to build something complete.</p><hr><h3>🧱 Everything You've Learned So Far</h3><ul><li><strong>Lesson 1–2:</strong> What HTML is, tags, elements, attributes</li><li><strong>Lesson 3:</strong> Headings (h1-h6) and paragraphs</li><li><strong>Lesson 4:</strong> Links and images</li><li><strong>Lesson 5:</strong> Ordered and unordered lists</li><li><strong>Lesson 6:</strong> div and span for grouping content</li><li><strong>Lesson 7:</strong> Forms and inputs</li><li><strong>Lesson 8:</strong> Tables for tabular data</li><li><strong>Lesson 9:</strong> Semantic HTML5 (header, nav, main, section, article, footer)</li></ul><p>This checkpoint asks you to use a meaningful combination of these in a single page — a simple personal profile page, the kind of thing that's often the very first project every real developer builds.</p><hr><h3>🔒 Why This Lesson Gates Your Progress</h3><p>CSS (starting next lesson) is about STYLING content. If you move on without being able to comfortably structure a real page, you'll spend the entire CSS module fighting with broken or messy HTML instead of focusing on what CSS actually teaches you. This checkpoint exists to protect your progress, not slow it down — getting this solid now saves you frustration later.</p>",
+
+    "syntax_breakdown": "<h3>🧩 Your Task Breakdown</h3><p>You're building a simple personal profile page. Here's a suggested structure to think through before you start typing:</p><pre><code>&lt;header&gt;\n  &lt;h1&gt;Your Name&lt;/h1&gt;\n&lt;/header&gt;\n\n&lt;main&gt;\n  &lt;section&gt;\n    &lt;h2&gt;About Me&lt;/h2&gt;\n    &lt;p&gt;A short paragraph about yourself&lt;/p&gt;\n  &lt;/section&gt;\n\n  &lt;section&gt;\n    &lt;h2&gt;My Skills&lt;/h2&gt;\n    &lt;ul&gt;\n      &lt;li&gt;Skill one&lt;/li&gt;\n      &lt;li&gt;Skill two&lt;/li&gt;\n    &lt;/ul&gt;\n  &lt;/section&gt;\n&lt;/main&gt;\n\n&lt;footer&gt;\n  &lt;p&gt;Contact info or a link&lt;/p&gt;\n&lt;/footer&gt;</code></pre><p>Notice this single structure pulls together semantic tags (Lesson 9), headings (Lesson 3), paragraphs (Lesson 3), and lists (Lesson 5) all at once — exactly how real pages are actually built, not as isolated examples.</p><hr><h4>💡 Approach It Step by Step</h4><p>Don't try to write the whole thing in one go. Build it the way real developers do:</p><ul><li>1. Lay down the semantic skeleton first (header, main, footer) — empty</li><li>2. Fill in your header with a heading</li><li>3. Fill in main with your sections, one at a time</li><li>4. Add your footer content last</li></ul><p>This step-by-step habit will serve you for your entire coding journey — build structure first, fill in details after.</p>",
+
+    "common_mistakes": "<h4>⚠️ Common Checkpoint Mistakes</h4><ul><li><strong>Trying to add CSS styling here</strong> — resist the urge. This checkpoint is purely about HTML structure. Styling is next module.</li><li><strong>Skipping semantic tags and just using div</strong> — the whole point of this checkpoint is proving you can combine what you learned, including Lesson 9.</li><li><strong>Rushing without testing</strong> — run your code as you build it, not just at the very end, so you catch unclosed tags early.</li></ul>"
+
   },
 
   "editor_sandbox": {
-    "starter_code": "",
+
+    "starter_code": "<!-- 🛠️ HTML Checkpoint: Build your profile page below -->\n<!-- Use what you learned in Lessons 1-9 -->\n\n",
 
     "mini_challenge": {
-      "instruction": "🚀 FINAL MODULE CHALLENGE\n\nBuild a complete webpage from scratch using everything you’ve learned.\n\nYour page MUST include:\n\n1. Start with DOCTYPE + full HTML structure\n2. Page title inside <head> → 'Cymor Practice Page'\n3. Inside <body>:\n   - An <h1> heading: Cymor Tech Services\n   - An <h2> heading: Web Development Journey\n   - A <p> paragraph describing your learning journey\n   - Inside the paragraph, wrap at least ONE important word with <strong>\n   - Add a comment anywhere in the page\n\n💡 Think like a real developer building a homepage\n\n👉 Start from scratch and structure everything cleanly",
 
-      "hint": "Start like this:\n<!DOCTYPE html>\n<html>\n<head>\n  <title>Cymor Practice Page</title>\n</head>\n<body>\n\nThen build step-by-step:\n<h1>Cymor Tech Services</h1>\n<h2>Web Development Journey</h2>\n<p>...</p>\n<!-- comment -->\n\nClose with </body> and </html>",
+      "instruction": "🛠️ CHECKPOINT TASK:\n\nBuild a personal profile page using AT LEAST:\n1. A <header> with your name in an h1\n2. A <main> containing at least 2 <section> elements (e.g. About Me, My Skills)\n3. At least one <ul> or <ol> list inside one of your sections\n4. A <footer> with a closing paragraph\n5. Somewhere on the page, include this exact phrase in a paragraph: html checkpoint complete\n\nThis proves you can combine structure, headings, lists, and semantic tags into one real page.",
 
-      "validation_keyword": "Cymor Tech Services"
+      "hint": "👉 Minimum working structure:\n<header>\n  <h1>Your Name</h1>\n</header>\n<main>\n  <section>\n    <h2>About Me</h2>\n    <p>html checkpoint complete</p>\n  </section>\n  <section>\n    <h2>My Skills</h2>\n    <ul>\n      <li>HTML</li>\n      <li>Problem Solving</li>\n    </ul>\n  </section>\n</main>\n<footer>\n  <p>Thanks for visiting</p>\n</footer>",
+
+      "validation_keyword": "html checkpoint complete"
+
     }
+
   },
 
   "quiz_engine": {
-    "question": "What is the main goal of semantic HTML when building real websites?",
+
+    "question": "Why does this checkpoint matter before moving on to CSS?",
+
     "options": [
-      "To make text look visually bigger or smaller",
-      "To describe the meaning and structure of content clearly",
-      "To increase server speed and reduce loading time"
+      "It doesn't really matter, it's just a formality",
+      "Messy or weak HTML structure makes the upcoming CSS module much harder to learn properly",
+      "CSS doesn't actually need any HTML to work"
     ],
+
     "correct_index": 1,
+
     "points": 20,
-    "explanation_feedback": "Correct 🎉 Semantic HTML is about meaning and structure, not appearance. It helps browsers, search engines, and accessibility tools understand your content properly."
+
+    "explanation_feedback": "Correct 🎉 CSS styles existing HTML — if your structure is shaky, you'll spend CSS lessons fighting broken markup instead of learning styling. Solid HTML now makes everything after this easier."
+
   },
 
   "summary": {
+
     "takeaways": [
-      "Semantic HTML focuses on meaning, not appearance",
-      "Real websites are built using structured blocks (headings, paragraphs, sections)",
-      "You should now be able to build a full basic webpage from scratch",
-      "Comments help organize large code projects"
+      "You combined headings, paragraphs, lists, and semantic tags into one real page",
+      "Real development is about combining fundamentals, not just knowing tags in isolation",
+      "Building structure first, then filling in content, is a habit that scales to every project",
+      "You're now ready to learn CSS and make this exact page look great"
     ],
 
     "cheat_sheet": {
-      "structure": "DOCTYPE → html → head → body",
-      "content": "h1, h2, p, strong, em",
-      "developer_rule": "Write HTML like building structured blocks, not random text"
+
+      "Checkpoint Goal": "Combine Lessons 1-9 into one real working page",
+
+      "Suggested Structure": "header > main (with sections) > footer",
+
+      "Approach": "Build the skeleton first, then fill in content section by section",
+
+      "Next Up": "CSS — making this page actually look good"
+
     }
+
   }
+
 }

@@ -1,4 +1,7 @@
 {
+  "id": 4,
+  "module": "HTML Basics",
+
   "meta": {
     "next_lesson": 5,
     "prev_lesson": 3,
@@ -6,53 +9,80 @@
     "difficulty": "beginner",
     "module_index": 1
   },
-  "id": 4,
-  "module": "Introduction",
-  "title": "Lesson 4: HTML Structure",
+
+  "title": "Lesson 4: Links & Images",
 
   "content": {
-    "explanation": "<h3>🏗️ The Real Structure of Every Website</h3><p>Every website is built inside a strict structure that tells the browser how to read your page.</p><p>Without this structure, browsers may still try to guess your content — but the result can break on different devices or behave unpredictably.</p><hr><h3>🧠 Think of it like a Human Body</h3><ul><li>🧬 <strong>&lt;html&gt;</strong> = the full body</li><li>🧠 <strong>&lt;head&gt;</strong> = the brain (settings, hidden info)</li><li>👀 <strong>&lt;body&gt;</strong> = everything visible (what users see)</li></ul>",
 
-    "syntax_breakdown": "<h3>🧪 The Standard HTML Blueprint</h3><p>Every professional webpage follows this exact structure:</p><pre><code>&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n  &lt;head&gt;\n    &lt;title&gt;My Website&lt;/title&gt;\n  &lt;/head&gt;\n\n  &lt;body&gt;\n    &lt;h1&gt;Hello World&lt;/h1&gt;\n  &lt;/body&gt;\n&lt;/html&gt;</code></pre><hr><h3>🎯 Key Idea</h3><p>Everything visible MUST go inside the <strong>&lt;body&gt;</strong> tag.</p>"
+    "explanation": "<h3>🔗 Links — What Makes the Web a 'Web'</h3><p>Remember from Lesson 1: HTML stands for HYPERTEXT Markup Language. Links are the 'hypertext' part — they're what connect one page to another, turning a pile of separate documents into an actual interconnected web. Without links, you couldn't click from Google's homepage to a search result. Every website is just a collection of pages stitched together by links.</p><p>Links are created with the <code>&lt;a&gt;</code> tag — short for 'anchor,' because historically it 'anchors' to another point of content.</p><hr><h3>🖼️ Images — Self-Closing Elements</h3><p>This is your FIRST encounter with a <strong>self-closing tag</strong>: <code>&lt;img&gt;</code>. Remember in Lesson 2 we mentioned some elements don't wrap around content — images are exactly that case. An image doesn't have inner text content to wrap around, so there's no closing <code>&lt;/img&gt;</code> tag. Instead, ALL the information (which picture to show, backup text, etc.) is given through attributes inside the single tag.</p><hr><h3>🆚 Why <a> Needs a Closing Tag But <img> Doesn't</h3><p>This confuses almost everyone at first, so here's the actual reason: a link <code>&lt;a&gt;</code> needs visible, clickable text or content INSIDE it — that's what the user sees and clicks. An image has nothing to 'wrap around' — the picture itself isn't typed as text content, it's loaded from a file referenced in an attribute. No inner content needed means no closing tag needed.</p><hr><h3>🧭 Relative vs Absolute Paths — A Critical Real-World Skill</h3><p>When you link to an image or another page, you give it a 'path' — basically directions to find that file. There are two types:</p><ul><li><strong>Absolute path</strong> — the FULL web address, e.g. https://example.com/photo.jpg. Used for linking to external websites.</li><li><strong>Relative path</strong> — directions FROM your current file, e.g. images/photo.jpg. Used for files within your own project, like images you uploaded yourself.</li></ul><p>This matters enormously once you start building real projects: if you use the wrong type of path, your images will work perfectly on your own computer but break completely once deployed to GitHub Pages, Netlify, or Vercel — a frustrating bug nearly every beginner hits at least once.</p>",
+
+    "syntax_breakdown": "<h3>🧱 Anatomy of a Link</h3><pre><code>&lt;a href=\"https://google.com\"&gt;Visit Google&lt;/a&gt;</code></pre><ul><li><code>&lt;a&gt;</code> — opening tag, short for 'anchor'</li><li><code>href</code> — attribute name, short for 'hypertext reference.' This is THE required attribute for a link — without it, your <code>&lt;a&gt;</code> tag does nothing clickable at all.</li><li><code>\"https://google.com\"</code> — the attribute value: the destination address</li><li><code>Visit Google</code> — the visible, clickable text content (this is what shows up underlined/colored on the page)</li><li><code>&lt;/a&gt;</code> — closing tag</li></ul><hr><h4>🔓 Opening Links in a New Tab</h4><pre><code>&lt;a href=\"https://google.com\" target=\"_blank\"&gt;Visit Google&lt;/a&gt;</code></pre><p>Adding <code>target=\"_blank\"</code> tells the browser to open this link in a brand new tab instead of navigating away from your current page. This is good practice for external links so visitors don't lose your site entirely.</p><hr><h4>🧱 Anatomy of an Image</h4><pre><code>&lt;img src=\"cat.jpg\" alt=\"A sleeping orange cat\"&gt;</code></pre><ul><li><code>&lt;img&gt;</code> — the self-closing tag, no separate closing tag needed</li><li><code>src</code> — short for 'source.' This is the path to the actual image file. Required — without it, there's no image to display.</li><li><code>alt</code> — short for 'alternative text.' This is a written description of the image that displays if the image fails to load, AND is read aloud by screen readers for visually impaired users. This attribute is required for accessibility and should always be meaningful, never left blank or skipped.</li></ul><hr><h4>🧭 Path Examples Explained</h4><pre><code>&lt;!-- Absolute path: points to a file on another website --&gt;\n&lt;img src=\"https://example.com/images/cat.jpg\" alt=\"A cat\"&gt;\n\n&lt;!-- Relative path: points to a file inside YOUR project folder --&gt;\n&lt;img src=\"images/cat.jpg\" alt=\"A cat\"&gt;\n\n&lt;!-- Relative path: file in the SAME folder as your HTML file --&gt;\n&lt;img src=\"cat.jpg\" alt=\"A cat\"&gt;</code></pre><p>The relative path is read like folder directions on your phone: 'go into the images folder, then find cat.jpg.' Get this wrong (wrong folder name, wrong file name, wrong capitalization) and the browser simply shows a broken image icon.</p>",
+
+    "common_mistakes": "<h4>⚠️ Common Beginner Mistakes</h4><ul><li><strong>Forgetting href on a link</strong> — <code>&lt;a&gt;Click here&lt;/a&gt;</code> with no href does nothing when clicked.</li><li><strong>Forgetting alt on an image</strong> — breaks accessibility for screen reader users and leaves nothing to display if the image fails to load.</li><li><strong>Mismatched capitalization in file paths</strong> — <code>Cat.jpg</code> vs <code>cat.jpg</code> are different files on many servers (including GitHub Pages and Netlify), even though they might look the same to you.</li><li><strong>Using an absolute path when you meant a relative one</strong> — pointing to a file on your own computer with a path like <code>C:/Users/You/cat.jpg</code> will only work on YOUR device, and will be a broken image for everyone else once deployed.</li></ul>"
+
   },
 
   "editor_sandbox": {
-    "starter_code": "<!DOCTYPE html>\n<html>\n<head>\n    <title>My First Valid Site</title>\n</head>\n<body>\n    <h1>Structural Blueprint Active</h1>\n    <p>Everything inside this body block renders directly onto the screen.</p>\n</body>\n</html>",
+
+    "starter_code": "<h1>My Favorite Sites</h1>\n<p>Here are some links I use often.</p>",
 
     "mini_challenge": {
-      "instruction": "🎯 Mission: Modify your webpage structure\n\n1. Add a new <h2> tag inside the <body>\n2. The text must be: Valid Architecture Layer\n3. Place it BELOW the paragraph\n\n👉 Then run your code and see how structure affects layout",
 
-      "hint": "👉 Insert this BEFORE </body>:\n<h2>Valid Architecture Layer</h2>\n\nMake sure it is inside the body section.",
+      "instruction": "🎯 Challenge:\n\n1. Add a link to https://github.com with the visible text: My GitHub\n2. Make the link open in a new tab\n3. Below it, add a paragraph that says: links connect the web together\n4. Run and verify your code",
 
-      "validation_keyword": "Valid Architecture Layer"
+      "hint": "👉 Example:\n<a href=\"https://github.com\" target=\"_blank\">My GitHub</a>\n<p>links connect the web together</p>",
+
+      "validation_keyword": "links connect the web together"
+
     }
+
   },
 
   "quiz_engine": {
-    "question": "Where does all visible content (text, images, buttons) go in an HTML page?",
+
+    "question": "Why doesn't the <img> tag have a separate closing tag like </img>?",
+
     "options": [
-      "Inside the <head> tag",
-      "Inside the <body> tag",
-      "Inside the <!DOCTYPE html> declaration"
+      "Because images are not real HTML elements",
+      "Because it has no inner content to wrap around — all info is given via attributes",
+      "Because closing tags are optional for all elements"
     ],
+
     "correct_index": 1,
+
     "points": 10,
-    "explanation_feedback": "Correct 🎉 The <body> tag contains everything users see on the webpage, while <head> stores hidden settings and metadata."
+
+    "explanation_feedback": "Correct 🎉 <img> is self-closing because there's no text content to wrap — everything (which file, backup text) is passed through attributes like src and alt."
+
   },
 
   "summary": {
+
     "takeaways": [
-      "Every HTML page must follow a proper structure",
-      "<html> wraps the entire document",
-      "<head> contains hidden settings",
-      "<body> contains visible content users see"
+      "<a> creates links — href is the required attribute pointing to the destination",
+      "target=\"_blank\" opens a link in a new tab",
+      "<img> is self-closing — no closing tag needed",
+      "src points to the image file; alt is required descriptive backup text",
+      "Absolute paths are full web addresses; relative paths point to files within your own project",
+      "Wrong paths are a top cause of broken images/links after deployment"
     ],
 
     "cheat_sheet": {
-      "doctype": "Tells browser to use modern HTML standards",
-      "html": "Root container of the entire webpage",
-      "head": "Stores metadata and page settings",
-      "body": "Contains visible webpage content"
+
+      "<a href=\"\"></a>": "Creates a clickable link",
+
+      "target=\"_blank\"": "Opens link in a new tab",
+
+      "<img src=\"\" alt=\"\">": "Displays an image (self-closing)",
+
+      "alt attribute": "Required backup text + accessibility for images",
+
+      "Absolute Path": "Full web address (https://...)",
+
+      "Relative Path": "Directions from your current file (images/cat.jpg)"
+
     }
+
   }
+
 }

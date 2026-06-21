@@ -1,6 +1,7 @@
 {
   "id": 2,
-  "module": "Introduction",
+  "module": "HTML Basics",
+
   "meta": {
     "next_lesson": 3,
     "prev_lesson": 1,
@@ -8,51 +9,80 @@
     "difficulty": "beginner",
     "module_index": 1
   },
-  "title": "Lesson 2: How Websites Work",
+
+  "title": "Lesson 2: Tags, Elements & Attributes",
 
   "content": {
-    "explanation": "<h3>🌐 How the Web Actually Works</h3><p>When you open a website like cymortech.com, something very fast happens behind the scenes.</p><p>Your device (phone or computer) sends a <strong>request</strong> to a computer somewhere in the world called a <strong>server</strong>.</p><p>The server sends back website files, and your browser displays them instantly.</p><hr><h3>⚡ Simple Idea</h3><p>Think of it like ordering food:</p><ul><li>📱 You = Customer (Client)</li><li>🍔 Restaurant = Server</li><li>🚚 Delivery = Internet</li></ul><p>You order → server responds → you receive the website.</p>",
 
-    "frontend_vs_backend": "<h3>🧠 Two Parts of Every Website</h3><p>Every website has two sides working together:</p><hr><h3>💻 Frontend (What you see)</h3><ul><li>Runs in your browser</li><li>Built with HTML, CSS, JavaScript</li><li>Buttons, text, images, layout</li></ul><p>This is everything you interact with.</p><hr><h3>🗄️ Backend (Hidden system)</h3><ul><li>Runs on remote servers</li><li>Stores data like accounts and messages</li><li>Handles login, security, database</li></ul><p>You never see it, but it powers everything.</p><hr><p>Example: Firebase (which you are using) is part of backend services.</p>"
+    "explanation": "<h3>🏷️ Tags vs Elements vs Attributes — The Confusion Ends Here</h3><p>These three words get used loosely all the time, and beginners mix them up constantly. Let's nail down exactly what each one means, because once this clicks, everything else in HTML becomes much easier.</p><ul><li><strong>Tag</strong> — just the bracket part: <code>&lt;p&gt;</code> or <code>&lt;/p&gt;</code> on its own. A tag is like a single label sticker.</li><li><strong>Element</strong> — the FULL package: opening tag + content + closing tag. <code>&lt;p&gt;Hello&lt;/p&gt;</code> is one complete element.</li><li><strong>Attribute</strong> — extra information added INSIDE the opening tag to give more detail. Example: <code>&lt;p class=\"intro\"&gt;Hello&lt;/p&gt;</code> — <code>class=\"intro\"</code> is an attribute.</li></ul><hr><h3>📦 The Parcel Analogy</h3><p>Imagine a parcel being shipped:</p><ul><li>The box itself = the <strong>tag</strong></li><li>The box + what's inside it = the <strong>element</strong></li><li>The shipping label stuck on the outside saying 'Fragile,' 'This Side Up,' 'Weight: 2kg' = the <strong>attributes</strong></li></ul><p>The label (attribute) doesn't change what's inside the box — it gives EXTRA instructions about how to handle that specific box.</p><hr><h3>🔑 Why Attributes Matter So Much</h3><p>Without attributes, every link would just say 'click here' with no destination, every image would have no source file to load, and you'd have no way to give an element a unique name to style or target later. Attributes are what make HTML elements actually useful and configurable, instead of just generic blocks.</p><hr><h3>🧩 Two Types of Elements</h3><p>Most elements you'll meet have both an opening and closing tag (like <code>&lt;p&gt;&lt;/p&gt;</code>), but a few are <strong>self-closing</strong> — they don't wrap around any content, so there's nothing to 'close.' You'll meet these properly in later lessons (like images and line breaks), but it's worth knowing they exist now so they don't confuse you when you see them.</p>",
+
+    "syntax_breakdown": "<h3>🧱 Anatomy of an Attribute, Piece by Piece</h3><pre><code>&lt;p class=\"intro\"&gt;Hello&lt;/p&gt;</code></pre><ul><li><code>class</code> — the <strong>attribute name</strong>. This tells the browser (and you, and CSS later) what KIND of extra info this is.</li><li><code>=</code> — always connects the attribute name to its value. No spaces needed around it, though one space before the attribute name is required.</li><li><code>\"intro\"</code> — the <strong>attribute value</strong>, always wrapped in quotes. This is the actual piece of information being given.</li></ul><p><strong>Rule:</strong> attribute values must always be inside quotes (either <code>\" \"</code> or <code>' '</code>, but be consistent). Forgetting the quotes is one of the most common beginner errors.</p><hr><h4>🔢 Elements Can Have Multiple Attributes</h4><pre><code>&lt;p class=\"intro\" id=\"firstParagraph\" title=\"My intro text\"&gt;Hello&lt;/p&gt;</code></pre><p>You separate multiple attributes with a single space — never commas. Each one adds a different piece of extra information about the same element.</p><hr><h4>🪆 Nesting Elements Inside Elements</h4><pre><code>&lt;p&gt;\n  This is &lt;strong&gt;very important&lt;/strong&gt; information.\n&lt;/p&gt;</code></pre><p>Here, a <code>&lt;strong&gt;</code> element lives INSIDE a <code>&lt;p&gt;</code> element. The outer element (<code>&lt;p&gt;</code>) is called the <strong>parent</strong>, and the inner one (<code>&lt;strong&gt;</code>) is the <strong>child</strong>. This parent-child relationship is the backbone of how every webpage is organized — like folders inside folders on your phone.</p><hr><h4>📐 Indentation Isn't Required, But It Saves You</h4><p>The browser doesn't care if your code is indented neatly — it'll render the same either way. BUT as your pages grow to 50+ lines, messy code becomes nearly impossible to read and debug. Get into the habit now: each time you nest one element inside another, indent it by 2 spaces.</p>",
+
+    "common_mistakes": "<h4>⚠️ Common Beginner Mistakes</h4><ul><li><strong>Forgetting quotes around attribute values</strong> — e.g. <code>&lt;p class=intro&gt;</code> instead of <code>&lt;p class=\"intro\"&gt;</code>. This can break your page in unpredictable ways, especially if the value has a space in it.</li><li><strong>Using commas between attributes</strong> — e.g. <code>&lt;p class=\"intro\", id=\"main\"&gt;</code>. Only use spaces, never commas.</li><li><strong>Confusing tag and element</strong> in conversation — if someone says 'add a paragraph element,' they mean the whole <code>&lt;p&gt;text&lt;/p&gt;</code> package, not just the opening bracket.</li></ul>"
+
   },
 
   "editor_sandbox": {
-    "starter_code": "<!-- Web System Simulation 🚀 -->\n<h1>Website Connection Active</h1>\n<p>The browser has received data from a server and is rendering it here.</p>",
+
+    "starter_code": "<h1>About Me</h1>\n<p>I am learning to code.</p>",
 
     "mini_challenge": {
-      "instruction": "🎯 Mission: Simulate a live update\n\n1. Add a new <h1> tag below the paragraph\n2. Write exactly: Frontend Engine Active\n3. Run the code and observe how the page updates instantly",
 
-      "hint": "👉 Example:\n<h1>Frontend Engine Active</h1>\nMake sure you close your tag properly like </h1>",
+      "instruction": "🎯 Challenge:\n\n1. Add a class attribute to the h1 tag with the value \"page-title\"\n2. Add a new paragraph below the existing one that says: Attributes give extra information\n3. Run and verify your code",
 
-      "validation_keyword": "Frontend Engine Active"
+      "hint": "👉 Example:\n<h1 class=\"page-title\">About Me</h1>\n<p>Attributes give extra information</p>\n\nRemember: attribute values always go inside quotes.",
+
+      "validation_keyword": "attributes give extra information"
+
     }
+
   },
 
   "quiz_engine": {
-    "question": "What does the browser do when it receives HTML from a server?",
+
+    "question": "In <p class=\"intro\">Hello</p>, what is class=\"intro\" called?",
+
     "options": [
-      "Stores it permanently in a database",
-      "Parses it and displays a visual webpage",
-      "Deletes it after downloading"
+      "A tag",
+      "An attribute",
+      "An element"
     ],
+
     "correct_index": 1,
+
     "points": 10,
-    "explanation_feedback": "Correct 🎉 The browser reads (parses) HTML and converts it into a visual webpage you can interact with."
+
+    "explanation_feedback": "Correct 🎉 class=\"intro\" is an attribute — extra information added inside the opening tag. The full <p class=\"intro\">Hello</p> together is the element."
+
   },
 
   "summary": {
+
     "takeaways": [
-      "Websites work through a request-response system",
-      "Browsers (clients) request data from servers",
-      "Servers send HTML, CSS, and JS back to the browser",
-      "Frontend is what users see, backend is the hidden system"
+      "A tag is just the bracket part, e.g. <p>",
+      "An element is the full package: opening tag + content + closing tag",
+      "An attribute adds extra info inside the opening tag, always as name=\"value\"",
+      "Attribute values must always be wrapped in quotes",
+      "Elements can be nested — the outer one is the parent, the inner one is the child",
+      "Indentation isn't required but keeps your code readable as it grows"
     ],
 
     "cheat_sheet": {
-      "client": "Your browser that requests and displays websites",
-      "server": "A remote computer that stores and sends website files",
-      "frontend": "Visible part of the website (UI)",
-      "backend": "Hidden system that manages data and logic"
+
+      "Tag": "&lt;p&gt; — just the bracket",
+
+      "Element": "&lt;p&gt;Hello&lt;/p&gt; — full tag + content + closing tag",
+
+      "Attribute": "name=\"value\" inside the opening tag",
+
+      "Multiple Attributes": "Separate with spaces, not commas",
+
+      "Parent Element": "The outer, wrapping element",
+
+      "Child Element": "The inner, nested element"
+
     }
+
   }
+
 }

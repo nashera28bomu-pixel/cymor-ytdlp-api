@@ -1,58 +1,83 @@
 {
+  "id": 6,
+  "module": "HTML Basics",
+
   "meta": {
     "next_lesson": 7,
     "prev_lesson": 5,
     "xp_reward": 10,
     "difficulty": "beginner",
-    "module_index": 2
+    "module_index": 1
   },
-  "id": 6,
-  "module": "Text & Content",
-  "title": "Lesson 6: Headings (h1–h6)",
+
+  "title": "Lesson 6: Div & Span — Generic Containers",
 
   "content": {
-    "explanation": "<h3>📌 What are Headings?</h3><p>Headings are used to organize content on a webpage.</p><p>They help structure your page so both humans and machines can understand it easily.</p><hr><h3>🧠 Simple Idea</h3><p>Think of a webpage like a book:</p><ul><li>📕 <strong>h1</strong> = Book Title</li><li>📄 <strong>h2</strong> = Chapter Title</li><li>📝 <strong>h3</strong> = Section inside a chapter</li></ul><p>Everything becomes smaller and more specific as you go down.</p>",
 
-    "syntax_breakdown": "<h3>📊 Heading Levels Explained</h3><p>HTML gives you 6 heading levels:</p><pre><code>&lt;h1&gt;Main Title&lt;/h1&gt;\n&lt;h2&gt;Section Title&lt;/h2&gt;\n&lt;h3&gt;Subsection Title&lt;/h3&gt;\n&lt;h4&gt;Smaller section&lt;/h4&gt;\n&lt;h5&gt;Even smaller&lt;/h5&gt;\n&lt;h6&gt;Smallest heading&lt;/h6&gt;</code></pre><hr><h3>⚠️ Important Rule</h3><p>Don’t skip levels randomly.</p><p>Example: h1 → h3 → h6 ❌ (bad structure)</p><p>Instead go step-by-step: h1 → h2 → h3 ✔</p>"
+    "explanation": "<h3>📦 The Two Most-Used Tags You Haven't Met Yet</h3><p><code>&lt;div&gt;</code> and <code>&lt;span&gt;</code> are probably the two most frequently used tags across the entire internet, yet they're the hardest to explain to a beginner — because unlike <code>&lt;h1&gt;</code> or <code>&lt;p&gt;</code>, they have NO built-in meaning of their own. They are pure, generic containers, used purely for GROUPING content so you can later style or control that group together.</p><hr><h3>🧺 The Storage Box Analogy</h3><p>Imagine moving house. You don't just throw everything loose into a truck — you group related items into labeled boxes: 'Kitchen stuff,' 'Bedroom stuff.' The box itself isn't a specific type of item — it's a CONTAINER for grouping things you want to move/handle together. That's exactly what <code>&lt;div&gt;</code> and <code>&lt;span&gt;</code> are: containers with no inherent meaning, used to group related content so you can target that whole group at once — usually with CSS, which you'll learn very soon.</p><hr><h3>📏 The Critical Difference: Block vs Inline</h3><p>This is the single most important concept in this lesson, and it will matter for the rest of this course:</p><ul><li><strong><code>&lt;div&gt;</code> is a BLOCK element</strong> — it always starts on a new line and takes up the full width available, like a paragraph does. Use it to group entire SECTIONS of a page (a header area, a card, a footer).</li><li><strong><code>&lt;span&gt;</code> is an INLINE element</strong> — it stays in the flow of text, only taking up as much width as its content needs, like the <code>&lt;strong&gt;</code> or <code>&lt;a&gt;</code> tags you've already used. Use it to target a small PIECE of text within a sentence.</li></ul><p>Get this distinction solid now — block vs. inline is a concept that resurfaces constantly once you start learning CSS layout (flexbox, positioning) later in this course.</p>",
+
+    "syntax_breakdown": "<h3>🧱 Using &lt;div&gt; to Group a Section</h3><pre><code>&lt;div&gt;\n  &lt;h2&gt;Contact Info&lt;/h2&gt;\n  &lt;p&gt;Email: me@example.com&lt;/p&gt;\n  &lt;p&gt;Phone: 0712 345 678&lt;/p&gt;\n&lt;/div&gt;</code></pre><p>This <code>&lt;div&gt;</code> groups a heading and two paragraphs together as ONE logical 'Contact Info' section. On its own, this div changes nothing visually — but later, you'll be able to give this whole group a background color, padding, or border with a single CSS rule, because it's now treated as one unit instead of three separate floating elements.</p><hr><h3>🧱 Using &lt;span&gt; to Target Part of a Sentence</h3><pre><code>&lt;p&gt;My favorite language is &lt;span&gt;JavaScript&lt;/span&gt;.&lt;/p&gt;</code></pre><p>Here, <code>&lt;span&gt;</code> wraps ONLY the word 'JavaScript' — not the whole sentence. Later, you could use CSS to make just that one word a different color, while the rest of the sentence stays normal. A <code>&lt;div&gt;</code> couldn't do this cleanly because it's a block element — wrapping it around one word inside a sentence would force a line break before and after it, breaking the sentence's natural flow.</p><hr><h3>🆔 Giving Containers Names with class and id</h3><pre><code>&lt;div class=\"contact-card\"&gt;\n  &lt;p&gt;Email: me@example.com&lt;/p&gt;\n&lt;/div&gt;\n\n&lt;div id=\"main-header\"&gt;\n  &lt;h1&gt;My Site&lt;/h1&gt;\n&lt;/div&gt;</code></pre><p>Bare <code>&lt;div&gt;</code> and <code>&lt;span&gt;</code> tags are invisible labels with no way to target them specifically. That's why you'll almost always see them paired with a <code>class</code> or <code>id</code> attribute (from Lesson 2!) — this gives the container a NAME you can later reference in CSS to say 'style everything with this exact name.' The difference: <code>class</code> can be reused on many elements (e.g. every card on a page), while <code>id</code> should be unique — used only once per page, for one specific element.</p>",
+
+    "common_mistakes": "<h4>⚠️ Common Beginner Mistakes</h4><ul><li><strong>Using &lt;span&gt; when you meant &lt;div&gt;</strong> — if you try to wrap a whole section (heading + paragraphs) in a span, it won't behave like a block, and your layout will look broken.</li><li><strong>Reusing the same id on multiple elements</strong> — an id is meant to be unique to ONE element per page. Reusing it causes confusing, unpredictable results later when you target it with CSS or JavaScript.</li><li><strong>Overusing div for everything</strong> — if there's a more meaningful tag available (like &lt;h2&gt; for a heading, or &lt;p&gt; for text), use that instead. Reach for div/span only when no other tag fits the job — purely for grouping.</li></ul>"
+
   },
 
   "editor_sandbox": {
-    "starter_code": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Syllabus Hierarchy</title>\n</head>\n<body>\n    <h1>Cymor Tech Services</h1>\n    <!-- Add headings below -->\n\n</body>\n</html>",
+
+    "starter_code": "<h1>My Page</h1>\n<p>Welcome to my site.</p>",
 
     "mini_challenge": {
-      "instruction": "🎯 Mission: Build a clean heading structure\n\n1. Add an <h2> below the main title\n   Text: Core Products\n\n2. Add an <h3> below that\n   Text: Cymor Code Learner\n\n👉 Run your code and observe how structure changes visually",
 
-      "hint": "👉 Example order:\n<h1>Main Title</h1>\n<h2>Section</h2>\n<h3>Sub-section</h3>\n\nKeep everything inside <body>.",
+      "instruction": "🎯 Challenge:\n\n1. Wrap a new heading and paragraph inside a <div> with class=\"intro-section\"\n2. Inside the paragraph, use a <span> to wrap just one word\n3. Add a final paragraph (outside the div) saying: divs and spans group content\n4. Run and verify your code",
 
-      "validation_keyword": "<h3>Cymor Code Learner</h3>"
+      "hint": "👉 Example:\n<div class=\"intro-section\">\n  <h2>About</h2>\n  <p>I love <span>coding</span>.</p>\n</div>\n<p>divs and spans group content</p>",
+
+      "validation_keyword": "divs and spans group content"
+
     }
+
   },
 
   "quiz_engine": {
-    "question": "What is the correct purpose of HTML headings?",
+
+    "question": "What is the key difference between &lt;div&gt; and &lt;span&gt;?",
+
     "options": [
-      "To make text look big or small visually",
-      "To define structure and meaning of content",
-      "To add colors and design to text"
+      "div is for images, span is for text",
+      "div is a block element (full width, new line); span is inline (flows within text)",
+      "There is no real difference, they're interchangeable"
     ],
+
     "correct_index": 1,
+
     "points": 10,
-    "explanation_feedback": "Correct 🎉 Headings are used for structure and meaning, not just appearance. CSS is used for styling, not HTML."
+
+    "explanation_feedback": "Correct 🎉 div is block-level — used for grouping whole sections. span is inline — used for targeting small pieces of text within a sentence without breaking its flow."
+
   },
 
   "summary": {
+
     "takeaways": [
-      "Headings organize content into clear sections",
-      "h1 is the most important, h6 is the least important",
-      "Headings create structure for users and search engines",
-      "Do not skip heading levels randomly"
+      "div and span are generic containers with no built-in meaning of their own",
+      "div is block-level — starts a new line, takes full width, used for grouping sections",
+      "span is inline — stays within text flow, used for targeting small pieces of content",
+      "Use class for reusable names (many elements); use id for a unique, one-time name",
+      "Don't reach for div/span if a more meaningful tag (h2, p, etc.) already fits"
     ],
 
     "cheat_sheet": {
-      "h1": "Main title of the page",
-      "h2": "Section heading",
-      "h3": "Sub-section heading",
-      "rule": "Always go in order (h1 → h2 → h3...)"
+
+      "<div></div>": "Block-level generic container (full width, new line)",
+
+      "<span></span>": "Inline generic container (flows within a line of text)",
+
+      "class=\"\"": "Reusable name — can appear on many elements",
+
+      "id=\"\"": "Unique name — should appear on only one element per page"
+
     }
+
   }
+
 }

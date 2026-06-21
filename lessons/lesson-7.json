@@ -1,56 +1,89 @@
 {
+  "id": 7,
+  "module": "HTML Basics",
+
   "meta": {
     "next_lesson": 8,
     "prev_lesson": 6,
     "xp_reward": 10,
     "difficulty": "beginner",
-    "module_index": 2
+    "module_index": 1
   },
-  "id": 7,
-  "module": "Text & Content",
-  "title": "Lesson 7: Paragraphs & Line Breaks",
+
+  "title": "Lesson 7: Forms & Inputs",
 
   "content": {
-    "explanation": "<h3>📝 How Text Works in HTML</h3><p>In HTML, text does NOT automatically go to the next line when you press Enter.</p><p>Instead, the browser treats text as continuous unless you tell it otherwise using tags.</p><hr><h3>📦 Paragraphs (<p>)</h3><p>The <strong>&lt;p&gt;</strong> tag is used to create separate blocks of text.</p><p>Each paragraph automatically gets spacing above and below it.</p><hr><h3>🧠 Simple Rule</h3><p>👉 Use <strong>&lt;p&gt;</strong> for full text blocks<br>👉 Use line breaks only when you need small breaks inside text</p>",
 
-    "syntax_breakdown": "<h3>🔧 Line Breaks (<br>)</h3><p>The <strong>&lt;br&gt;</strong> tag forces text to move to the next line instantly.</p><p>It does NOT create a new paragraph — it just breaks the line.</p><hr><h3>⚡ Key Difference</h3><ul><li>📦 &lt;p&gt; = full block with spacing</li><li>➡️ &lt;br&gt; = simple line jump inside text</li></ul><hr><h3>🧪 Example</h3><pre><code>&lt;p&gt;\nFirst line&lt;br&gt;\nSecond line&lt;br&gt;\nThird line\n&lt;/p&gt;</code></pre>"
+    "explanation": "<h3>📝 Why Forms Matter So Much</h3><p>Every time you log into an app, post a comment, search Google, or sign up for something, you're using a form. Forms are how websites collect information FROM the visitor instead of just showing information TO them. This is the moment HTML starts feeling less like a poster and more like a real application.</p><hr><h3>📮 The Mailbox Analogy</h3><p>Think of a form like filling out a paper form at a bank: there's a labeled box for your name, a labeled box for your phone number, and a 'Submit' button at the end that sends the whole completed form off somewhere. HTML's <code>&lt;form&gt;</code> works the same way — it's a CONTAINER (just like div from last lesson!) that groups input fields together so they can all be collected and sent off as one package.</p><hr><h3>🧩 Forms Are a Container + Special Children Pattern</h3><p>Just like <code>&lt;ul&gt;</code> needed <code>&lt;li&gt;</code> children, a <code>&lt;form&gt;</code> needs special input-related children to actually be useful: <code>&lt;input&gt;</code> for single-line entries, <code>&lt;label&gt;</code> to describe what each input is for, and <code>&lt;button&gt;</code> to submit. The form tag alone does nothing visible — it's the children inside it that create the actual interactive fields.</p><hr><h3>🏷️ Why <label> Is Not Optional</h3><p>It's tempting to skip <code>&lt;label&gt;</code> and just rely on placeholder text inside an input to show what it's for. This is a real accessibility problem: placeholder text disappears the moment someone starts typing, and screen readers may not properly announce what an unlabeled field is for. A proper <code>&lt;label&gt;</code> stays visible and is correctly read aloud, AND (with the right setup) lets users tap the label text itself to jump into the input — much easier on a small phone screen, which matters a lot given this course is built phone-first.</p>",
+
+    "syntax_breakdown": "<h3>🧱 A Basic Form</h3><pre><code>&lt;form&gt;\n  &lt;label for=\"username\"&gt;Username:&lt;/label&gt;\n  &lt;input type=\"text\" id=\"username\" name=\"username\"&gt;\n\n  &lt;label for=\"email\"&gt;Email:&lt;/label&gt;\n  &lt;input type=\"email\" id=\"email\" name=\"email\"&gt;\n\n  &lt;button type=\"submit\"&gt;Sign Up&lt;/button&gt;\n&lt;/form&gt;</code></pre><p>Let's break down each piece:</p><ul><li><code>&lt;form&gt;</code> — the container wrapping the whole set of fields</li><li><code>&lt;label for=\"username\"&gt;</code> — the <code>for</code> attribute MUST exactly match the input's <code>id</code> below it. This is what creates the official link between a label and its input — not just visual closeness, but a real programmatic connection.</li><li><code>&lt;input type=\"text\"&gt;</code> — a single-line text box. The <code>type</code> attribute controls what KIND of input this is and changes both its behavior and (on phones) which keyboard layout pops up.</li><li><code>id=\"username\"</code> — the unique identifier this specific input is linked to, matching the label's <code>for</code></li><li><code>name=\"username\"</code> — the name this field's data is labeled with when the form is submitted. Easy to confuse with <code>id</code>, but they serve different jobs: <code>id</code> connects to the label and CSS/JS targeting; <code>name</code> is what's actually sent in the submitted data.</li><li><code>&lt;button type=\"submit\"&gt;</code> — pressing this sends all the form's data off</li></ul><hr><h4>⌨️ Common Input Types</h4><pre><code>&lt;input type=\"text\"&gt;     &lt;!-- general text --&gt;\n&lt;input type=\"email\"&gt;    &lt;!-- email, with built-in format checking --&gt;\n&lt;input type=\"password\"&gt; &lt;!-- hides typed characters --&gt;\n&lt;input type=\"number\"&gt;   &lt;!-- numeric keyboard on mobile --&gt;\n&lt;input type=\"checkbox\"&gt; &lt;!-- tick box, yes/no choice --&gt;</code></pre><p>Changing only the <code>type</code> attribute completely changes how the input behaves and validates — this is a great example of how a single attribute can do a lot of work.</p><hr><h4>🧵 Why Forms Need a name on Every Field</h4><p>When a form is submitted, the data is sent as pairs: <code>name=value</code>. If an input has no <code>name</code> attribute, its data is silently NOT included in the submission at all — a very sneaky bug because the input still looks completely normal on the page.</p>",
+
+    "common_mistakes": "<h4>⚠️ Common Beginner Mistakes</h4><ul><li><strong>Forgetting the name attribute</strong> — the field looks fine but its data won't be submitted anywhere.</li><li><strong>Mismatched label for and input id</strong> — even a tiny typo breaks the connection between them completely, silently.</li><li><strong>Relying only on placeholder text instead of a real label</strong> — placeholder vanishes once typing starts, hurting usability and accessibility.</li><li><strong>Using type=\"text\" for everything</strong> — missing out on built-in validation and the correct mobile keyboard for emails, numbers, passwords, etc.</li></ul>"
+
   },
 
   "editor_sandbox": {
-    "starter_code": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Text Layouts</title>\n</head>\n<body>\n    <!-- Organize this text -->\n    Cymor Code Learner Hub\n    Learning HTML from zero to advanced.\n    Build and host modern websites.\n</body>\n</html>",
+
+    "starter_code": "<h1>Contact Form</h1>",
 
     "mini_challenge": {
-      "instruction": "🎯 Mission: Structure your text\n\n1. Wrap all text inside ONE <p> tag\n2. Add <br> after 'Hub'\n3. Add <br> after 'advanced.'\n\n👉 Make the text appear in 3 lines using only HTML",
 
-      "hint": "👉 Structure should look like:\n<p>Text<br>Text<br>Text</p>\n\nRemember: <br> does NOT need a closing tag",
+      "instruction": "🎯 Challenge:\n\n1. Build a form with a label and text input for 'Name' (properly linked with matching for/id)\n2. Add a submit button that says: Send\n3. Below the form, add a paragraph that says: forms collect user input\n4. Run and verify your code",
 
-      "validation_keyword": "<br>"
+      "hint": "👉 Example:\n<form>\n  <label for=\"name\">Name:</label>\n  <input type=\"text\" id=\"name\" name=\"name\">\n  <button type=\"submit\">Send</button>\n</form>\n<p>forms collect user input</p>",
+
+      "validation_keyword": "forms collect user input"
+
     }
+
   },
 
   "quiz_engine": {
-    "question": "What is the main difference between <p> and <br> in HTML?",
+
+    "question": "What connects a <label> to its matching input field?",
+
     "options": [
-      "<p> creates a full text block, while <br> only moves text to the next line",
-      "<br> creates paragraphs and <p> creates line breaks",
-      "Both do exactly the same thing"
+      "Putting them next to each other in the code",
+      "The label's 'for' attribute matching the input's 'id' attribute",
+      "Labels and inputs connect automatically with no setup needed"
     ],
-    "correct_index": 0,
+
+    "correct_index": 1,
+
     "points": 10,
-    "explanation_feedback": "Correct 🎉 <p> creates structured text blocks with spacing, while <br> only creates a simple line break inside text."
+
+    "explanation_feedback": "Correct 🎉 The label's for attribute must exactly match the input's id attribute — this creates a real, accessible connection, not just visual closeness."
+
   },
 
   "summary": {
+
     "takeaways": [
-      "HTML does not automatically respect line breaks from your editor",
-      "<p> creates full text paragraphs with spacing",
-      "<br> creates a simple line break inside text",
-      "<br> does not require a closing tag"
+      "<form> is a container that groups input fields together to be submitted",
+      "<input type=\"\"> changes both behavior and the mobile keyboard shown",
+      "<label for=\"\"> must match the input's id to be properly linked",
+      "Every field needs a name attribute or its data won't be submitted",
+      "id connects label + CSS/JS targeting; name is what's sent in the submitted data"
     ],
 
     "cheat_sheet": {
-      "p": "Used for full paragraphs of text",
-      "br": "Used for simple line breaks inside text"
+
+      "<form></form>": "Container that groups input fields for submission",
+
+      "<label for=\"\"></label>": "Describes an input — for must match input's id",
+
+      "<input type=\"text\">": "Single-line text entry",
+
+      "<input type=\"email\">": "Email entry with built-in format validation",
+
+      "<input type=\"password\">": "Hides typed characters",
+
+      "name attribute": "Required — this is what's actually submitted as data",
+
+      "<button type=\"submit\">": "Submits the form"
+
     }
+
   }
+
 }

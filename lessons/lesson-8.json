@@ -1,58 +1,85 @@
 {
+  "id": 8,
+  "module": "HTML Basics",
+
   "meta": {
     "next_lesson": 9,
     "prev_lesson": 7,
     "xp_reward": 10,
     "difficulty": "beginner",
-    "module_index": 2
+    "module_index": 1
   },
-  "id": 8,
-  "module": "Text & Content",
-  "title": "Lesson 8: Text Formatting (b, i, strong, em)",
+
+  "title": "Lesson 8: Tables",
 
   "content": {
-    "explanation": "<h3>✨ Why Text Formatting Matters</h3><p>When people read websites, they don’t read every word — they scan.</p><p>So we use formatting to highlight important parts of text.</p><hr><h3>🧠 Two Types of Formatting</h3><ul><li>🎨 <strong>Visual tags</strong> → change how text looks</li><li>📖 <strong>Meaning tags</strong> → add importance to text</li></ul>",
 
-    "syntax_breakdown": "<h3>🎨 Visual Formatting Tags</h3><ul><li><code>&lt;b&gt;</code> → makes text bold (no meaning)</li><li><code>&lt;i&gt;</code> → makes text italic (no meaning)</li></ul><hr><h3>📖 Semantic Formatting Tags</h3><ul><li><code>&lt;strong&gt;</code> → important text (bold + meaning)</li><li><code>&lt;em&gt;</code> → emphasized text (italic + meaning)</li></ul><hr><h3>⚡ Simple Rule</h3><p>👉 Use <strong>strong/em</strong> for real importance<br>👉 Use <strong>b/i</strong> only for visual styling</p>"
+    "explanation": "<h3>📊 What Tables Are Actually For</h3><p>Tables exist for ONE specific job: displaying genuinely tabular data — information that naturally has rows and columns, like a price list, a class timetable, or a sports league table. A common beginner mistake (very common in older websites) is using tables to control general PAGE LAYOUT — putting a whole page's header, sidebar, and footer into table cells. That practice is outdated and considered bad HTML today, because layout is CSS's job, and screen readers get confused trying to read a layout table as if it were real data. Use tables only when your content genuinely IS rows and columns of related data.</p><hr><h3>🗓️ The Timetable Analogy</h3><p>Picture a school timetable taped to a wall: down the side are the days of the week, across the top are time slots, and in each cell is a specific subject. That grid structure — row, column, cell — is exactly what HTML tables represent directly in code.</p><hr><h3>🧱 Three-Layer Structure</h3><p>A table is built in layers, much like the container-plus-items pattern from lists, but one level deeper:</p><ul><li><strong>Table</strong> — the outer container for the whole grid</li><li><strong>Row</strong> — one horizontal line across the table</li><li><strong>Cell</strong> — one individual box within a row, containing the actual data</li></ul><p>You always work from the outside in: define the table, then define each row, then define each cell within that row.</p>",
+
+    "syntax_breakdown": "<h3>🧱 Basic Table Structure</h3><pre><code>&lt;table&gt;\n  &lt;tr&gt;\n    &lt;th&gt;Day&lt;/th&gt;\n    &lt;th&gt;Subject&lt;/th&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n    &lt;td&gt;Monday&lt;/td&gt;\n    &lt;td&gt;Math&lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n    &lt;td&gt;Tuesday&lt;/td&gt;\n    &lt;td&gt;Science&lt;/td&gt;\n  &lt;/tr&gt;\n&lt;/table&gt;</code></pre><p>Breaking down each tag:</p><ul><li><code>&lt;table&gt;</code> — the outer container for the entire grid</li><li><code>&lt;tr&gt;</code> — short for 'table row.' Each <code>&lt;tr&gt;</code> creates one horizontal line</li><li><code>&lt;th&gt;</code> — short for 'table header.' Used for column titles (like 'Day' and 'Subject' here) — browsers automatically bold and center this text by default, AND screen readers announce it specially as a header, not just regular data</li><li><code>&lt;td&gt;</code> — short for 'table data.' This is a normal, regular cell holding actual information</li></ul><p>Notice the nesting depth here: <code>&lt;table&gt;</code> contains <code>&lt;tr&gt;</code> elements, and each <code>&lt;tr&gt;</code> contains <code>&lt;th&gt;</code> or <code>&lt;td&gt;</code> elements. This is three levels deep — table, then row, then cell — and getting the nesting order right is essential, because a <code>&lt;td&gt;</code> placed directly inside a <code>&lt;table&gt;</code> without a <code>&lt;tr&gt;</code> wrapper is invalid.</p><hr><h4>🆚 th vs td — Why the Distinction Matters</h4><p>It's tempting to just use <code>&lt;td&gt;</code> everywhere since it's easier to remember, but using <code>&lt;th&gt;</code> correctly for header cells gives meaning, not just bold styling — it tells screen readers and search engines 'this cell is a LABEL for the column/row below/beside it,' which is genuinely useful structural information, not decoration.</p><hr><h4>📐 How Many Cells Per Row?</h4><p>Every <code>&lt;tr&gt;</code> in a table should generally have the SAME number of cells, so columns line up correctly. If one row has 2 cells and another has 3, your table grid will look broken and misaligned.</p>",
+
+    "common_mistakes": "<h4>⚠️ Common Beginner Mistakes</h4><ul><li><strong>Using tables for page layout</strong> instead of genuine tabular data — outdated practice, breaks accessibility, and fights against responsive design.</li><li><strong>Using <td> for header cells</strong> instead of <th>, losing meaningful structure.</li><li><strong>Inconsistent cell counts between rows</strong>, causing a visually broken/misaligned grid.</li><li><strong>Forgetting the <tr> wrapper</strong> and placing <td> directly inside <table>.</li></ul>"
+
   },
 
   "editor_sandbox": {
-    "starter_code": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Formatting Engine</title>\n</head>\n<body>\n    <h1>System Deployment Notification</h1>\n    <p>Warning: Ensure your configuration parameters are secure before hosting your application codebase.</p>\n</body>\n</html>",
+
+    "starter_code": "<h1>My Weekly Schedule</h1>",
 
     "mini_challenge": {
-      "instruction": "🎯 Mission: Highlight important text\n\n1. Wrap 'Warning:' with <strong>\n2. Wrap 'secure' with <em>\n3. Run and observe emphasis changes",
 
-      "hint": "👉 Example:\n<strong>Warning:</strong>\n<em>secure</em>\n\nBoth must stay inside the <p> tag",
+      "instruction": "🎯 Challenge:\n\n1. Build a table with a header row containing 'Day' and 'Activity'\n2. Add two data rows with real days and activities of your choice\n3. Below the table, add a paragraph that says: tables organize rows and columns\n4. Run and verify your code",
 
-      "validation_keyword": "<strong>Warning:</strong>"
+      "hint": "👉 Example:\n<table>\n  <tr>\n    <th>Day</th>\n    <th>Activity</th>\n  </tr>\n  <tr>\n    <td>Monday</td>\n    <td>Coding practice</td>\n  </tr>\n</table>\n<p>tables organize rows and columns</p>",
+
+      "validation_keyword": "tables organize rows and columns"
+
     }
+
   },
 
   "quiz_engine": {
-    "question": "What is the difference between <b> and <strong>?",
+
+    "question": "What is the correct nesting order for building a table?",
+
     "options": [
-      "<strong> makes text bigger than <b>",
-      "<b> is visual only, <strong> adds meaning and importance",
-      "<strong> creates a new paragraph"
+      "table > td > tr",
+      "tr > table > td",
+      "table > tr > td (or th)"
     ],
-    "correct_index": 1,
+
+    "correct_index": 2,
+
     "points": 10,
-    "explanation_feedback": "Correct 🎉 <b> is only visual, while <strong> tells browsers and assistive tools that the text is important."
+
+    "explanation_feedback": "Correct 🎉 You work from the outside in: table is the outer container, tr defines each row, and td/th are the individual cells inside each row."
+
   },
 
   "summary": {
+
     "takeaways": [
-      "Formatting helps highlight important text",
-      "<b> and <i> are visual only",
-      "<strong> and <em> add meaning and importance",
-      "Use semantic tags for better structure and accessibility"
+      "Tables are for genuine tabular data only, not general page layout",
+      "Structure flows outside-in: table > tr (row) > td or th (cell)",
+      "<th> is for header cells — bolded by default and announced specially to screen readers",
+      "<td> is for regular data cells",
+      "Keep the same number of cells in every row to avoid a broken grid"
     ],
 
     "cheat_sheet": {
-      "b": "Bold text (visual only)",
-      "i": "Italic text (visual only)",
-      "strong": "Important bold text (semantic meaning)",
-      "em": "Emphasized italic text (semantic meaning)"
+
+      "<table></table>": "Outer container for the whole grid",
+
+      "<tr></tr>": "Table row — one horizontal line",
+
+      "<th></th>": "Header cell — bold, announced as a label",
+
+      "<td></td>": "Regular data cell",
+
+      "Nesting Order": "table > tr > th/td"
+
     }
+
   }
+
 }

@@ -14,9 +14,11 @@
 
   "content": {
 
-    "explanation": "<h3>🌐 What is HTML?</h3><p>HTML (HyperText Markup Language) is the <strong>foundation of every website</strong> on the internet.</p><p>It is used to <strong>structure content</strong> like headings, paragraphs, images, and links.</p><p>Think of HTML as the <strong>skeleton of a website</strong>.</p><hr><h3>🏗️ Simple Analogy</h3><ul><li>🏠 HTML = structure</li><li>🎨 CSS = design</li><li>⚙️ JavaScript = behavior</li></ul><p>Without HTML, websites would have no structure.</p>",
+    "explanation": "<h3>🌐 What is HTML?</h3><p>HTML stands for <strong>HyperText Markup Language</strong>. Let's break that name down word by word, because every word tells you something:</p><ul><li><strong>HyperText</strong> — text that can link to other text. When you click a blue underlined word and it takes you to another page, that's hypertext in action.</li><li><strong>Markup</strong> — a way of 'marking up' plain text with labels that say what each piece of content IS. You're not writing the content from scratch, you're labelling it: 'this is a heading,' 'this is a paragraph,' 'this is a picture.'</li><li><strong>Language</strong> — it has its own rules (like grammar) that the browser understands.</li></ul><p>So in plain English: <strong>HTML is a labelling system that tells the browser what each piece of your content is, so the browser knows how to show it.</strong></p><hr><h3>🍔 The Burger Analogy</h3><p>Imagine you're describing a burger to someone over the phone, and they have to build it without seeing it. You wouldn't just say 'burger stuff.' You'd say:</p><ul><li>'This is the bottom bun'</li><li>'This is the patty'</li><li>'This is the cheese'</li><li>'This is the top bun'</li></ul><p>You're labelling every part so they know exactly what goes where and in what order. <strong>That is exactly what HTML does for a webpage.</strong> It labels: 'this is a heading,' 'this is a paragraph,' 'this is a button,' 'this is an image' — so the browser can build the page correctly.</p><hr><h3>🏗️ Why We Need 3 Different Languages</h3><p>A website is built from three layers that work together but do completely different jobs. People mix these up constantly when starting out, so let's be very clear:</p><ul><li>🏠 <strong>HTML = structure.</strong> What exists on the page and in what order. A heading here, a paragraph there, a button below it.</li><li>🎨 <strong>CSS = appearance.</strong> Colors, spacing, fonts, layout. CSS doesn't add new content — it makes existing content look a certain way.</li><li>⚙️ <strong>JavaScript = behavior.</strong> What happens when you click, type, scroll, or submit something. JS makes the page DO things.</li></ul><p><strong>Critical point:</strong> HTML must exist before CSS or JS can do anything. You cannot paint a wall that hasn't been built. You cannot wire a light switch in a room that doesn't exist. This is why we start here.</p><hr><h3>📜 Where HTML Came From (and why it still matters)</h3><p>HTML was invented in 1991 by Tim Berners-Lee, a scientist who needed a way for researchers to share documents that linked to each other. That linking idea became the entire World Wide Web. The current version, <strong>HTML5</strong>, was finalized in 2014 and is what every modern website uses today, including the one you're learning on right now.</p><hr><h3>🧠 What This Means For You, Practically</h3><p>From this lesson onward, every single thing you build — your portfolio, your final project, anything you push to GitHub and deploy live — will start as an HTML file. There is no skipping this step. A website with broken or missing HTML cannot be fixed by CSS or JavaScript, the same way you can't fix a house with no foundation by repainting it.</p>",
 
-    "syntax_breakdown": "<h3>🧱 How HTML Works</h3><p>HTML uses tags written inside angle brackets.</p><pre><code>&lt;tag&gt;Content&lt;/tag&gt;</code></pre><p>Most elements contain an opening and closing tag.</p><h4>Example:</h4><pre><code>&lt;h1&gt;Hello World&lt;/h1&gt;\n&lt;p&gt;This is a paragraph&lt;/p&gt;</code></pre><p>The browser reads this code and displays a webpage.</p>"
+    "syntax_breakdown": "<h3>🧱 How HTML Actually Works, Step by Step</h3><p>HTML is built from <strong>elements</strong>. An element is made of <strong>tags</strong> wrapped around content. Let's go character by character on a real example:</p><pre><code>&lt;h1&gt;Hello World&lt;/h1&gt;</code></pre><p>Here is exactly what each part means:</p><ul><li><code>&lt;h1&gt;</code> — the <strong>opening tag</strong>. The angle brackets <code>&lt; &gt;</code> tell the browser 'an instruction starts here.' <code>h1</code> means 'this is the biggest, most important heading.'</li><li><code>Hello World</code> — the <strong>content</strong>. This is the actual text a visitor will see.</li><li><code>&lt;/h1&gt;</code> — the <strong>closing tag</strong>. Notice the forward slash <code>/</code> right after the <code>&lt;</code>. That slash is the ONLY difference between an opening and closing tag, and it means 'this instruction ends here.'</li></ul><p>Think of opening and closing tags like parentheses in a sentence (like this). Everything between them belongs together. If you open a parenthesis you must close it — same exact rule with HTML tags.</p><hr><h4>🔄 Why Tags Must Close in the Right Order</h4><p>If you have a tag inside another tag, the inner one must close BEFORE the outer one. This is called <strong>nesting</strong>.</p><pre><code>✅ Correct:\n&lt;p&gt;This is &lt;strong&gt;important&lt;/strong&gt; text&lt;/p&gt;\n\n❌ Wrong:\n&lt;p&gt;This is &lt;strong&gt;important&lt;/p&gt;&lt;/strong&gt; text</code></pre><p>In the wrong example, <code>&lt;strong&gt;</code> opened inside <code>&lt;p&gt;</code> but tried to close AFTER <code>&lt;p&gt;</code> already closed. That's like writing '(this is (important text)' — the brackets don't match up cleanly, and the browser gets confused about what's inside what.</p><hr><h4>📄 The Minimum Skeleton Every HTML Page Needs</h4><pre><code>&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n  &lt;head&gt;\n    &lt;title&gt;My Page&lt;/title&gt;\n  &lt;/head&gt;\n  &lt;body&gt;\n    &lt;h1&gt;Hello!&lt;/h1&gt;\n  &lt;/body&gt;\n&lt;/html&gt;</code></pre><p>Let's go through this line by line, because every single line has a job:</p><ul><li><code>&lt;!DOCTYPE html&gt;</code> — this is NOT a tag with a pair. It's a one-line announcement at the very top that tells the browser 'render this using modern HTML5 rules.' Without it, old browsers might render your page incorrectly.</li><li><code>&lt;html&gt;...&lt;/html&gt;</code> — the outermost container. EVERYTHING in your page lives inside this one pair of tags. Think of it as the outer walls of the house.</li><li><code>&lt;head&gt;...&lt;/head&gt;</code> — information ABOUT the page that visitors don't directly see on screen: the page title (shown in the browser tab), links to CSS files, page descriptions for Google. Think of it as the house's blueprint and utility meter — important, but not a room you walk into.</li><li><code>&lt;title&gt;...&lt;/title&gt;</code> — goes inside <code>&lt;head&gt;</code>. This text appears in the browser tab at the top of your screen, not on the page itself.</li><li><code>&lt;body&gt;...&lt;/body&gt;</code> — this is the actual visible page. Every heading, paragraph, image, and button you want a visitor to SEE goes inside here. This is the rooms of the house people actually walk through.</li></ul><p>In this course's code editor, we will mostly write code that goes inside <code>&lt;body&gt;</code>, so you can see your results appear instantly without retyping the whole skeleton every time.</p>",
+
+    "common_mistakes": "<h4>⚠️ Common Beginner Mistakes (and exactly why they break things)</h4><ul><li><strong>Forgetting to close a tag</strong> — e.g. <code>&lt;p&gt;Hello</code> with no <code>&lt;/p&gt;</code>. The browser doesn't know where your paragraph is supposed to end, so it may swallow up content that comes after it that you never intended to be part of that paragraph.</li><li><strong>Closing tags in the wrong order</strong> — e.g. <code>&lt;p&gt;&lt;h1&gt;Text&lt;/p&gt;&lt;/h1&gt;</code>. Remember: last opened, first closed. It's like stacking boxes — you must remove the top box before the one underneath it.</li><li><strong>Using curly/smart quotes</strong> — if you type or paste code from Word, Notes, or WhatsApp, your quote marks might turn into “ ” (curly) instead of \" \" (straight). HTML only understands straight quotes. This is a very common invisible bug on phone-based coding.</li><li><strong>Typos in tag names</strong> — <code>&lt;h1&gt;</code> and <code>&lt;H1&gt;</code> both technically work (HTML tag names aren't case-sensitive), but <code>&lt;hi&gt;</code> (typing 'i' instead of '1') is a completely different, invalid tag and will silently do nothing.</li></ul>"
 
   },
 
@@ -26,9 +28,9 @@
 
     "mini_challenge": {
 
-      "instruction": "🎯 Challenge:\n\n1. Change the text inside the h1 heading\n2. Add another paragraph saying: I am building my first website\n3. Run and verify your code",
+      "instruction": "🎯 Challenge:\n\n1. Change the text inside the h1 heading to your own name\n2. Add another paragraph saying: I am building my first website\n3. Run and verify your code\n\nRemember: a paragraph needs BOTH an opening <p> and a closing </p> tag — the closing tag is what tells the browser 'the paragraph stops here.'",
 
-      "hint": "👉 Example:\n<p>I am building my first website</p>\nRemember to close every tag properly.",
+      "hint": "👉 Example:\n<p>I am building my first website</p>\n\nNotice the </p> at the end has a forward slash — that's what makes it a closing tag instead of an opening one. Every tag you open must be closed the same way.",
 
       "validation_keyword": "building my first website"
 
@@ -50,28 +52,42 @@
 
     "points": 10,
 
-    "explanation_feedback": "Correct 🎉 HTML structures webpage content."
+    "explanation_feedback": "Correct 🎉 HTML structures webpage content — it labels what each piece of content IS (heading, paragraph, image) so the browser knows how to build the page. Styling (colors, fonts) is CSS's job, and behavior (clicks, logic) is JavaScript's job."
 
   },
 
   "summary": {
 
     "takeaways": [
-      "HTML structures webpages",
-      "HTML uses tags",
-      "Most tags have opening and closing parts",
-      "HTML is the foundation of websites"
+      "HTML = HyperText Markup Language — it LABELS content so the browser knows what each part is",
+      "HTML is the structure layer; CSS handles appearance; JavaScript handles behavior",
+      "Every element has an opening tag, content, and a closing tag (the closing tag has a forward slash)",
+      "Tags must close in the reverse order they were opened (nesting)",
+      "Every HTML page has the same minimum skeleton: <!DOCTYPE html>, <html>, <head>, <body>",
+      "Only content inside <body> is visible to website visitors"
     ],
 
     "cheat_sheet": {
 
-      "HTML Definition": "HTML structures web pages",
+      "HTML Definition": "Markup language that structures web pages",
 
       "Tag Structure": "&lt;tag&gt;content&lt;/tag&gt;",
 
-      "<h1></h1>": "Main webpage heading",
+      "Opening vs Closing": "Closing tag has a / — e.g. &lt;p&gt; opens, &lt;/p&gt; closes",
 
-      "<p></p>": "Paragraph text"
+      "Nesting Rule": "Last tag opened must be the first tag closed",
+
+      "<!DOCTYPE html>": "First line of every page — declares HTML5",
+
+      "<html></html>": "Outermost wrapper for the entire page",
+
+      "<head></head>": "Page info not shown directly on the page (title, etc.)",
+
+      "<body></body>": "Everything visitors actually see",
+
+      "<h1></h1>": "Main, most important heading on the page",
+
+      "<p></p>": "A paragraph of text"
 
     }
 
