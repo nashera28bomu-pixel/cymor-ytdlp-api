@@ -1,61 +1,85 @@
 {
   "id": 16,
-  "module": "Interactive HTML",
+  "module": "CSS Basics",
+
   "meta": {
     "next_lesson": 17,
     "prev_lesson": 15,
-    "xp_reward": 25,
-    "difficulty": "beginner",
-    "module_index": 4
+    "xp_reward": 10,
+    "difficulty": "intermediate",
+    "module_index": 2
   },
 
-  "title": "Lesson 16: HTML Forms (User Input Basics)",
+  "title": "Lesson 16: Flexbox Basics",
 
   "content": {
-    "explanation": "<h3>🧾 What are Forms?</h3><p>Until now, your websites only displayed information. But real websites allow users to <strong>send information back</strong>.</p><p>This is done using <strong>HTML forms</strong>.</p><hr><h3>🌐 Real-Life Examples</h3><ul><li>Login pages</li><li>Sign-up forms</li><li>Search bars</li><li>Contact forms</li></ul><p>All of these are built using HTML forms.</p><hr><h3>⚡ Core Idea</h3><p>A form collects user input like text, email, or passwords and sends it to a server for processing.</p>"
-  },
 
-  "syntax_breakdown": {
-    "content": "<h3>🧪 Basic Form Structure</h3><pre><code>&lt;form&gt;\n  &lt;input type=\"text\" placeholder=\"Enter your name\"&gt;\n  &lt;input type=\"email\" placeholder=\"Enter your email\"&gt;\n  &lt;button&gt;Submit&lt;/button&gt;\n&lt;/form&gt;</code></pre><hr><h3>📌 Important Elements</h3><ul><li><strong>&lt;form&gt;</strong> → container for inputs</li><li><strong>&lt;input&gt;</strong> → user text fields</li><li><strong>&lt;button&gt;</strong> → submits form</li></ul><hr><h3>🧠 Key Rule</h3><p>👉 Forms are used to collect data, not just display content</p>"
+    "explanation": "<h3>📐 The Layout Problem Flexbox Solves</h3><p>By default, every block-level element you've used (div, p, h1, section) stacks straight down the page, one below the other — remember 'block elements start a new line' from Lesson 6. But what if you want elements sitting NEXT to each other instead — like navigation links in a row, or cards arranged side by side? That's exactly the problem Flexbox was built to solve.</p><hr><h3>👨‍👩‍👧 The Parent-Child Relationship in Flexbox</h3><p>This is critical to understand from the start: Flexbox always involves TWO roles working together:</p><ul><li><strong>The flex container</strong> — the PARENT element. You turn it into a flex container with one property, and it controls how its children are laid out.</li><li><strong>The flex items</strong> — the CHILDREN inside that container. These are the things that actually get arranged in a row or column.</li></ul><p>You set <code>display: flex</code> on the PARENT, not the children. This is a common point of confusion — beginners sometimes try to set flex properties directly on the items they want arranged, when really it's the parent's job to organize them.</p><hr><h3>🚌 The Bus Seats Analogy</h3><p>Think of a flex container like a bus, and the flex items like passengers. The bus (parent/container) decides the overall arrangement: are passengers seated in a row facing forward, or could they be arranged differently? Once you say 'this is a bus' (display: flex), you then give instructions about HOW the passengers (children) should be arranged — spaced out evenly, centered, etc.</p>",
+
+    "syntax_breakdown": "<h3>🧱 Turning On Flexbox</h3><pre><code>.container {\n  display: flex;\n}</code></pre><p>This single line is the switch that turns a normal block element into a flex container. The moment you add this, its direct children automatically line up in a ROW side by side, instead of stacking vertically — this happens automatically, with no extra code needed.</p><hr><h3>🧱 Controlling Direction</h3><pre><code>.container {\n  display: flex;\n  flex-direction: row; /* default — left to right */\n  /* OR */\n  flex-direction: column; /* stacks top to bottom, like normal blocks, but still flex-powered */\n}</code></pre><p><code>flex-direction</code> decides whether items flow horizontally (row, the default) or vertically (column). This single property is why Flexbox can build BOTH horizontal navigation bars AND vertical stacked layouts.</p><hr><h3>🧱 Aligning Items: The Two-Axis System</h3><pre><code>.container {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}</code></pre><p>Flexbox thinks in two directions at once:</p><ul><li><code>justify-content</code> — controls alignment along the MAIN axis (the direction items are flowing — horizontal by default). Common values: <code>flex-start</code>, <code>center</code>, <code>flex-end</code>, <code>space-between</code>, <code>space-around</code></li><li><code>align-items</code> — controls alignment along the CROSS axis (perpendicular to the main axis — vertical by default). Common values: <code>flex-start</code>, <code>center</code>, <code>flex-end</code>, <code>stretch</code></li></ul><p>A genuinely famous use case: combining <code>justify-content: center;</code> and <code>align-items: center;</code> together perfectly centers content both horizontally AND vertically — something that was notoriously fiddly in CSS before Flexbox existed, and is now just two lines.</p><hr><h4>🌌 space-between vs space-around — A Useful Distinction</h4><p><code>space-between</code> pushes the first item to the very start and the last item to the very end, distributing equal gaps only BETWEEN items. <code>space-around</code> gives equal space AROUND every item, including on the outer edges — so the spacing pattern looks slightly different at the start and end compared to space-between.</p>",
+
+    "common_mistakes": "<h4>⚠️ Common Beginner Mistakes</h4><ul><li><strong>Setting display: flex on the wrong element</strong> — it must go on the PARENT/container, not on the items you want arranged.</li><li><strong>Confusing justify-content and align-items</strong> — remember: justify-content = main axis (horizontal by default), align-items = cross axis (vertical by default). This flips if you change flex-direction to column.</li><li><strong>Expecting flex-direction: column to behave like normal stacked blocks</strong> — it's visually similar, but it's still governed by flex alignment rules, which can behave differently than default block stacking.</li></ul>"
+
   },
 
   "editor_sandbox": {
-    "starter_code": "<!-- Cymor Code Learner 🚀 Forms Intro -->\n<h1>Contact Me</h1>\n<p>Send me a message using the form below:</p>",
+
+    "starter_code": "<div class=\"nav\">\n  <a href=\"#\">Home</a>\n  <a href=\"#\">About</a>\n  <a href=\"#\">Contact</a>\n</div>",
 
     "mini_challenge": {
-      "instruction": "🎯 Mission: Build your first form\n\n1. Add a <form> under the paragraph\n2. Inside it add:\n   - Text input for name\n   - Email input\n   - A submit button\n\n3. Run your code and test the layout\n\n🔥 This is your first interactive web feature",
 
-      "hint": "👉 Example:\n<form>\n  <input type=\"text\">\n</form>\n\nRemember: inputs go inside form",
+      "instruction": "🎯 Challenge:\n\n1. Add a <style> tag\n2. Make .nav a flex container using display: flex\n3. Add justify-content: space-between to spread the links across the row\n4. Below the nav, add a paragraph that says: flexbox arranges items in a row\n5. Run and verify your code",
 
-      "validation_keyword": "<form>"
+      "hint": "👉 Example:\n<style>\n  .nav {\n    display: flex;\n    justify-content: space-between;\n  }\n</style>\n<div class=\"nav\">\n  <a href=\"#\">Home</a>\n  <a href=\"#\">About</a>\n</div>\n<p>flexbox arranges items in a row</p>",
+
+      "validation_keyword": "flexbox arranges items in a row"
+
     }
+
   },
 
   "quiz_engine": {
-    "question": "What is the main purpose of an HTML form?",
+
+    "question": "Where do you set display: flex — on the container or on the items inside it?",
+
     "options": [
-      "To style text and colors",
-      "To collect user input and send data",
-      "To display images on a webpage"
+      "On each individual item you want arranged",
+      "On the parent container — its children automatically become flex items",
+      "It doesn't matter, both work the same way"
     ],
+
     "correct_index": 1,
-    "points": 25,
-    "explanation_feedback": "Correct 🎉 Forms are used to collect user input like names, emails, and messages that can be sent to a server."
+
+    "points": 10,
+
+    "explanation_feedback": "Correct 🎉 display: flex goes on the PARENT container. This automatically turns its direct children into flex items that get arranged according to the container's settings."
+
   },
 
   "summary": {
+
     "takeaways": [
-      "Forms allow users to send data to websites",
-      "<form> is the container for inputs",
-      "<input> collects user data",
-      "<button> submits the form",
-      "Forms are the foundation of login and signup systems"
+      "Flexbox solves the problem of arranging elements in a row (or column) instead of stacking",
+      "display: flex goes on the PARENT — its children become flex items automatically",
+      "flex-direction controls row (default, horizontal) vs column (vertical)",
+      "justify-content aligns along the main axis; align-items aligns along the cross axis",
+      "justify-content + align-items: center together perfectly centers content both ways"
     ],
 
     "cheat_sheet": {
-      "form": "Container for user input fields",
-      "input": "Field where users type data",
-      "button": "Triggers form submission"
+
+      "display: flex": "Turns an element into a flex container (set on the PARENT)",
+
+      "flex-direction": "row (default) or column",
+
+      "justify-content": "Aligns items along the main axis (horizontal by default)",
+
+      "align-items": "Aligns items along the cross axis (vertical by default)",
+
+      "Center Everything": "justify-content: center; align-items: center;"
+
     }
+
   }
+
 }

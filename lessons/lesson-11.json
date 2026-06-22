@@ -1,58 +1,87 @@
 {
   "id": 11,
-  "module": "Core HTML Elements",
+  "module": "CSS Basics",
+
   "meta": {
     "next_lesson": 12,
     "prev_lesson": 10,
-    "xp_reward": 15,
+    "xp_reward": 10,
     "difficulty": "beginner",
-    "module_index": 3
+    "module_index": 2
   },
 
-  "title": "Lesson 11: Links and Navigation (The <a> Tag)",
+  "title": "Lesson 11: What is CSS?",
 
   "content": {
-    "explanation": "<h3>🌐 Connecting the Web Together</h3><p>Up to now, you’ve been building standalone pages. But the real power of the internet comes from <strong>connections between pages</strong>.</p><p>This is done using the <strong>&lt;a&gt; (anchor) tag</strong>, which creates clickable links.</p><hr><h3>🔗 What is a Link?</h3><p>A link allows users to jump from one page to another — either:</p><ul><li>📄 Another page on your website</li><li>🌍 A different website (like Google)</li><li>📍 A section inside the same page</li></ul><p>This is what makes the web a “web” — everything is connected.</p>",
 
-    "syntax_breakdown": "<h3>🧪 Anchor Tag Structure</h3><p>The basic link format is:</p><pre><code>&lt;a href=\"URL\"&gt;Click Text&lt;/a&gt;</code></pre><hr><h3>📌 Example</h3><pre><code>&lt;a href=\"https://example.com\"&gt;Visit Example Website&lt;/a&gt;</code></pre><p>The <strong>href</strong> attribute tells the browser where to go.</p><hr><h3>🧠 Key Idea</h3><p>👉 Without <strong>href</strong>, the link does nothing<br>👉 The text inside the tag is what users click</p>"
+    "explanation": "<h3>🎨 What is CSS?</h3><p>CSS stands for <strong>Cascading Style Sheets</strong>. If HTML is the skeleton (Lesson 1), CSS is everything that makes a page look intentional instead of like a plain Word document: colors, spacing, fonts, layout, even animations.</p><p>Right now, every page you've built in this course probably looks like black text on a white background, stacked top to bottom with no real design. That's completely normal — that's what HTML looks like with ZERO styling. CSS is what transforms that into something that actually looks like a real website.</p><hr><h3>🧥 The Mannequin Analogy</h3><p>HTML is a mannequin — it has the right shape, arms in the right place, a head where a head should be. CSS is the clothing, the makeup, the styling choices on top of that mannequin. The mannequin (structure) doesn't change. What you dress it in (appearance) completely changes how it looks and feels.</p><hr><h3>🌊 Why 'Cascading' Is In the Name</h3><p>The word 'cascading' refers to a specific, important behavior: CSS rules can come from multiple places (a stylesheet, a tag, even built-in browser defaults), and when rules conflict, CSS has clear rules for which one 'wins' — generally, more specific rules and rules written later override more general or earlier ones. Think of a waterfall — water flows down and later, more specific streams can redirect the flow. You don't need to memorize this deeply yet, but knowing the name has real meaning (not just a fancy word) will help things click later when you hit conflicting styles.</p><hr><h3>🔌 How CSS Connects to HTML</h3><p>CSS doesn't work alone — every CSS rule TARGETS specific HTML elements and then describes how they should look. This is why solid HTML (especially using class/id from Lesson 2, and semantic tags from Lesson 9) makes CSS dramatically easier: you need clear, identifiable elements to target before you can style them.</p>",
+
+    "syntax_breakdown": "<h3>🧱 The Anatomy of a CSS Rule</h3><pre><code>h1 {\n  color: blue;\n}</code></pre><p>Breaking this down piece by piece:</p><ul><li><code>h1</code> — the <strong>selector</strong>. This tells CSS WHICH element(s) to target — here, every <code>&lt;h1&gt;</code> on the page</li><li><code>{ }</code> — curly braces wrap the styling rules for that selector</li><li><code>color</code> — the <strong>property</strong> — WHAT aspect you're changing (text color, in this case)</li><li><code>blue</code> — the <strong>value</strong> — exactly how you want that property set</li><li><code>;</code> — the semicolon ENDS each rule. Forgetting it can break the next rule in unpredictable ways, similar to forgetting a closing tag in HTML</li></ul><p>Read this rule in plain English: 'Find every h1, and make its text color blue.'</p><hr><h4>🧾 Multiple Properties in One Rule</h4><pre><code>h1 {\n  color: blue;\n  font-size: 32px;\n  text-align: center;\n}</code></pre><p>One selector can hold MANY property-value pairs, each ending in its own semicolon. All of these apply together to every h1 on the page.</p><hr><h4>📍 Three Ways to Add CSS to HTML</h4><p>There are three ways to connect CSS to your HTML, and it's worth knowing all three even though you'll mostly use one going forward:</p><pre><code>&lt;!-- 1. Inline (on one specific element, avoid this for real projects) --&gt;\n&lt;h1 style=\"color: blue;\"&gt;Hello&lt;/h1&gt;\n\n&lt;!-- 2. Internal (inside the HTML file itself, in the head) --&gt;\n&lt;head&gt;\n  &lt;style&gt;\n    h1 { color: blue; }\n  &lt;/style&gt;\n&lt;/head&gt;\n\n&lt;!-- 3. External (a separate .css file, linked in) — the professional standard --&gt;\n&lt;head&gt;\n  &lt;link rel=\"stylesheet\" href=\"style.css\"&gt;\n&lt;/head&gt;</code></pre><p><strong>External CSS</strong> is what real projects use almost exclusively: it keeps your HTML clean and readable, and ONE CSS file can style MANY HTML pages at once, so you don't repeat yourself. In this course's sandbox, we'll write CSS directly so you can see results instantly, but understand that on a real deployed site, this would live in its own <code>.css</code> file.</p>",
+
+    "common_mistakes": "<h4>⚠️ Common Beginner Mistakes</h4><ul><li><strong>Forgetting the semicolon</strong> at the end of a property-value pair — can silently break the rule after it.</li><li><strong>Forgetting the colon</strong> between property and value — e.g. writing <code>color blue;</code> instead of <code>color: blue;</code>.</li><li><strong>Mismatched curly braces</strong> — every opening <code>{</code> needs a matching closing <code>}</code>.</li><li><strong>Overusing inline style=\"\"</strong> — works, but doesn't scale, and goes against the whole point of separating structure (HTML) from appearance (CSS).</li></ul>"
+
   },
 
   "editor_sandbox": {
-    "starter_code": "<!-- Cymor Code Learner 🚀 Navigation Practice -->\n<h1>My Learning Hub</h1>\n<p>Welcome to my first interactive web page.</p>",
+
+    "starter_code": "<h1>Hello World</h1>\n<p>This text has no styling yet.</p>",
 
     "mini_challenge": {
-      "instruction": "🎯 Mission: Create your first link\n\n1. Add a new <p> below the existing paragraph\n2. Inside it, create an <a> tag\n3. Link text must be: Visit Cymor Tech Services\n4. Use this URL: https://cymortech.com\n\n👉 Then run your code and click the link",
 
-      "hint": "👉 Example format:\n<a href=\"https://cymortech.com\">Visit Cymor Tech Services</a>\n\nMake sure href is written correctly and tag is closed properly.",
+      "instruction": "🎯 Challenge:\n\n1. Add a <style> tag in your code\n2. Inside it, write a rule that makes all h1 elements the color blue\n3. Below your style, add a paragraph that says: css controls appearance\n4. Run and verify your code",
 
-      "validation_keyword": "Cymor Tech Services"
+      "hint": "👉 Example:\n<style>\n  h1 {\n    color: blue;\n  }\n</style>\n<h1>Hello World</h1>\n<p>css controls appearance</p>",
+
+      "validation_keyword": "css controls appearance"
+
     }
+
   },
 
   "quiz_engine": {
-    "question": "What is the purpose of the <a> tag in HTML?",
+
+    "question": "In the rule h1 { color: blue; }, what is 'color' called?",
+
     "options": [
-      "To add images to a webpage",
-      "To create clickable links between pages or websites",
-      "To format text as bold or italic"
+      "The selector",
+      "The property",
+      "The value"
     ],
+
     "correct_index": 1,
-    "points": 15,
-    "explanation_feedback": "Correct 🎉 The <a> tag (anchor tag) is used to create links that connect pages across the web."
+
+    "points": 10,
+
+    "explanation_feedback": "Correct 🎉 'color' is the property (WHAT you're changing). 'h1' is the selector (WHICH element), and 'blue' is the value (HOW it's set)."
+
   },
 
   "summary": {
+
     "takeaways": [
-      "The <a> tag is used to create hyperlinks",
-      "href defines the destination of the link",
-      "Links can connect pages, websites, or sections",
-      "The internet is built on interconnected links"
+      "CSS = Cascading Style Sheets — controls appearance, not structure",
+      "A CSS rule = selector + property + value, e.g. h1 { color: blue; }",
+      "Selector = WHICH element, property = WHAT you're changing, value = HOW it's set",
+      "Every property-value pair ends in a semicolon",
+      "External CSS files are the professional standard — one file styles many pages"
     ],
 
     "cheat_sheet": {
-      "a_tag": "Creates a clickable hyperlink",
-      "href": "Defines where the link goes",
-      "link_text": "Visible clickable content inside the tag"
+
+      "CSS Definition": "Cascading Style Sheets — controls appearance",
+
+      "Rule Structure": "selector { property: value; }",
+
+      "Selector": "WHICH element(s) to target",
+
+      "Property": "WHAT aspect you're changing (color, size, etc.)",
+
+      "Value": "HOW that property is set",
+
+      "External CSS": "&lt;link rel=\"stylesheet\" href=\"style.css\"&gt; — the professional standard"
+
     }
+
   }
+
 }

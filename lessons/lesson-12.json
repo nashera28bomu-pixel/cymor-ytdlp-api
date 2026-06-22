@@ -1,59 +1,83 @@
 {
   "id": 12,
-  "module": "Core HTML Elements",
+  "module": "CSS Basics",
+
   "meta": {
     "next_lesson": 13,
     "prev_lesson": 11,
-    "xp_reward": 15,
+    "xp_reward": 10,
     "difficulty": "beginner",
-    "module_index": 3
+    "module_index": 2
   },
 
-  "title": "Lesson 12: Images in HTML (The <img> Tag)",
+  "title": "Lesson 12: CSS Selectors",
 
   "content": {
-    "explanation": "<h3>🖼️ Bringing Webpages to Life</h3><p>Text and links are powerful, but websites become truly engaging when you add <strong>images</strong>.</p><p>Images are added using the <strong>&lt;img&gt;</strong> tag, which is different from most HTML tags because it does NOT have a closing tag.</p><hr><h3>🌐 Why Images Matter</h3><p>Images help you:</p><ul><li>📌 Show products or ideas visually</li><li>🎨 Improve design and engagement</li><li>🧠 Communicate faster than text</li></ul><p>A webpage without images often feels incomplete.</p>",
 
-    "syntax_breakdown": "<h3>🧪 Image Tag Structure</h3><p>The basic format is:</p><pre><code>&lt;img src=\"image-url\" alt=\"description\"&gt;</code></pre><hr><h3>📌 Important Attributes</h3><ul><li><strong>src:</strong> the image source (URL or file path)</li><li><strong>alt:</strong> text shown if image fails + used for accessibility</li></ul><hr><h3>🧠 Example</h3><pre><code>&lt;img src=\"https://example.com/photo.jpg\" alt=\"A sample image\"&gt;</code></pre><p>👉 Always include <strong>alt</strong> for better accessibility and SEO.</p>"
+    "explanation": "<h3>🎯 Selectors Are How You Aim CSS</h3><p>Last lesson you styled EVERY h1 on the page with one rule. But real pages need more precision: maybe you want only ONE specific paragraph styled differently, or every element with a certain class. Selectors are how you AIM your CSS rules at exactly the right target — too broad and you accidentally style things you didn't mean to; too narrow and you repeat yourself constantly.</p><hr><h3>🔫 The Sniper vs Shotgun Analogy</h3><p>A <strong>tag selector</strong> (like <code>p</code>) is a shotgun — it hits every single paragraph on the page, no exceptions. A <strong>class selector</strong> is more like a sniper aimed at a specific GROUP — only elements you've specifically labeled get hit. An <strong>id selector</strong> is the most precise sniper shot possible — it targets exactly ONE element, because remember from Lesson 2: id should be unique per page.</p><hr><h3>🔁 Why class Is Your Most-Used Selector</h3><p>In real projects, you'll use class selectors constantly — far more than tag or id selectors. This is because class lets you reuse the EXACT same styling on many different elements (every 'card' on a page, every 'button', etc.) without repeating your CSS rules. This connects directly back to what you learned about class in Lesson 2 — now you'll see exactly why that attribute matters so much.</p>",
+
+    "syntax_breakdown": "<h3>🧱 Tag Selector</h3><pre><code>p {\n  color: gray;\n}</code></pre><p>Targets EVERY <code>&lt;p&gt;</code> element on the page, with no exceptions. Good for broad, page-wide defaults.</p><hr><h3>🧱 Class Selector</h3><pre><code>&lt;p class=\"highlight\"&gt;Important text&lt;/p&gt;\n&lt;p&gt;Normal text&lt;/p&gt;</code></pre><pre><code>.highlight {\n  color: red;\n}</code></pre><p>Notice the <strong>dot (.)</strong> before the class name in the CSS — that dot is what tells CSS 'this is a class selector, not a tag.' This rule ONLY affects elements with <code>class=\"highlight\"</code> — the second paragraph above stays untouched. A class can be reused on as many different elements as you like, even across different tag types (a div, a p, a span could all share the same class).</p><hr><h3>🧱 ID Selector</h3><pre><code>&lt;h1 id=\"main-title\"&gt;Welcome&lt;/h1&gt;</code></pre><pre><code>#main-title {\n  color: green;\n}</code></pre><p>Notice the <strong>hash/pound symbol (#)</strong> before the id name — that's what marks it as an id selector. This should only ever match ONE element, since id is meant to be unique per page (from Lesson 2).</p><hr><h4>🤔 class vs id — When to Use Which</h4><ul><li>Use <strong>class</strong> when multiple elements should share the same style (most of the time)</li><li>Use <strong>id</strong> only for a single, unique element you'll never repeat (like one specific page header, or a unique JavaScript hook you'll learn about later in this course)</li></ul><hr><h4>🔢 Combining Selectors</h4><pre><code>h1, h2, h3 {\n  font-family: Arial;\n}</code></pre><p>A comma lets you apply the SAME rule to multiple different selectors at once, instead of repeating the whole rule three times. This reads as: 'apply this to h1 AND h2 AND h3.'</p>",
+
+    "common_mistakes": "<h4>⚠️ Common Beginner Mistakes</h4><ul><li><strong>Forgetting the dot before a class selector</strong> — writing <code>highlight { }</code> instead of <code>.highlight { }</code> — CSS will think you mean a tag called 'highlight,' which doesn't exist, and silently do nothing.</li><li><strong>Forgetting the hash before an id selector</strong> — same issue, writing <code>main-title { }</code> instead of <code>#main-title { }</code>.</li><li><strong>Using id for things that repeat</strong> — if you find yourself wanting the same id on multiple elements, you actually want class instead.</li></ul>"
+
   },
 
   "editor_sandbox": {
-    "starter_code": "<!-- Cymor Code Learner 🚀 Images Practice -->\n<h1>My Visual Web Page</h1>\n<p>This page will now include images.</p>",
+
+    "starter_code": "<p class=\"highlight\">This is important.</p>\n<p>This is normal text.</p>",
 
     "mini_challenge": {
-      "instruction": "🎯 Mission: Add your first image\n\n1. Below the paragraph, add an <img> tag\n2. Use this image URL:\nhttps://via.placeholder.com/300\n3. Add alt text: My First Image\n\n👉 Then run your code and see the image appear",
 
-      "hint": "👉 Example format:\n<img src=\"https://via.placeholder.com/300\" alt=\"My First Image\">\n\nRemember: img tags do NOT need a closing tag.",
+      "instruction": "🎯 Challenge:\n\n1. Add a <style> tag\n2. Write a class selector rule for .highlight that makes the text color red\n3. Below the paragraphs, add a new paragraph that says: selectors aim css rules precisely\n4. Run and verify your code",
 
-      "validation_keyword": "My First Image"
+      "hint": "👉 Example:\n<style>\n  .highlight {\n    color: red;\n  }\n</style>\n<p class=\"highlight\">This is important.</p>\n<p>selectors aim css rules precisely</p>",
+
+      "validation_keyword": "selectors aim css rules precisely"
+
     }
+
   },
 
   "quiz_engine": {
-    "question": "Why does the <img> tag not require a closing tag?",
+
+    "question": "What symbol goes before a class name when writing a CSS class selector?",
+
     "options": [
-      "Because images are automatically closed by browsers",
-      "Because it is a self-closing (empty) element that does not wrap content",
-      "Because HTML does not support closing tags"
+      "A hash (#)",
+      "A dot (.)",
+      "An asterisk (*)"
     ],
+
     "correct_index": 1,
-    "points": 15,
-    "explanation_feedback": "Correct 🎉 The <img> tag is a self-closing element because it does not contain inner content like text or other elements."
+
+    "points": 10,
+
+    "explanation_feedback": "Correct 🎉 A dot (.) marks a class selector, e.g. .highlight. A hash (#) marks an id selector instead, e.g. #main-title."
+
   },
 
   "summary": {
+
     "takeaways": [
-      "The <img> tag is used to display images in HTML",
-      "It does not require a closing tag",
-      "src defines the image source",
-      "alt improves accessibility and SEO",
-      "Images make websites more engaging and visual"
+      "Tag selectors (e.g. p) target every element of that type — broad and unspecific",
+      "Class selectors use a dot (.classname) and can be reused on many elements",
+      "ID selectors use a hash (#idname) and should target only one unique element",
+      "Use class for most styling needs; reserve id for genuinely unique elements",
+      "Commas let you apply one rule to multiple selectors at once"
     ],
 
     "cheat_sheet": {
-      "img_tag": "Displays an image on a webpage",
-      "src": "Image source URL or file path",
-      "alt": "Text description of the image"
+
+      "Tag Selector": "p { } — targets every element of that tag",
+
+      "Class Selector": ".classname { } — reusable, targets all matching elements",
+
+      "ID Selector": "#idname { } — should target only one unique element",
+
+      "Combined Selectors": "h1, h2 { } — applies the same rule to multiple selectors"
+
     }
+
   }
+
 }

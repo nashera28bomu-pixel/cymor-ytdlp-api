@@ -1,61 +1,82 @@
 {
   "id": 20,
-  "module": "Interactive HTML",
+  "module": "CSS Practice Checkpoint",
+
   "meta": {
     "next_lesson": 21,
     "prev_lesson": 19,
-    "xp_reward": 40,
-    "difficulty": "beginner",
-    "module_index": 4
+    "xp_reward": 30,
+    "difficulty": "checkpoint",
+    "module_index": 2
   },
 
-  "title": "Lesson 20: Mini Project — Build a Login & Signup Page",
+  "title": "Lesson 20: 🛠️ Style Your Page — CSS Checkpoint",
 
   "content": {
-    "explanation": "<h3>🚀 You Are Building Real Web Apps Now</h3><p>Congratulations — you now understand forms, inputs, labels, and validation.</p><p>That means you are ready to build something real: a <strong>login and signup interface</strong>.</p><hr><h3>🌐 What You Are Building</h3><ul><li>A signup form for new users</li><li>A login form for existing users</li><li>Validation to protect inputs</li></ul><p>This is exactly what real apps like Instagram, Facebook, and Netflix use.</p><hr><h3>⚡ Developer Mindset</h3><p>👉 This is not just HTML anymore — this is UI engineering.</p>"
-  },
 
-  "syntax_breakdown": {
-    "content": "<h3>🧪 Login Form Structure Example</h3><pre><code>&lt;form&gt;\n  &lt;h2&gt;Login&lt;/h2&gt;\n\n  &lt;label for=\"email\"&gt;Email&lt;/label&gt;\n  &lt;input id=\"email\" type=\"email\" required&gt;\n\n  &lt;label for=\"password\"&gt;Password&lt;/label&gt;\n  &lt;input id=\"password\" type=\"password\" required minlength=\"6\"&gt;\n\n  &lt;button&gt;Login&lt;/button&gt;\n&lt;/form&gt;</code></pre><hr><h3>🧪 Signup Form Structure Example</h3><pre><code>&lt;form&gt;\n  &lt;h2&gt;Sign Up&lt;/h2&gt;\n\n  &lt;label&gt;Username&lt;/label&gt;\n  &lt;input type=\"text\" required&gt;\n\n  &lt;label&gt;Email&lt;/label&gt;\n  &lt;input type=\"email\" required&gt;\n\n  &lt;label&gt;Password&lt;/label&gt;\n  &lt;input type=\"password\" required minlength=\"6\"&gt;\n\n  &lt;button&gt;Create Account&lt;/button&gt;\n&lt;/form&gt;</code></pre><hr><h3>🧠 Key Idea</h3><p>👉 Real apps are just structured HTML forms + logic later (JavaScript + Firebase)</p>"
+    "explanation": "<h3>🚦 Checkpoint Two: From Bare Structure to Real Design</h3><p>Back in Lesson 10, you built a profile page using pure HTML — no styling, just structure. It probably looked plain: black text, white background, everything stacked top to bottom. That was intentional — it let you focus 100% on structure without distraction.</p><p>Now you have an entire toolbox of CSS skills: selectors, colors, the box model, typography, Flexbox, positioning, and responsive basics. This checkpoint asks you to take that SAME kind of profile page and actually make it look like a real, designed website.</p><hr><h3>🧱 Everything You've Learned in This Module</h3><ul><li><strong>Lesson 11–12:</strong> What CSS is, and how selectors target elements</li><li><strong>Lesson 13:</strong> Colors and backgrounds</li><li><strong>Lesson 14:</strong> The box model — padding, border, margin</li><li><strong>Lesson 15:</strong> Typography — fonts, sizing, spacing</li><li><strong>Lesson 16–17:</strong> Flexbox — arranging elements in rows/columns</li><li><strong>Lesson 18:</strong> Positioning — relative, absolute, fixed</li><li><strong>Lesson 19:</strong> Responsive design with media queries</li></ul><hr><h3>🔒 Why This Checkpoint Matters Before JavaScript</h3><p>JavaScript (starting next module) makes pages INTERACTIVE — but it still needs well-styled HTML to interact with. If you can't comfortably combine your CSS skills now, you'll struggle later trying to, say, toggle a class with JavaScript if you don't already understand what that class actually controls visually. This checkpoint cements CSS as a real, usable skill — not just isolated facts about individual properties.</p>",
+
+    "syntax_breakdown": "<h3>🧩 Your Task Breakdown</h3><p>Take a profile page (similar structure to your Lesson 10 checkpoint) and style it properly. Here's a suggested approach, not a strict template — use your own creative choices for colors and fonts:</p><pre><code>body {\n  font-family: Arial, sans-serif;\n  background-color: #f4f4f4;\n  margin: 0;\n  padding: 0;\n}\n\nheader {\n  background-color: #1a1a1a;\n  color: white;\n  padding: 20px;\n  text-align: center;\n}\n\nmain {\n  max-width: 700px;\n  margin: 0 auto;\n  padding: 20px;\n}\n\n.card {\n  background-color: white;\n  padding: 20px;\n  border-radius: 8px;\n  margin-bottom: 20px;\n  box-shadow: 0 2px 6px rgba(0,0,0,0.1);\n}\n\n.skills-list {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 10px;\n  list-style: none;\n  padding: 0;\n}\n\n.skills-list li {\n  background-color: #00d9ff;\n  color: #050816;\n  padding: 6px 14px;\n  border-radius: 20px;\n}</code></pre><p>Notice how much of this combines multiple lessons at once: the box model (padding, border-radius) styling each card, Flexbox turning your skills list into wrapping 'pill' tags instead of plain bullets, and a centered max-width main area — a very common real-world pattern for keeping text from stretching uncomfortably wide on large screens.</p><hr><h4>💡 Approach It Step by Step</h4><ul><li>1. Style the body first — base font, background color</li><li>2. Style your header — give it visual weight as the top of the page</li><li>3. Style each section/card — spacing, background, maybe a subtle shadow</li><li>4. Use Flexbox somewhere meaningful — your skills list, or a row of links</li><li>5. Optionally, add one media query adjusting something for narrow screens</li></ul>",
+
+    "common_mistakes": "<h4>⚠️ Common Checkpoint Mistakes</h4><ul><li><strong>Changing your HTML structure completely</strong> instead of styling what you already built — the goal is adding CSS on top of solid existing structure, not starting over.</li><li><strong>Only using inline style=\"\" attributes everywhere</strong> instead of a real <style> block with selectors — defeats the purpose of practicing selectors from Lesson 12.</li><li><strong>Forgetting to actually use Flexbox anywhere</strong> — this checkpoint specifically wants you to demonstrate that skill, not just colors and fonts.</li></ul>"
+
   },
 
   "editor_sandbox": {
-    "starter_code": "<!-- Cymor Code Learner 🚀 FINAL BEGINNER PROJECT -->\n<h1>Welcome to Cymor App</h1>\n<p>Create or login to your account</p>\n\n",
+
+    "starter_code": "<!-- 🛠️ CSS Checkpoint: Style your profile page below -->\n<!-- Reuse your HTML structure from Lesson 10, then style it -->\n\n<header>\n  <h1>Your Name</h1>\n</header>\n<main>\n  <section class=\"card\">\n    <h2>About Me</h2>\n    <p>A short paragraph about yourself.</p>\n  </section>\n  <section class=\"card\">\n    <h2>My Skills</h2>\n    <ul class=\"skills-list\">\n      <li>HTML</li>\n      <li>CSS</li>\n    </ul>\n  </section>\n</main>\n<footer>\n  <p>Contact info</p>\n</footer>",
 
     "mini_challenge": {
-      "instruction": "🎯 FINAL MISSION: Build a working login + signup UI\n\nYou must include:\n\n1. A LOGIN form\n   - email input\n   - password input\n   - validation (required + minlength 6)\n\n2. A SIGNUP form\n   - username input\n   - email input\n   - password input\n   - validation on all fields\n\n3. Proper labels for all inputs\n4. Proper HTML structure\n\n🔥 This is your first real application UI",
 
-      "hint": "👉 Structure:\n<form>Login...</form>\n<form>Signup...</form>\n\nUse labels + inputs + buttons inside each form",
+      "instruction": "🛠️ CHECKPOINT TASK:\n\nStyle your profile page using AT LEAST:\n1. A <style> tag with a font-family and background-color on body\n2. Box model styling (padding, border-radius, margin) on your .card sections\n3. Flexbox (display: flex) used meaningfully somewhere, like the skills list\n4. At least one color property using a hex code or named color\n5. Somewhere visible on the page, include this exact phrase in a paragraph: css checkpoint complete\n\nThis proves you can combine selectors, the box model, typography, and Flexbox into one real styled page.",
 
-      "validation_keyword": "Create Account"
+      "hint": "👉 Minimum working approach:\n<style>\n  body {\n    font-family: Arial, sans-serif;\n    background-color: #f4f4f4;\n  }\n  .card {\n    background-color: white;\n    padding: 20px;\n    border-radius: 8px;\n    margin-bottom: 15px;\n  }\n  .skills-list {\n    display: flex;\n    gap: 10px;\n    list-style: none;\n    padding: 0;\n  }\n</style>\n<header>\n  <h1>Your Name</h1>\n</header>\n<main>\n  <section class=\"card\">\n    <p>css checkpoint complete</p>\n  </section>\n</main>",
+
+      "validation_keyword": "css checkpoint complete"
+
     }
+
   },
 
   "quiz_engine": {
-    "question": "What is the main purpose of this login/signup project?",
+
+    "question": "Why does this checkpoint matter before moving on to JavaScript?",
+
     "options": [
-      "To practice only HTML tags",
-      "To build a real-world user authentication interface layout",
-      "To learn CSS animations"
+      "It doesn't matter, JavaScript has nothing to do with CSS",
+      "JavaScript often interacts with classes and styles you define in CSS, so understanding what they control matters",
+      "JavaScript replaces the need for CSS entirely"
     ],
+
     "correct_index": 1,
-    "points": 40,
-    "explanation_feedback": "Correct 🎉 This project simulates real-world authentication interfaces used in modern web applications."
+
+    "points": 20,
+
+    "explanation_feedback": "Correct 🎉 JavaScript will often toggle classes, change styles, and react to layout — all built on CSS foundations. Knowing what your classes actually control visually makes JavaScript far easier to learn."
+
   },
 
   "summary": {
+
     "takeaways": [
-      "Login pages are built using HTML forms",
-      "Signup pages collect user registration data",
-      "Labels and validation make forms professional",
-      "Real apps combine forms + backend systems later",
-      "You just built your first real UI system"
+      "You combined selectors, the box model, typography, and Flexbox into one real styled page",
+      "Styling is added on top of solid existing HTML structure, not built from scratch",
+      "Flexbox-powered skill tags and a centered max-width layout are real, common patterns",
+      "You're now ready to learn JavaScript and make this page genuinely interactive"
     ],
 
     "cheat_sheet": {
-      "login_form": "Email + password inputs with validation",
-      "signup_form": "Username + email + password inputs",
-      "real_apps": "Frontend UI + backend authentication (Firebase later)"
+
+      "Checkpoint Goal": "Style your Lesson 10 page using selectors, box model, typography, and Flexbox",
+
+      "Suggested Pattern": "Style body > header > main (cards) > footer in that order",
+
+      "Key Skill Demonstrated": "Combining multiple CSS concepts into one cohesive design",
+
+      "Next Up": "JavaScript — making this page interactive"
+
     }
+
   }
+
 }

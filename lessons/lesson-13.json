@@ -1,59 +1,87 @@
 {
   "id": 13,
-  "module": "Core HTML Elements",
+  "module": "CSS Basics",
+
   "meta": {
     "next_lesson": 14,
     "prev_lesson": 12,
-    "xp_reward": 15,
+    "xp_reward": 10,
     "difficulty": "beginner",
-    "module_index": 3
+    "module_index": 2
   },
 
-  "title": "Lesson 13: Lists in HTML (ul, ol, li)",
+  "title": "Lesson 13: Colors & Backgrounds",
 
   "content": {
-    "explanation": "<h3>📋 Organizing Information Clearly</h3><p>When websites display multiple items—like menus, features, or steps—they use <strong>lists</strong>.</p><p>Lists help structure content so it is easy to read, scan, and understand.</p><hr><h3>📌 Two Types of Lists</h3><ul><li><strong>Unordered List (&lt;ul&gt;):</strong> Bullet points (no order)</li><li><strong>Ordered List (&lt;ol&gt;):</strong> Numbered steps (sequence matters)</li></ul><p>Each item inside a list uses the <strong>&lt;li&gt;</strong> tag.</p>",
 
-    "syntax_breakdown": "<h3>🧪 List Structure</h3><p>Unordered list example:</p><pre><code>&lt;ul&gt;\n  &lt;li&gt;HTML&lt;/li&gt;\n  &lt;li&gt;CSS&lt;/li&gt;\n  &lt;li&gt;JavaScript&lt;/li&gt;\n&lt;/ul&gt;</code></pre><hr><p>Ordered list example:</p><pre><code>&lt;ol&gt;\n  &lt;li&gt;Step 1&lt;/li&gt;\n  &lt;li&gt;Step 2&lt;/li&gt;\n  &lt;li&gt;Step 3&lt;/li&gt;\n&lt;/ol&gt;</code></pre><hr><h3>🧠 Key Rule</h3><p>👉 Only <strong>&lt;li&gt;</strong> elements are allowed inside lists.</p>"
+    "explanation": "<h3>🎨 How Computers Actually 'Think' in Color</h3><p>Screens don't understand color names the way humans do — every color a screen displays is built from three lights: Red, Green, and Blue (RGB), mixed at different intensities. CSS gives you several different ways to describe a color, all describing the exact same underlying RGB mixture, just in different formats. Understanding this now will make hex codes (which look like nonsense at first) actually make sense.</p><hr><h3>🖌️ Two Related But Different Properties</h3><p>It's easy to confuse these two, so let's be precise:</p><ul><li><code>color</code> — sets the color of TEXT</li><li><code>background-color</code> — sets the color BEHIND an element, filling its whole box</li></ul><p>A common beginner mix-up: setting <code>color: red;</code> expecting a red background, when really that just turns the TEXT itself red while the background stays whatever it was.</p><hr><h3>🌈 The Three Main Ways to Write a Color</h3><ul><li><strong>Named colors</strong> — plain English words like <code>red</code>, <code>blue</code>, <code>tomato</code>. Easiest to read, but limited to a fixed list of about 140 names.</li><li><strong>Hex codes</strong> — a 6-character code like <code>#ff0000</code> representing exact Red-Green-Blue intensity. The professional standard — gives you access to millions of precise colors, not just 140 named ones.</li><li><strong>RGB function</strong> — <code>rgb(255, 0, 0)</code> — the same idea as hex but written as three numbers instead of a code, which some people find more intuitive.</li></ul><hr><h3>🔍 Decoding a Hex Code</h3><p>A hex code like <code>#ff0000</code> is actually THREE 2-character chunks: <code>ff</code> (red), <code>00</code> (green), <code>00</code> (blue). Each chunk ranges from <code>00</code> (none of that color) to <code>ff</code> (maximum of that color). So <code>#ff0000</code> means 'maximum red, no green, no blue' — pure red. <code>#000000</code> is black (no light at all), and <code>#ffffff</code> is white (maximum of all three lights combined).</p>",
+
+    "syntax_breakdown": "<h3>🧱 Setting Text Color</h3><pre><code>p {\n  color: #333333;\n}</code></pre><p>This makes paragraph text a dark gray. Notice the <code>#</code> symbol always starts a hex code — without it, the browser won't recognize it as a valid color value.</p><hr><h3>🧱 Setting Background Color</h3><pre><code>body {\n  background-color: #f0f0f0;\n}\n\n.highlight-box {\n  background-color: yellow;\n}</code></pre><p>Setting <code>background-color</code> on <code>body</code> changes the color behind your ENTIRE page, since body wraps everything (remember from Lesson 1). Setting it on a specific class only fills that element's own box.</p><hr><h3>🧱 RGB Function Syntax</h3><pre><code>h1 {\n  color: rgb(255, 0, 0);\n}</code></pre><p>Three numbers, each from 0-255, separated by commas: Red, Green, Blue in that exact order. <code>rgb(255, 0, 0)</code> is identical to <code>#ff0000</code> — same red, just written differently. You'll often see whichever format a developer finds more readable; both are completely valid.</p><hr><h4>🌗 A Quick, Practical Pattern: Light Text on Dark Background</h4><pre><code>.dark-section {\n  background-color: #1a1a1a;\n  color: #ffffff;\n}</code></pre><p>This is an extremely common real-world pattern — pairing a dark background with light/white text for contrast and readability, like the editor theme in this very course's sandbox.</p>",
+
+    "common_mistakes": "<h4>⚠️ Common Beginner Mistakes</h4><ul><li><strong>Confusing color and background-color</strong> — color changes TEXT, background-color changes the area BEHIND the element.</li><li><strong>Forgetting the # before a hex code</strong> — <code>color: ff0000;</code> is invalid; it must be <code>color: #ff0000;</code>.</li><li><strong>Low contrast combinations</strong> — e.g. light gray text on a white background — technically valid CSS, but creates real readability problems for users, including those with visual impairments.</li><li><strong>RGB values outside 0-255</strong> — each number in rgb() must be between 0 and 255; anything outside that range is invalid.</li></ul>"
+
   },
 
   "editor_sandbox": {
-    "starter_code": "<!-- Cymor Code Learner 🚀 Lists Practice -->\n<h1>My Developer Skills</h1>\n<p>Here are the technologies I am learning:</p>",
+
+    "starter_code": "<h1>Color Test</h1>\n<p>Styling colors with CSS.</p>",
 
     "mini_challenge": {
-      "instruction": "🎯 Mission: Build your first list\n\n1. Add an unordered list (<ul>) below the paragraph\n2. Add 3 list items (<li>):\n   - HTML\n   - CSS\n   - JavaScript\n3. Run your code and observe bullet points",
 
-      "hint": "👉 Example:\n<ul>\n  <li>HTML</li>\n</ul>\n\nRemember: every item must be inside <li> tags",
+      "instruction": "🎯 Challenge:\n\n1. Add a <style> tag\n2. Give the body a background-color of your choice (named color or hex code)\n3. Give the h1 a different text color using a hex code\n4. Below, add a paragraph that says: colors are built from red green and blue\n5. Run and verify your code",
 
-      "validation_keyword": "JavaScript"
+      "hint": "👉 Example:\n<style>\n  body {\n    background-color: #f0f0f0;\n  }\n  h1 {\n    color: #ff5733;\n  }\n</style>\n<h1>Color Test</h1>\n<p>colors are built from red green and blue</p>",
+
+      "validation_keyword": "colors are built from red green and blue"
+
     }
+
   },
 
   "quiz_engine": {
-    "question": "Which tag is used to create a list item in HTML?",
+
+    "question": "What does the hex code #00ff00 represent?",
+
     "options": [
-      "<list>",
-      "<li>",
-      "<item>"
+      "Pure red",
+      "Pure green",
+      "Pure blue"
     ],
+
     "correct_index": 1,
-    "points": 15,
-    "explanation_feedback": "Correct 🎉 The <li> tag is used to define each item inside both ordered and unordered lists."
+
+    "points": 10,
+
+    "explanation_feedback": "Correct 🎉 The three chunks are Red-Green-Blue in that order. #00ff00 means no red, maximum green, no blue — pure green."
+
   },
 
   "summary": {
+
     "takeaways": [
-      "Lists help organize multiple items clearly",
-      "<ul> creates bullet point lists",
-      "<ol> creates numbered lists",
-      "<li> defines each list item",
-      "Lists are used in menus, steps, and feature sections"
+      "Screens build every color from Red, Green, and Blue light intensities",
+      "color sets TEXT color; background-color fills the area BEHIND an element",
+      "Hex codes (#rrggbb) give precise access to millions of colors",
+      "rgb(r, g, b) is an alternative way to write the exact same colors, 0-255 per channel",
+      "Always check for good contrast between text and background for readability"
     ],
 
     "cheat_sheet": {
-      "ul": "Unordered list (bullet points)",
-      "ol": "Ordered list (numbered steps)",
-      "li": "List item inside a list container"
+
+      "color": "Sets the color of text",
+
+      "background-color": "Sets the color behind an element",
+
+      "Hex Format": "#rrggbb — each pair ranges 00 to ff",
+
+      "RGB Format": "rgb(r, g, b) — each number ranges 0 to 255",
+
+      "#000000": "Black (no light)",
+
+      "#ffffff": "White (maximum of all three)"
+
     }
+
   }
+
 }

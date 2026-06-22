@@ -1,62 +1,83 @@
 {
   "id": 17,
-  "module": "Interactive HTML",
+  "module": "CSS Basics",
+
   "meta": {
     "next_lesson": 18,
     "prev_lesson": 16,
-    "xp_reward": 25,
-    "difficulty": "beginner",
-    "module_index": 4
+    "xp_reward": 10,
+    "difficulty": "intermediate",
+    "module_index": 2
   },
 
-  "title": "Lesson 17: Input Types (Text, Password, Email, Checkboxes)",
+  "title": "Lesson 17: Flexbox Layouts in Practice",
 
   "content": {
-    "explanation": "<h3>🧾 Understanding Input Types</h3><p>In the previous lesson, you learned how forms collect data. Now we go deeper into how users actually enter different kinds of data.</p><p>HTML provides multiple <strong>input types</strong> depending on what kind of information you want to collect.</p><hr><h3>🌐 Why Input Types Matter</h3><p>Different data needs different controls:</p><ul><li>Names → text input</li><li>Emails → email input</li><li>Passwords → hidden input</li><li>Choices → checkboxes or radio buttons</li></ul>"
-  },
 
-  "syntax_breakdown": {
-    "content": "<h3>🧪 Common Input Types</h3><pre><code>&lt;input type=\"text\" placeholder=\"Enter name\"&gt;\n&lt;input type=\"email\" placeholder=\"Enter email\"&gt;\n&lt;input type=\"password\" placeholder=\"Enter password\"&gt;\n&lt;input type=\"checkbox\"&gt; Remember me</code></pre><hr><h3>📌 What Each Does</h3><ul><li><strong>text</strong> → normal typing</li><li><strong>email</strong> → validates email format</li><li><strong>password</strong> → hides characters</li><li><strong>checkbox</strong> → yes/no option</li></ul><hr><h3>🧠 Key Rule</h3><p>👉 Always choose the correct input type for the data you want to collect</p>"
+    "explanation": "<h3>🏗️ From Theory to Real Layouts</h3><p>Last lesson you learned the core Flexbox switches: display, flex-direction, justify-content, align-items. Now it's time to use them together to build the kind of layouts you see on real websites every day: navigation bars, card grids, and wrapping content. This lesson is about COMBINING what you already know, not learning brand new properties — similar to how Lesson 10 combined your HTML knowledge.</p><hr><h3>📦 Controlling Individual Flex Items with flex-wrap</h3><p>By default, Flexbox tries to cram ALL items onto one single line, shrinking them if needed to make them fit — even if that makes them uncomfortably small. On a phone screen especially, this can cause cramped, broken-looking layouts. <code>flex-wrap</code> tells the browser 'if there's not enough room, move extra items down to a new line instead of squishing everything.'</p><hr><h3>📱 Why This Matters Hugely for Phone-First Development</h3><p>Since this entire course (and your own work, building phone-first with zero budget) is built around mobile devices, flex-wrap is one of the most practically important properties you'll learn. A 3-column row of cards that looks great on a laptop screen will often need to WRAP down to a single column on a narrow phone screen — flex-wrap is the first tool that makes that kind of responsive behavior possible, well before you get to dedicated responsive design techniques later in this course.</p>",
+
+    "syntax_breakdown": "<h3>🧱 Building a Card Row That Wraps</h3><pre><code>.card-container {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 16px;\n}\n\n.card {\n  background-color: #eeeeee;\n  padding: 20px;\n  border-radius: 8px;\n  flex: 1 1 200px;\n}</code></pre><ul><li><code>flex-wrap: wrap;</code> — allows items to move to a new line once they run out of horizontal room, instead of squeezing</li><li><code>gap: 16px;</code> — adds consistent spacing BETWEEN flex items, without needing individual margins on each one — a much cleaner approach than adding margin to every single card</li><li><code>flex: 1 1 200px;</code> — shorthand meaning: 'this item can grow (1), can shrink (1), and prefers to start at 200px wide.' This is what allows cards to flexibly resize while still wrapping sensibly</li></ul><hr><h3>🧱 A Classic Navigation Bar Pattern</h3><pre><code>.navbar {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px;\n  background-color: #1a1a1a;\n}\n\n.navbar a {\n  color: white;\n  text-decoration: none;\n}</code></pre><p>This single pattern — flex + space-between + align-items: center + padding — is genuinely one of the most repeated layout patterns across the entire web. Logo on the left, links spread to the right, everything vertically centered. Recognizing this pattern now means you'll spot it (and be able to build it) in almost every real website you study from here on.</p><hr><h3>🧱 The gap Property — A Modern Convenience</h3><pre><code>.row {\n  display: flex;\n  gap: 10px;\n}</code></pre><p><code>gap</code> is a relatively modern addition that replaced a lot of fiddly margin-based spacing tricks. It adds equal spacing BETWEEN flex items only — never on the outside edges of the whole row — which is usually exactly the behavior you want, and far simpler than calculating individual margins yourself.</p>",
+
+    "common_mistakes": "<h4>⚠️ Common Beginner Mistakes</h4><ul><li><strong>Forgetting flex-wrap on multi-item rows</strong> — without it, items just keep shrinking on narrow screens instead of wrapping, sometimes becoming unreadable on phones.</li><li><strong>Using margin instead of gap for spacing between flex items</strong> — works, but gap is cleaner and avoids extra unwanted space at the very start/end of the row.</li><li><strong>Forgetting align-items: center on navbars</strong> — without it, a logo and nav links of different heights can look awkwardly misaligned vertically.</li></ul>"
+
   },
 
   "editor_sandbox": {
-    "starter_code": "<!-- Cymor Code Learner 🚀 Input Types -->\n<h1>Login System</h1>\n<p>Enter your details below:</p>\n\n<form>\n</form>",
+
+    "starter_code": "<div class=\"card-container\">\n  <div class=\"card\">Card One</div>\n  <div class=\"card\">Card Two</div>\n  <div class=\"card\">Card Three</div>\n</div>",
 
     "mini_challenge": {
-      "instruction": "🎯 Mission: Build a login form\n\nInside the <form> tag, add:\n\n1. Text input for username\n2. Password input for password\n3. Email input\n4. A checkbox saying 'Remember me'\n5. A submit button\n\n🔥 This is how real login pages start",
 
-      "hint": "👉 Example:\n<input type=\"text\" placeholder=\"Username\">\n<input type=\"password\" placeholder=\"Password\">\n\nMake sure all inputs are inside the form",
+      "instruction": "🎯 Challenge:\n\n1. Add a <style> tag\n2. Make .card-container a flex container with flex-wrap: wrap and a gap\n3. Style .card with padding, a background-color, and border-radius\n4. Below, add a paragraph that says: flex wrap makes layouts responsive\n5. Run and verify your code",
 
-      "validation_keyword": "password"
+      "hint": "👉 Example:\n<style>\n  .card-container {\n    display: flex;\n    flex-wrap: wrap;\n    gap: 12px;\n  }\n  .card {\n    background-color: #eeeeee;\n    padding: 20px;\n    border-radius: 8px;\n  }\n</style>\n<div class=\"card-container\">\n  <div class=\"card\">Card One</div>\n</div>\n<p>flex wrap makes layouts responsive</p>",
+
+      "validation_keyword": "flex wrap makes layouts responsive"
+
     }
+
   },
 
   "quiz_engine": {
-    "question": "Which input type is used to hide characters when typing sensitive information?",
+
+    "question": "What does flex-wrap: wrap do?",
+
     "options": [
-      "text",
-      "hidden",
-      "password"
+      "It forces all items onto one line no matter what",
+      "It allows items to move to a new line when they don't fit, instead of squeezing",
+      "It adds spacing between flex items"
     ],
-    "correct_index": 2,
-    "points": 25,
-    "explanation_feedback": "Correct 🎉 The password input type hides characters to protect sensitive user data like login passwords."
+
+    "correct_index": 1,
+
+    "points": 10,
+
+    "explanation_feedback": "Correct 🎉 flex-wrap: wrap lets items flow onto new lines when there's not enough horizontal room — crucial for layouts that need to work well on narrow phone screens."
+
   },
 
   "summary": {
+
     "takeaways": [
-      "Different input types are used for different kinds of data",
-      "text is for normal typing",
-      "email validates email format automatically",
-      "password hides user input",
-      "checkbox is used for yes/no choices"
+      "flex-wrap: wrap allows items to move to new lines instead of squeezing to fit",
+      "gap adds consistent spacing BETWEEN flex items without extra margin math",
+      "The navbar pattern (flex + space-between + align-items: center) is extremely common",
+      "flex: grow shrink basis is shorthand for how an item resizes within its container",
+      "These properties matter hugely for phone-first, responsive layouts"
     ],
 
     "cheat_sheet": {
-      "text_input": "<input type='text'>",
-      "email_input": "<input type='email'>",
-      "password_input": "<input type='password'>",
-      "checkbox": "<input type='checkbox'>"
+
+      "flex-wrap: wrap": "Allows items to move to new lines instead of squeezing",
+
+      "gap": "Consistent spacing between flex items only",
+
+      "flex: 1 1 200px": "grow shrink basis — flexible resizing shorthand",
+
+      "Navbar Pattern": "display: flex; justify-content: space-between; align-items: center;"
+
     }
+
   }
+
 }

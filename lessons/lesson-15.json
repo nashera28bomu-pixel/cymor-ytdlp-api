@@ -1,60 +1,87 @@
 {
   "id": 15,
-  "module": "Core HTML Elements",
+  "module": "CSS Basics",
+
   "meta": {
     "next_lesson": 16,
     "prev_lesson": 14,
-    "xp_reward": 30,
+    "xp_reward": 10,
     "difficulty": "beginner",
-    "module_index": 3
+    "module_index": 2
   },
 
-  "title": "Lesson 15: Mini Project — Build Your First Website",
+  "title": "Lesson 15: Text & Fonts",
 
   "content": {
-    "explanation": "<h3>🚀 You Are Now Building Real Websites</h3><p>Congratulations — you’ve learned all the core building blocks of HTML:</p><ul><li>Headings</li><li>Paragraphs</li><li>Links</li><li>Images</li><li>Lists</li><li>Navigation</li></ul><hr><h3>🏗️ This is Your First Real Project</h3><p>Instead of learning one tag at a time, you will now combine everything into a complete webpage.</p><p>This is exactly how real developers build websites — by combining small pieces into a full structure.</p><hr><h3>🎯 Project Goal</h3><p>You will build a simple personal homepage with navigation, content, and structure.</p>"
-  },
 
-  "syntax_breakdown": {
-    "content": "<h3>🧪 Project Structure Overview</h3><p>Your page must include:</p><ul><li>A main heading (<strong>h1</strong>)</li><li>A navigation menu (<strong>ul + li + a</strong>)</li><li>An image (<strong>img</strong>)</li><li>A paragraph (<strong>p</strong>)</li><li>A list of skills (<strong>ul</strong>)</li></ul><hr><h3>📌 Real Developer Thinking</h3><p>👉 Websites are just structured blocks stacked together</p><p>👉 Every section has a purpose</p>"
+    "explanation": "<h3>✍️ Typography Is Most of Real-World Design</h3><p>It might be surprising, but a huge percentage of what makes a website look 'professional' versus 'amateur' comes down to text styling choices — not flashy colors or animations. Good spacing, readable font sizes, and sensible font choices do more heavy lifting for a clean design than almost anything else you'll learn in this module.</p><hr><h3>📏 Understanding Font Size Units</h3><p>CSS gives you several units to measure font size, and choosing the right one matters more than it might seem:</p><ul><li><strong>px (pixels)</strong> — an exact, fixed size. Predictable, but doesn't scale if a user changes their browser's default text size for accessibility reasons.</li><li><strong>em</strong> — relative to the font size of the PARENT element. If the parent is 16px and you set 2em, you get 32px.</li><li><strong>rem</strong> — relative to the ROOT (the very top-level html element's font size), regardless of any nested parents. Generally considered the more predictable, modern choice for font sizing in real projects.</li></ul><p>For this course, we'll mostly use px because it's the most direct to understand as a beginner — but know that em and rem exist and are common in professional codebases for better accessibility and scalability.</p><hr><h3>🔤 Font Families and Fallbacks</h3><p>Not every device has every font installed. CSS lets you list MULTIPLE fonts in order of preference — the browser tries the first, and if it's not available on that device, falls back to the next, and so on, ending with a generic category as a final safety net.</p>",
+
+    "syntax_breakdown": "<h3>🧱 Core Text Properties</h3><pre><code>p {\n  font-size: 18px;\n  font-family: Arial, sans-serif;\n  font-weight: bold;\n  text-align: center;\n  line-height: 1.6;\n}</code></pre><ul><li><code>font-size</code> — how big the text appears</li><li><code>font-family</code> — which typeface to use. Notice the fallback list: <code>Arial, sans-serif</code> means 'try Arial first; if unavailable, use any generic sans-serif font.'</li><li><code>font-weight</code> — text thickness/boldness. Accepts keywords like <code>normal</code> or <code>bold</code>, or numeric values like <code>400</code> (normal) through <code>700</code> (bold) for finer control</li><li><code>text-align</code> — horizontal alignment: <code>left</code>, <code>center</code>, <code>right</code>, or <code>justify</code></li><li><code>line-height</code> — the vertical space between lines of text within the same paragraph. A value like <code>1.6</code> means '1.6 times the font size' — this single property has an enormous impact on readability, since cramped lines are hard to read</li></ul><hr><h4>🔤 Font Family Categories</h4><pre><code>font-family: 'Georgia', serif;       /* serif: has small decorative strokes */\nfont-family: 'Arial', sans-serif;    /* sans-serif: clean, no decorative strokes */\nfont-family: 'Courier New', monospace; /* monospace: every character same width */</code></pre><p>Each font family in CSS belongs to a broader category. Serif fonts (with small decorative feet on letters) feel traditional/formal — common in printed books. Sans-serif fonts (clean, no decoration) feel modern and are the most common choice for websites and apps, including this course's own interface. Monospace fonts (every letter the same width) are used for displaying code, because it keeps everything neatly aligned — you'll recognize this from this course's own code editor font.</p><hr><h4>🅰️ Other Useful Text Properties</h4><pre><code>h2 {\n  text-transform: uppercase;\n  text-decoration: underline;\n  letter-spacing: 2px;\n}</code></pre><p><code>text-transform: uppercase</code> displays text in all capitals WITHOUT you having to retype it in caps — useful because it keeps your actual HTML content properly capitalized for accessibility while only changing the VISUAL display.</p>",
+
+    "common_mistakes": "<h4>⚠️ Common Beginner Mistakes</h4><ul><li><strong>Not providing a font fallback</strong> — if your chosen font isn't installed on a visitor's device with no fallback listed, the browser falls back to its own unpredictable default.</li><li><strong>Skipping line-height entirely</strong> — default line spacing is often too cramped, especially for longer paragraphs of text, hurting readability.</li><li><strong>Confusing font-weight with font-size</strong> — font-weight controls thickness/boldness, not size.</li><li><strong>Mixing too many different fonts on one page</strong> — generally stick to one or two font families maximum for a clean, professional look.</li></ul>"
+
   },
 
   "editor_sandbox": {
-    "starter_code": "<!-- Cymor Code Learner 🚀 FINAL BEGINNER PROJECT -->\n\n",
+
+    "starter_code": "<h1>Typography Matters</h1>\n<p>This paragraph needs better styling.</p>",
 
     "mini_challenge": {
-      "instruction": "🎯 FINAL MISSION: Build your first complete website\n\nYou must include ALL of the following:\n\n1. A full HTML structure (DOCTYPE, html, head, body)\n2. Title: My First Website\n3. Inside body:\n   - <h1> with your name or brand\n   - Navigation menu with 3 links (Home, About, Contact)\n   - An image (use any placeholder image)\n   - A paragraph describing yourself or your journey\n   - A list of 3 skills you are learning\n\n🔥 Combine everything you learned from Lessons 1–14\n\n👉 This is your first real developer project",
 
-      "hint": "Start with:\n<!DOCTYPE html>\n<html>\n<head>\n<title>My First Website</title>\n</head>\n<body>\n\nThen build step by step:\n- h1\n- nav menu (ul + li + a)\n- img\n- p\n- ul skills\n\nFinish with </body> and </html>",
+      "instruction": "🎯 Challenge:\n\n1. Add a <style> tag\n2. Style the body with a font-family that includes a fallback (e.g. Arial, sans-serif)\n3. Style the p with a font-size, and a line-height of at least 1.5\n4. Below, add a paragraph that says: typography improves readability\n5. Run and verify your code",
 
-      "validation_keyword": "<html>"
+      "hint": "👉 Example:\n<style>\n  body {\n    font-family: Arial, sans-serif;\n  }\n  p {\n    font-size: 18px;\n    line-height: 1.6;\n  }\n</style>\n<h1>Typography Matters</h1>\n<p>typography improves readability</p>",
+
+      "validation_keyword": "typography improves readability"
+
     }
+
   },
 
   "quiz_engine": {
-    "question": "What is the main purpose of this mini project?",
+
+    "question": "Why is it good practice to list a fallback font, like font-family: Arial, sans-serif;?",
+
     "options": [
-      "To memorize HTML tags individually",
-      "To combine multiple HTML elements into a real webpage structure",
-      "To learn advanced JavaScript logic"
+      "It makes the text load faster",
+      "If the first font isn't available on a visitor's device, the browser uses the fallback instead",
+      "Fallback fonts are required for every CSS rule to work"
     ],
+
     "correct_index": 1,
-    "points": 30,
-    "explanation_feedback": "Correct 🎉 This project is about combining all your HTML knowledge to build a complete structured webpage like a real developer."
+
+    "points": 10,
+
+    "explanation_feedback": "Correct 🎉 Not every device has every font installed — fallbacks ensure your text still displays sensibly even if your first-choice font is missing."
+
   },
 
   "summary": {
+
     "takeaways": [
-      "Real websites are made by combining multiple HTML elements",
-      "Structure matters more than individual tags",
-      "Navigation, images, and text work together",
-      "This is your first full webpage project"
+      "Typography choices have a massive impact on how professional a site looks",
+      "font-size controls size; font-weight controls thickness/boldness",
+      "font-family should list a fallback, ending in a generic category (serif, sans-serif, monospace)",
+      "line-height controls vertical space between lines — crucial for readability",
+      "text-transform changes VISUAL capitalization without changing the actual HTML content"
     ],
 
     "cheat_sheet": {
-      "project_structure": "doctype → html → head → body",
-      "core_elements": "h1, nav (ul/li/a), img, p, ul",
-      "developer_rule": "Think in sections, not single tags"
+
+      "font-size": "Controls text size (e.g. 18px)",
+
+      "font-family": "Typeface, with fallbacks — e.g. Arial, sans-serif",
+
+      "font-weight": "Thickness — normal, bold, or 400-700",
+
+      "text-align": "left, center, right, justify",
+
+      "line-height": "Vertical spacing between lines — improves readability",
+
+      "text-transform": "uppercase, lowercase, capitalize — visual only"
+
     }
+
   }
+
 }
