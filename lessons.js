@@ -1,37 +1,29 @@
 // =============================================
-// CYMOR CODE LEARNER — LESSON ENGINE v3.0
-// Matches lesson.html + lesson-1.json through lesson-31.json
-// Features:
-//   - 3-step rail (Theory → Challenge → Quiz)
-//   - Checkpoint detection (lessons 10, 20, 30, 31)
-//   - Keyword-gated challenge validation
-//   - Live preview iframe
-//   - Firebase progress sync
-//   - URL-skip protection for checkpoints
+// CYMOR CODE LEARNER — LESSON ENGINE v3.1
+// FIXES:
+//   1. Syntax colour highlighting in lesson content
+//   2. Save currentLesson to Firestore on load (resume fix)
+//   3. Dashboard reads currentLesson, not hardcoded 1
+//   4. Modal next-btn wired cleanly (no onclick in HTML)
+//   5. totalLessons = 31
 // =============================================
 
-// ---- Firebase (lazy-loaded to survive offline) ----
-let auth, db, doc, getDoc, updateDoc, arrayUnion, increment, onAuthStateChanged;
+let auth, db, docFn, getDoc, updateDoc, setDoc, arrayUnion, increment, onAuthStateChanged;
 
 async function loadFirebase() {
   try {
-    const fb          = await import("./firebase/firebase-config.js");
-    auth = fb.auth;
-    db   = fb.db;
-
-    const authSDK      = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js");
-    const firestoreSDK = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
-
-    onAuthStateChanged = authSDK.onAuthStateChanged;
-    doc        = firestoreSDK.doc;
-    getDoc     = firestoreSDK.getDoc;
-    updateDoc  = firestoreSDK.updateDoc;
-    arrayUnion = firestoreSDK.arrayUnion;
-    increment  = firestoreSDK.increment;
+    const fb = await import("./firebase/firebase-config.js");
+    auth = fb.auth; db = fb.db;
+    const A = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js");
+    const F = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
+    onAuthStateChanged = A.onAuthStateChanged;
+    docFn = F.doc; getDoc = F.getDoc; updateDoc = F.updateDoc;
+    setDoc = F.setDoc; arrayUnion = F.arrayUnion; increment = F.increment;
 
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         await syncUserSidebar(user.uid);
+        await saveCurrentLesson(user.uid);   // FIX 4: track where user is
         await enforceCheckpointGate(user.uid);
       } else {
         const el = $("userName");
@@ -39,31 +31,28 @@ async function loadFirebase() {
       }
     });
   } catch (e) {
-    console.warn("Firebase offline — progress will not be saved.");
+    console.warn("Firebase offline — progress not saved.");
   }
 }
 
 // ---- State ----
 let currentLessonData = null;
-let currentStep       = 1;
+let currentStep = 1;
+const urlParams   = new URLSearchParams(window.location.search);
+const lessonId    = parseInt(urlParams.get("id")) || 1;
+const TOTAL       = 31;
+const CHECKPOINTS = [10, 20, 30, 31];
+const isCheckpoint = CHECKPOINTS.includes(lessonId);
 
-const urlParams = new URLSearchParams(window.location.search);
-const lessonId  = parseInt(urlParams.get("id")) || 1;
-
-const TOTAL_LESSONS  = 31;
-const CHECKPOINTS    = [10, 20, 30, 31];
-const isCheckpoint   = CHECKPOINTS.includes(lessonId);
-
-// ---- Helpers ----
-const $ = (id) => document.getElementById(id);
+const $ = id => document.getElementById(id);
 
 function showToast(msg, type = "success") {
-  const toast = $("authMessage");
-  if (!toast) return;
-  toast.textContent  = msg;
-  toast.className    = `auth-message ${type}`;
-  toast.style.display = "flex";
-  setTimeout(() => { toast.style.display = "none"; }, 3500);
+  const t = $("authMessage");
+  if (!t) return;
+  t.textContent = msg;
+  t.className   = `auth-message ${type}`;
+  t.style.display = "flex";
+  setTimeout(() => { t.style.display = "none"; }, 3500);
 }
 
 // ---- Boot ----
@@ -71,16 +60,14 @@ document.addEventListener("DOMContentLoaded", () => {
   loadFirebase();
   loadLessonData(lessonId);
   setupNavigation();
-
   if (isCheckpoint) document.body.classList.add("is-checkpoint");
 });
 
-// ---- Data loading ----
+// ---- Load lesson ----
 async function loadLessonData(id) {
   try {
     const res = await fetch(`./lessons/lesson-${id}.json`);
     if (!res.ok) throw new Error(`Lesson ${id} not found`);
-
     currentLessonData = await res.json();
     renderTheoryStep();
     updateProgressUI();
@@ -92,117 +79,172 @@ async function loadLessonData(id) {
   }
 }
 
+// ---- FIX 4: save current lesson to Firestore so dashboard can resume ----
+async function saveCurrentLesson(uid) {
+  if (!db || !docFn) return;
+  try {
+    await setDoc(docFn(db, "users", uid), { currentLesson: lessonId }, { merge: true });
+  } catch (e) { /* offline, ignore */ }
+}
+
 // ---- Navigation wiring ----
 function setupNavigation() {
   const masterBtn = $("masterNextBtn");
   const prevBtn   = $("prevLessonBtn");
-
-  if (masterBtn) {
-    masterBtn.addEventListener("click", () => {
-      if (currentStep === 1) renderChallengeStep();
-      else if (currentStep === 2) renderQuizStep();
-      else if (currentStep === 3) finishLesson();
-    });
-  }
-
-  if (prevBtn) {
-    prevBtn.addEventListener("click", () => {
-      if (currentStep === 2) renderTheoryStep();
-      else if (currentStep === 3) renderChallengeStep();
-    });
-  }
+  if (masterBtn) masterBtn.addEventListener("click", () => {
+    if (currentStep === 1) renderChallengeStep();
+    else if (currentStep === 2) renderQuizStep();
+    else if (currentStep === 3) finishLesson();
+  });
+  if (prevBtn) prevBtn.addEventListener("click", () => {
+    if (currentStep === 2) renderTheoryStep();
+    else if (currentStep === 3) renderChallengeStep();
+  });
 }
 
 // ---- Step visibility ----
-function toggleStepVisibility(stepNum) {
-  currentStep = stepNum;
+function toggleStepVisibility(n) {
+  currentStep = n;
   document.querySelectorAll(".lesson-step").forEach(s => s.classList.remove("active"));
-  const stepIds = ["step-theory", "step-challenge", "step-quiz"];
-  const target  = $(stepIds[stepNum - 1]);
-  if (target) target.classList.add("active");
-  updateStepRail(stepNum);
+  const ids = ["step-theory", "step-challenge", "step-quiz"];
+  const t   = $(ids[n - 1]);
+  if (t) t.classList.add("active");
+  updateStepRail(n);
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-// ---- Step rail update ----
-function updateStepRail(activeStep) {
-  const labels = ["Theory", "Challenge", "Quiz"];
-
+// ---- Step rail ----
+function updateStepRail(active) {
   for (let i = 1; i <= 3; i++) {
-    const node      = document.querySelector(`.step-node[data-step="${i}"]`);
-    const connector = document.querySelector(`.step-connector[data-connector="${i}"]`);
+    const node = document.querySelector(`.step-node[data-step="${i}"]`);
+    const conn = document.querySelector(`.step-connector[data-connector="${i}"]`);
     if (!node) continue;
-
     node.classList.remove("current", "done");
-    if (i < activeStep)       node.classList.add("done");
-    else if (i === activeStep) node.classList.add("current");
-
+    if (i < active) node.classList.add("done");
+    else if (i === active) node.classList.add("current");
     const dot = node.querySelector(".dot");
-    if (dot) dot.textContent = i < activeStep ? "✓" : i;
-
-    if (connector) {
-      connector.classList.toggle("done", i < activeStep);
-    }
+    if (dot) dot.textContent = i < active ? "✓" : i;
+    if (conn) conn.classList.toggle("done", i < active);
   }
-
-  const stepLabels = ["STEP 1 · THEORY", "STEP 2 · CHALLENGE", "STEP 3 · QUIZ"];
+  const labels = ["STEP 1 · THEORY", "STEP 2 · CHALLENGE", "STEP 3 · QUIZ"];
   const ind = $("stepIndicator");
-  if (ind) ind.textContent = stepLabels[activeStep - 1];
+  if (ind) ind.textContent = labels[active - 1];
 }
 
-// ---- STEP 1: Theory ----
+// ================================================================
+// FIX 2: SYNTAX HIGHLIGHTER
+// Colours tag names, attributes, values, JS keywords inside <pre>
+// ================================================================
+function applySyntaxHighlight(html) {
+  // Work on pre>code blocks only — we build a temp div, walk pre elements
+  const div = document.createElement("div");
+  div.innerHTML = html;
+
+  div.querySelectorAll("pre code").forEach(block => {
+    let src = block.textContent;
+
+    // Escape HTML entities first so we don't double-process
+    src = src
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+
+    // HTML comments
+    src = src.replace(/((&lt;|&gt;)?!--[\s\S]*?--(&gt;|&lt;)?)/g,
+      '<span class="syn-cmt">$1</span>');
+
+    // HTML tags: colour tag name, attributes, values
+    src = src.replace(
+      /(&lt;\/?)([\w-]+)((?:\s+[\w-]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[\w-]+))?)*)\s*(\/?)(&gt;)/g,
+      (_, open, tag, attrs, selfClose, close) => {
+        // colour attributes and values within the attrs string
+        const colouredAttrs = attrs.replace(
+          /([\w-]+)(\s*=\s*)("([^"]*)"|'([^']*)'|([\w-]+))/g,
+          '<span class="syn-attr">$1</span><span class="syn-punct">$2</span><span class="syn-val">$3</span>'
+        ).replace(/^(\s+)([\w-]+)(?=\s|$)/gm,
+          '$1<span class="syn-attr">$2</span>');
+
+        return `<span class="syn-punct">${open}</span><span class="syn-tag">${tag}</span>${colouredAttrs}<span class="syn-punct">${selfClose}${close}</span>`;
+      }
+    );
+
+    // CSS property: value;
+    src = src.replace(/([\w-]+)\s*(:)\s*([^;{}\n&]+)(;)/g,
+      '<span class="syn-prop">$1</span><span class="syn-punct">$2</span> <span class="syn-val">$3</span><span class="syn-punct">$4</span>');
+
+    // JS keywords
+    const kws = ["var","let","const","function","return","if","else","for","while",
+                  "class","new","this","import","export","default","async","await",
+                  "try","catch","throw","typeof","document","window","console"];
+    kws.forEach(kw => {
+      const re = new RegExp(`\\b(${kw})\\b`, "g");
+      src = src.replace(re, '<span class="syn-kw">$1</span>');
+    });
+
+    // JS strings (simple: "..." or '...')
+    src = src.replace(/(&quot;[^&]*?&quot;|&#39;[^&]*?&#39;)/g,
+      '<span class="syn-str">$1</span>');
+
+    // Numbers
+    src = src.replace(/\b(\d+(?:\.\d+)?(?:px|em|rem|%|vh|vw|s|ms)?)\b/g,
+      '<span class="syn-num">$1</span>');
+
+    block.innerHTML = src;
+  });
+
+  return div.innerHTML;
+}
+
+// ================================================================
+// STEP 1: THEORY
+// ================================================================
 function renderTheoryStep() {
   toggleStepVisibility(1);
   if (!currentLessonData) return;
+  const { title, content, summary } = currentLessonData;
 
-  const { title, content, summary, meta } = currentLessonData;
+  if ($("lessonTitle")) $("lessonTitle").textContent = title;
 
-  // Titles
-  if ($("lessonTitle"))          $("lessonTitle").textContent  = title;
-  if ($("heroLessonTitle"))      $("heroLessonTitle").textContent = title;
-  if ($("heroLessonDescription")) $("heroLessonDescription").innerHTML = content.explanation;
+  const heroTitle = $("heroLessonTitle");
+  const heroDesc  = $("heroLessonDescription");
+  if (heroTitle) heroTitle.textContent = title;
+  if (heroDesc)  {
+    // Apply syntax highlight before injecting into DOM
+    heroDesc.innerHTML = applySyntaxHighlight(content.explanation);
+    heroDesc.classList.add("lesson-body");
+  }
 
-  // Syntax breakdown card (injected after heroLessonDescription)
-  const lessonContent = $("lessonContent");
-  if (lessonContent) {
-    lessonContent.innerHTML = "";
-
+  // Syntax breakdown + common mistakes cards
+  const lc = $("lessonContent");
+  if (lc) {
+    lc.innerHTML = "";
     if (content.syntax_breakdown) {
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = content.syntax_breakdown;
-      lessonContent.appendChild(card);
+      const c = document.createElement("div");
+      c.className = "card lesson-body";
+      c.innerHTML = applySyntaxHighlight(content.syntax_breakdown);
+      lc.appendChild(c);
     }
-
     if (content.common_mistakes) {
-      const card = document.createElement("div");
-      card.className = "card";
-      card.style.borderLeft = "3px solid var(--coral)";
-      card.innerHTML = content.common_mistakes;
-      lessonContent.appendChild(card);
+      const c = document.createElement("div");
+      c.className = "card lesson-body";
+      c.style.cssText = "border-left:3px solid var(--coral)";
+      c.innerHTML = applySyntaxHighlight(content.common_mistakes);
+      lc.appendChild(c);
     }
   }
 
   // Takeaways
   if ($("takeawaysList") && summary.takeaways) {
-    $("takeawaysList").innerHTML = summary.takeaways
-      .map(t => `<li>${t}</li>`)
-      .join("");
+    $("takeawaysList").innerHTML = summary.takeaways.map(t => `<li>${t}</li>`).join("");
   }
 
   // Cheat sheet
   if ($("cheatSheetList") && summary.cheat_sheet) {
-    $("cheatSheetList").innerHTML = Object.entries(summary.cheat_sheet)
-      .map(([key, value]) => `
-        <div class="card" style="margin-bottom:10px;">
-          <h4 style="color:var(--cyan); font-size:0.85rem; font-family:'Fira Code',monospace; margin-bottom:5px;">${key}</h4>
-          <p style="font-size:0.88rem; color:var(--text-dim);">${value}</p>
-        </div>
-      `)
-      .join("");
+    $("cheatSheetList").innerHTML = Object.entries(summary.cheat_sheet).map(([k, v]) =>
+      `<div class="cheat-item"><h4>${k}</h4><p>${v}</p></div>`
+    ).join("");
   }
 
-  // Nav
   const btn = $("masterNextBtn");
   if (btn) {
     btn.textContent = isCheckpoint ? "Start Challenge 🛠️" : "Start Practice ➡";
@@ -210,67 +252,55 @@ function renderTheoryStep() {
   }
 }
 
-// ---- STEP 2: Challenge ----
+// ================================================================
+// STEP 2: CHALLENGE
+// ================================================================
 function renderChallengeStep() {
   toggleStepVisibility(2);
   if (!currentLessonData) return;
 
-  const sandbox = currentLessonData.editor_sandbox;
-  const mc      = sandbox.mini_challenge;
+  const { starter_code, mini_challenge: mc } = currentLessonData.editor_sandbox;
 
-  // Instruction (plain text — your real app uses textContent, not innerHTML)
-  if ($("challengeInstruction")) {
-    $("challengeInstruction").textContent = mc.instruction;
-  }
+  if ($("challengeInstruction")) $("challengeInstruction").textContent = mc.instruction;
 
-  // Load starter code only on first visit to this step
   const editor = $("codeEditor");
   if (editor && !editor.dataset.touched) {
-    editor.value = sandbox.starter_code;
+    editor.value = starter_code;
     editor.dataset.touched = "true";
   }
-
   updateLivePreview();
   wireEditor();
 
-  // Nav state
   const masterBtn = $("masterNextBtn");
-  if (masterBtn) {
-    masterBtn.textContent = "Go to Quiz ➡";
-    masterBtn.disabled    = true;
-  }
+  if (masterBtn) { masterBtn.textContent = "Go to Quiz ➡"; masterBtn.disabled = true; }
 
-  // Hint button
+  // Hint
   const hintBtn = $("showHintBtn");
   if (hintBtn) {
-    // Clone to remove any old listeners
     const fresh = hintBtn.cloneNode(true);
     hintBtn.parentNode.replaceChild(fresh, hintBtn);
-
     fresh.addEventListener("click", () => {
-      const hintBox = $("challengeHint");
-      if (!hintBox) return;
-      hintBox.textContent = mc.hint || "Try reviewing the lesson above.";
-      hintBox.classList.toggle("hidden");
+      const box = $("challengeHint");
+      if (!box) return;
+      box.textContent = mc.hint || "Review the lesson above.";
+      box.classList.toggle("hidden");
     });
   }
 
-  // Check button
+  // Verify
   const checkBtn = $("checkChallengeBtn");
   if (checkBtn) {
     const fresh = checkBtn.cloneNode(true);
     checkBtn.parentNode.replaceChild(fresh, checkBtn);
-
     fresh.addEventListener("click", () => {
-      const userCode = ($("codeEditor")?.value || "").toLowerCase();
-      const keyword  = mc.validation_keyword.toLowerCase();
-
-      if (userCode.includes(keyword)) {
+      const code    = ($("codeEditor")?.value || "").toLowerCase();
+      const keyword = mc.validation_keyword.toLowerCase();
+      if (code.includes(keyword)) {
         masterBtn.disabled    = false;
         masterBtn.textContent = "Go to Quiz ➡";
         showToast("✅ Challenge complete — well done!", "success");
       } else {
-        showToast(`Not quite. Make sure your code includes: "${mc.validation_keyword}"`, "error");
+        showToast(`Not quite. Include: "${mc.validation_keyword}"`, "error");
       }
     });
   }
@@ -288,41 +318,32 @@ function updateLivePreview() {
   const preview = $("live-preview");
   const code    = $("codeEditor")?.value || "";
   if (!preview) return;
-
   try {
-    const iDoc = preview.contentDocument || preview.contentWindow?.document;
-    if (iDoc) {
-      iDoc.open();
-      iDoc.write(`<html><head><style>body{font-family:sans-serif;padding:16px;color:#111;line-height:1.6;}code{background:#f1f3f7;padding:2px 6px;border-radius:4px;font-family:monospace;}pre{background:#f1f3f7;padding:12px;border-radius:8px;overflow-x:auto;}</style></head><body>${code}</body></html>`);
-      iDoc.close();
+    const d = preview.contentDocument || preview.contentWindow?.document;
+    if (d) {
+      d.open();
+      d.write(`<!DOCTYPE html><html><head><style>body{font-family:sans-serif;padding:14px;color:#111;line-height:1.6}code{background:#f1f3f7;padding:2px 5px;border-radius:4px;font-family:monospace}pre{background:#f1f3f7;padding:12px;border-radius:8px;overflow-x:auto}</style></head><body>${code}</body></html>`);
+      d.close();
     }
   } catch (_) {
-    // Fallback for sandboxed iframes
-    preview.srcdoc = `<html><body style="font-family:sans-serif;padding:16px;color:#111;line-height:1.6;">${code}</body></html>`;
+    preview.srcdoc = `<body style="font-family:sans-serif;padding:14px;color:#111">${code}</body>`;
   }
 }
 
-// ---- STEP 3: Quiz ----
+// ================================================================
+// STEP 3: QUIZ
+// ================================================================
 function renderQuizStep() {
   toggleStepVisibility(3);
   if (!currentLessonData) return;
-
   const quiz = currentLessonData.quiz_engine;
-
   if ($("quizQuestion")) $("quizQuestion").textContent = quiz.question;
 
-  const optionsWrapper = $("quizOptions");
-  if (!optionsWrapper) return;
-
-  optionsWrapper.innerHTML = quiz.options
-    .map((opt, i) => `
-      <button
-        class="quiz-option"
-        data-index="${i}"
-        onclick="handleQuizSelection(${i}, ${quiz.correct_index})"
-      >${opt}</button>
-    `)
-    .join("");
+  const wrap = $("quizOptions");
+  if (!wrap) return;
+  wrap.innerHTML = quiz.options.map((opt, i) =>
+    `<button class="quiz-option" data-index="${i}" onclick="handleQuizSelection(${i},${quiz.correct_index})">${opt}</button>`
+  ).join("");
 
   const btn = $("masterNextBtn");
   if (btn) {
@@ -331,123 +352,96 @@ function renderQuizStep() {
   }
 }
 
-// ---- Quiz selection (global, called from inline onclick) ----
-window.handleQuizSelection = (selectedIndex, correctIndex) => {
-  const options = document.querySelectorAll(".quiz-option");
-  options.forEach(opt => opt.classList.remove("selected", "correct", "wrong"));
-
-  const picked = options[selectedIndex];
+window.handleQuizSelection = (sel, correct) => {
+  document.querySelectorAll(".quiz-option").forEach(o => o.classList.remove("selected","correct","wrong"));
+  const picked = document.querySelectorAll(".quiz-option")[sel];
   picked.classList.add("selected");
-
-  const masterBtn = $("masterNextBtn");
-
-  if (selectedIndex === correctIndex) {
+  const btn = $("masterNextBtn");
+  if (sel === correct) {
     picked.classList.add("correct");
-    if (masterBtn) masterBtn.disabled = false;
-
-    const feedback = currentLessonData?.quiz_engine?.explanation_feedback || "Correct! Well done.";
-    showToast(`✅ ${feedback}`, "success");
+    if (btn) btn.disabled = false;
+    showToast(`✅ ${currentLessonData?.quiz_engine?.explanation_feedback || "Correct!"}`, "success");
   } else {
     picked.classList.add("wrong");
-    if (masterBtn) masterBtn.disabled = true;
+    if (btn) btn.disabled = true;
     showToast("Not quite — try another option.", "error");
   }
 };
 
-// ---- Finish & save ----
+// ================================================================
+// FINISH + SAVE
+// ================================================================
 async function finishLesson() {
-  const modal     = $("successModal");
-  const masterBtn = $("masterNextBtn");
+  const modal = $("successModal");
+  const btn   = $("masterNextBtn");
+  if (btn) { btn.disabled = true; btn.textContent = "Saving..."; }
 
-  if (masterBtn) {
-    masterBtn.disabled    = true;
-    masterBtn.textContent = "Saving...";
-  }
-
-  // Save to Firebase
   try {
     if (auth?.currentUser && db) {
       const xp = currentLessonData?.quiz_engine?.points || 10;
-      await updateDoc(doc(db, "users", auth.currentUser.uid), {
+      await updateDoc(docFn(db, "users", auth.currentUser.uid), {
         completedLessons: arrayUnion(lessonId),
         totalXP: increment(xp),
       });
     }
-  } catch (e) {
-    console.warn("Could not save progress:", e);
-    // Don't block the modal — still show success
-  }
+  } catch (e) { console.warn("Save failed:", e); }
 
-  // Show success modal
   if (!modal) return;
   modal.classList.remove("hidden");
 
-  const nextId    = lessonId + 1;
-  const isLastLesson = lessonId >= TOTAL_LESSONS;
+  const isLast   = lessonId >= TOTAL;
+  const nextId   = lessonId + 1;
+  const modalBtn = $("modalNextBtn");
 
-  const modalBtn = modal.querySelector(".primary-btn");
-  if (!modalBtn) return;
-
-  modalBtn.textContent = isLastLesson ? "🎓 View My Certificate" : `Start Lesson ${nextId} 🚀`;
-
-  // Clone to wipe any stale onclick="location.reload()" from HTML
-  const freshBtn = modalBtn.cloneNode(true);
-  modalBtn.parentNode.replaceChild(freshBtn, modalBtn);
-
-  freshBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    if (isLastLesson) {
-      window.location.href = "./dashboard.html";
-    } else {
+  if (modalBtn) {
+    modalBtn.textContent = isLast ? "🎓 View Certificate" : `Start Lesson ${nextId} 🚀`;
+    // Clone wipes any stale listeners
+    const fresh = modalBtn.cloneNode(true);
+    modalBtn.parentNode.replaceChild(fresh, modalBtn);
+    fresh.addEventListener("click", e => {
+      e.preventDefault();
+      if (isLast) { window.location.href = "./dashboard.html"; return; }
       const next = new URL(window.location.href);
       next.searchParams.set("id", nextId);
       window.location.href = next.pathname + next.search;
-    }
-  });
+    });
+  }
 }
 
 // ---- Progress bar ----
 function updateProgressUI() {
-  const progress = Math.min((lessonId / TOTAL_LESSONS) * 100, 100);
-  const pct = Math.round(progress);
+  const pct = Math.min(Math.round((lessonId / TOTAL) * 100), 100);
   if ($("progressPercent")) $("progressPercent").textContent = `${pct}%`;
   if ($("progressFill"))    $("progressFill").style.width   = `${pct}%`;
 }
 
-// ---- Sidebar user info ----
+// ---- Sidebar sync ----
 async function syncUserSidebar(uid) {
   try {
-    const snap = await getDoc(doc(db, "users", uid));
+    const snap = await getDoc(docFn(db, "users", uid));
     if (snap.exists()) {
-      const data = snap.data();
-      if ($("userName"))  $("userName").textContent  = data.username  || "Developer";
-      if ($("userLevel")) $("userLevel").textContent = data.level     ? `Level ${data.level}` : `Level 1`;
+      const d = snap.data();
+      if ($("userName"))  $("userName").textContent  = d.username || "Developer";
+      if ($("userLevel")) $("userLevel").textContent = d.level ? `Level ${d.level}` : "Level 1";
     }
-  } catch (e) {
-    console.error("Sidebar sync failed:", e);
-  }
+  } catch (e) { console.error("Sidebar sync:", e); }
 }
 
-// ---- Checkpoint gate: prevent URL-skipping ----
+// ---- Checkpoint gate ----
 async function enforceCheckpointGate(uid) {
-  // Only enforce if we're attempting a lesson AFTER a checkpoint
-  const gateMap = { 11: 10, 21: 20, 31: 30 };
-  const requiredCheckpoint = gateMap[lessonId];
-  if (!requiredCheckpoint) return;
-
+  const gates = { 11: 10, 21: 20, 31: 30 };
+  const req   = gates[lessonId];
+  if (!req) return;
   try {
-    const snap = await getDoc(doc(db, "users", uid));
-    if (!snap.exists()) return;
-    const completed = snap.data().completedLessons || [];
-    if (!completed.includes(requiredCheckpoint)) {
-      showToast(`Complete Lesson ${requiredCheckpoint} first before continuing.`, "error");
+    const snap = await getDoc(docFn(db, "users", uid));
+    const done = snap.exists() ? (snap.data().completedLessons || []) : [];
+    if (!done.includes(req)) {
+      showToast(`Complete Lesson ${req} first!`, "error");
       setTimeout(() => {
-        const redirect = new URL(window.location.href);
-        redirect.searchParams.set("id", requiredCheckpoint);
-        window.location.href = redirect.pathname + redirect.search;
+        const r = new URL(window.location.href);
+        r.searchParams.set("id", req);
+        window.location.href = r.pathname + r.search;
       }, 2500);
     }
-  } catch (e) {
-    console.warn("Gate check failed:", e);
-  }
+  } catch (e) { console.warn("Gate check:", e); }
 }
