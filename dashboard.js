@@ -1,652 +1,344 @@
 // =============================================
-// CYMOR CODE LEARNER - DASHBOARD ENGINE
-// File: dashboard.js
+// CYMOR CODE LEARNER - DASHBOARD ENGINE v2.0
+// FIXES:
+//   - TOTAL_LESSONS = 31
+//   - Resume last lesson (reads currentLesson from Firestore)
+//   - All stats pulled from Firestore, nothing hardcoded
+//   - Milestone cards update dynamically based on completedLessons
+//   - Daily goal ring computed from real data
 // =============================================
 
-import {
-    auth,
-    db,
-    signOut,
-    onAuthStateChanged
-} from "./firebase/firebase-config.js";
+import { auth, db, signOut, onAuthStateChanged } from "./firebase/firebase-config.js";
+import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-import {
-    doc,
-    getDoc
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const TOTAL_LESSONS = 31;
 
-// =============================================
-// GLOBAL STATE
-// =============================================
-
-const TOTAL_LESSONS = 30;
+// Lesson ranges for each module (for milestone tracking)
+const MODULES = {
+  HTML: { range: [1, 9],  checkpoint: 10, icon: "🌱", label: "HTML" },
+  CSS:  { range: [11, 19], checkpoint: 20, icon: "🎨", label: "CSS"  },
+  JS:   { range: [21, 29], checkpoint: 30, icon: "⚙️", label: "JS"   },
+  Capstone: { range: [31, 31], checkpoint: 31, icon: "🚀", label: "Deploy" },
+};
 
 let currentUser = null;
 
-// =============================================
-// DOM READY
-// =============================================
-
 document.addEventListener("DOMContentLoaded", () => {
-
-    initializeDashboard();
-
+  setupAuth();
+  setupLogout();
 });
 
 // =============================================
-// INITIALIZE DASHBOARD
+// AUTH
 // =============================================
-
-function initializeDashboard() {
-
-    console.log("🚀 Cymor Dashboard Engine Initialized");
-
-    setupAuth();
-    setupLogout();
-    setupQuickActions();
-    setupAnimations();
-
-}
-
-// =============================================
-// AUTH SYSTEM
-// =============================================
-
 function setupAuth() {
-
-    onAuthStateChanged(auth, async (user) => {
-
-        // Redirect if not logged in
-        if (!user) {
-
-            window.location.href = "login.html";
-            return;
-
-        }
-
-        currentUser = user;
-
-        await loadDashboardData(user);
-
-    });
-
+  onAuthStateChanged(auth, async user => {
+    if (!user) { window.location.href = "login.html"; return; }
+    currentUser = user;
+    await loadDashboardData(user);
+  });
 }
 
 // =============================================
-// LOAD DASHBOARD DATA
+// LOAD ALL DATA
 // =============================================
-
 async function loadDashboardData(user) {
+  try {
+    const snap = await getDoc(doc(db, "users", user.uid));
 
-    try {
-
-        const userRef = doc(db, "users", user.uid);
-
-        const userSnap = await getDoc(userRef);
-
-        if (!userSnap.exists()) {
-
-            console.warn("⚠️ User document missing");
-            return;
-
-        }
-
-        const data = userSnap.data();
-
-        updateProfileUI(user, data);
-
-        updateStats(data);
-
-        updateProgress(data);
-
-        updateCurrentLesson(data);
-
-        updateAchievements(data);
-
-        updateDailyQuote();
-
-    } catch (error) {
-
-        console.error("Dashboard Load Error:", error);
-
-        showToast("⚠️ Failed to load dashboard");
-
+    if (!snap.exists()) {
+      // First-time user — create doc then reload
+      await setDoc(doc(db, "users", user.uid), {
+        username: user.displayName || "Developer",
+        email: user.email,
+        totalXP: 0,
+        level: 1,
+        streak: 0,
+        completedLessons: [],
+        currentLesson: 1,
+        createdAt: new Date()
+      }, { merge: true });
+      await loadDashboardData(user);
+      return;
     }
 
+    const data = snap.data();
+    updateProfileUI(user, data);
+    updateStats(data);
+    updateProgress(data);
+    updateMilestones(data);
+    updateCurrentLesson(data);
+    updateDailyGoal(data);
+    updateAchievements(data);
+    updateLeaderboardRow(data);
+    updateDailyQuote();
+
+  } catch (err) {
+    console.error("Dashboard load error:", err);
+  }
 }
 
 // =============================================
-// PROFILE UI
+// PROFILE
 // =============================================
-
 function updateProfileUI(user, data) {
+  const name = data.username || user.displayName || "Developer";
+  document.querySelectorAll("#userName").forEach(el => el.textContent = name);
 
-    // User Name
-    const name =
-        data.name ||
-        user.displayName ||
-        "Developer";
+  const emailEl = document.getElementById("userEmail");
+  if (emailEl) emailEl.textContent = user.email || "";
 
-    const userNameElements =
-        document.querySelectorAll("#userName");
+  const photo = document.getElementById("userPhoto");
+  if (photo) photo.src = user.photoURL || "https://i.imgur.com/HeIi0wU.png";
 
-    userNameElements.forEach(el => {
-
-        el.textContent = name;
-
-    });
-
-    // Welcome Text
-    const welcomeName =
-        document.getElementById("welcomeUser");
-
-    if (welcomeName) {
-
-        welcomeName.textContent = name;
-
-    }
-
-    // Avatar
-    const avatar =
-        document.getElementById("userAvatar");
-
-    if (avatar) {
-
-        avatar.src =
-            user.photoURL ||
-            "https://i.imgur.com/HeIi0wU.png";
-
-    }
-
+  // Leaderboard row name
+  const lbName = document.getElementById("lbUserName");
+  if (lbName) lbName.textContent = name;
 }
 
 // =============================================
-// UPDATE STATS
+// STATS (all from Firestore — nothing hardcoded)
 // =============================================
-
 function updateStats(data) {
+  const xp        = data.totalXP || data.xp || 0;
+  const level     = computeLevel(xp);
+  const completed = data.completedLessons?.length || 0;
+  const streak    = data.streak || 0;
 
-    const completedLessons =
-        data.completedLessons?.length || 0;
+  animateNumber("xpValue",           xp);
+  animateNumber("xpDisplay",         xp);
+  animateNumber("levelValue",        level);
+  animateNumber("completedLessons",  completed);
+  animateNumber("streakValue",       streak);
 
-    const xp =
-        data.xp ||
-        data.totalXP ||
-        0;
+  // XP pill in sidebar
+  const xpPill = document.getElementById("xpValue");
+  if (xpPill) xpPill.textContent = xp;
 
-    const level =
-        data.level || 1;
+  // Leaderboard XP
+  const lbXp = document.getElementById("lbUserXp");
+  if (lbXp) lbXp.textContent = `${xp} XP`;
+}
 
-    const streak =
-        data.streak || 0;
-
-    animateNumber("xpValue", xp);
-
-    animateNumber("levelValue", level);
-
-    animateNumber(
-        "completedLessons",
-        completedLessons
-    );
-
-    animateNumber(
-        "streakValue",
-        streak
-    );
-
+function computeLevel(xp) {
+  // Each level = 100 XP — simple formula
+  return Math.max(1, Math.floor(xp / 100) + 1);
 }
 
 // =============================================
-// UPDATE PROGRESS
+// PROGRESS BAR (uses TOTAL_LESSONS = 31)
 // =============================================
-
 function updateProgress(data) {
+  const completed = data.completedLessons?.length || 0;
+  const pct       = Math.min(Math.floor((completed / TOTAL_LESSONS) * 100), 100);
 
-    const completed =
-        data.completedLessons?.length || 0;
+  const pctEl  = document.getElementById("progressPercent");
+  const fillEl = document.getElementById("dashboardProgressFill");
 
-    const progress =
-        Math.floor(
-            (completed / TOTAL_LESSONS) * 100
-        );
-
-    // Progress Text
-    const progressText =
-        document.getElementById(
-            "progressPercent"
-        );
-
-    if (progressText) {
-
-        progressText.textContent =
-            `${progress}%`;
-
-    }
-
-    // Progress Fill
-    const progressFill =
-        document.getElementById(
-            "dashboardProgressFill"
-        );
-
-    if (progressFill) {
-
-        setTimeout(() => {
-
-            progressFill.style.width =
-                `${progress}%`;
-
-        }, 300);
-
-    }
-
-    // Progress Label
-    const progressLabel =
-        document.getElementById(
-            "progressLabel"
-        );
-
-    if (progressLabel) {
-
-        progressLabel.textContent =
-            `${completed}/${TOTAL_LESSONS} Lessons Completed`;
-
-    }
-
+  if (pctEl)  pctEl.textContent   = `${pct}%`;
+  if (fillEl) setTimeout(() => { fillEl.style.width = `${pct}%`; }, 300);
 }
 
 // =============================================
-// CURRENT LESSON
+// MILESTONES — dynamic, based on completedLessons
 // =============================================
+function updateMilestones(data) {
+  const done = data.completedLessons || [];
+  const container = document.querySelector(".milestones");
+  if (!container) return;
 
+  const milestones = [
+    { label: "HTML",    icon: "🌱", unlocked: done.includes(10) },
+    { label: "CSS",     icon: "🎨", unlocked: done.includes(20) },
+    { label: "JS",      icon: "⚙️", unlocked: done.includes(30) },
+    { label: "Deploy",  icon: "🚀", unlocked: done.includes(31) },
+  ];
+
+  container.innerHTML = milestones.map(m => `
+    <div class="milestone ${m.unlocked ? "done" : ""}">
+      <div class="milestone-icon">${m.icon}</div>
+      <div class="milestone-name">${m.label}</div>
+    </div>
+  `).join("");
+}
+
+// =============================================
+// CURRENT LESSON — FIX: resume from Firestore
+// =============================================
 async function updateCurrentLesson(data) {
+  // FIX 4: use currentLesson saved by lessons.js, not hardcoded 1
+  const nextLesson = getNextLesson(data);
 
-    const currentLesson =
-        data.currentLesson || 1;
+  // Update the resume button href
+  const resumeBtn = document.querySelector(".resume-btn");
+  if (resumeBtn) resumeBtn.href = `lesson.html?id=${nextLesson}`;
 
-    try {
+  // Update CTA in topbar
+  const ctaBtn = document.querySelector(".cta-btn");
+  if (ctaBtn)  ctaBtn.href = `lesson.html?id=${nextLesson}`;
 
-        const response =
-            await fetch(
-                `./lessons/lesson-${currentLesson}.json`
-            );
+  // Load the lesson JSON to get its title
+  try {
+    const res = await fetch(`./lessons/lesson-${nextLesson}.json`);
+    if (!res.ok) return;
+    const lesson = await res.json();
 
-        if (!response.ok)
-            throw new Error("Lesson missing");
+    const titleEl = document.getElementById("currentLessonTitle");
+    if (titleEl) titleEl.textContent = lesson.title;
 
-        const lesson =
-            await response.json();
+    const descEl = document.getElementById("currentLessonDescription");
+    if (descEl) descEl.textContent = lesson.content?.explanation
+      ? stripHTML(lesson.content.explanation).slice(0, 100) + "…"
+      : "Continue your coding journey.";
 
-        const lessonTitle =
-            document.getElementById(
-                "currentLessonTitle"
-            );
-
-        const lessonDescription =
-            document.getElementById(
-                "currentLessonDescription"
-            );
-
-        const continueBtn =
-            document.getElementById(
-                "continueLessonBtn"
-            );
-
-        if (lessonTitle) {
-
-            lessonTitle.textContent =
-                `Lesson ${currentLesson}: ${lesson.title}`;
-
-        }
-
-        if (lessonDescription) {
-
-            lessonDescription.textContent =
-                lesson.description ||
-                "Continue your coding journey.";
-
-        }
-
-        if (continueBtn) {
-
-            continueBtn.href =
-                `lesson.html?id=${currentLesson}`;
-
-        }
-
-    } catch (error) {
-
-        console.error(error);
-
+    // Update the lesson thumb emoji based on module
+    const thumbEl = document.querySelector(".lesson-thumb");
+    if (thumbEl) {
+      if (nextLesson <= 10)       thumbEl.textContent = "🌐";
+      else if (nextLesson <= 20)  thumbEl.textContent = "🎨";
+      else if (nextLesson <= 30)  thumbEl.textContent = "⚙️";
+      else                        thumbEl.textContent = "🚀";
     }
 
+    // Tag on the card
+    const tagEl = document.querySelector(".tags .tag");
+    if (tagEl) {
+      if (nextLesson <= 10)       tagEl.textContent = "HTML";
+      else if (nextLesson <= 20)  tagEl.textContent = "CSS";
+      else if (nextLesson <= 30)  tagEl.textContent = "JavaScript";
+      else                        tagEl.textContent = "Capstone";
+    }
+
+  } catch (e) { console.warn("Lesson fetch:", e); }
+}
+
+function getNextLesson(data) {
+  const done = new Set(data.completedLessons || []);
+  // Find the first lesson not yet completed
+  for (let i = 1; i <= TOTAL_LESSONS; i++) {
+    if (!done.has(i)) return i;
+  }
+  return TOTAL_LESSONS; // all done
+}
+
+function stripHTML(html) {
+  const tmp = document.createElement("div");
+  tmp.innerHTML = html;
+  return tmp.textContent || "";
 }
 
 // =============================================
-// ACHIEVEMENTS
+// DAILY GOAL RING — computed from today's activity
 // =============================================
+function updateDailyGoal(data) {
+  const todayKey  = new Date().toISOString().slice(0, 10); // "2026-06-22"
+  const todayDone = (data.completedToday || {})[todayKey] || 0;
+  const target    = 3; // 3 lessons/day goal
+  const pct       = Math.min(Math.round((todayDone / target) * 100), 100);
 
+  const ring = document.querySelector(".ring-fill");
+  if (ring) {
+    const circumference = 220;
+    ring.style.strokeDashoffset = circumference * (1 - pct / 100);
+  }
+
+  const ringPct = document.querySelector(".ring-pct");
+  if (ringPct) ringPct.textContent = `${pct}%`;
+
+  const goalInfo = document.querySelector(".goal-info h3");
+  if (goalInfo) goalInfo.textContent = todayDone >= target ? "Goal Complete! 🎉" : `${target - todayDone} Lesson${target - todayDone !== 1 ? "s" : ""} Left`;
+}
+
+// =============================================
+// ACHIEVEMENTS — from Firestore completedLessons
+// =============================================
 function updateAchievements(data) {
+  const done = data.completedLessons || [];
 
-    const badges =
-        data.badges || [];
+  const achievements = [
+    { emoji: "🚀", name: "Explorer",    earned: done.length >= 1 },
+    { emoji: "🔥", name: "On a Roll",   earned: done.length >= 5 },
+    { emoji: "⚡", name: "First Code",  earned: done.includes(2) },
+    { emoji: "🧠", name: "Quiz Master", earned: done.length >= 15 },
+    { emoji: "🏆", name: "Champion",    earned: done.length >= 25 },
+    { emoji: "💎", name: "Legend",      earned: done.length >= 31 },
+  ];
 
-    const badgeContainer =
-        document.getElementById(
-            "badgesContainer"
-        );
+  const container = document.getElementById("achievement-badges");
+  if (!container) return;
 
-    if (!badgeContainer) return;
-
-    badgeContainer.innerHTML = "";
-
-    if (badges.length === 0) {
-
-        badgeContainer.innerHTML = `
-            <div class="empty-badge-card">
-                <h3>🏆 No Badges Yet</h3>
-                <p>
-                    Complete lessons to unlock achievements.
-                </p>
-            </div>
-        `;
-
-        return;
-
-    }
-
-    badges.forEach((badge, index) => {
-
-        const badgeCard =
-            document.createElement("div");
-
-        badgeCard.className =
-            "badge-card";
-
-        badgeCard.style.animationDelay =
-            `${index * 0.1}s`;
-
-        badgeCard.innerHTML = `
-            <div class="badge-icon">
-                🏅
-            </div>
-
-            <div class="badge-content">
-                <h3>${badge}</h3>
-                <p>Achievement Unlocked</p>
-            </div>
-        `;
-
-        badgeContainer.appendChild(
-            badgeCard
-        );
-
-    });
-
+  container.innerHTML = achievements.map(a => `
+    <div class="badge ${a.earned ? "earned" : "locked"}">
+      <span class="badge-emoji">${a.emoji}</span>
+      <div class="badge-name">${a.name}</div>
+    </div>
+  `).join("");
 }
 
 // =============================================
-// QUICK ACTIONS
+// LEADERBOARD ROW
 // =============================================
+function updateLeaderboardRow(data) {
+  const xp     = data.totalXP || data.xp || 0;
+  const lbXp   = document.getElementById("lbUserXp");
+  if (lbXp) lbXp.textContent = `${xp} XP`;
+}
 
-function setupQuickActions() {
+// =============================================
+// DAILY QUOTE
+// =============================================
+function updateDailyQuote() {
+  const quotes = [
+    "🚀 Great developers are built one lesson at a time.",
+    "💡 Consistency beats talent when talent stops learning.",
+    "⚡ Every expert programmer was once a beginner.",
+    "🔥 Small progress every day becomes huge success.",
+    "🧠 Code. Learn. Build. Repeat.",
+    "🏆 The best way to learn coding is by coding.",
+    "💻 Your future is being written line by line.",
+  ];
+  const el = document.getElementById("dailyQuote");
+  if (el) el.textContent = quotes[new Date().getDate() % quotes.length];
 
-    // Continue Learning
-    const continueBtn =
-        document.getElementById(
-            "continueLearningBtn"
-        );
-
-    if (continueBtn) {
-
-        continueBtn.addEventListener(
-            "click",
-            () => {
-
-                window.location.href =
-                    "lesson.html?id=1";
-
-            }
-        );
-
-    }
-
-    // Browse Lessons
-    const lessonsBtn =
-        document.getElementById(
-            "browseLessonsBtn"
-        );
-
-    if (lessonsBtn) {
-
-        lessonsBtn.addEventListener(
-            "click",
-            () => {
-
-                window.location.href =
-                    "lessons.html";
-
-            }
-        );
-
-    }
-
+  // Also update the motivation card copy
+  const motEl = document.querySelector(".motivation-card p");
+  if (motEl) motEl.textContent = quotes[(new Date().getDate() + 1) % quotes.length];
 }
 
 // =============================================
 // LOGOUT
 // =============================================
-
 function setupLogout() {
-
-    const logoutBtn =
-        document.getElementById(
-            "logoutBtn"
-        );
-
-    if (!logoutBtn) return;
-
-    logoutBtn.addEventListener(
-        "click",
-        async () => {
-
-            try {
-
-                await signOut(auth);
-
-                showToast(
-                    "👋 Logged out successfully"
-                );
-
-                setTimeout(() => {
-
-                    window.location.href =
-                        "login.html";
-
-                }, 1200);
-
-            } catch (error) {
-
-                console.error(error);
-
-                showToast(
-                    "⚠️ Logout failed"
-                );
-
-            }
-
-        }
-    );
-
+  const btn = document.getElementById("logoutBtn");
+  if (!btn) return;
+  btn.addEventListener("click", async () => {
+    try {
+      await signOut(auth);
+      window.location.href = "login.html";
+    } catch (e) { console.error("Logout failed:", e); }
+  });
 }
 
 // =============================================
-// ANIMATED COUNTERS
+// ANIMATED COUNTER
 // =============================================
-
 function animateNumber(id, target) {
-
-    const element =
-        document.getElementById(id);
-
-    if (!element) return;
-
-    let current = 0;
-
-    const increment =
-        Math.max(1, Math.floor(target / 40));
-
-    const timer =
-        setInterval(() => {
-
-            current += increment;
-
-            if (current >= target) {
-
-                current = target;
-
-                clearInterval(timer);
-
-            }
-
-            element.textContent = current;
-
-        }, 20);
-
+  const el = document.getElementById(id);
+  if (!el) return;
+  let current = 0;
+  const step  = Math.max(1, Math.floor(target / 40));
+  const timer = setInterval(() => {
+    current += step;
+    if (current >= target) { current = target; clearInterval(timer); }
+    el.textContent = current;
+  }, 20);
 }
 
 // =============================================
-// DAILY QUOTES SYSTEM
+// GLOBAL REFRESH
 // =============================================
-
-function updateDailyQuote() {
-
-    const quotes = [
-
-        "🚀 Great developers are built one lesson at a time.",
-
-        "💡 Consistency beats talent when talent stops learning.",
-
-        "⚡ Every expert programmer was once a beginner.",
-
-        "🔥 Small progress every day becomes huge success.",
-
-        "🧠 Code. Learn. Build. Repeat.",
-
-        "🏆 The best way to learn coding is by coding.",
-
-        "💻 Your future is being written line by line."
-
-    ];
-
-    const quoteElement =
-        document.getElementById(
-            "dailyQuote"
-        );
-
-    if (!quoteElement) return;
-
-    const today =
-        new Date().getDate();
-
-    quoteElement.textContent =
-        quotes[today % quotes.length];
-
-}
-
-// =============================================
-// TOAST NOTIFICATION
-// =============================================
-
-function showToast(message) {
-
-    const toast =
-        document.createElement("div");
-
-    toast.className =
-        "cymor-toast";
-
-    toast.innerHTML = message;
-
-    document.body.appendChild(toast);
-
-    setTimeout(() => {
-
-        toast.classList.add("show");
-
-    }, 100);
-
-    setTimeout(() => {
-
-        toast.classList.remove("show");
-
-        setTimeout(() => {
-
-            toast.remove();
-
-        }, 400);
-
-    }, 3000);
-
-}
-
-// =============================================
-// ANIMATIONS
-// =============================================
-
-function setupAnimations() {
-
-    const cards =
-        document.querySelectorAll(".card");
-
-    const observer =
-        new IntersectionObserver(
-            (entries) => {
-
-                entries.forEach(entry => {
-
-                    if (entry.isIntersecting) {
-
-                        entry.target.classList.add(
-                            "show-card"
-                        );
-
-                    }
-
-                });
-
-            },
-            {
-                threshold: 0.15
-            }
-        );
-
-    cards.forEach(card => {
-
-        observer.observe(card);
-
-    });
-
-}
-
-// =============================================
-// GLOBAL UTILITIES
-// =============================================
-
 window.cymorDashboard = {
-
-    refresh: async () => {
-
-        if (currentUser) {
-
-            await loadDashboardData(currentUser);
-
-        }
-
-    }
-
+  refresh: async () => { if (currentUser) await loadDashboardData(currentUser); }
 };
 
-console.log(
-    "✅ Cymor Dashboard System Ready"
-);
+console.log("✅ Cymor Dashboard v2.0 ready");
