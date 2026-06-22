@@ -1,62 +1,83 @@
 {
   "id": 28,
-  "module": "Styling Basics",
+  "module": "JavaScript Basics",
+
   "meta": {
     "next_lesson": 29,
     "prev_lesson": 27,
-    "xp_reward": 60,
-    "difficulty": "beginner",
-    "module_index": 7
+    "xp_reward": 10,
+    "difficulty": "intermediate",
+    "module_index": 3
   },
 
-  "title": "Lesson 28: Layout Basics (Divs & Page Structure)",
+  "title": "Lesson 28: The DOM & Selecting Elements",
 
   "content": {
-    "explanation": "<h3>🧱 Building Page Layouts</h3><p>Now that your website can look good, you need to learn how to organize content properly on the page.</p><p>This is called <strong>layout design</strong>.</p><hr><h3>🌐 Why Layout Matters</h3><ul><li>Keeps content structured</li><li>Makes websites easier to read</li><li>Helps design real app interfaces</li></ul><hr><h3>📦 Meet the <div> Element</h3><p>The <strong>div</strong> tag is used as a container to group elements together.</p>"
-  },
 
-  "syntax_breakdown": {
-    "content": "<h3>🧪 Basic Layout Example</h3><pre><code>&lt;style&gt;\n  .box {\n    background-color: lightblue;\n    padding: 20px;\n    margin: 10px;\n  }\n&lt;/style&gt;\n\n&lt;div class=\"box\"&gt;\n  &lt;h1&gt;Welcome&lt;/h1&gt;\n  &lt;p&gt;This is inside a container&lt;/p&gt;\n&lt;/div&gt;</code></pre><hr><h3>📌 Key Idea</h3><ul><li><strong>div</strong> = container box</li><li><strong>class</strong> = reusable style name</li></ul><hr><h3>🧠 Important Rule</h3><p>👉 Layout = grouping elements using containers</p>"
+    "explanation": "<h3>🌳 What the DOM Actually Is</h3><p>DOM stands for <strong>Document Object Model</strong>. Here's the key idea: when a browser loads your HTML, it doesn't just display it — it builds a living, structured, in-memory representation of your entire page, where every element (every div, every paragraph, every button) becomes an OBJECT that JavaScript can directly find, read, and change. The DOM is the bridge that finally connects everything you've learned: JavaScript can now reach INTO your HTML and CSS and manipulate them directly, in real time, in response to whatever happens.</p><hr><h3>🗄️ The Filing Cabinet Analogy</h3><p>Think of your HTML page as a tall filing cabinet, with folders inside folders (remember parent/child nesting from Lesson 2 and Lesson 6). The DOM is like having a perfect digital index of every single folder and document in that cabinet, each with a specific way to look it up — by name, by label, by category. JavaScript uses this index to instantly locate and pull out (or modify) exactly the folder it needs, without searching the entire cabinet by hand.</p><hr><h3>🔌 Why This Is THE Lesson Everything Has Been Building Toward</h3><p>This is genuinely the moment your three languages finally connect into one working system: HTML (Lesson 1-10) provides the structure, CSS (Lesson 11-20) provides the appearance, and NOW JavaScript can reach into both and change them dynamically — toggle a class, update text, hide an element, respond to a click. Everything from variables to functions to loops has been building toward this exact capability.</p>",
+
+    "syntax_breakdown": "<h3>🧱 Selecting an Element by ID</h3><pre><code>&lt;h1 id=\"main-title\"&gt;Hello&lt;/h1&gt;\n\n&lt;script&gt;\n  const title = document.getElementById(\"main-title\");\n  console.log(title);\n&lt;/script&gt;</code></pre><ul><li><code>document</code> — represents the ENTIRE page, the starting point for almost every DOM operation</li><li><code>.getElementById(\"main-title\")</code> — searches the whole page for ONE element with that exact id (remember, ids should be unique per page — Lesson 2 and Lesson 12 connect directly here)</li><li>The result is STORED in the <code>title</code> variable — once selected, you can read or change that element through this variable</li></ul><hr><h3>🧱 Selecting by Class (Multiple Elements)</h3><pre><code>&lt;p class=\"highlight\"&gt;First&lt;/p&gt;\n&lt;p class=\"highlight\"&gt;Second&lt;/p&gt;\n\n&lt;script&gt;\n  const highlights = document.getElementsByClassName(\"highlight\");\n  console.log(highlights.length); // 2\n&lt;/script&gt;</code></pre><p>Notice this is <code>getElementsByClassName</code> — plural 'Elements,' because a class can match MANY elements at once (Lesson 12 again). This returns a COLLECTION, not a single element — accessing one specific item from it works similarly to an array, using <code>highlights[0]</code> for the first match.</p><hr><h3>🧱 querySelector — The Modern, Flexible Approach</h3><pre><code>const title = document.querySelector(\"#main-title\");   // by id\nconst firstHighlight = document.querySelector(\".highlight\"); // by class, first match only\nconst allHighlights = document.querySelectorAll(\".highlight\"); // by class, ALL matches</code></pre><p><code>querySelector</code> is a more modern, flexible method that accepts the EXACT same syntax you already learned in CSS selectors (Lesson 12) — a dot for class, a hash for id. This is genuinely convenient: if you already know how to write a CSS selector, you already know how to write a querySelector argument. <code>querySelector</code> returns the FIRST match only; <code>querySelectorAll</code> returns ALL matches as a collection.</p><hr><h4>🤔 Which Method Should You Use?</h4><p>For this course going forward, we'll primarily use <code>querySelector</code> and <code>querySelectorAll</code> since they're the most flexible and directly reuse your existing CSS selector knowledge — but you'll still encounter <code>getElementById</code> often in real-world code (including, notably, your own Cymor Code Learner engine, which uses a helper shortcut built on top of it), so it's worth recognizing both.</p>",
+
+    "common_mistakes": "<h4>⚠️ Common Beginner Mistakes</h4><ul><li><strong>Forgetting the # or . in querySelector</strong> — document.querySelector(\"main-title\") without the # looks for a TAG called main-title, which doesn't exist, instead of an id.</li><li><strong>Trying to use array methods directly on getElementsByClassName results</strong> — it returns a special live collection, not a true array, which can behave subtly differently in some cases (querySelectorAll's result is closer to array-like and more commonly used).</li><li><strong>Selecting an element before it exists in the page yet</strong> — connects back to Lesson 21's advice about placing script tags near the end of body, after your HTML content.</li></ul>"
+
   },
 
   "editor_sandbox": {
-    "starter_code": "<!-- Cymor Code Learner 🚀 Layout Basics -->\n<h1>My Layout Page</h1>\n<p>Learning how to structure web pages properly.</p>",
+
+    "starter_code": "<h1 id=\"pageTitle\">Original Title</h1>\n<p class=\"info\">Some info text.</p>\n<script>\n  // Write your code below\n</script>",
 
     "mini_challenge": {
-      "instruction": "🎯 Mission: Create a layout box\n\n1. Add a <style> block\n2. Create a .box class with background color and padding\n3. Wrap your content inside a <div class='box'>\n\n🔥 Build your first layout container",
 
-      "hint": "👉 Example:\n<div class='box'>\n  <h1>Title</h1>\n</div>",
+      "instruction": "🎯 Challenge:\n\n1. In your script, use document.querySelector() to select the h1 by its id\n2. Use console.log() to print the selected element\n3. Use console.log() to print: the dom connects javascript to html\n4. Below the script, add a paragraph (visible on the page) saying: the dom connects javascript to html\n5. Run and verify your code",
 
-      "validation_keyword": "div"
+      "hint": "👉 Example:\n<script>\n  const title = document.querySelector(\"#pageTitle\");\n  console.log(title);\n  console.log(\"the dom connects javascript to html\");\n</script>\n<p>the dom connects javascript to html</p>",
+
+      "validation_keyword": "the dom connects javascript to html"
+
     }
+
   },
 
   "quiz_engine": {
-    "question": "What is the main purpose of a <div> in HTML?",
+
+    "question": "What does document.querySelector(\".highlight\") select?",
+
     "options": [
-      "To display images",
-      "To create containers for grouping content",
-      "To create links between pages"
+      "Every element with class=\"highlight\" on the page",
+      "Only the FIRST element with class=\"highlight\" on the page",
+      "An element with id=\"highlight\""
     ],
+
     "correct_index": 1,
-    "points": 60,
-    "explanation_feedback": "Correct 🎉 A div is a container used to group and organize elements for layout design."
+
+    "points": 10,
+
+    "explanation_feedback": "Correct 🎉 querySelector always returns only the FIRST matching element. To get ALL matches, you'd use querySelectorAll instead."
+
   },
 
   "summary": {
+
     "takeaways": [
-      "Layout organizes content on a webpage",
-      "div is a container element",
-      "CSS classes allow reusable styling",
-      "Grouping elements improves structure",
-      "Layouts are essential for real UI design"
+      "The DOM is the browser's living, in-memory representation of your HTML page",
+      "The DOM is what lets JavaScript reach into and manipulate HTML and CSS directly",
+      "document.getElementById() selects one element by its unique id",
+      "querySelector() uses CSS-style selectors and returns the FIRST match",
+      "querySelectorAll() uses CSS-style selectors and returns ALL matches"
     ],
 
     "cheat_sheet": {
-      "div": "Container for grouping elements",
-      "class": "Reusable CSS selector",
-      "layout": "Structure of page elements",
-      "rule": "Group before styling"
+
+      "document": "Represents the entire page — starting point for DOM operations",
+
+      "document.getElementById(\"id\")": "Selects one element by id",
+
+      "document.querySelector(\"selector\")": "Selects the FIRST match, using CSS-style selectors",
+
+      "document.querySelectorAll(\"selector\")": "Selects ALL matches, using CSS-style selectors"
+
     }
+
   }
+
 }

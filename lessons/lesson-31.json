@@ -1,0 +1,89 @@
+{
+  "id": 31,
+  "module": "Capstone",
+
+  "meta": {
+    "next_lesson": null,
+    "prev_lesson": 30,
+    "xp_reward": 50,
+    "difficulty": "capstone",
+    "module_index": 4
+  },
+
+  "title": "Lesson 31: 🚀 Capstone — Ship It Live",
+
+  "content": {
+
+    "explanation": "<h3>🎉 You Built a Real Project. Now Let's Put It on the Internet.</h3><p>Every lesson before this one happened inside this app's code editor — useful for learning, but invisible to the rest of the world. A project that only exists in a practice sandbox isn't a project yet; it's practice. This final lesson walks you through the exact same process every professional developer uses to take code from 'working on my screen' to 'live on the internet, with a real URL you can share.'</p><hr><h3>🧭 The Journey, In Plain Terms</h3><p>By the end of this lesson, you will have done all four things you set out to learn:</p><ul><li>1. <strong>Built a working website</strong> — done, across Lessons 1-30</li><li>2. <strong>Written code in a real code editor</strong> — done in this app's sandbox, and now you'll do it in a proper file</li><li>3. <strong>Pushed code to GitHub</strong> — what this lesson teaches</li><li>4. <strong>Deployed to a live URL via Netlify or Vercel</strong> — what this lesson finishes with</li></ul><hr><h3>📂 What GitHub Actually Is</h3><p>Think of GitHub like a save file for your project that lives online instead of just on your phone. Every time you 'commit' and 'push,' you're creating a saved snapshot of your code that's backed up safely, shareable with anyone, and — critically for this lesson — connectable to a deployment service that automatically builds and publishes your site whenever you update it.</p><hr><h3>🌍 What 'Deploying' Actually Means</h3><p>Right now, your HTML file only exists on your device. A 'deployment service' like Netlify or Vercel takes your code from GitHub and hosts it on the internet, generating a real public URL like <code>your-project.vercel.app</code> — the same kind of link you've used to access this very course (cymorcodelearner09.vercel.app). Once deployed, ANYONE, anywhere, can visit that link and see your project — no code editor, no app, just a browser.</p>",
+
+    "syntax_breakdown": "<h3>🧱 Step 1: Organize Your Project Files</h3><p>Combine the HTML, CSS, and JavaScript skills from your checkpoints (Lessons 10, 20, 30) into real files, not just the in-app sandbox. A minimal project needs:</p><pre><code>my-project/\n  index.html\n  style.css\n  script.js</code></pre><p>Link them together properly inside <code>index.html</code>:</p><pre><code>&lt;head&gt;\n  &lt;link rel=\"stylesheet\" href=\"style.css\"&gt;\n&lt;/head&gt;\n&lt;body&gt;\n\n  &lt;!-- your content here --&gt;\n\n  &lt;script src=\"script.js\"&gt;&lt;/script&gt;\n&lt;/body&gt;</code></pre><p>Notice <code>&lt;script&gt;</code> goes near the END of <code>&lt;body&gt;</code>, not in <code>&lt;head&gt;</code> — this ensures your HTML elements already exist on the page BEFORE your JavaScript tries to select them with <code>querySelector</code>, avoiding the exact mistake flagged back in Lesson 30's common mistakes.</p><hr><h3>🧱 Step 2: Create a GitHub Repository</h3><ul><li>1. Go to github.com and sign in (create a free account if you don't have one)</li><li>2. Tap the <strong>+</strong> icon → <strong>New repository</strong></li><li>3. Give it a name (e.g. <code>my-first-website</code>) — no spaces, use hyphens</li><li>4. Set it to <strong>Public</strong> so it can be freely deployed</li><li>5. Tap <strong>Create repository</strong></li></ul><hr><h3>🧱 Step 3: Push Your Code to GitHub (Phone-Friendly Method)</h3><p>Since this course is built phone-first, the easiest method is GitHub's own web upload feature — no terminal or git commands required:</p><ul><li>1. On your new repository's page, tap <strong>Add file → Upload files</strong></li><li>2. Select your <code>index.html</code>, <code>style.css</code>, and <code>script.js</code> files</li><li>3. Scroll down and tap <strong>Commit changes</strong> — this is GitHub's word for 'save this update'</li></ul><p>If you later make code changes, you repeat this same process — GitHub will treat it as a new commit, keeping a full history of every version of your project.</p><hr><h3>🧱 Step 4: Deploy to Vercel or Netlify</h3><p>Both work almost identically and both are free for personal projects like this:</p><h4>Using Vercel:</h4><ul><li>1. Go to vercel.com and sign in with your GitHub account</li><li>2. Tap <strong>Add New → Project</strong></li><li>3. Select your repository from the list</li><li>4. Leave the default settings (no special build needed for plain HTML/CSS/JS) and tap <strong>Deploy</strong></li><li>5. Within a minute, Vercel gives you a live URL like <code>my-first-website.vercel.app</code></li></ul><h4>Using Netlify (alternative):</h4><ul><li>1. Go to netlify.com and sign in with GitHub</li><li>2. Tap <strong>Add new site → Import an existing project</strong></li><li>3. Choose your repository, leave default settings, tap <strong>Deploy site</strong></li></ul><p>From this point on, <strong>every time you push a new commit to GitHub, your live site automatically updates</strong> — this connection between GitHub and your deploy platform is exactly the same zero-budget workflow used to build and host real production tools, including the very app you're learning in right now.</p>",
+
+    "common_mistakes": "<h4>⚠️ Common Capstone Mistakes</h4><ul><li><strong>Forgetting to link your CSS/JS files correctly</strong> in index.html — your site will deploy successfully but look completely unstyled or non-interactive, because the browser can't find files that aren't properly linked.</li><li><strong>Wrong file/folder capitalization</strong> — exactly like Lesson 4's image path warning, this becomes critical once deployed, since hosting servers are often case-sensitive even if your own device wasn't.</li><li><strong>Setting the repository to Private</strong> on a free plan in a way that blocks the deploy platform from accessing it — keep it Public unless you specifically know how to configure private repo access.</li><li><strong>Expecting instant updates</strong> — after pushing a new commit, give the deploy platform 30-60 seconds to rebuild before refreshing your live URL.</li></ul>"
+
+  },
+
+  "editor_sandbox": {
+
+    "starter_code": "<!-- 🚀 This is a checklist lesson, not a code editor task. -->\n<!-- Follow the steps above using your real GitHub and Vercel/Netlify accounts. -->\n<!-- When you've completed all 4 steps, type the confirmation phrase below to finish the course. -->\n\ncapstone complete",
+
+    "mini_challenge": {
+
+      "instruction": "🚀 FINAL TASK:\n\n1. Combine your HTML, CSS, and JS into real files (index.html, style.css, script.js)\n2. Create a GitHub repository and upload your files\n3. Connect that repository to Vercel or Netlify and deploy it\n4. Once your project has a real live URL, type this phrase into the editor to complete the course: capstone complete",
+
+      "hint": "👉 If you're stuck:\n- Make sure index.html links your CSS with <link rel=\"stylesheet\" href=\"style.css\">\n- Make sure your <script src=\"script.js\"></script> is just before </body>\n- On GitHub, use 'Add file → Upload files' for the easiest phone-friendly upload\n- On Vercel or Netlify, sign in with GitHub so your repository shows up automatically",
+
+      "validation_keyword": "capstone complete"
+
+    }
+
+  },
+
+  "quiz_engine": {
+
+    "question": "What does connecting GitHub to Vercel or Netlify actually give you?",
+
+    "options": [
+      "Nothing extra, it's purely for backup purposes",
+      "Your live site automatically updates every time you push a new commit to GitHub",
+      "It converts your HTML into a different programming language"
+    ],
+
+    "correct_index": 1,
+
+    "points": 30,
+
+    "explanation_feedback": "Correct 🎉 Once connected, every push to GitHub triggers an automatic rebuild and redeploy — your live URL always reflects your latest committed code, with zero manual republishing needed."
+
+  },
+
+  "summary": {
+
+    "takeaways": [
+      "A project isn't finished until it's deployed somewhere real people can visit",
+      "GitHub stores and versions your code; deploy platforms publish it to a live URL",
+      "Always link your CSS and JS files correctly in index.html or they won't load once deployed",
+      "Once GitHub and your deploy platform are connected, every push auto-updates your live site",
+      "You've now completed the full journey: build → code → push → deploy, the same workflow real developers use every day"
+    ],
+
+    "cheat_sheet": {
+
+      "Project Structure": "index.html, style.css, script.js in one folder",
+
+      "Link CSS": "&lt;link rel=\"stylesheet\" href=\"style.css\"&gt; in &lt;head&gt;",
+
+      "Link JS": "&lt;script src=\"script.js\"&gt;&lt;/script&gt; before &lt;/body&gt;",
+
+      "GitHub Upload": "Add file → Upload files → Commit changes",
+
+      "Deploy (Vercel)": "vercel.com → Add New Project → select repo → Deploy",
+
+      "Deploy (Netlify)": "netlify.com → Add new site → Import existing project",
+
+      "Auto-Updates": "Every push to GitHub triggers a new live deployment"
+
+    }
+
+  }
+
+}

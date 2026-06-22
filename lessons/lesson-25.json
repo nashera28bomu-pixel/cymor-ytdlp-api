@@ -1,62 +1,85 @@
 {
   "id": 25,
-  "module": "Mini Projects",
+  "module": "JavaScript Basics",
+
   "meta": {
     "next_lesson": 26,
     "prev_lesson": 24,
-    "xp_reward": 50,
+    "xp_reward": 10,
     "difficulty": "beginner",
-    "module_index": 6
+    "module_index": 3
   },
 
-  "title": "Lesson 25: Mini Project — Build Your First Multi-Page Website",
+  "title": "Lesson 25: Functions",
 
   "content": {
-    "explanation": "<h3>🚀 You Are Now Building Real Websites</h3><p>Up to this point, you have learned how individual HTML pieces work.</p><p>Now it is time to combine everything into a real project.</p><hr><h3>🌐 What You Will Build</h3><ul><li>A homepage (index.html)</li><li>An about page (about.html)</li><li>A contact section (contact.html structure)</li><li>Navigation links between pages</li><li>Images and structured content</li></ul><hr><h3>⚡ Developer Goal</h3><p>👉 Build a complete website like a real developer would on GitHub</p>"
-  },
 
-  "syntax_breakdown": {
-    "content": "<h3>🧪 Project Structure Example</h3><pre><code>index.html\nabout.html\ncontact.html\nimages/\n  profile.jpg</code></pre><hr><h3>🔗 Navigation Example</h3><pre><code>&lt;a href=\"index.html\"&gt;Home&lt;/a&gt;\n&lt;a href=\"about.html\"&gt;About&lt;/a&gt;\n&lt;a href=\"contact.html\"&gt;Contact&lt;/a&gt;</code></pre><hr><h3>🧠 Key Idea</h3><p>👉 Websites are just connected HTML pages working together</p>"
+    "explanation": "<h3>📋 What a Function Actually Is</h3><p>A function is a NAMED, REUSABLE block of code that performs a specific task. Instead of writing the same lines of code over and over wherever you need that task done, you define it ONCE inside a function, give it a name, and then just 'call' that name whenever you need that task to run — as many times as you like.</p><hr><h3>🍳 The Recipe Analogy</h3><p>A function is like a recipe card. The recipe itself (the function's code) is written once. Every time you want to actually MAKE the dish, you follow the recipe (you 'call' the function) — you don't rewrite the recipe from scratch every single time you want to cook. And just like a recipe might say 'serves however many people you specify,' a function can accept different INPUTS each time you call it, producing a tailored result.</p><hr><h3>🔁 Why Functions Matter So Much</h3><p>This connects directly to a core programming principle: DRY — 'Don't Repeat Yourself.' If you find yourself copy-pasting the same few lines of code in multiple places, that's almost always a sign you should turn it into a function instead. This makes your code shorter, easier to update (fix it in ONE place, not five), and easier to read, since a well-named function tells you what it does just by its name.</p><hr><h3>📥📤 Inputs and Outputs: Parameters and Return Values</h3><p>Functions can optionally accept INPUTS (called 'parameters') and optionally send back an OUTPUT (called a 'return value'). Think of parameters as the ingredients you hand to the recipe, and a return value as the finished dish handed back to you once the function finishes its work.</p>",
+
+    "syntax_breakdown": "<h3>🧱 A Basic Function</h3><pre><code>function greet() {\n  console.log(\"Hello there!\");\n}\n\ngreet(); // calling the function — this is what actually runs it</code></pre><ul><li><code>function</code> — the keyword that starts a function DEFINITION</li><li><code>greet</code> — the function's NAME, chosen by you, ideally describing what it does</li><li><code>()</code> — parentheses, where parameters would go if this function needed any</li><li><code>{ }</code> — curly braces wrap the code that runs each time this function is called</li><li><code>greet();</code> — this is the actual CALL — simply writing the function (the recipe) does nothing on its own; you must call it to make it run</li></ul><p><strong>Critical distinction:</strong> defining a function and calling a function are two completely separate steps. Writing the function block just stores the instructions — nothing happens until you call it by name with parentheses.</p><hr><h3>🧱 Functions with Parameters (Inputs)</h3><pre><code>function greetUser(name) {\n  console.log(\"Hello, \" + name + \"!\");\n}\n\ngreetUser(\"Smiley\"); // \"Hello, Smiley!\"\ngreetUser(\"David\");  // \"Hello, David!\"</code></pre><p><code>name</code> here is a PARAMETER — a placeholder for whatever value gets passed in when the function is called. Notice the SAME function produces a DIFFERENT, customized result each time, depending on what's passed in — this is the real power of parameters.</p><hr><h3>🧱 Functions with a Return Value (Output)</h3><pre><code>function addNumbers(a, b) {\n  return a + b;\n}\n\nconst result = addNumbers(5, 3);\nconsole.log(result); // 8</code></pre><p><code>return</code> sends a value BACK out of the function, which can then be stored in a variable or used elsewhere. Without <code>return</code>, a function might still DO something (like print to console), but it won't hand back a usable value you can store or build on further.</p><hr><h3>🧱 Arrow Functions — A Shorter Modern Syntax</h3><pre><code>const addNumbers = (a, b) => {\n  return a + b;\n};</code></pre><p>This is an alternative, increasingly common way to write the exact same function, called an 'arrow function' because of the <code>=&gt;</code> symbol. You'll see both styles in real code — they largely do the same job, just written differently. We're introducing it here so you recognize it when you see it, even though we'll mostly stick to the classic <code>function</code> keyword style for clarity in this course.</p>",
+
+    "common_mistakes": "<h4>⚠️ Common Beginner Mistakes</h4><ul><li><strong>Defining a function but never calling it</strong> — writing the recipe but never actually cooking it; nothing happens until you call the function by name with ().</li><li><strong>Forgetting return when you need the result back</strong> — without it, calling the function won't give you a usable value to store or work with further.</li><li><strong>Mixing up parameters and arguments</strong> — parameters are the placeholder names in the function definition (like name above); arguments are the actual values you pass in when calling it (like \"Smiley\").</li><li><strong>Forgetting parentheses when calling</strong> — writing greet instead of greet() does NOT call the function; it just refers to it without running it.</li></ul>"
+
   },
 
   "editor_sandbox": {
-    "starter_code": "<!-- Cymor Code Learner 🚀 FINAL MINI PROJECT -->\n<h1>My First Website</h1>\n<p>Welcome to my personal project site.</p>",
+
+    "starter_code": "<h1>Functions Practice</h1>\n<script>\n  // Write your code below\n</script>",
 
     "mini_challenge": {
-      "instruction": "🎯 FINAL PROJECT MISSION:\n\nBuild a full homepage that includes:\n\n1. A main heading (h1)\n2. A short introduction paragraph\n3. A navigation menu with 3 links:\n   - Home (index.html)\n   - About (about.html)\n   - Contact (contact.html)\n4. Add one image using an <img> tag\n5. Add a second paragraph describing your website\n\n🔥 Combine everything you have learned so far",
 
-      "hint": "👉 Structure example:\n<h1>My Website</h1>\n<a href=\"about.html\">About</a>\n<img src=\"image.jpg\" alt=\"My site image\">\n<p>Description here</p>",
+      "instruction": "🎯 Challenge:\n\n1. In your script, create a function called multiply that accepts two parameters and returns their product\n2. Call the function with two numbers and console.log() the result\n3. Use console.log() to print: functions are reusable blocks of code\n4. Below the script, add a paragraph (visible on the page) saying: functions are reusable blocks of code\n5. Run and verify your code",
 
-      "validation_keyword": "<img"
+      "hint": "👉 Example:\n<script>\n  function multiply(a, b) {\n    return a * b;\n  }\n  console.log(multiply(4, 5));\n  console.log(\"functions are reusable blocks of code\");\n</script>\n<p>functions are reusable blocks of code</p>",
+
+      "validation_keyword": "functions are reusable blocks of code"
+
     }
+
   },
 
   "quiz_engine": {
-    "question": "What is the main goal of this mini project?",
+
+    "question": "What's the difference between DEFINING a function and CALLING a function?",
+
     "options": [
-      "To memorize HTML tags",
-      "To build a complete multi-page website using everything learned so far",
-      "To learn advanced JavaScript frameworks"
+      "They are the same thing",
+      "Defining stores the instructions; calling (using the function's name with parentheses) is what actually runs them",
+      "Calling a function deletes it after use"
     ],
+
     "correct_index": 1,
-    "points": 50,
-    "explanation_feedback": "Correct 🎉 This project combines all your HTML skills into a real website structure similar to what developers build and deploy."
+
+    "points": 10,
+
+    "explanation_feedback": "Correct 🎉 Defining a function (the function keyword + body) just stores the instructions like a recipe. Nothing actually runs until you CALL it using its name followed by parentheses."
+
   },
 
   "summary": {
+
     "takeaways": [
-      "Real websites combine multiple HTML pages",
-      "Navigation links connect pages together",
-      "Images and text create complete user experiences",
-      "Project thinking is more important than memorizing tags",
-      "This is your first real developer-style website"
+      "A function is a named, reusable block of code for a specific task",
+      "Defining a function stores it; calling it (name + parentheses) actually runs it",
+      "Parameters are inputs a function can accept, customizing its behavior each call",
+      "return sends a usable value back out of the function",
+      "Functions follow the DRY principle — Don't Repeat Yourself"
     ],
 
     "cheat_sheet": {
-      "website_structure": "Multiple HTML files connected via links",
-      "navigation": "<a href='page.html'>Link</a>",
-      "image_usage": "<img src='file.jpg' alt='description'>",
-      "rule": "Think in pages, not just tags"
+
+      "function name() { }": "Defines a function",
+
+      "name();": "Calls (runs) the function",
+
+      "function name(param) { }": "Defines a function that accepts an input",
+
+      "return value;": "Sends a value back out of the function",
+
+      "Arrow Function": "const name = (param) => { return value; }"
+
     }
+
   }
+
 }

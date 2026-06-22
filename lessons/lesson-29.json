@@ -1,62 +1,85 @@
 {
   "id": 29,
-  "module": "Deployment & Real World Workflow",
+  "module": "JavaScript Basics",
+
   "meta": {
     "next_lesson": 30,
     "prev_lesson": 28,
-    "xp_reward": 80,
-    "difficulty": "beginner",
-    "module_index": 8
+    "xp_reward": 10,
+    "difficulty": "intermediate",
+    "module_index": 3
   },
 
-  "title": "Lesson 29: Introduction to GitHub (Saving Your Code Like a Developer)",
+  "title": "Lesson 29: DOM Manipulation & Events",
 
   "content": {
-    "explanation": "<h3>🌐 Welcome to Real Development Workflow</h3><p>Until now, you have been writing code inside a browser-based editor.</p><p>Real developers do something different — they store and manage code using <strong>GitHub</strong>.</p><hr><h3>📦 What is GitHub?</h3><p>GitHub is a platform where developers:</p><ul><li>Save code safely</li><li>Track changes</li><li>Work on projects together</li><li>Deploy websites</li></ul><hr><h3>⚡ Why It Matters</h3><p>👉 Every professional website project lives on GitHub before deployment.</p>"
-  },
 
-  "syntax_breakdown": {
-    "content": "<h3>🧪 Basic GitHub Workflow</h3><pre><code>1. Create a repository (project)\n2. Upload your HTML files\n3. Commit changes (save versions)\n4. Push updates to GitHub</code></pre><hr><h3>📌 Key Terms</h3><ul><li><strong>Repo</strong> = project folder on GitHub</li><li><strong>Commit</strong> = saved version of code</li><li><strong>Push</strong> = upload code online</li></ul><hr><h3>🧠 Key Idea</h3><p>👉 GitHub = Google Drive for developers (but smarter)</p>"
+    "explanation": "<h3>✨ From Selecting to Actually Changing</h3><p>Last lesson, you learned to FIND elements using the DOM. This lesson is about actually CHANGING them — updating their text, swapping their styles, adding or removing CSS classes — and doing it in RESPONSE to something the user does, like a click. This is the lesson where your pages genuinely come alive and stop being static documents.</p><hr><h3>🎭 The Puppet Strings Analogy</h3><p>If selecting an element (Lesson 28) is like grabbing hold of a puppet, DOM manipulation is pulling its strings — making it move, change expression, or react. And an EVENT is the cue that tells you WHEN to pull which string: 'when the audience claps (the user clicks), make the puppet bow (update the text).'</p><hr><h3>🔔 What an Event Actually Is</h3><p>An event is something that HAPPENS in the browser: a click, a key press, the page finishing loading, text being typed into an input. JavaScript lets you 'listen' for these events on specific elements and run a function the MOMENT that event occurs. This event-driven approach is the foundation of basically all interactivity on the web — buttons, forms, animations, games, all of it.</p><hr><h3>🧩 This Lesson Ties Your Whole Course Together</h3><p>A button click handler genuinely combines almost everything you've learned: you SELECT an element (Lesson 28), LISTEN for an event, and inside that event's function you might use a CONDITIONAL (Lesson 24) to decide what to do, possibly looping through an ARRAY (Lessons 26-27) or updating styling tied to CSS classes (Lesson 12). This is exactly the kind of combination your own Cymor Code Learner engine uses for things like the quiz answer-checking logic you saw in the real code.</p>",
+
+    "syntax_breakdown": "<h3>🧱 Changing Text Content</h3><pre><code>&lt;h1 id=\"title\"&gt;Original Title&lt;/h1&gt;\n\n&lt;script&gt;\n  const title = document.querySelector(\"#title\");\n  title.textContent = \"New Title!\";\n&lt;/script&gt;</code></pre><p><code>.textContent</code> reads OR sets the visible text inside an element. Setting it (using <code>=</code>, the assignment operator from Lesson 22) immediately updates what's shown on the page, replacing whatever text was there before. Note: this safely treats whatever you assign as plain text, even if it happens to contain characters that look like HTML tags — exactly the safe behavior your own app's code relies on for displaying lesson hints and instructions.</p><hr><h3>🧱 Listening for a Click Event</h3><pre><code>&lt;button id=\"myButton\"&gt;Click Me&lt;/button&gt;\n\n&lt;script&gt;\n  const button = document.querySelector(\"#myButton\");\n\n  button.addEventListener(\"click\", function() {\n    console.log(\"Button was clicked!\");\n  });\n&lt;/script&gt;</code></pre><ul><li><code>.addEventListener(\"click\", ...)</code> — attaches a 'listener' to the button, watching specifically for a click event</li><li>The SECOND argument is a FUNCTION (remember Lesson 25) — this is the code that runs the moment the click happens. Notice this function isn't called manually anywhere; the browser calls it automatically WHEN the event occurs</li></ul><hr><h3>🧱 Combining Selection + Event + Manipulation</h3><pre><code>&lt;button id=\"changeBtn\"&gt;Change Text&lt;/button&gt;\n&lt;p id=\"message\"&gt;Original message.&lt;/p&gt;\n\n&lt;script&gt;\n  const button = document.querySelector(\"#changeBtn\");\n  const message = document.querySelector(\"#message\");\n\n  button.addEventListener(\"click\", function() {\n    message.textContent = \"You clicked the button!\";\n  });\n&lt;/script&gt;</code></pre><p>This is the complete pattern: select the button, select the text to change, listen for the click, and INSIDE that listener, change the OTHER element's content. This three-step pattern — select, listen, manipulate — is something you'll repeat constantly in real interactive projects.</p><hr><h3>🧱 Adding and Removing CSS Classes</h3><pre><code>&lt;div id=\"box\" class=\"normal\"&gt;Box&lt;/div&gt;\n\n&lt;script&gt;\n  const box = document.querySelector(\"#box\");\n\n  box.classList.add(\"highlighted\");    // adds a class\n  box.classList.remove(\"normal\");      // removes a class\n  box.classList.toggle(\"active\");      // adds if missing, removes if present\n&lt;/script&gt;</code></pre><p><code>.classList</code> lets JavaScript add, remove, or toggle CSS classes (Lesson 12) on an element — meaning JavaScript can trigger entirely new visual styling just by switching which classes are applied, without writing any new CSS at the moment of the change. This is an extremely common, powerful pattern: define the LOOK in CSS ahead of time, then use JavaScript purely to switch between pre-defined looks.</p>",
+
+    "common_mistakes": "<h4>⚠️ Common Beginner Mistakes</h4><ul><li><strong>Forgetting to wrap the response code in a function</strong> inside addEventListener — the second argument must be a function, not code that runs immediately.</li><li><strong>Selecting an element AFTER trying to use it</strong> — always select first, store it in a variable, THEN attach behavior to it.</li><li><strong>Using innerHTML instead of textContent for plain text</strong> — innerHTML interprets its content as actual HTML markup (which can be a real security risk with untrusted input), while textContent always treats it as safe, plain text. Default to textContent unless you specifically need to insert real HTML elements.</li></ul>"
+
   },
 
   "editor_sandbox": {
-    "starter_code": "<!-- Cymor Code Learner 🚀 GitHub Intro -->\n<h1>My Developer Journey</h1>\n<p>I am learning how to store and manage code like a professional developer.</p>",
+
+    "starter_code": "<button id=\"myBtn\">Click Me</button>\n<p id=\"output\">Nothing clicked yet.</p>\n<script>\n  // Write your code below\n</script>",
 
     "mini_challenge": {
-      "instruction": "🎯 Mission: Prepare your project for GitHub\n\n1. Add a heading called 'My First Repository'\n2. Add a paragraph explaining what your project is\n3. Add a list of files you would upload:\n   - index.html\n   - about.html\n   - images folder\n\n🔥 Think like you're preparing a real GitHub project",
 
-      "hint": "👉 Use:\n<ul>\n  <li>index.html</li>\n</ul>",
+      "instruction": "🎯 Challenge:\n\n1. In your script, select the button and the paragraph using querySelector\n2. Add a click event listener to the button\n3. Inside the listener, change the paragraph's textContent to: events make pages interactive\n4. Run your code, then CLICK the button in the preview to verify the text changes\n5. Run and verify your code",
 
-      "validation_keyword": "repository"
+      "hint": "👉 Example:\n<script>\n  const btn = document.querySelector(\"#myBtn\");\n  const output = document.querySelector(\"#output\");\n\n  btn.addEventListener(\"click\", function() {\n    output.textContent = \"events make pages interactive\";\n  });\n</script>",
+
+      "validation_keyword": "events make pages interactive"
+
     }
+
   },
 
   "quiz_engine": {
-    "question": "What is GitHub mainly used for?",
+
+    "question": "What does .addEventListener(\"click\", function() { ... }) do?",
+
     "options": [
-      "Designing websites visually",
-      "Storing and managing code projects",
-      "Writing CSS styles automatically"
+      "It immediately runs the function once, right away",
+      "It attaches a listener that runs the function automatically whenever that element is clicked",
+      "It deletes the element when clicked"
     ],
+
     "correct_index": 1,
-    "points": 80,
-    "explanation_feedback": "Correct 🎉 GitHub is used to store, manage, and collaborate on code projects."
+
+    "points": 10,
+
+    "explanation_feedback": "Correct 🎉 addEventListener attaches a function that the browser automatically calls whenever the specified event (like a click) happens — you don't call it manually yourself."
+
   },
 
   "summary": {
+
     "takeaways": [
-      "GitHub stores code projects online",
-      "Developers use it to track changes",
-      "Repositories contain full project files",
-      "Commits save versions of code",
-      "GitHub is essential for real-world development"
+      "DOM manipulation lets JavaScript change text, styles, and classes on selected elements",
+      ".textContent reads or sets an element's visible text safely, as plain text",
+      ".addEventListener(\"event\", function) runs code automatically when that event occurs",
+      "The core pattern: select an element, listen for an event, manipulate something in response",
+      ".classList.add/remove/toggle lets JavaScript switch between pre-defined CSS looks"
     ],
 
     "cheat_sheet": {
-      "repo": "Project folder on GitHub",
-      "commit": "Saved version of code",
-      "push": "Upload code to GitHub",
-      "rule": "Every serious project uses GitHub"
+
+      "element.textContent = \"text\"": "Sets an element's visible text safely",
+
+      "element.addEventListener(\"click\", fn)": "Runs fn automatically when the element is clicked",
+
+      "element.classList.add(\"class\")": "Adds a CSS class",
+
+      "element.classList.remove(\"class\")": "Removes a CSS class",
+
+      "element.classList.toggle(\"class\")": "Adds if missing, removes if present"
+
     }
+
   }
+
 }

@@ -1,62 +1,86 @@
 {
   "id": 26,
-  "module": "Styling Basics",
+  "module": "JavaScript Basics",
+
   "meta": {
     "next_lesson": 27,
     "prev_lesson": 25,
-    "xp_reward": 50,
+    "xp_reward": 10,
     "difficulty": "beginner",
-    "module_index": 7
+    "module_index": 3
   },
 
-  "title": "Lesson 26: Introduction to CSS (Making Your Website Beautiful)",
+  "title": "Lesson 26: Arrays",
 
   "content": {
-    "explanation": "<h3>🎨 Your Website Works — Now Let’s Style It</h3><p>Up until now, your websites have been built using HTML only.</p><p>That means they work — but they don’t look very attractive yet.</p><hr><h3>🌐 What is CSS?</h3><p><strong>CSS (Cascading Style Sheets)</strong> is used to style HTML elements.</p><p>It controls colors, spacing, fonts, and layout.</p><hr><h3>⚡ Simple Analogy</h3><ul><li>HTML = structure (bones)</li><li>CSS = design (clothes, colors, appearance)</li></ul>"
-  },
 
-  "syntax_breakdown": {
-    "content": "<h3>🧪 First CSS Example</h3><pre><code>&lt;style&gt;\n  h1 {\n    color: blue;\n    font-size: 40px;\n  }\n\n  p {\n    color: gray;\n  }\n&lt;/style&gt;</code></pre><hr><h3>📌 How It Works</h3><ul><li><strong>selector</strong> → selects HTML element (h1, p, etc.)</li><li><strong>property</strong> → what you want to change (color, size)</li><li><strong>value</strong> → new setting (blue, 40px)</li></ul><hr><h3>🧠 Key Rule</h3><p>👉 CSS changes appearance, not structure</p>"
+    "explanation": "<h3>📚 What Arrays Are For</h3><p>So far, your variables have stored ONE single value each. But real data is often a LIST of related things: a list of skills, a list of products, a list of quiz scores. An array is a single variable that holds an ORDERED LIST of multiple values together, instead of needing a separate variable for every single item.</p><hr><h3>🚂 The Train Carriages Analogy</h3><p>Think of an array like a train: one engine pulling a line of carriages, each carriage holding one passenger (value). Crucially, the carriages are in a specific ORDER — carriage 1, carriage 2, carriage 3 — and that order is preserved and meaningful, exactly how arrays preserve the order you add items in.</p><hr><h3>🔢 The Critical Concept: Zero-Based Indexing</h3><p>This trips up almost every beginner at least once: arrays count POSITIONS starting from <strong>0</strong>, not 1. The FIRST item in an array is at position (called an 'index') <code>0</code>, the second item is at index <code>1</code>, and so on. This isn't unique to JavaScript — most programming languages count this way — so getting comfortable with it now will help you in any language you learn later, not just this course.</p><hr><h3>🧩 Arrays Connect Back to Lesson 5</h3><p>If you think back to HTML lists (Lesson 5) — <code>&lt;ul&gt;</code> with multiple <code>&lt;li&gt;</code> items — an array is the JavaScript equivalent of that same idea: an ordered collection of related items, just represented as DATA instead of visible page elements. In fact, you'll often use an array of data to actually GENERATE a list of HTML elements dynamically — a technique you'll get a first taste of later in this module.</p>",
+
+    "syntax_breakdown": "<h3>🧱 Creating an Array</h3><pre><code>const skills = [\"HTML\", \"CSS\", \"JavaScript\"];</code></pre><ul><li><code>[ ]</code> — square brackets create an array</li><li>Each value inside, separated by commas, is one ITEM in the array</li><li>Arrays can hold any data type you learned in Lesson 22 — strings, numbers, booleans, even other arrays</li></ul><hr><h3>🧱 Accessing Items by Index</h3><pre><code>const skills = [\"HTML\", \"CSS\", \"JavaScript\"];\n\nconsole.log(skills[0]); // \"HTML\"   — the FIRST item\nconsole.log(skills[1]); // \"CSS\"    — the SECOND item\nconsole.log(skills[2]); // \"JavaScript\" — the THIRD item</code></pre><p>Square brackets after the array name, containing the index number, RETRIEVE a specific item. Remember: index 0 is the first item, not index 1 — this is the zero-based indexing rule from above.</p><hr><h3>🧱 Finding an Array's Length</h3><pre><code>const skills = [\"HTML\", \"CSS\", \"JavaScript\"];\nconsole.log(skills.length); // 3</code></pre><p><code>.length</code> tells you how many items are in the array. Useful tip: the LAST valid index in any array is always <code>length - 1</code> (since counting starts at 0) — here, that's index 2, matching \"JavaScript\" above.</p><hr><h3>🧱 Adding and Removing Items</h3><pre><code>const skills = [\"HTML\", \"CSS\"];\n\nskills.push(\"JavaScript\"); // adds to the END\nconsole.log(skills); // [\"HTML\", \"CSS\", \"JavaScript\"]\n\nskills.pop(); // removes from the END\nconsole.log(skills); // [\"HTML\", \"CSS\"]</code></pre><ul><li><code>.push(value)</code> — adds a new item to the END of the array</li><li><code>.pop()</code> — removes the LAST item from the array</li></ul><p>Note: arrays declared with <code>const</code> CAN still have items added/removed/changed — const only prevents reassigning the variable to a completely different array, not modifying the contents of the existing one. This is a subtle but important distinction from how const worked with simple values in Lesson 22.</p>",
+
+    "common_mistakes": "<h4>⚠️ Common Beginner Mistakes</h4><ul><li><strong>Forgetting arrays start at index 0</strong> — trying skills[1] expecting the FIRST item, when that's actually the SECOND item.</li><li><strong>Trying to access an index that doesn't exist</strong> — e.g. skills[10] on a 3-item array returns undefined, not an error, which can cause confusing downstream bugs if not checked.</li><li><strong>Assuming const arrays can't be modified at all</strong> — const prevents REASSIGNING the variable, but push/pop and similar methods that modify the existing array's contents are still completely allowed.</li></ul>"
+
   },
 
   "editor_sandbox": {
-    "starter_code": "<!-- Cymor Code Learner 🚀 CSS Introduction -->\n<h1>My Styled Website</h1>\n<p>This is my first time adding styles.</p>",
+
+    "starter_code": "<h1>Arrays Practice</h1>\n<script>\n  // Write your code below\n</script>",
 
     "mini_challenge": {
-      "instruction": "🎯 Mission: Add basic styling\n\n1. Add a <style> block in the document\n2. Make the <h1> color red and font size 40px\n3. Make the <p> color green\n\n🔥 Watch your website transform visually",
 
-      "hint": "👉 Example:\n<style>\nh1 { color: red; }\np { color: green; }\n</style>",
+      "instruction": "🎯 Challenge:\n\n1. In your script, create an array called colors with at least 3 string values\n2. Use console.log() to print the first item using index 0\n3. Use .push() to add a new color, then console.log() the whole array\n4. Use console.log() to print: arrays store ordered lists of data\n5. Below the script, add a paragraph (visible on the page) saying: arrays store ordered lists of data\n6. Run and verify your code",
 
-      "validation_keyword": "<style>"
+      "hint": "👉 Example:\n<script>\n  const colors = [\"red\", \"blue\", \"green\"];\n  console.log(colors[0]);\n  colors.push(\"yellow\");\n  console.log(colors);\n  console.log(\"arrays store ordered lists of data\");\n</script>\n<p>arrays store ordered lists of data</p>",
+
+      "validation_keyword": "arrays store ordered lists of data"
+
     }
+
   },
 
   "quiz_engine": {
-    "question": "What is the main purpose of CSS?",
+
+    "question": "In const skills = [\"HTML\", \"CSS\", \"JavaScript\"]; what is skills[0]?",
+
     "options": [
-      "To structure content on a webpage",
-      "To style and design HTML elements",
-      "To create database connections"
+      "\"CSS\" — the second item",
+      "\"HTML\" — the first item, since arrays start counting at 0",
+      "undefined, because index 0 doesn't exist"
     ],
+
     "correct_index": 1,
-    "points": 50,
-    "explanation_feedback": "Correct 🎉 CSS is used to style HTML elements like colors, spacing, fonts, and layout."
+
+    "points": 10,
+
+    "explanation_feedback": "Correct 🎉 Arrays use zero-based indexing — the FIRST item is always at index 0, not index 1. skills[0] is \"HTML\"."
+
   },
 
   "summary": {
+
     "takeaways": [
-      "CSS is used to style HTML elements",
-      "HTML handles structure, CSS handles design",
-      "CSS uses selectors like h1 and p",
-      "You can change colors, sizes, and layout",
-      "Style rules go inside <style> tags"
+      "An array stores an ORDERED LIST of multiple values in one variable",
+      "Arrays use zero-based indexing — the first item is at index 0",
+      "Square brackets [ ] create an array; square brackets with an index retrieve an item",
+      ".length tells you how many items are in an array",
+      ".push() adds to the end; .pop() removes from the end",
+      "const arrays can still have their contents modified — const only locks the variable itself"
     ],
 
     "cheat_sheet": {
-      "css_definition": "Language used to style HTML",
-      "selector": "Targets HTML elements",
-      "property": "What you want to change",
-      "value": "New setting applied"
+
+      "[item1, item2]": "Creates an array",
+
+      "array[0]": "Accesses the FIRST item (zero-based indexing)",
+
+      "array.length": "Number of items in the array",
+
+      "array.push(value)": "Adds an item to the end",
+
+      "array.pop()": "Removes the last item"
+
     }
+
   }
+
 }

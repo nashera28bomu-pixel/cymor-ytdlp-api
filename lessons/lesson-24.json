@@ -1,62 +1,83 @@
 {
   "id": 24,
-  "module": "Multi-Page Websites",
+  "module": "JavaScript Basics",
+
   "meta": {
     "next_lesson": 25,
     "prev_lesson": 23,
-    "xp_reward": 35,
+    "xp_reward": 10,
     "difficulty": "beginner",
-    "module_index": 5
+    "module_index": 3
   },
 
-  "title": "Lesson 24: Website Structure (How Real Projects Are Organized)",
+  "title": "Lesson 24: Conditionals",
 
   "content": {
-    "explanation": "<h3>📁 Thinking Like a Developer</h3><p>Before writing code in real-world projects, developers always plan how files will be organized.</p><p>This is called <strong>project structure</strong>.</p><hr><h3>🌐 Why Structure Matters</h3><ul><li>Keeps your website clean and scalable</li><li>Makes collaboration easier on GitHub</li><li>Prevents broken file paths</li></ul><p>Every professional website follows a predictable folder system.</p>"
-  },
 
-  "syntax_breakdown": {
-    "content": "<h3>🧪 Typical Website Folder Structure</h3><pre><code>my-website/\n│\n├── index.html\n├── about.html\n├── contact.html\n│\n├── images/\n│   ├── profile.jpg\n│   ├── banner.png\n│\n├── css/\n│   ├── style.css\n│\n├── js/\n│   ├── script.js\n</code></pre><hr><h3>📌 Explanation</h3><ul><li><strong>index.html</strong> → Home page (entry point)</li><li><strong>images/</strong> → All images stored here</li><li><strong>css/</strong> → Styling files</li><li><strong>js/</strong> → JavaScript logic</li></ul><hr><h3>🧠 Key Rule</h3><p>👉 Clean structure = fewer bugs + easier deployment</p>"
+    "explanation": "<h3>🚦 Where 'Real Logic' Begins</h3><p>Everything up to this point — variables, operators — has been about storing and comparing values. Conditionals are where your code starts making genuine DECISIONS: 'IF this is true, do this; OTHERWISE, do something else.' This is the foundation of all programming logic, and it's exactly what comparison/logical operators from last lesson were building toward.</p><hr><h3>🚥 The Traffic Light Analogy</h3><p>Think of a traffic light's logic: IF the light is green, go. ELSE IF the light is yellow, slow down. ELSE (meaning it must be red), stop. Notice this checks conditions in ORDER, top to bottom, and only ONE branch actually runs — once a condition matches, the rest are skipped entirely. This is exactly how JavaScript's if/else if/else structure behaves.</p><hr><h3>🧠 Why Order Matters in Conditionals</h3><p>JavaScript checks conditions from TOP to BOTTOM and stops at the FIRST one that's true — it never checks the rest after that, even if they'd also technically be true. This means the ORDER you write your conditions in can genuinely change your program's behavior, especially when conditions could overlap. Getting comfortable thinking through this order is a core programming skill, not just a JavaScript quirk.</p>",
+
+    "syntax_breakdown": "<h3>🧱 Basic if Statement</h3><pre><code>const age = 20;\n\nif (age >= 18) {\n  console.log(\"You are an adult.\");\n}</code></pre><ul><li><code>if</code> — the keyword that starts a conditional</li><li><code>(age >= 18)</code> — the CONDITION, wrapped in parentheses. This must evaluate to true or false (remember comparison operators from Lesson 23)</li><li><code>{ }</code> — curly braces wrap the code that runs ONLY IF the condition is true</li></ul><p>If <code>age</code> were 15 instead, the condition would be false, and the code inside the curly braces would simply be SKIPPED — nothing inside would run at all.</p><hr><h3>🧱 if / else — Two-Way Decisions</h3><pre><code>const age = 15;\n\nif (age >= 18) {\n  console.log(\"You are an adult.\");\n} else {\n  console.log(\"You are a minor.\");\n}</code></pre><p><code>else</code> defines what runs if the <code>if</code> condition is FALSE. Exactly one of these two blocks will run — never both, never neither.</p><hr><h3>🧱 if / else if / else — Multiple Possible Outcomes</h3><pre><code>const score = 75;\n\nif (score >= 90) {\n  console.log(\"Grade: A\");\n} else if (score >= 70) {\n  console.log(\"Grade: B\");\n} else if (score >= 50) {\n  console.log(\"Grade: C\");\n} else {\n  console.log(\"Grade: F\");\n}</code></pre><p>This checks each condition in strict order. For <code>score = 75</code>: is it >= 90? No. Is it >= 70? YES — so \"Grade: B\" prints, and JavaScript stops checking further, completely skipping the remaining else-if and else blocks, even though 75 is technically also >= 50.</p><hr><h3>🧱 Combining with Logical Operators</h3><pre><code>const hasTicket = true;\nconst isVIP = false;\n\nif (hasTicket && isVIP) {\n  console.log(\"VIP entrance\");\n} else if (hasTicket) {\n  console.log(\"General entrance\");\n} else {\n  console.log(\"Access denied\");\n}</code></pre><p>This combines a comparison-style condition with the <code>&amp;&amp;</code> operator from Lesson 23, showing exactly why understanding logical operators first makes conditionals far more powerful.</p>",
+
+    "common_mistakes": "<h4>⚠️ Common Beginner Mistakes</h4><ul><li><strong>Using = instead of === inside a condition</strong> — if (age = 18) assigns 18 to age instead of comparing, which is a serious, sneaky bug.</li><li><strong>Forgetting the parentheses around the condition</strong> — if age >= 18 { } without parentheses causes an error.</li><li><strong>Writing conditions in the wrong order</strong> — e.g. checking score >= 50 BEFORE score >= 90, which would incorrectly catch high scores in the wrong, too-broad bracket.</li><li><strong>Forgetting that only ONE branch runs</strong> — beginners sometimes expect multiple matching else-if blocks to all execute, but only the FIRST true one does.</li></ul>"
+
   },
 
   "editor_sandbox": {
-    "starter_code": "<!-- Cymor Code Learner 🚀 Project Structure -->\n<h1>My Website Plan</h1>\n<p>Learning how real developers organize projects.</p>",
+
+    "starter_code": "<h1>Conditionals Practice</h1>\n<script>\n  // Write your code below\n</script>",
 
     "mini_challenge": {
-      "instruction": "🎯 Mission: Design your project structure concept\n\n1. Write a simple HTML page that includes:\n   - A main heading (h1) called 'My Website Structure'\n   - A paragraph explaining your project idea\n   - A list (<ul>) of at least 3 folders you would create (images, css, js)\n\n2. Use proper HTML tags only\n\n🔥 Think like a real developer planning a GitHub project",
 
-      "hint": "👉 Example:\n<ul>\n  <li>images</li>\n  <li>css</li>\n  <li>js</li>\n</ul>",
+      "instruction": "🎯 Challenge:\n\n1. In your script, create a number variable called temperature\n2. Write an if / else if / else that logs \"Hot\" if above 30, \"Warm\" if above 20, otherwise \"Cold\"\n3. Use console.log() to print: conditionals make decisions in code\n4. Below the script, add a paragraph (visible on the page) saying: conditionals make decisions in code\n5. Run and verify your code",
 
-      "validation_keyword": "<ul>"
+      "hint": "👉 Example:\n<script>\n  const temperature = 25;\n  if (temperature > 30) {\n    console.log(\"Hot\");\n  } else if (temperature > 20) {\n    console.log(\"Warm\");\n  } else {\n    console.log(\"Cold\");\n  }\n  console.log(\"conditionals make decisions in code\");\n</script>\n<p>conditionals make decisions in code</p>",
+
+      "validation_keyword": "conditionals make decisions in code"
+
     }
+
   },
 
   "quiz_engine": {
-    "question": "Why do developers use structured folders in real websites?",
+
+    "question": "In an if / else if / else chain, how many branches actually run?",
+
     "options": [
-      "To make websites look colorful",
-      "To organize files and make projects scalable and maintainable",
-      "To increase website loading speed automatically"
+      "All branches whose conditions are true",
+      "Only the FIRST branch whose condition is true — the rest are skipped",
+      "Always all of them, regardless of conditions"
     ],
+
     "correct_index": 1,
-    "points": 35,
-    "explanation_feedback": "Correct 🎉 Proper structure keeps projects clean, scalable, and prevents broken links or confusion when working on large websites."
+
+    "points": 10,
+
+    "explanation_feedback": "Correct 🎉 JavaScript checks conditions top to bottom and stops at the first true one — the remaining else-if/else blocks are skipped entirely, even if they'd also technically be true."
+
   },
 
   "summary": {
+
     "takeaways": [
-      "Real websites use organized folder structures",
-      "index.html is the main entry file",
-      "Assets like images, CSS, and JS are separated into folders",
-      "Good structure prevents broken paths and confusion",
-      "Professional developers always plan before coding"
+      "if/else lets your code make decisions based on conditions",
+      "Conditions go inside parentheses and must evaluate to true or false",
+      "Only ONE branch in an if/else if/else chain runs — the first true one",
+      "Conditions are checked top to bottom — order can change behavior",
+      "Always use === (not =) inside conditions to compare, not assign"
     ],
 
     "cheat_sheet": {
-      "root_folder": "Main project container",
-      "index_html": "Homepage entry point",
-      "assets": "Images, CSS, JS grouped in folders",
-      "rule": "Organize before you code"
+
+      "if (condition) { }": "Runs code only if condition is true",
+
+      "else { }": "Runs if the if condition was false",
+
+      "else if (condition) { }": "Checks another condition if the previous ones were false",
+
+      "Execution Order": "Top to bottom — stops at the first true condition"
+
     }
+
   }
+
 }

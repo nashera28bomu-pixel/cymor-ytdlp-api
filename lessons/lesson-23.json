@@ -1,62 +1,87 @@
 {
   "id": 23,
-  "module": "Multi-Page Websites",
+  "module": "JavaScript Basics",
+
   "meta": {
     "next_lesson": 24,
     "prev_lesson": 22,
-    "xp_reward": 35,
+    "xp_reward": 10,
     "difficulty": "beginner",
-    "module_index": 5
+    "module_index": 3
   },
 
-  "title": "Lesson 23: File Paths (Relative vs Absolute Paths)",
+  "title": "Lesson 23: Operators",
 
   "content": {
-    "explanation": "<h3>📁 How Websites Find Files</h3><p>When you add images, links, or scripts, your browser needs to know exactly <strong>where the file is located</strong>.</p><p>This is done using something called a <strong>file path</strong>.</p><hr><h3>🌐 Why This Matters</h3><p>Without correct file paths:</p><ul><li>Images won’t load</li><li>Links will break</li><li>Websites will fail in production</li></ul><p>This is one of the most important real-world skills in web development.</p>"
-  },
 
-  "syntax_breakdown": {
-    "content": "<h3>🧪 Types of File Paths</h3><hr><h3>1. Relative Path (Most Important)</h3><pre><code>&lt;img src=\"images/profile.jpg\"&gt;</code></pre><p>👉 Used when files are inside your project folder</p><hr><h3>2. Same Folder Path</h3><pre><code>&lt;img src=\"profile.jpg\"&gt;</code></pre><hr><h3>3. Absolute Path (URL)</h3><pre><code>&lt;img src=\"https://example.com/image.jpg\"&gt;</code></pre><hr><h3>🧠 Key Rule</h3><p>👉 Relative paths are used in real projects (GitHub, Netlify, Vercel)</p>"
+    "explanation": "<h3>➕ What Operators Do</h3><p>Operators are symbols that perform an ACTION on values — combining them, comparing them, or doing math with them. You already met one operator last lesson without naming it: <code>=</code>, the assignment operator. Now we'll properly cover the main categories you'll use constantly: arithmetic (math), comparison, and logical operators.</p><hr><h3>🧮 Arithmetic Operators — Just Like Math Class</h3><p>These work largely as you'd expect from school math, with one extra one you might not have seen: the remainder/modulus operator, which is genuinely useful in real programming (for things like checking if a number is even/odd, or cycling through a limited set of options).</p><hr><h3>⚖️ Comparison Operators — A Critical Distinction</h3><p>This is one of the most important distinctions in this entire lesson, and a classic beginner trap: <strong>a single <code>=</code> ASSIGNS a value, while <code>==</code> or <code>===</code> COMPARES values.</strong> These look deceptively similar but do completely different jobs. Confusing them is one of the most common bugs beginners write, often without realizing why their code is behaving strangely.</p><hr><h3>🆚 == vs === — Why Three Equals Signs Exist</h3><p>JavaScript actually has TWO different comparison operators, and the difference matters:</p><ul><li><code>==</code> (loose equality) — compares values but tries to CONVERT types to match if they're different, e.g. it considers <code>5 == \"5\"</code> true, even though one is a number and one is text</li><li><code>===</code> (strict equality) — compares both VALUE and TYPE, with no conversion. <code>5 === \"5\"</code> is false, because one is a number and one is a string, even though they 'look' similar</li></ul><p><strong>Practical rule for this course:</strong> always use <code>===</code> (triple equals) unless you have a specific, deliberate reason not to. It avoids a whole category of confusing, hard-to-debug behavior that loose equality can cause.</p><hr><h3>🔗 Logical Operators — Combining Conditions</h3><p>Sometimes you need to check MULTIPLE conditions at once. Logical operators let you combine comparisons: 'is the user logged in AND have they verified their email?' or 'is it Saturday OR Sunday?' You'll use these heavily once you reach conditionals in the next lesson.</p>",
+
+    "syntax_breakdown": "<h3>🧱 Arithmetic Operators</h3><pre><code>console.log(5 + 3);  // 8   — addition\nconsole.log(5 - 3);  // 2   — subtraction\nconsole.log(5 * 3);  // 15  — multiplication\nconsole.log(5 / 3);  // 1.666... — division\nconsole.log(5 % 3);  // 2   — remainder (modulus)</code></pre><p>The <code>%</code> (modulus) operator returns what's LEFT OVER after division. <code>5 % 3</code> means 'how many times does 3 fit into 5, and what's the remainder?' — 3 fits once, leaving 2. A very common real use: <code>number % 2 === 0</code> checks if a number is even (no remainder when divided by 2).</p><hr><h3>🧱 Comparison Operators</h3><pre><code>console.log(5 === 5);   // true\nconsole.log(5 === \"5\"); // false — different types\nconsole.log(5 !== 3);   // true — \"not equal to\"\nconsole.log(5 > 3);     // true\nconsole.log(5 < 3);     // false\nconsole.log(5 >= 5);    // true — greater than or equal to</code></pre><p>Comparison operators always produce a Boolean result (true or false) — never anything else. This connects directly to what you learned about the Boolean data type last lesson.</p><hr><h3>🧱 Logical Operators</h3><pre><code>const isLoggedIn = true;\nconst hasVerifiedEmail = true;\n\nconsole.log(isLoggedIn && hasVerifiedEmail); // true — BOTH must be true\nconsole.log(isLoggedIn || hasVerifiedEmail); // true — AT LEAST ONE must be true\nconsole.log(!isLoggedIn);                    // false — flips true to false (NOT)</code></pre><ul><li><code>&amp;&amp;</code> (AND) — true only if BOTH sides are true</li><li><code>||</code> (OR) — true if AT LEAST ONE side is true</li><li><code>!</code> (NOT) — flips a Boolean to its opposite</li></ul><hr><h4>🧪 String Concatenation — The + Operator's Other Job</h4><pre><code>const greeting = \"Hello, \" + \"World\";\nconsole.log(greeting); // \"Hello, World\"</code></pre><p>When used between two strings instead of two numbers, <code>+</code> joins them together — this is called 'concatenation.' Be careful: <code>+</code> behaves completely differently depending on whether you're using it on numbers or strings.</p>",
+
+    "common_mistakes": "<h4>⚠️ Common Beginner Mistakes</h4><ul><li><strong>Using = instead of === when comparing</strong> — a single = assigns a value (overwriting it!), it does NOT check equality.</li><li><strong>Using == instead of ===</strong> — loose equality can produce surprising, unintended matches between different types. Stick to === as a strong default habit.</li><li><strong>Expecting + to add numbers when one side is actually a string</strong> — \"5\" + 3 produces \"53\" (concatenation), not 8 (addition), because one side is text.</li><li><strong>Confusing && and ||</strong> — && requires BOTH sides true; || only needs ONE side true.</li></ul>"
+
   },
 
   "editor_sandbox": {
-    "starter_code": "<!-- Cymor Code Learner 🚀 File Paths Practice -->\n<h1>My Portfolio</h1>\n<p>Learning how files connect in real websites.</p>",
+
+    "starter_code": "<h1>Operators Practice</h1>\n<script>\n  // Write your code below\n</script>",
 
     "mini_challenge": {
-      "instruction": "🎯 Mission: Practice file paths\n\n1. Add 3 images below the paragraph:\n   - One using same folder path (profile.jpg)\n   - One using folder path (images/photo.jpg)\n   - One using full URL (https://via.placeholder.com/150)\n\n2. Add alt text for each image\n\n🔥 Understand how real websites load assets",
 
-      "hint": "👉 Example:\n<img src=\"images/photo.jpg\" alt=\"My photo\">\n\nMix all 3 types of paths",
+      "instruction": "🎯 Challenge:\n\n1. In your script, create two number variables and use console.log() to print their sum using +\n2. Use console.log() to compare two values using === \n3. Use console.log() to print the message: operators compare and calculate values\n4. Below the script, add a paragraph (visible on the page) saying: operators compare and calculate values\n5. Run and verify your code",
 
-      "validation_keyword": "images/"
+      "hint": "👉 Example:\n<script>\n  const a = 5;\n  const b = 3;\n  console.log(a + b);\n  console.log(a === b);\n  console.log(\"operators compare and calculate values\");\n</script>\n<p>operators compare and calculate values</p>",
+
+      "validation_keyword": "operators compare and calculate values"
+
     }
+
   },
 
   "quiz_engine": {
-    "question": "Which type of file path is most commonly used in real web projects?",
+
+    "question": "What does the === operator do differently from ==?",
+
     "options": [
-      "Absolute URLs only",
-      "Relative paths inside project folders",
-      "Random file names"
+      "=== checks value AND type with no conversion; == converts types to try to match",
+      "There is no real difference between them",
+      "=== is only used for numbers, == is only used for text"
     ],
-    "correct_index": 1,
-    "points": 35,
-    "explanation_feedback": "Correct 🎉 Relative paths are essential in real projects because they keep your site portable across servers like GitHub, Netlify, and Vercel."
+
+    "correct_index": 0,
+
+    "points": 10,
+
+    "explanation_feedback": "Correct 🎉 === (strict equality) checks both value and type with no conversion. == (loose equality) tries to convert types to match, which can cause surprising, unintended results — stick with === as a default."
+
   },
 
   "summary": {
+
     "takeaways": [
-      "File paths tell the browser where to find files",
-      "Relative paths are used inside project folders",
-      "Absolute paths use full URLs",
-      "Incorrect paths break images and links",
-      "File structure is critical in real deployments"
+      "Arithmetic operators: + - * / % (modulus returns the remainder after division)",
+      "A single = assigns a value; === compares value AND type",
+      "=== (strict equality) is safer and more predictable than == (loose equality)",
+      "&& (AND) requires both sides true; || (OR) needs at least one side true",
+      "+ on strings joins them together (concatenation), not numeric addition"
     ],
 
     "cheat_sheet": {
-      "relative_path": "images/photo.jpg",
-      "same_folder": "photo.jpg",
-      "absolute_path": "https://site.com/image.jpg",
-      "rule": "Use relative paths in real projects"
+
+      "+  -  *  /": "Addition, subtraction, multiplication, division",
+
+      "%": "Modulus — remainder after division",
+
+      "===": "Strict equality — checks value AND type (use this by default)",
+
+      "==": "Loose equality — converts types, can cause unexpected results",
+
+      "&&": "AND — true only if both sides are true",
+
+      "||": "OR — true if at least one side is true"
+
     }
+
   }
+
 }

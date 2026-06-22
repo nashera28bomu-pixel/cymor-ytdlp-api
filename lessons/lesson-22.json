@@ -1,62 +1,87 @@
 {
   "id": 22,
-  "module": "Multi-Page Websites",
+  "module": "JavaScript Basics",
+
   "meta": {
     "next_lesson": 23,
     "prev_lesson": 21,
-    "xp_reward": 30,
+    "xp_reward": 10,
     "difficulty": "beginner",
-    "module_index": 5
+    "module_index": 3
   },
 
-  "title": "Lesson 22: Images in HTML (Adding Visual Content)",
+  "title": "Lesson 22: Variables & Data Types",
 
   "content": {
-    "explanation": "<h3>🖼️ Why Images Matter</h3><p>Websites are not just text — they are visual experiences.</p><p>Images help explain ideas, improve design, and make websites more engaging.</p><hr><h3>🌐 Real Use Cases</h3><ul><li>Profile pictures</li><li>Product images</li><li>Blog thumbnails</li><li>Portfolio projects</li></ul><hr><h3>⚡ Core Idea</h3><p>Images are added using the <strong>&lt;img&gt;</strong> tag.</p>"
-  },
 
-  "syntax_breakdown": {
-    "content": "<h3>🧪 Basic Image Structure</h3><pre><code>&lt;img src=\"image.jpg\" alt=\"Description of image\"&gt;</code></pre><hr><h3>📌 Key Attributes</h3><ul><li><strong>src</strong> → path to image file</li><li><strong>alt</strong> → description if image fails to load</li></ul><hr><h3>🧠 Important Rule</h3><p>👉 The <code>&lt;img&gt;</code> tag is self-closing (no closing tag)</p><p>👉 Always include alt text for accessibility</p>"
+    "explanation": "<h3>📦 What a Variable Actually Is</h3><p>A variable is a NAMED BOX that stores a piece of information for later use. Instead of typing the same value repeatedly throughout your code, you store it once under a name, then refer to that name wherever you need it. If the value needs to change later, you only update it in ONE place — the variable — instead of hunting through your entire codebase.</p><hr><h3>🏷️ The Labeled Jar Analogy</h3><p>Imagine labeled jars in a kitchen: one says 'Sugar,' another says 'Flour.' The label (variable name) stays the same, but you can always open the jar and see what's currently inside (the value), and you could even swap what's inside later while keeping the same label. JavaScript variables work exactly this way — a consistent name pointing to a value that can be looked up, used, or changed.</p><hr><h3>🔑 let, const, and var — Three Ways to Create a Variable</h3><p>JavaScript actually gives you three different keywords for creating variables, and choosing the right one matters:</p><ul><li><strong>let</strong> — creates a variable whose value CAN be changed later. Use this when you expect the value to update (like a score that increases).</li><li><strong>const</strong> — short for 'constant.' Creates a variable whose value CANNOT be reassigned after it's set. Use this for anything that should stay the same (like a fixed configuration value).</li><li><strong>var</strong> — the OLD way of creating variables, from before let/const existed. It has some confusing, less predictable behavior compared to let/const. Modern JavaScript code (including everything in this course from here on) uses let and const instead — var is mentioned here only so you recognize it if you see it in older tutorials or code online.</li></ul><p><strong>Practical rule for this course:</strong> default to <code>const</code> always. Only switch to <code>let</code> if you specifically know the value needs to change later. This habit alone prevents a surprising number of real-world bugs.</p><hr><h3>🗃️ The Core Data Types</h3><p>Every value in JavaScript has a 'type' — what KIND of information it is. The main ones you'll use constantly:</p><ul><li><strong>String</strong> — text, always wrapped in quotes: <code>\"Hello\"</code></li><li><strong>Number</strong> — any number, no quotes needed: <code>42</code> or <code>3.14</code></li><li><strong>Boolean</strong> — only ever true or false: <code>true</code></li><li><strong>Array</strong> — an ordered list of values (you'll dive deeper into this soon)</li><li><strong>Object</strong> — a collection of related named values (also coming soon)</li></ul>",
+
+    "syntax_breakdown": "<h3>🧱 Creating Variables</h3><pre><code>const name = \"Smiley\";\nlet score = 0;\nconst isLoggedIn = true;</code></pre><ul><li><code>const</code> / <code>let</code> — the keyword that creates the variable</li><li><code>name</code> / <code>score</code> / <code>isLoggedIn</code> — the variable's NAME, chosen by you</li><li><code>=</code> — the <strong>assignment operator</strong>. Important: in JavaScript (unlike math class), a single <code>=</code> doesn't mean 'equals' as a comparison — it means 'assign the value on the right INTO the variable on the left.' You'll meet the actual comparison operator soon, which looks different.</li><li><code>\"Smiley\"</code> / <code>0</code> / <code>true</code> — the actual VALUE being stored</li><li><code>;</code> — ends the statement</li></ul><hr><h3>🧱 Updating a let Variable</h3><pre><code>let score = 0;\nscore = 10; // ✅ allowed, because it was declared with let</code></pre><p>Notice on the second line, you do NOT repeat the <code>let</code> keyword — you only use it once, when first CREATING the variable. After that, you just refer to its name to update it.</p><hr><h3>🧱 Trying to Update a const (This Will Error)</h3><pre><code>const name = \"Smiley\";\nname = \"David\"; // ❌ ERROR — const cannot be reassigned</code></pre><p>This is INTENTIONAL, protective behavior, not a flaw — const exists specifically to catch accidental changes to values you never meant to update, which prevents a whole category of confusing bugs in larger programs.</p><hr><h3>🧱 Checking a Value's Type</h3><pre><code>console.log(typeof \"Hello\"); // \"string\"\nconsole.log(typeof 42);      // \"number\"\nconsole.log(typeof true);    // \"boolean\"</code></pre><p>The <code>typeof</code> keyword is a handy debugging tool — it tells you exactly what data type a value currently is, which is especially useful while learning, when you're not yet 100% sure what a piece of data actually is.</p><hr><h3>🧱 Naming Rules for Variables</h3><p>Variable names can contain letters, numbers, underscores, and dollar signs, but CANNOT start with a number, and cannot contain spaces. The convention in JavaScript is 'camelCase' — lowercase first word, then each new word capitalized, like <code>firstName</code> or <code>isLoggedIn</code>, with no spaces or underscores between words.</p>",
+
+    "common_mistakes": "<h4>⚠️ Common Beginner Mistakes</h4><ul><li><strong>Forgetting quotes around strings</strong> — const name = Smiley; causes an error, because JavaScript thinks Smiley is a variable name, not text.</li><li><strong>Trying to reassign a const variable</strong> — causes an error by design; switch to let if the value genuinely needs to change.</li><li><strong>Using spaces in variable names</strong> — invalid; use camelCase instead, like firstName not first name.</li><li><strong>Confusing = (assignment) with == or === (comparison)</strong> — you'll learn comparison operators in an upcoming lesson; for now, just know = means 'store this value,' not 'check if equal.'</li></ul>"
+
   },
 
   "editor_sandbox": {
-    "starter_code": "<!-- Cymor Code Learner 🚀 Images Practice -->\n<h1>My Profile</h1>\n<p>This is my personal website profile page.</p>",
+
+    "starter_code": "<h1>Variables Practice</h1>\n<script>\n  // Write your variables below\n</script>",
 
     "mini_challenge": {
-      "instruction": "🎯 Mission: Add an image to your page\n\n1. Add an <img> tag below the paragraph\n2. Use any placeholder image URL like:\n   https://via.placeholder.com/300\n3. Add alt text describing the image\n\n🔥 This makes your page visual and professional",
 
-      "hint": "👉 Example:\n<img src=\"https://via.placeholder.com/300\" alt=\"Profile image\">\n\nRemember: no closing tag needed",
+      "instruction": "🎯 Challenge:\n\n1. In your script, create a const variable called myName with your name as a string\n2. Create a let variable called myAge with a number value\n3. Use console.log() to print: variables store information\n4. Below the script, add a paragraph (visible on the page) saying: variables store information\n5. Run and verify your code",
 
-      "validation_keyword": "src"
+      "hint": "👉 Example:\n<script>\n  const myName = \"Smiley\";\n  let myAge = 20;\n  console.log(\"variables store information\");\n</script>\n<p>variables store information</p>",
+
+      "validation_keyword": "variables store information"
+
     }
+
   },
 
   "quiz_engine": {
-    "question": "Which attribute is required to specify the image file location in HTML?",
+
+    "question": "What's the difference between let and const?",
+
     "options": [
-      "alt",
-      "href",
-      "src"
+      "There is no difference, they're interchangeable",
+      "let allows the value to be changed later; const does not allow reassignment",
+      "const is only for numbers, let is only for text"
     ],
-    "correct_index": 2,
-    "points": 30,
-    "explanation_feedback": "Correct 🎉 The src attribute defines the path or URL of the image to be displayed."
+
+    "correct_index": 1,
+
+    "points": 10,
+
+    "explanation_feedback": "Correct 🎉 Use let when a value needs to change later, and const when it shouldn't. Defaulting to const and only switching to let when needed is a strong habit."
+
   },
 
   "summary": {
+
     "takeaways": [
-      "Images make websites visually engaging",
-      "<img> is used to insert images",
-      "src defines image source path",
-      "alt provides description for accessibility",
-      "Images are self-closing elements"
+      "A variable is a named box that stores a value for later use",
+      "Use const by default; switch to let only when the value needs to change",
+      "var is the old way of creating variables — avoid it in modern code",
+      "Core data types: String (text), Number, Boolean (true/false), Array, Object",
+      "Variable names use camelCase by convention, e.g. firstName"
     ],
 
     "cheat_sheet": {
-      "img_tag": "<img src='path' alt='description'>",
-      "src": "Image file location or URL",
-      "alt": "Text description of image",
-      "rule": "Always use alt for accessibility"
+
+      "const name = value;": "Creates a variable that cannot be reassigned",
+
+      "let name = value;": "Creates a variable that CAN be reassigned",
+
+      "String": "Text, wrapped in quotes — \"Hello\"",
+
+      "Number": "Any number, no quotes — 42",
+
+      "Boolean": "true or false only",
+
+      "typeof value": "Checks what data type a value is"
+
     }
+
   }
+
 }

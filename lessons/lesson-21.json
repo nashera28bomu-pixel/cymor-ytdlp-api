@@ -1,61 +1,85 @@
 {
   "id": 21,
-  "module": "Multi-Page Websites",
+  "module": "JavaScript Basics",
+
   "meta": {
     "next_lesson": 22,
     "prev_lesson": 20,
-    "xp_reward": 30,
+    "xp_reward": 10,
     "difficulty": "beginner",
-    "module_index": 5
+    "module_index": 3
   },
 
-  "title": "Lesson 21: Links & Multi-Page Navigation (Building Real Websites)",
+  "title": "Lesson 21: What is JavaScript?",
 
   "content": {
-    "explanation": "<h3>🌐 Websites are Made of Pages</h3><p>Until now, you have been building single pages.</p><p>But real websites are made of <strong>multiple pages connected together</strong>.</p><hr><h3>🔗 What are Links?</h3><p>Links allow users to move from one page to another using the <strong>&lt;a&gt;</strong> tag.</p><p>This is how navigation between pages works in real websites like portfolios, blogs, and apps.</p><hr><h3>⚡ Real Example</h3><ul><li>Home → index.html</li><li>About → about.html</li><li>Contact → contact.html</li></ul><p>Links connect everything together.</p>"
-  },
 
-  "syntax_breakdown": {
-    "content": "<h3>🧪 Basic Link Structure</h3><pre><code>&lt;a href=\"about.html\"&gt;Go to About Page&lt;/a&gt;</code></pre><hr><h3>📌 How it works</h3><ul><li><strong>&lt;a&gt;</strong> = anchor tag (creates link)</li><li><strong>href</strong> = destination page</li></ul><hr><h3>🧠 Key Rule</h3><p>👉 Links are the backbone of multi-page websites</p><p>👉 Without links, every page is isolated</p>"
+    "explanation": "<h3>⚙️ The Third Piece of the Puzzle</h3><p>Remember the house analogy from Lesson 1: HTML is the structure, CSS is the design. JavaScript is the ELECTRICITY and WIRING — what makes lights turn on when you flip a switch, what makes a doorbell ring when pressed. Without JavaScript, a webpage is like a beautifully decorated house with no working switches: it looks great, but nothing actually DOES anything when you interact with it.</p><p>Every button click that shows a popup, every form that validates your input before submitting, every image slider, every 'like' button animation — all of that is JavaScript.</p><hr><h3>🧠 JavaScript Is a Real Programming Language</h3><p>This is a genuine shift from HTML and CSS. HTML and CSS are <strong>markup/styling languages</strong> — they describe WHAT things are and HOW they look, but they don't make decisions or perform calculations. JavaScript is a true <strong>programming language</strong> — it can make decisions ('if this happens, do that'), repeat actions, store and manipulate information, and respond to events in real time. This is a bigger mental leap than CSS was, so don't worry if it takes a little longer to click — that's completely normal for every developer who has ever learned this.</p><hr><h3>🎬 The Movie Director Analogy</h3><p>If HTML is the actors and set (structure) and CSS is the costumes and lighting (appearance), JavaScript is the DIRECTOR — deciding what happens, when, and in response to what. 'When the actor clicks this prop, make this other thing happen.' JavaScript directs the behavior and logic of the page.</p><hr><h3>📜 Where to Write JavaScript</h3><p>Similar to CSS, JavaScript can be written inline, internally in a script tag, or in an external .js file (the professional standard, exactly like external CSS files). In this course's sandbox, you'll write it directly so you see results instantly — but understand real projects keep JavaScript in its own files, connected via a script tag, just like you saw with CSS.</p>",
+
+    "syntax_breakdown": "<h3>🧱 Your First Line of JavaScript</h3><pre><code>&lt;script&gt;\n  console.log(\"Hello World\");\n&lt;/script&gt;</code></pre><ul><li><code>&lt;script&gt;...&lt;/script&gt;</code> — wraps JavaScript code inside an HTML file, similar to how <code>&lt;style&gt;</code> wraps CSS</li><li><code>console.log()</code> — a built-in JavaScript instruction that prints a message to the browser's 'console' (a hidden developer panel, not visible on the page itself) — extremely useful for checking what your code is doing while you're learning and debugging</li><li><code>\"Hello World\"</code> — the actual message being printed, wrapped in quotes because it's TEXT (you'll learn the proper term for this — a 'string' — very soon)</li><li><code>;</code> — JavaScript statements are typically ended with a semicolon, similar to CSS property-value pairs. Unlike CSS though, JavaScript is sometimes forgiving if you forget it — but it's still a strong best practice to always include it, to avoid rare, confusing bugs.</li></ul><hr><h3>🧱 Where Script Tags Go</h3><pre><code>&lt;body&gt;\n  &lt;h1&gt;My Page&lt;/h1&gt;\n  &lt;p&gt;Some content&lt;/p&gt;\n\n  &lt;script&gt;\n    console.log(\"Page loaded\");\n  &lt;/script&gt;\n&lt;/body&gt;</code></pre><p>A common, practical convention: place your <code>&lt;script&gt;</code> tag near the END of <code>&lt;body&gt;</code>, after your HTML content. This ensures the browser has already built all your HTML elements BEFORE your JavaScript tries to interact with them — trying to grab an element that doesn't exist yet (because the script ran too early) is a very common beginner bug you'll now avoid by habit.</p><hr><h3>🔤 JavaScript Is Case-Sensitive</h3><p>Unlike HTML tag names (where <code>&lt;DIV&gt;</code> and <code>&lt;div&gt;</code> work identically), JavaScript treats <code>console.log</code> and <code>Console.Log</code> as completely different, and the second one will cause an error. Getting comfortable with exact, careful typing matters more in JavaScript than it did in HTML or CSS.</p>",
+
+    "common_mistakes": "<h4>⚠️ Common Beginner Mistakes</h4><ul><li><strong>Forgetting quotes around text</strong> — writing console.log(Hello) instead of console.log(\"Hello\") causes an error, because JavaScript thinks Hello is referring to something else (a variable name) rather than literal text.</li><li><strong>Incorrect capitalization</strong> — JavaScript is case-sensitive; Console.log() is not the same as console.log().</li><li><strong>Placing script tags before your HTML content</strong> — can cause your JavaScript to try interacting with elements that don't exist in the page yet.</li><li><strong>Expecting console.log output to show ON the actual page</strong> — it only appears in the browser's developer console, a separate hidden panel, not visible to regular visitors.</li></ul>"
+
   },
 
   "editor_sandbox": {
-    "starter_code": "<!-- Cymor Code Learner 🚀 Multi-Page Navigation -->\n<h1>My Personal Website</h1>\n<p>Welcome to my homepage.</p>",
+
+    "starter_code": "<h1>JavaScript Test</h1>\n<p>Open your browser console to see output.</p>",
 
     "mini_challenge": {
-      "instruction": "🎯 Mission: Build navigation links\n\n1. Add 3 links below the paragraph:\n   - Home (index.html)\n   - About (about.html)\n   - Contact (contact.html)\n\n2. Use <a> tags with href attributes\n\n🔥 This simulates a real multi-page website",
 
-      "hint": "👉 Example:\n<a href=\"about.html\">About</a>\n\nEach link must point to a different file",
+      "instruction": "🎯 Challenge:\n\n1. Add a <script> tag near the bottom of your code\n2. Inside it, use console.log() to print the message: javascript adds behavior\n3. Below your script, add a paragraph (visible on the page) that also says: javascript adds behavior\n4. Run and verify your code",
 
-      "validation_keyword": "contact.html"
+      "hint": "👉 Example:\n<h1>JavaScript Test</h1>\n<p>javascript adds behavior</p>\n<script>\n  console.log(\"javascript adds behavior\");\n</script>",
+
+      "validation_keyword": "javascript adds behavior"
+
     }
+
   },
 
   "quiz_engine": {
-    "question": "What is the main purpose of the <a> tag in HTML?",
+
+    "question": "What is the key difference between JavaScript and HTML/CSS?",
+
     "options": [
-      "To style text",
-      "To create links between pages",
-      "To add images"
+      "JavaScript only works on phones, not desktops",
+      "JavaScript is a true programming language that can make decisions and respond to events; HTML/CSS describe structure and appearance",
+      "There is no real difference, they all do the same thing"
     ],
+
     "correct_index": 1,
-    "points": 30,
-    "explanation_feedback": "Correct 🎉 The <a> tag is used to create hyperlinks that connect different pages or sections of a website."
+
+    "points": 10,
+
+    "explanation_feedback": "Correct 🎉 HTML structures content and CSS styles it, but neither can make decisions or react to user actions. JavaScript is a real programming language that adds behavior and logic."
+
   },
 
   "summary": {
+
     "takeaways": [
-      "Real websites are made of multiple connected pages",
-      "The <a> tag creates links between pages",
-      "href defines where the link goes",
-      "Without links, websites are isolated pages",
-      "Navigation is essential for user experience"
+      "JavaScript adds BEHAVIOR — what happens when users interact with a page",
+      "Unlike HTML/CSS, JavaScript is a true programming language that can make decisions",
+      "console.log() prints messages to the browser's developer console (not visible on the page)",
+      "Script tags are conventionally placed near the end of body so HTML loads first",
+      "JavaScript is case-sensitive — exact spelling and capitalization matter"
     ],
 
     "cheat_sheet": {
-      "a_tag": "<a href='page.html'>Link Text</a>",
-      "href": "Destination page or URL",
-      "navigation": "System of moving between pages"
+
+      "<script></script>": "Wraps JavaScript code in an HTML file",
+
+      "console.log()": "Prints a message to the developer console (debugging tool)",
+
+      "Statement Ending": "Semicolons (;) end statements — best practice to always include",
+
+      "Script Placement": "Near the end of body, after HTML content",
+
+      "Case Sensitivity": "JavaScript treats different capitalization as completely different"
+
     }
+
   }
+
 }
