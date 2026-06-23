@@ -213,12 +213,17 @@ async function updateCurrentLesson(data) {
 }
 
 function getNextLesson(data) {
+  // PRIMARY: currentLesson is saved by lessons.js every time the user
+  // opens a lesson — it's the exact lesson they were on when they left
+  if (data.currentLesson && data.currentLesson >= 1) {
+    return Math.min(data.currentLesson, TOTAL_LESSONS);
+  }
+  // FALLBACK: if field doesn't exist yet, scan for first uncompleted
   const done = new Set(data.completedLessons || []);
-  // Find the first lesson not yet completed
   for (let i = 1; i <= TOTAL_LESSONS; i++) {
     if (!done.has(i)) return i;
   }
-  return TOTAL_LESSONS; // all done
+  return TOTAL_LESSONS;
 }
 
 function stripHTML(html) {
