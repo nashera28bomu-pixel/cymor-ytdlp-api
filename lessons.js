@@ -1,11 +1,8 @@
 // =============================================
-// CYMOR CODE LEARNER — LESSON ENGINE v3.1
-// FIXES:
-//   1. Syntax colour highlighting in lesson content
-//   2. Save currentLesson to Firestore on load (resume fix)
-//   3. Dashboard reads currentLesson, not hardcoded 1
-//   4. Modal next-btn wired cleanly (no onclick in HTML)
-//   5. totalLessons = 31
+// CYMOR CODE LEARNER — LESSON ENGINE v3.2
+// FIX: syntax highlighter works on textContent
+//      not innerHTML (was double-processing HTML)
+// FIX: resume reads currentLesson from Firestore
 // =============================================
 
 let auth, db, docFn, getDoc, updateDoc, setDoc, arrayUnion, increment, onAuthStateChanged;
@@ -23,7 +20,7 @@ async function loadFirebase() {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         await syncUserSidebar(user.uid);
-        await saveCurrentLesson(user.uid);   // FIX 4: track where user is
+        await saveCurrentLesson(user.uid);
         await enforceCheckpointGate(user.uid);
       } else {
         const el = $("userName");
@@ -38,10 +35,10 @@ async function loadFirebase() {
 // ---- State ----
 let currentLessonData = null;
 let currentStep = 1;
-const urlParams   = new URLSearchParams(window.location.search);
-const lessonId    = parseInt(urlParams.get("id")) || 1;
-const TOTAL       = 31;
-const CHECKPOINTS = [10, 20, 30, 31];
+const urlParams    = new URLSearchParams(window.location.search);
+const lessonId     = parseInt(urlParams.get("id")) || 1;
+const TOTAL        = 31;
+const CHECKPOINTS  = [10, 20, 30, 31];
 const isCheckpoint = CHECKPOINTS.includes(lessonId);
 
 const $ = id => document.getElementById(id);
@@ -49,8 +46,8 @@ const $ = id => document.getElementById(id);
 function showToast(msg, type = "success") {
   const t = $("authMessage");
   if (!t) return;
-  t.textContent = msg;
-  t.className   = `auth-message ${type}`;
+  t.textContent   = msg;
+  t.className     = `auth-message ${type}`;
   t.style.display = "flex";
   setTimeout(() => { t.style.display = "none"; }, 3500);
 }
@@ -79,15 +76,15 @@ async function loadLessonData(id) {
   }
 }
 
-// ---- FIX 4: save current lesson to Firestore so dashboard can resume ----
+// ---- Save current lesson so dashboard can resume ----
 async function saveCurrentLesson(uid) {
   if (!db || !docFn) return;
   try {
     await setDoc(docFn(db, "users", uid), { currentLesson: lessonId }, { merge: true });
-  } catch (e) { /* offline, ignore */ }
+  } catch (e) { /* offline */ }
 }
 
-// ---- Navigation wiring ----
+// ---- Navigation ----
 function setupNavigation() {
   const masterBtn = $("masterNextBtn");
   const prevBtn   = $("prevLessonBtn");
@@ -132,67 +129,82 @@ function updateStepRail(active) {
 }
 
 // ================================================================
-// FIX 2: SYNTAX HIGHLIGHTER
-// Colours tag names, attributes, values, JS keywords inside <pre>
+// SYNTAX HIGHLIGHTER — v2
+// KEY FIX: operates on raw TEXT from JSON, not on rendered innerHTML.
+// We build the coloured HTML string from scratch using the plain
+// text content of each field, then set innerHTML once.
+// This prevents the double-processing that showed span markup onscreen.
 // ================================================================
-function applySyntaxHighlight(html) {
-  // Work on pre>code blocks only — we build a temp div, walk pre elements
-  const div = document.createElement("div");
-  div.innerHTML = html;
+function highlight(rawText) {
+  // 1. Escape the raw text so < > & become safe HTML entities
+  let s = rawText
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 
-  div.querySelectorAll("pre code").forEach(block => {
-    let src = block.textContent;
+  // 2. HTML comments  <!-- ... -->
+  s = s.replace(/(&lt;!--[\s\S]*?--&gt;)/g,
+    '<span class="syn-cmt">$1</span>');
 
-    // Escape HTML entities first so we don't double-process
-    src = src
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
+  // 3. HTML tags  &lt;tagname attrs&gt;
+  s = s.replace(
+    /(&lt;\/?)([\w-]+)((?:\s[\w-]+(?:=(?:"[^"]*"|'[^']*'|[\w-]+))?)*)\s*(\/?)(&gt;)/g,
+    (_, open, tag, attrs, self, close) => {
+      // colour attributes and quoted values inside the attr string
+      const cAttrs = attrs
+        .replace(/([\w-]+)(=)("([^"]*)"|'([^']*)')/g,
+          '<span class="syn-attr">$1</span><span class="syn-punct">$2</span><span class="syn-val">$3</span>')
+        .replace(/([\w-]+)(?==)/g, (m, a) =>
+          a.startsWith('class=') || a.startsWith('id=') ? m :
+          `<span class="syn-attr">${a}</span>`);
+      return `<span class="syn-punct">${open}</span><span class="syn-tag">${tag}</span>${cAttrs}<span class="syn-punct">${self}${close}</span>`;
+    }
+  );
 
-    // HTML comments
-    src = src.replace(/((&lt;|&gt;)?!--[\s\S]*?--(&gt;|&lt;)?)/g,
-      '<span class="syn-cmt">$1</span>');
+  // 4. CSS property: value;
+  s = s.replace(/([\w-]+)(\s*:\s*)([^;{}\n<]+)(;)/g,
+    '<span class="syn-prop">$1</span><span class="syn-punct">$2</span><span class="syn-val">$3</span><span class="syn-punct">$4</span>');
 
-    // HTML tags: colour tag name, attributes, values
-    src = src.replace(
-      /(&lt;\/?)([\w-]+)((?:\s+[\w-]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[\w-]+))?)*)\s*(\/?)(&gt;)/g,
-      (_, open, tag, attrs, selfClose, close) => {
-        // colour attributes and values within the attrs string
-        const colouredAttrs = attrs.replace(
-          /([\w-]+)(\s*=\s*)("([^"]*)"|'([^']*)'|([\w-]+))/g,
-          '<span class="syn-attr">$1</span><span class="syn-punct">$2</span><span class="syn-val">$3</span>'
-        ).replace(/^(\s+)([\w-]+)(?=\s|$)/gm,
-          '$1<span class="syn-attr">$2</span>');
+  // 5. JS / CSS selectors  .class  #id  (simple patterns)
+  s = s.replace(/(\.[a-zA-Z][\w-]*|#[a-zA-Z][\w-]*)/g,
+    '<span class="syn-sel">$1</span>');
 
-        return `<span class="syn-punct">${open}</span><span class="syn-tag">${tag}</span>${colouredAttrs}<span class="syn-punct">${selfClose}${close}</span>`;
-      }
-    );
-
-    // CSS property: value;
-    src = src.replace(/([\w-]+)\s*(:)\s*([^;{}\n&]+)(;)/g,
-      '<span class="syn-prop">$1</span><span class="syn-punct">$2</span> <span class="syn-val">$3</span><span class="syn-punct">$4</span>');
-
-    // JS keywords
-    const kws = ["var","let","const","function","return","if","else","for","while",
-                  "class","new","this","import","export","default","async","await",
-                  "try","catch","throw","typeof","document","window","console"];
-    kws.forEach(kw => {
-      const re = new RegExp(`\\b(${kw})\\b`, "g");
-      src = src.replace(re, '<span class="syn-kw">$1</span>');
-    });
-
-    // JS strings (simple: "..." or '...')
-    src = src.replace(/(&quot;[^&]*?&quot;|&#39;[^&]*?&#39;)/g,
-      '<span class="syn-str">$1</span>');
-
-    // Numbers
-    src = src.replace(/\b(\d+(?:\.\d+)?(?:px|em|rem|%|vh|vw|s|ms)?)\b/g,
-      '<span class="syn-num">$1</span>');
-
-    block.innerHTML = src;
+  // 6. JS keywords
+  ["const","let","var","function","return","if","else","for","while",
+   "class","new","this","import","export","async","await","try","catch",
+   "document","window","console"].forEach(kw => {
+    s = s.replace(new RegExp(`\\b(${kw})\\b`, "g"),
+      '<span class="syn-kw">$1</span>');
   });
 
-  return div.innerHTML;
+  // 7. Quoted strings  "..." or '...' (avoid re-colouring already-spanned)
+  s = s.replace(/(&quot;[^&]*?&quot;|&#039;[^&]*?&#039;)/g,
+    '<span class="syn-str">$1</span>');
+
+  // 8. Numbers  42  3.14  16px  100%
+  s = s.replace(/\b(\d+(?:\.\d+)?(?:px|em|rem|%|vh|vw|ms|s)?)\b/g,
+    '<span class="syn-num">$1</span>');
+
+  return s;
+}
+
+// ================================================================
+// Render a lesson content field (explanation / syntax_breakdown /
+// common_mistakes) which is already HTML — we need to:
+//   a) parse the HTML safely
+//   b) walk only TEXT nodes inside <code> and <pre><code>
+//   c) leave all other HTML structure untouched
+// ================================================================
+function renderWithHighlight(htmlString, targetEl) {
+  // Set innerHTML first so we have a real DOM to walk
+  targetEl.innerHTML = htmlString;
+  targetEl.classList.add("lesson-body");
+
+  // Walk every <code> element and colour its text content
+  targetEl.querySelectorAll("code").forEach(codeEl => {
+    const raw  = codeEl.textContent; // plain text, no tags
+    codeEl.innerHTML = highlight(raw);
+  });
 }
 
 // ================================================================
@@ -203,46 +215,43 @@ function renderTheoryStep() {
   if (!currentLessonData) return;
   const { title, content, summary } = currentLessonData;
 
-  if ($("lessonTitle")) $("lessonTitle").textContent = title;
+  if ($("lessonTitle"))     $("lessonTitle").textContent = title;
+  if ($("heroLessonTitle")) $("heroLessonTitle").textContent = title;
 
-  const heroTitle = $("heroLessonTitle");
-  const heroDesc  = $("heroLessonDescription");
-  if (heroTitle) heroTitle.textContent = title;
-  if (heroDesc)  {
-    // Apply syntax highlight before injecting into DOM
-    heroDesc.innerHTML = applySyntaxHighlight(content.explanation);
-    heroDesc.classList.add("lesson-body");
-  }
+  // Explanation — render HTML then highlight code nodes only
+  const heroDesc = $("heroLessonDescription");
+  if (heroDesc) renderWithHighlight(content.explanation, heroDesc);
 
-  // Syntax breakdown + common mistakes cards
+  // Syntax breakdown + common mistakes
   const lc = $("lessonContent");
   if (lc) {
     lc.innerHTML = "";
     if (content.syntax_breakdown) {
       const c = document.createElement("div");
-      c.className = "card lesson-body";
-      c.innerHTML = applySyntaxHighlight(content.syntax_breakdown);
+      c.className = "card";
+      renderWithHighlight(content.syntax_breakdown, c);
       lc.appendChild(c);
     }
     if (content.common_mistakes) {
       const c = document.createElement("div");
-      c.className = "card lesson-body";
+      c.className = "card";
       c.style.cssText = "border-left:3px solid var(--coral)";
-      c.innerHTML = applySyntaxHighlight(content.common_mistakes);
+      renderWithHighlight(content.common_mistakes, c);
       lc.appendChild(c);
     }
   }
 
   // Takeaways
   if ($("takeawaysList") && summary.takeaways) {
-    $("takeawaysList").innerHTML = summary.takeaways.map(t => `<li>${t}</li>`).join("");
+    $("takeawaysList").innerHTML = summary.takeaways
+      .map(t => `<li>${t}</li>`).join("");
   }
 
   // Cheat sheet
   if ($("cheatSheetList") && summary.cheat_sheet) {
-    $("cheatSheetList").innerHTML = Object.entries(summary.cheat_sheet).map(([k, v]) =>
-      `<div class="cheat-item"><h4>${k}</h4><p>${v}</p></div>`
-    ).join("");
+    $("cheatSheetList").innerHTML = Object.entries(summary.cheat_sheet)
+      .map(([k, v]) => `<div class="cheat-item"><h4>${k}</h4><p>${v}</p></div>`)
+      .join("");
   }
 
   const btn = $("masterNextBtn");
@@ -261,11 +270,12 @@ function renderChallengeStep() {
 
   const { starter_code, mini_challenge: mc } = currentLessonData.editor_sandbox;
 
+  // textContent — safe, no HTML rendering
   if ($("challengeInstruction")) $("challengeInstruction").textContent = mc.instruction;
 
   const editor = $("codeEditor");
   if (editor && !editor.dataset.touched) {
-    editor.value = starter_code;
+    editor.value           = starter_code;
     editor.dataset.touched = "true";
   }
   updateLivePreview();
@@ -274,12 +284,12 @@ function renderChallengeStep() {
   const masterBtn = $("masterNextBtn");
   if (masterBtn) { masterBtn.textContent = "Go to Quiz ➡"; masterBtn.disabled = true; }
 
-  // Hint
+  // Hint button
   const hintBtn = $("showHintBtn");
   if (hintBtn) {
-    const fresh = hintBtn.cloneNode(true);
-    hintBtn.parentNode.replaceChild(fresh, hintBtn);
-    fresh.addEventListener("click", () => {
+    const f = hintBtn.cloneNode(true);
+    hintBtn.parentNode.replaceChild(f, hintBtn);
+    f.addEventListener("click", () => {
       const box = $("challengeHint");
       if (!box) return;
       box.textContent = mc.hint || "Review the lesson above.";
@@ -287,12 +297,12 @@ function renderChallengeStep() {
     });
   }
 
-  // Verify
+  // Verify button
   const checkBtn = $("checkChallengeBtn");
   if (checkBtn) {
-    const fresh = checkBtn.cloneNode(true);
-    checkBtn.parentNode.replaceChild(fresh, checkBtn);
-    fresh.addEventListener("click", () => {
+    const f = checkBtn.cloneNode(true);
+    checkBtn.parentNode.replaceChild(f, checkBtn);
+    f.addEventListener("click", () => {
       const code    = ($("codeEditor")?.value || "").toLowerCase();
       const keyword = mc.validation_keyword.toLowerCase();
       if (code.includes(keyword)) {
@@ -306,7 +316,6 @@ function renderChallengeStep() {
   }
 }
 
-// ---- Live preview ----
 function wireEditor() {
   const editor = $("codeEditor");
   if (!editor || editor.dataset.wired) return;
@@ -337,12 +346,14 @@ function renderQuizStep() {
   toggleStepVisibility(3);
   if (!currentLessonData) return;
   const quiz = currentLessonData.quiz_engine;
+
+  // textContent — safe
   if ($("quizQuestion")) $("quizQuestion").textContent = quiz.question;
 
   const wrap = $("quizOptions");
   if (!wrap) return;
   wrap.innerHTML = quiz.options.map((opt, i) =>
-    `<button class="quiz-option" data-index="${i}" onclick="handleQuizSelection(${i},${quiz.correct_index})">${opt}</button>`
+    `<button class="quiz-option" onclick="handleQuizSelection(${i},${quiz.correct_index})">${opt}</button>`
   ).join("");
 
   const btn = $("masterNextBtn");
@@ -389,23 +400,21 @@ async function finishLesson() {
   if (!modal) return;
   modal.classList.remove("hidden");
 
-  const isLast   = lessonId >= TOTAL;
-  const nextId   = lessonId + 1;
+  const isLast = lessonId >= TOTAL;
+  const nextId = lessonId + 1;
   const modalBtn = $("modalNextBtn");
+  if (!modalBtn) return;
 
-  if (modalBtn) {
-    modalBtn.textContent = isLast ? "🎓 View Certificate" : `Start Lesson ${nextId} 🚀`;
-    // Clone wipes any stale listeners
-    const fresh = modalBtn.cloneNode(true);
-    modalBtn.parentNode.replaceChild(fresh, modalBtn);
-    fresh.addEventListener("click", e => {
-      e.preventDefault();
-      if (isLast) { window.location.href = "./dashboard.html"; return; }
-      const next = new URL(window.location.href);
-      next.searchParams.set("id", nextId);
-      window.location.href = next.pathname + next.search;
-    });
-  }
+  modalBtn.textContent = isLast ? "🎓 View Certificate" : `Start Lesson ${nextId} 🚀`;
+  const fresh = modalBtn.cloneNode(true);
+  modalBtn.parentNode.replaceChild(fresh, modalBtn);
+  fresh.addEventListener("click", e => {
+    e.preventDefault();
+    if (isLast) { window.location.href = "./dashboard.html"; return; }
+    const next = new URL(window.location.href);
+    next.searchParams.set("id", nextId);
+    window.location.href = next.pathname + next.search;
+  });
 }
 
 // ---- Progress bar ----
