@@ -135,53 +135,76 @@ function updateStepRail(active) {
 // text content of each field, then set innerHTML once.
 // This prevents the double-processing that showed span markup onscreen.
 // ================================================================
-function highlight(rawText) {
-  // 1. Escape the raw text so < > & become safe HTML entities
-  let s = rawText
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+// ================================================================
+// SYNTAX HIGHLIGHTER v3 — FINAL FIX
+//
+// The previous versions broke because:
+//   - inline <code> in lesson JSON contains HTML-escaped content
+//     like &lt;h1&gt; stored as actual text
+//   - textContent decoded those back to <h1>
+//   - then highlight() re-escaped them AND wrapped in spans
+//   - those spans showed as raw text on screen
+//
+// SOLUTION:
+//   - INLINE <code>: set by innerHTML from JSON as-is. CSS colours it.
+//     NO JS processing. The JSON already has the right escaped content.
+//   - PRE > CODE only: grab innerHTML (already escaped by browser),
+//     run colour spans on the escaped string, set innerHTML back.
+//     This is safe because we never decode & re-encode — we only add
+//     <span> wrappers around the already-safe &lt; &gt; sequences.
+// ================================================================
 
-  // 2. HTML comments  <!-- ... -->
+function highlightPreCode(escapedText) {
+  // Input is already HTML-escaped: < = &lt;  > = &gt;  & = &amp;
+  // We ONLY add <span> colour wrappers — never re-escape or decode.
+  let s = escapedText;
+
+  // 1. HTML comments  &lt;!-- ... --&gt;
   s = s.replace(/(&lt;!--[\s\S]*?--&gt;)/g,
     '<span class="syn-cmt">$1</span>');
 
-  // 3. HTML tags  &lt;tagname attrs&gt;
+  // 2. Full HTML tags: &lt;tagname attrs /&gt;  or  &lt;/tagname&gt;
   s = s.replace(
-    /(&lt;\/?)([\w-]+)((?:\s[\w-]+(?:=(?:"[^"]*"|'[^']*'|[\w-]+))?)*)\s*(\/?)(&gt;)/g,
+    /(&lt;\/?)([\w-]+)((?:\s+[\w:-]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[\w-]+))?)*)\s*(\/?)(&gt;)/g,
     (_, open, tag, attrs, self, close) => {
-      // colour attributes and quoted values inside the attr string
-      const cAttrs = attrs
-        .replace(/([\w-]+)(=)("([^"]*)"|'([^']*)')/g,
-          '<span class="syn-attr">$1</span><span class="syn-punct">$2</span><span class="syn-val">$3</span>')
-        .replace(/([\w-]+)(?==)/g, (m, a) =>
-          a.startsWith('class=') || a.startsWith('id=') ? m :
-          `<span class="syn-attr">${a}</span>`);
-      return `<span class="syn-punct">${open}</span><span class="syn-tag">${tag}</span>${cAttrs}<span class="syn-punct">${self}${close}</span>`;
+      // Colour attribute names and their quoted values
+      const cAttrs = attrs.replace(
+        /([\w:-]+)(\s*=\s*)("([^"]*)"|'([^']*)')/g,
+        '<span class="syn-attr">$1</span>' +
+        '<span class="syn-punct">$2</span>' +
+        '<span class="syn-val">$3</span>'
+      );
+      return (
+        '<span class="syn-punct">' + open + '</span>' +
+        '<span class="syn-tag">'   + tag  + '</span>' +
+        cAttrs +
+        '<span class="syn-punct">' + self + close + '</span>'
+      );
     }
   );
 
-  // 4. CSS property: value;
-  s = s.replace(/([\w-]+)(\s*:\s*)([^;{}\n<]+)(;)/g,
-    '<span class="syn-prop">$1</span><span class="syn-punct">$2</span><span class="syn-val">$3</span><span class="syn-punct">$4</span>');
+  // 3. CSS property: value;
+  s = s.replace(
+    /([\w-]+)(\s*:\s*)([^;{}<\n]+)(;)/g,
+    '<span class="syn-prop">$1</span>' +
+    '<span class="syn-punct">$2</span>' +
+    '<span class="syn-val">$3</span>' +
+    '<span class="syn-punct">$4</span>'
+  );
 
-  // 5. JS / CSS selectors  .class  #id  (simple patterns)
-  s = s.replace(/(\.[a-zA-Z][\w-]*|#[a-zA-Z][\w-]*)/g,
-    '<span class="syn-sel">$1</span>');
-
-  // 6. JS keywords
+  // 4. JS keywords (whole word only)
   ["const","let","var","function","return","if","else","for","while",
    "class","new","this","import","export","async","await","try","catch",
-   "document","window","console"].forEach(kw => {
+   "document","window","console","addEventListener"].forEach(kw => {
     s = s.replace(new RegExp(`\\b(${kw})\\b`, "g"),
       '<span class="syn-kw">$1</span>');
   });
 
-  // 7. Quoted strings  "..." or '...' (avoid re-colouring already-spanned)
-  s = s.replace(/(&quot;[^&]*?&quot;|&#039;[^&]*?&#039;)/g,
+  // 5. Quoted strings  "..."  '...'  (already encoded as &quot; / &#039; by browser)
+  s = s.replace(/(&quot;[^&\n]*?&quot;|&#039;[^&\n]*?&#039;)/g,
     '<span class="syn-str">$1</span>');
 
-  // 8. Numbers  42  3.14  16px  100%
+  // 6. Numbers and units
   s = s.replace(/\b(\d+(?:\.\d+)?(?:px|em|rem|%|vh|vw|ms|s)?)\b/g,
     '<span class="syn-num">$1</span>');
 
@@ -189,21 +212,18 @@ function highlight(rawText) {
 }
 
 // ================================================================
-// Render a lesson content field (explanation / syntax_breakdown /
-// common_mistakes) which is already HTML — we need to:
-//   a) parse the HTML safely
-//   b) walk only TEXT nodes inside <code> and <pre><code>
-//   c) leave all other HTML structure untouched
+// Safe render: inject HTML as-is, then highlight PRE>CODE only.
+// Inline <code> is left completely untouched — CSS does the colouring.
 // ================================================================
 function renderWithHighlight(htmlString, targetEl) {
-  // Set innerHTML first so we have a real DOM to walk
   targetEl.innerHTML = htmlString;
   targetEl.classList.add("lesson-body");
 
-  // Walk every <code> element and colour its text content
-  targetEl.querySelectorAll("code").forEach(codeEl => {
-    const raw  = codeEl.textContent; // plain text, no tags
-    codeEl.innerHTML = highlight(raw);
+  // Only process <pre><code> blocks (multi-line examples)
+  // NOT inline <code> — those are fine as-is from the JSON
+  targetEl.querySelectorAll("pre code").forEach(codeEl => {
+    // innerHTML gives us the already-browser-escaped string — safe to process
+    codeEl.innerHTML = highlightPreCode(codeEl.innerHTML);
   });
 }
 
