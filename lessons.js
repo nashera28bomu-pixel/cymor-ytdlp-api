@@ -146,23 +146,32 @@ function renderContent(htmlString, targetEl) {
 }
 
 function colorPreBlock(block) {
-  // Get the innerHTML — already escaped by browser (&lt; not <)
-  // We ONLY wrap these safe escaped sequences in spans — never decode them
-  let s = block.innerHTML;
+  // Use textContent so we get plain text (no HTML entities to deal with)
+  // Then escape it ourselves before adding colour spans
+  const raw = block.textContent;
+  let s = raw
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 
-  // HTML/XML comments
+  // Comments
   s = s.replace(
-    /(&lt;!--)([\s\S]*?)(--&gt;)/g,
-    '<span class="syn-cmt">$1$2$3</span>'
+    /(&lt;!--[\s\S]*?--&gt;)/g,
+    '<span class="syn-cmt">$1</span>'
   );
 
-  // HTML tags — matches &lt;tagname ...&gt; or &lt;/tagname&gt;
+  // Strings FIRST (before anything else consumes quotes)
   s = s.replace(
-    /(&lt;\/?)([\w-]+)((?:\s+[\w:-]+(?:\s*=\s*(?:"[^"<]*"|'[^'<]*'|[\w-]+))?)*)\s*(\/?)(&gt;)/g,
-    function(_, open, tag, attrs, self, close) {
-      // colour attribute=value pairs inside the matched attrs string
-      var cAttrs = attrs.replace(
-        /([\w:-]+)(\s*=\s*)("([^"<]*)"|'([^'<]*)')/g,
+    /(".*?"|'.*?')/g,
+    '<span class="syn-str">$1</span>'
+  );
+
+  // HTML tags: &lt;tagname attrs /&gt;
+  s = s.replace(
+    /(&lt;\/?)([\w-]+)([\s\S]*?)(\/?)(&gt;)/g,
+    function(match, open, tag, attrs, self, close) {
+      attrs = attrs.replace(
+        /([\w:-]+)(=)(".*?"|'.*?')/g,
         '<span class="syn-attr">$1</span>' +
         '<span class="syn-punct">$2</span>' +
         '<span class="syn-val">$3</span>'
@@ -170,15 +179,15 @@ function colorPreBlock(block) {
       return (
         '<span class="syn-punct">' + open  + '</span>' +
         '<span class="syn-tag">'   + tag   + '</span>' +
-        cAttrs +
+        attrs +
         '<span class="syn-punct">' + self + close + '</span>'
       );
     }
   );
 
-  // CSS property: value;
+  // CSS properties
   s = s.replace(
-    /([\w-]+)(\s*:\s*)([^;{}&\n]+)(;)/g,
+    /([\w-]+)(\s*:\s*)([^;{}<&\n]+)(;)/g,
     '<span class="syn-prop">$1</span>' +
     '<span class="syn-punct">$2</span>' +
     '<span class="syn-val">$3</span>'  +
@@ -186,19 +195,18 @@ function colorPreBlock(block) {
   );
 
   // JS keywords
-  ["const","let","var","function","return","if","else","for","while",
-   "class","new","this","import","export","async","await","try","catch",
-   "document","window","console","addEventListener","querySelector",
-   "getElementById","null","true","false","undefined"].forEach(function(kw) {
-    s = s.replace(new RegExp("\\b(" + kw + ")\\b", "g"),
-      '<span class="syn-kw">$1</span>');
+  const keywords = [
+    "const","let","var","function","return","if","else","for","while",
+    "class","new","this","import","export","async","await","try","catch",
+    "document","window","console","addEventListener","querySelector",
+    "getElementById","null","true","false","undefined"
+  ];
+  keywords.forEach(kw => {
+    s = s.replace(
+      new RegExp("\\b(" + kw + ")\\b", "g"),
+      '<span class="syn-kw">$1</span>'
+    );
   });
-
-  // Quoted strings (browser-escaped quotes show as &quot; or &#039;)
-  s = s.replace(
-    /(&quot;[^&\n]*?&quot;|&#039;[^&\n]*?&#039;)/g,
-    '<span class="syn-str">$1</span>'
-  );
 
   // Numbers + units
   s = s.replace(
